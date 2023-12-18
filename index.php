@@ -21,12 +21,8 @@
 <div class="s-about">
     <h1>Sobre Nosotros</h1>
 </div>
-<footer>
-<ul class="f-info">
-    <li><a href="#">Sobre nosotros</a></li>
-    <li><a href="#">Ubicación</a></li>
-    <li><a href="#">Contacto</a></li>
-</ul>
-</footer>
+<?php
+include './elements/footer.php'
+?>
 </body>
 </html>
