@@ -1,0 +1,26 @@
+:root{
+    --blanco: #fff;
+    --texto: #000;
+    --botones: #4CB9E7;
+}
+*{
+    font-family: sans-serif;
+    background-color: var(--blanco);
+}
+.menu{
+    display: flex;
+}
+.menu li{
+    margin: 10px;
+    list-style: none;
+}
+.menu a{
+    color: var(--texto);
+    text-decoration: none;
+    background-color: var(--botones);
+    padding: 10px;
+    border-radius: 5px;
+}
+.menu .m-student{
+    margin-left: auto;
+}
