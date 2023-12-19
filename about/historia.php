@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="../css/estilos.css">
 </head>
 <body id="historia">
+<?php
+include '../elements/nav.php'
+?>
     <h1>Historia</h1>
     <p>Debido al gran déficit de cupos Universitarios el Instituto Universitario de Tecnología
 del Estado Trujillo "Don Rómulo Betancourt" se generó un plan de Expansión

@@ -11,12 +11,26 @@
 .index{
     margin: 0px;
 }
+.about{
+    margin-top: 200px;
+}
+.about a{
+    font-size: 30px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: var(--texto);
+    padding: 30px;
+    background-color: var(--botones);
+    border-radius: 10px;
+    /* display: table; */
+}
 #historia{
     font-family: sans-serif;
     margin: 10%;
 }
 .menu{
     display: flex;
+    margin-top: 10px;
 }
 .menu li{
     margin: 10px;
@@ -44,4 +58,12 @@
     text-decoration: none;
     color: var(--texto1);
     background-color: transparent;
+}
+.back{
+    border-style: none;
+    border-radius: 5px;
+    background-color: var(--botones);
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
 }
