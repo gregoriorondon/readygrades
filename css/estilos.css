@@ -66,8 +66,9 @@
     display: flex;
     background-color: var(--footer);
 }
-.f-info, .f-social{
+.f-info, .f-social, .f-info i, .f-social i{
     background-color: transparent;
+    margin-right: 7px;
 }
 .f-info, .f-social, li, a{
     list-style: none;
