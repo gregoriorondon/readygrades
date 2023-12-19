@@ -1,3 +1,4 @@
+@import url('fonts.css');
 :root{
     --texto: #000;
     --texto1: #fff;
@@ -33,6 +34,11 @@
 .about a:hover{
     background-color: var(--botones-hover);
     color: var(--texto1);
+}
+.bienvenida h1, h2{
+    font-family: 'Russo One';
+    margin-left: 5%;
+    margin-right: 5%;
 }
 .historia{
     font-family: sans-serif;
