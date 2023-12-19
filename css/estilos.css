@@ -72,4 +72,32 @@
     padding: 10px;
     font-size: 15px;
     cursor: pointer;
+    transition: 0.5s ease;
+}
+.back:hover{
+    border-style: none;
+    border-radius: 5px;
+    color: var(--texto1);
+    background-color: var(--botones-hover);
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.forward{
+    border-style: none;
+    border-radius: 5px;
+    background-color: var(--botones);
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.forward:hover{
+    border-style: none;
+    border-radius: 5px;
+    color: var(--texto1);
+    background-color: var(--botones-hover);
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
 }
