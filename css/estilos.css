@@ -7,6 +7,9 @@
     font-family: sans-serif;
     background-color: var(--blanco);
 }
+body{
+    margin: 0px;
+}
 .menu{
     display: flex;
 }
@@ -24,16 +27,16 @@
 .menu .m-student{
     margin-left: auto;
 }
+.info{
+    display: flex;
+    background-color: #000;
 
-.f-info{
-    display: flex;
 }
-.f-info li{
+.f-info, .f-social{
+    background-color: transparent;
+}
+.f-info, .f-social, li, a{
     list-style: none;
-}
-.info .f-info a{
     text-decoration: none;
-}
-.f-social{
-    display: flex;
+    background-color: transparent;
 }
