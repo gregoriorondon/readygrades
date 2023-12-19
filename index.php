@@ -6,7 +6,7 @@
     <title>Inicio</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
+<body class="index">
 <nav class="menu">
     <li class="m-home"><a href="#">Inicio</a></li>
     <li class="m-student"><a href="#">Estudiante</a></li>

@@ -8,8 +8,12 @@
     font-family: sans-serif;
     background-color: #fff;
 }
-body{
+.index{
     margin: 0px;
+}
+#historia{
+    font-family: sans-serif;
+    margin: 10%;
 }
 .menu{
     display: flex;
