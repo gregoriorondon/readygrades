@@ -24,3 +24,16 @@
 .menu .m-student{
     margin-left: auto;
 }
+
+.f-info{
+    display: flex;
+}
+.f-info li{
+    list-style: none;
+}
+.info .f-info a{
+    text-decoration: none;
+}
+.f-social{
+    display: flex;
+}
