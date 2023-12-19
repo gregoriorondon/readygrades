@@ -6,10 +6,11 @@
     <title>Historia</title>
     <link rel="stylesheet" href="../css/estilos.css">
 </head>
-<body id="historia">
+<body>
 <?php
 include '../elements/nav.php'
 ?>
+<div class="historia">
     <h1>Historia</h1>
     <p>Debido al gran déficit de cupos Universitarios el Instituto Universitario de Tecnología
 del Estado Trujillo "Don Rómulo Betancourt" se generó un plan de Expansión
@@ -69,5 +70,8 @@ social, cultural y productiva para el logro de una sociedad justa e igualitaria.
  Briceño Iragorry núcleo Francisco de Miranda, en el Marco de la Misión Ama Mater, como 
 Universidad Nacional Experimental, mediante la articulación de la Misión Sucre e 
 Instituciones de Educación Universitaria.</p>
+
+</div>
+
 </body>
 </html>
