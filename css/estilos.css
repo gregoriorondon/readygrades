@@ -1,11 +1,12 @@
 :root{
-    --blanco: #fff;
     --texto: #000;
+    --texto1: #fff;
     --botones: #4CB9E7;
+    --footer: #171a21;
 }
 *{
     font-family: sans-serif;
-    background-color: var(--blanco);
+    background-color: #fff;
 }
 body{
     margin: 0px;
@@ -29,8 +30,7 @@ body{
 }
 .info{
     display: flex;
-    background-color: #000;
-
+    background-color: var(--footer);
 }
 .f-info, .f-social{
     background-color: transparent;
@@ -38,5 +38,6 @@ body{
 .f-info, .f-social, li, a{
     list-style: none;
     text-decoration: none;
+    color: var(--texto1);
     background-color: transparent;
 }
