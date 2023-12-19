@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nosotros</title>
-    <link rel="stylesheet" href="../css/estilos.css">
+    <?php include '../elements/import.php'?>
 </head>
 <body>
 <?php
 include '../elements/nav.php'
 ?>
     <div class="about"><center>        
-        <a href="historia.php">Nuestra Historia</a>
-        <a href="#">Misión</a>
-        <a href="#">Visión</a>
+        <a href="historia.php"><i class="fa-solid fa-building-columns"></i>Nuestra Historia</a>
+        <a href="#"><i class="fa-solid fa-graduation-cap"></i>Misión</a>
+        <a href="#"><i class="fa-solid fa-user-tie"></i>Visión</a>
     </center></div>
 </body>
 </html>
