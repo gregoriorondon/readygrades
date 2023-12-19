@@ -2,6 +2,7 @@
     --texto: #000;
     --texto1: #fff;
     --botones: #4CB9E7;
+    --botones-hover: #0F2167;
     --footer: #171a21;
 }
 *{
@@ -23,6 +24,11 @@
     background-color: var(--botones);
     border-radius: 10px;
     /* display: table; */
+    transition: 0.5s ease;
+}
+.about a:hover{
+    background-color: var(--botones-hover);
+    color: var(--texto1);
 }
 .historia{
     font-family: sans-serif;
