@@ -12,11 +12,11 @@
     font-family: sans-serif;
     /* background-color: #fff; */
 }
-.index{
+.cuerpo{
     margin: 0px;
 }
 .about{
-    margin-top: 200px;
+    margin: 200px 0px 200px 0px;
 }
 .about i{
     background-color: transparent;

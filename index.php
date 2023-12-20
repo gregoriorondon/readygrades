@@ -6,12 +6,14 @@
     <title>Inicio</title>
     <?php include 'elements/import.php' ?>
 </head>
-<body class="index">
+<body class="cuerpo">
+<!--    
 <nav class="menu">
     <li class="m-home"><a href="#">Inicio</a></li>
     <li class="m-student"><a href="#">Estudiante</a></li>
-    <li class="m-teacher"><a href="#">Profesor</a></li>
-</nav>
+    <li class="m-teacher"><a href="#">Profesor</a></li></nav> -->
+
+<?php include './elements/nav.php'?>
 <div class="bienvenida">
     <center>
         <h1>UNIVERSIDAD POLITÉCNICA TERRITORIAL DEL ESTADO TRUJILLO</h1>

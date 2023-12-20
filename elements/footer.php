@@ -1,7 +1,7 @@
 <footer class="info">
     <ul class="f-info">
-        <li><a href="./about/about.php"><i class="fa-solid fa-circle-info"></i>Sobre Nosotros</a></li>
-        <li><a href="#"><i class="fa-solid fa-map-location-dot"></i>Ubicación</a></li>
+        <li><a href="./about.php"><i class="fa-solid fa-circle-info"></i>Sobre Nosotros</a></li>
+        <li><a href="./map.php"><i class="fa-solid fa-map-location-dot"></i>Ubicación</a></li>
         <!-- <li><a href="#">Contacto</a></li> -->
     </ul>
     <ul class="f-social">

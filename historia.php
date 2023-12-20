@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia</title>
-    <?php include '../elements/import.php'?>
+    <?php include './elements/import.php'?>
 </head>
 <body>
 <?php
-include '../elements/nav.php'
+include './elements/nav.php'
 ?>
 <div class="historia">
     <h1>Historia</h1>
@@ -72,6 +72,6 @@ Universidad Nacional Experimental, mediante la articulación de la Misión Sucre
 Instituciones de Educación Universitaria.</p>
 
 </div>
-
+<?php include './elements/footer.php'?>
 </body>
 </html>
