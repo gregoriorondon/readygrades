@@ -12,8 +12,8 @@ include '../elements/nav.php'
 ?>
     <div class="about"><center>        
         <a href="historia.php"><i class="fa-solid fa-building-columns"></i>Nuestra Historia</a>
-        <a href="#"><i class="fa-solid fa-graduation-cap"></i>Misión</a>
-        <a href="#"><i class="fa-solid fa-user-tie"></i>Visión</a>
+        <a href="mision.php"><i class="fa-solid fa-graduation-cap"></i>Misión</a>
+        <a href="vision.php"><i class="fa-solid fa-user-tie"></i>Visión</a>
     </center></div>
 </body>
 </html>
