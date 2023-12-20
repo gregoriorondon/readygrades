@@ -1,8 +1,8 @@
 <footer class="info">
     <ul class="f-info">
-        <li><a href="./about/about.php">Sobre Nosotros</a></li>
-        <li><a href="#">Ubicación</a></li>
-        <li><a href="#">Contacto</a></li>
+        <li><a href="./about/about.php"><i class="fa-solid fa-circle-info"></i>Sobre Nosotros</a></li>
+        <li><a href="#"><i class="fa-solid fa-map-location-dot"></i>Ubicación</a></li>
+        <!-- <li><a href="#">Contacto</a></li> -->
     </ul>
     <ul class="f-social">
         <li><a href="https://upttmbi.edu.ve/site/index.html" target="_blank"><i class="fa-solid fa-globe"></i>Web Oficial</a></li>
