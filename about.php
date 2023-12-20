@@ -11,7 +11,7 @@
     <div class="about"><center>        
         <a href="historia.php"><i class="fa-solid fa-building-columns"></i>Nuestra Historia</a>
         <a href="mision.php"><i class="fa-solid fa-graduation-cap"></i>Misión</a>
-        <a href="vision.php"><i class="fa-solid fa-user-tie"></i>Visión</a>
+        <a href="vision.php"><i class="fa-solid fa-binoculars"></i></i>Visión</a>
     </center></div>
 <?php include './elements/footer.php'?>
 </body>

@@ -127,6 +127,7 @@
     padding: 10px;
     font-size: 15px;
     cursor: pointer;
+    margin-left: 7px;
     transition: 0.5s ease;
 }
 .back i{
@@ -149,6 +150,7 @@
     padding: 10px;
     font-size: 15px;
     cursor: pointer;
+    margin-left: 7px;
     transition: 0.5s ease;
 }
 .forward i{
