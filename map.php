@@ -6,9 +6,9 @@
     <title>Ubicación</title>
     <?php include './elements/import.php'?>
 </head>
-<body>
+<body class="cuerpo">
 <?php include './elements/nav.php'?>
-<div class="u-resumen">
+<div class="ubicacion">
 <h1>Ubicación</h1>
 <p>La localización geográfica de la Universidad Politécnica Territorial del Estado Trujillo (U.P.T.T),
  está localizada  en el Municipio Miranda, Parroquia El Dividive, Carretera Panamericana,

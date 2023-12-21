@@ -7,12 +7,6 @@
     <?php include 'elements/import.php' ?>
 </head>
 <body class="cuerpo">
-<!--    
-<nav class="menu">
-    <li class="m-home"><a href="#">Inicio</a></li>
-    <li class="m-student"><a href="#">Estudiante</a></li>
-    <li class="m-teacher"><a href="#">Profesor</a></li></nav> -->
-
 <?php include './elements/nav.php'?>
 <div class="bienvenida">
     <center>
@@ -28,7 +22,7 @@
         <h1>Sobre Nosotros</h1>
         <p>La Universidad Politécnica Territorial de Estado Trujillo “Mario Briceño Iragorry”, 
 es una institución enmarcada dentro de la Educación Media General y de...</p>
-        <a href="./about/about.php">Leer más<i class="fa-solid fa-arrow-right"></i></a>
+        <a href="./about.php">Leer más<i class="fa-solid fa-arrow-right"></i></a>
     </div>
 
 </section>

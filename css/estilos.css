@@ -2,6 +2,7 @@
 :root{
     --texto: #000;
     --texto1: #fff;
+    --textolinkhover: #3559E0;
     --botones: #4CB9E7;
     --botones-hover: #0F2167;
     --footer: #171a21;
@@ -24,20 +25,19 @@
 }
 .about a{
     font-size: 30px;
-    font-family: sans-serif;
+    font-family: 'quicksand bold';
     text-decoration: none;
     color: var(--texto);
     padding: 30px;
     background-color: var(--botones);
     border-radius: 10px;
-    /* display: table; */
     transition: 0.5s ease;
 }
 .about a:hover{
     background-color: var(--botones-hover);
     color: var(--texto1);
 }
-.bienvenida h1, h2{
+.bienvenida h1, .bienvenida h2{
     font-family: 'Russo One';
     margin-left: 5%;
     margin-right: 5%;
@@ -67,7 +67,11 @@
 .s-about{
     margin: 0px 30px 0px 0px;
 }
+.s-about p{
+    font-family: 'quicksand semibold';
+}
 .s-about a{
+    font-family: 'quicksand semibold';
     padding: 10px;
     color: var(--texto);
     background-color: var(--botones);
@@ -82,24 +86,33 @@
 .s-about i{
     margin-left: 7px;
 }
-.historia{
-    font-family: sans-serif;
+.historia, .vision, .mision, .ubicacion, .map{
     margin: 10%;
+}
+.historia p, .vision p, .mision p, .ubicacion p{
+    font-family: 'quicksand semibold';
+}
+.historia h1, .vision h1, .mision h1, .ubicacion h1{
+    font-family: 'Russo One';
 }
 .menu{
     display: flex;
     margin-top: 10px;
 }
 .menu li{
-    margin: 10px;
+    margin: 10px 10px 0px 0px;
     list-style: none;
 }
 .menu a{
+    font-family: 'quicksand semibold';
     color: var(--texto);
     text-decoration: none;
     background-color: var(--botones);
     padding: 10px;
     border-radius: 5px;
+}
+.m-student, .mc-teacher, i{
+    margin-right: 7px;
 }
 .menu .m-student{
     margin-left: auto;
@@ -114,13 +127,20 @@
     background-color: transparent;
     margin-right: 7px;
 }
-.f-info, .f-social, li, a{
+.f-info a, .f-social a, .f-info li, .f-social li{
+    font-family: 'quicksand';
+    margin-top: 7px;
     list-style: none;
     text-decoration: none;
     color: var(--texto1);
     background-color: transparent;
+    transition: 0.25s ease;
+}
+.f-info a:hover, .f-social a:hover{
+    color: var(--textolinkhover);
 }
 .back{
+    font-family: 'quicksand semibold';
     border-style: none;
     border-radius: 5px;
     background-color: var(--botones);
@@ -144,6 +164,7 @@
     cursor: pointer;
 }
 .forward{
+    font-family: 'quicksand semibold';
     border-style: none;
     border-radius: 5px;
     background-color: var(--botones);
@@ -166,3 +187,5 @@
     font-size: 15px;
     cursor: pointer;
 }
+
+

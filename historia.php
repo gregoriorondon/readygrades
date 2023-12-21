@@ -6,7 +6,7 @@
     <title>Historia</title>
     <?php include './elements/import.php'?>
 </head>
-<body>
+<body class="cuerpo">
 <?php
 include './elements/nav.php'
 ?>
