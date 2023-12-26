@@ -189,3 +189,25 @@
 }
 
 
+.login{
+    margin: 30px;
+}
+.login input, #submit{
+    border-style: solid;
+    border-color: var(--botones);
+    padding: 10px;
+    border-radius: 5px;
+}
+#submit{
+    background-color: var(--botones);
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+#submit i{
+    margin-left: 7px;
+}
+#submit:hover{
+    color: var(--texto1);
+    background-color: var(--botones-hover);
+    border-color: var(--botones-hover);
+}
