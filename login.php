@@ -16,6 +16,7 @@
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
 <div class="login">
+    <h1>Iniciar Sesión</h1>
     <div class="relleno">
         <input type="email" name="" id="" placeholder="Correo o usuario">
         <input type="password" name="" id="pass" placeholder="Contraseña">
@@ -28,7 +29,5 @@
         <button type="submit" id="submit">Entrar<i class="fa-solid fa-arrow-right"></i></button>
     </div>
    </div>
-
-
 </body>
 </html>

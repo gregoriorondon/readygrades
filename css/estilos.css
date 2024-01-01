@@ -191,8 +191,8 @@
 
 .login{
     width: 350px;
-    margin: 30px;
-    padding: 70px;
+    margin: 30px auto 0px auto;
+    padding: 40px 70px 70px 70px;
     border: solid 1px;
     border-radius: 5px;
     border-color: var(--texto);
@@ -205,6 +205,7 @@
 }
 .relleno input{
     margin: 7px 0px 0px 0px;
+    width: 300px;
 }
 #submit{
     background-color: var(--botones);
