@@ -9,10 +9,14 @@
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
 <div class="login">
-    <input type="email" name="" id="" placeholder="Correo o usuario">
-    <input type="password" name="" id="pass" placeholder="Contraseña">
-    <input type="checkbox" name="" id="" onclick="mostrar();">
-    <label for="checkbox">Mostrar</label>
+    <div class="relleno">
+        <input type="email" name="" id="" placeholder="Correo o usuario">
+        <input type="password" name="" id="pass" placeholder="Contraseña">
+    </div>
+    <div class="view">
+        <input type="checkbox" name="" id="" onclick="mostrar();">
+        <label for="checkbox">Mostrar</label>
+    </div>
     <button type="submit" id="submit">Entrar<i class="fa-solid fa-arrow-right"></i></button>
 </div>
 <script src="./js/showpassword.js"></script>

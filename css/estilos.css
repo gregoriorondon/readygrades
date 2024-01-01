@@ -190,13 +190,21 @@
 
 
 .login{
+    width: 350px;
     margin: 30px;
+    padding: 70px;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: var(--texto);
 }
 .login input, #submit{
     border-style: solid;
     border-color: var(--botones);
     padding: 10px;
     border-radius: 5px;
+}
+.relleno input{
+    margin: 7px 0px 0px 0px;
 }
 #submit{
     background-color: var(--botones);
