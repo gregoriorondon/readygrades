@@ -16,7 +16,7 @@
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
 <div class="login">
-    <h1>Iniciar Sesión</h1>
+    <h1 class="tlog">Iniciar Sesión</h1>
     <div class="relleno">
         <input type="email" name="" id="" placeholder="Correo o usuario">
         <input type="password" name="" id="pass" placeholder="Contraseña">
@@ -25,8 +25,15 @@
         <input type="checkbox" name="" id="" onclick="mostrar();">
         <label for="checkbox">Mostrar Contraseña</label>
     </div>
-    <div class="oplog">
-        <button type="submit" id="submit">Entrar<i class="fa-solid fa-arrow-right"></i></button>
+    <div class="signsigentr">
+        <div class="oplog">
+            <button type="submit" id="submit">Entrar<i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="signup">
+            <button class="busignup">
+                <span class="spabusignup">Crear Cuenta</span>
+            </button>
+        </div>
     </div>
    </div>
 </body>

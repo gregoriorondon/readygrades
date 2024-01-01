@@ -8,6 +8,7 @@
     --footer: #171a21;
     --fondo: #ffffff;
     --fondo40: #ffffff50;
+    --btnsemitransp: #DBEAFB;
 }
 *{
     font-family: sans-serif;
@@ -187,15 +188,19 @@
     font-size: 15px;
     cursor: pointer;
 }
-
+.tlog{
+    text-align: center;
+    font-family: 'Russo One';
+}
 
 .login{
     width: 350px;
-    margin: 30px auto 0px auto;
+    margin: 30px auto 14px auto;
     padding: 40px 70px 70px 70px;
     border: solid 1px;
     border-radius: 5px;
     border-color: var(--texto);
+    box-shadow: 10px 10px;
 }
 .login input, #submit{
     border-style: solid;
@@ -209,6 +214,7 @@
 }
 #submit{
     background-color: var(--botones);
+    font-family: 'quicksand bold';
     cursor: pointer;
     transition: 0.25s ease;
 }
@@ -219,4 +225,33 @@
     color: var(--texto1);
     background-color: var(--botones-hover);
     border-color: var(--botones-hover);
+}
+.signsigentr{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    margin: 35px 0px 0px 0px;
+    width: 100%;
+}
+.oplog{
+    flex-grow: 1;
+    text-align: right;
+}
+.signup{
+    flex-grow: 1;
+}
+.busignup{
+    border-style: none;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.busignup:hover{
+    background-color: var(--btnsemitransp);
+}
+.spabusignup{
+    font-family: 'quicksand bold';
+    color: var(--botones);
 }
