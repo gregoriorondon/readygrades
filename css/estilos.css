@@ -275,3 +275,8 @@
 .teresc:hover{
     background-color: var(--btnsemitransp);
 }
+.logpass, .logpass label{
+    font-family: 'quicksand bold';
+    padding: 14px 0px 0px 0px;
+    cursor: pointer;
+}

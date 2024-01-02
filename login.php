@@ -23,8 +23,7 @@
     </div>
     <div class="viewresc">
         <div class="logpass">
-            <input type="checkbox" name="" id="" onclick="mostrar();">
-            <label for="checkbox">Mostrar Contraseña</label>
+            <label for="checkbox"><input type="checkbox" name="" id="checkbox" onclick="mostrar();">Mostrar Contraseña</label>
         </div>
         <div class="dvspresc">
             <button class="teresc">Recuperar Cuenta</button>
