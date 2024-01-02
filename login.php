@@ -21,9 +21,14 @@
         <input type="email" name="" id="" placeholder="Correo o usuario">
         <input type="password" name="" id="pass" placeholder="Contraseña">
     </div>
-    <div class="view">
-        <input type="checkbox" name="" id="" onclick="mostrar();">
-        <label for="checkbox">Mostrar Contraseña</label>
+    <div class="viewresc">
+        <div class="logpass">
+            <input type="checkbox" name="" id="" onclick="mostrar();">
+            <label for="checkbox">Mostrar Contraseña</label>
+        </div>
+        <div class="dvspresc">
+            <button class="teresc">Recuperar Cuenta</button>
+        </div>
     </div>
     <div class="signsigentr">
         <div class="oplog">

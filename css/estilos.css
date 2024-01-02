@@ -208,9 +208,14 @@
     padding: 10px;
     border-radius: 5px;
 }
+.relleno{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
 .relleno input{
     margin: 7px 0px 0px 0px;
-    width: 300px;
+    width: 100%;
 }
 #submit{
     background-color: var(--botones);
@@ -254,4 +259,18 @@
 .spabusignup{
     font-family: 'quicksand bold';
     color: var(--botones);
+}
+.teresc{
+    padding: 10px;
+    margin: 21px 0px 0px 0px;
+    font-family: 'quicksand bold';
+    color: var(--botones);
+    background-color: transparent;
+    transition:  0.5s ease;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.teresc:hover{
+    background-color: var(--btnsemitransp);
 }
