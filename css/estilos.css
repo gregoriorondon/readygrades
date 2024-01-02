@@ -2,6 +2,7 @@
 :root{
     --texto: #000;
     --texto1: #fff;
+    --texto2: #005887;
     --textolinkhover: #3559E0;
     --botones: #4CB9E7;
     --botones-hover: #0F2167;
@@ -258,13 +259,13 @@
 }
 .spabusignup{
     font-family: 'quicksand bold';
-    color: var(--botones);
+    color: var(--texto2);
 }
 .teresc{
     padding: 10px;
     margin: 21px 0px 0px 0px;
     font-family: 'quicksand bold';
-    color: var(--botones);
+    color: var(--texto2);
     background-color: transparent;
     transition:  0.5s ease;
     border-style: none;
