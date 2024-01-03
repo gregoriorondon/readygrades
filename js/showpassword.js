@@ -1,18 +1,11 @@
-// function mostrar(item) {
-//     if (document.getElementById('pass').type == "password") {
-//         document.getElementById('pass').type = "text";
-//     } else {
-//         document.getElementById('pass').type = "password";
-//     }
-// }
-
-// const ch = document.querySelector('#checkbox');
+const ch = document.getElementById('checkbox');
+const cont = document.getElementById('pass');
 function mostrar(item) {
-    if (document.getElementById('checkbox').checked === true){
-        document.getElementById('pass').type = "text";
+    if (ch.checked === true){
+        cont.type = "text";
     } 
-    else if (document.getElementById('checkbox').checked === false) {
-        document.getElementById('pass').type = "password"
+    else if (ch.checked === false) {
+        cont.type = "password"
     }   
 }
 

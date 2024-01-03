@@ -189,6 +189,9 @@
     font-size: 15px;
     cursor: pointer;
 }
+.logosys{
+    width: 100px;
+}
 .tlog{
     text-align: center;
     font-family: 'Russo One';
@@ -206,6 +209,7 @@
 .login input, #submit{
     border-style: solid;
     border-color: var(--botones);
+    outline: none;
     padding: 10px;
     border-radius: 5px;
 }
@@ -275,8 +279,36 @@
 .teresc:hover{
     background-color: var(--btnsemitransp);
 }
-.logpass, .logpass label{
+.logpass, .logpass label, .logpass input{
     font-family: 'quicksand bold';
-    padding: 14px 0px 0px 0px;
+    margin: 4px auto;
+    padding: 14px 7px 14px 0px;
+    border-style: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: 0.5s ease;
+}
+.logpass label:hover{
+    background-color: var(--btnsemitransp);
+}
+.minifoot{
+    text-align: center;
+    color: var(--texto2);
+    font-family: 'quicksand';
+    font-size: 10px;
+    margin: 30px 0px 20px 0px;
+}
+.logpass input{
+    background: var(--botones);
+}
+.email{
+    position: absolute;
+    padding: 17px 0px 0px 10px;
+}
+.password{
+    position: absolute;
+    padding: 64px 0px 0px 10px;
+}
+.email:valid{
+    color: red;
 }

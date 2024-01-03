@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <?php include './elements/import.php'?>
-    <script src="./js/showpassword.js"></script>
     <script>
         console.warn("Cuidado Usuario");
         console.warn("Si eres un usuario normal POR FAVOR NO USES ESTA CONSOLA")
@@ -15,15 +14,20 @@
 </head>
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
+<form action="">
 <div class="login">
+    <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
     <h1 class="tlog">Iniciar Sesión</h1>
     <div class="relleno">
-        <input type="email" name="" id="" placeholder="Correo o usuario">
-        <input type="password" name="" id="pass" placeholder="Contraseña">
+        <input type="email" name="" id="" placeholder="Correo o Usuario">
+        <input type="password" name="" id="pass" placeholder="Ingrese Su Contraseña">
     </div>
     <div class="viewresc">
         <div class="logpass">
-            <label for="checkbox"><input type="checkbox" name="" id="checkbox" onclick="mostrar();">Mostrar Contraseña</label>
+            <label for="checkbox">
+                <input type="checkbox" name="" id="checkbox" onclick="mostrar();">
+                    Mostrar Contraseña
+            </label>
         </div>
         <div class="dvspresc">
             <button class="teresc">Recuperar Cuenta</button>
@@ -39,6 +43,11 @@
             </button>
         </div>
     </div>
-   </div>
+</div>
+</form>
+<div class="minifoot">
+    <span>SISTEMA DESARROLLADO POR GREGORIO RONDÓN, CARLOS RAMOS Y YANITZA BARRIGA</span>
+</div>
+<script src="./js/showpassword.js"></script>
 </body>
 </html>
