@@ -39,7 +39,7 @@
     </div>
 </div>
 </form>
-<form action="">
+<form action="" class="logop">
 <div class="login">
     <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
     <h1 class="tlog">Iniciar Sesión</h1>
