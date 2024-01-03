@@ -14,4 +14,4 @@ che.addEventListener('click', ()=>{
 che2.addEventListener('click', ()=>{
     cre.classList.replace('creacu', 'crecu');
     che1.classList.replace('crecu', 'logop');
-})
+});

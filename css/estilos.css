@@ -319,4 +319,16 @@
     border-color: var(--texto);
     box-shadow: 10px 10px;
 }
-
+.formu input{
+    padding: 10px;
+    margin: 7px 0px 0px 0px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--botones);
+}
+.sigpass input{
+    margin: 21px auto;
+    width: auto;
+}

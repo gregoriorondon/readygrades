@@ -26,10 +26,16 @@
         <input type="password" name="" id="" placeholder="Contraseña">
         <input type="password" name="" id="" placeholder="Confirmar Contraseña">
         
-        <label for="checkbox1"><input type="checkbox" name="checkbox1" id="">Mostrar Contraseñas</label>
+        <div class="sigpass">
+            <label for="checkbox1">
+                <input type="checkbox" name="checkbox" id="checkbox1">
+                Mostrar Contraseñas
+            </label>
+        </div>
+
         <input type="number" name="" id="" placeholder="Cédula">
         <input type="date" name="" id="">
-        <input type="reset" value="Limpiar">
+        <button type="reset">Limpiar</button>
         <button>Siguiente</button>
     </div>
     <div class="loggo">
