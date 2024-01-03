@@ -33,9 +33,9 @@
         <button>Siguiente</button>
     </div>
     <div class="loggo">
-        <p class="swit">
-            <a href="#">Iniciar Sesión</a>
-        </p>
+        <button type="button" class="swit">
+            <span>Iniciar Sesión</span>
+        </button>
     </div>
 </div>
 </form>
