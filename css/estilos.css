@@ -303,14 +303,20 @@
 .logpass input{
     background: var(--botones);
 }
-.email{
-    position: absolute;
-    padding: 17px 0px 0px 10px;
+
+/*========================================= */
+/*             === Registro ===            */
+/*========================================= */
+.crecu{
+    display: none;
 }
-.password{
-    position: absolute;
-    padding: 64px 0px 0px 10px;
+.creacu{
+    width: 350px;
+    margin: 30px auto 14px auto;
+    padding: 40px 70px 70px 70px;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: var(--texto);
+    box-shadow: 10px 10px;
 }
-.email:valid{
-    color: red;
-}
+

@@ -14,6 +14,31 @@
 </head>
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
+<form action="" class="crecu">
+<div class="signupop">
+    <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
+    <h1 class="tlog">Crear Cuenta</h1>
+    <div class="formu">
+        <input type="text" name="" id="" placeholder="Nombre">
+        <input type="text" name="" id="" placeholder="Apellido">
+        <input type="email" name="" id="" placeholder="Correo">
+        <input type="number" name="" id="" placeholder="Teléfono">
+        <input type="password" name="" id="" placeholder="Contraseña">
+        <input type="password" name="" id="" placeholder="Confirmar Contraseña">
+        
+        <label for="checkbox1"><input type="checkbox" name="checkbox1" id="">Mostrar Contraseñas</label>
+        <input type="number" name="" id="" placeholder="Cédula">
+        <input type="date" name="" id="">
+        <input type="reset" value="Limpiar">
+        <button>Siguiente</button>
+    </div>
+    <div class="loggo">
+        <p class="swit">
+            <a href="#">Iniciar Sesión</a>
+        </p>
+    </div>
+</div>
+</form>
 <form action="">
 <div class="login">
     <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
@@ -38,7 +63,7 @@
             <button type="submit" id="submit">Entrar<i class="fa-solid fa-arrow-right"></i></button>
         </div>
         <div class="signup">
-            <button class="busignup">
+            <button type="button" class="busignup">
                 <span class="spabusignup">Crear Cuenta</span>
             </button>
         </div>
@@ -49,5 +74,8 @@
     <span>SISTEMA DESARROLLADO POR GREGORIO RONDÓN, CARLOS RAMOS Y YANITZA BARRIGA</span>
 </div>
 <script src="./js/showpassword.js"></script>
+
+<script src="./js/logcre.js"></script>
+
 </body>
 </html>
