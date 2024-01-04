@@ -331,6 +331,20 @@
     border-style: solid;
     border-color: var(--botones);
 }
+.sigpass label{
+    background-color: transparent;
+    font-family: 'quicksand bold';
+    padding: 10px 0px 10px 0px;
+    border-style: none;
+    border-radius: 5px;
+    transition: 0.5s ease;
+}
+.sigpass label:hover{
+    background-color: var(--btnsemitransp);
+}
+.sigpass input, .sigpass label{
+    cursor: pointer;
+}
 .sigpass input{
     margin: 21px auto;
     width: auto;
