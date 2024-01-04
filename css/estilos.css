@@ -282,6 +282,9 @@
 .logpass{
     margin: 21px auto;
 }
+.logpass label::selection{
+    color: none;
+}
 .logpass label, .logpass input{
     font-family: 'quicksand bold';
     padding: 14px 7px 14px 0px;
@@ -322,7 +325,7 @@
 .formu input{
     padding: 10px;
     margin: 7px 0px 0px 0px;
-    width: 100%;
+    width: 93%;
     outline: none;
     border-radius: 5px;
     border-style: solid;
@@ -331,4 +334,71 @@
 .sigpass input{
     margin: 21px auto;
     width: auto;
+}
+.sigpass label::selection{
+    color: none;
+}
+.option{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 21px 0px 0px 0px;
+    width: 100%;
+}
+.clean{
+    flex-grow: 1;
+    text-align: left;;
+}
+.clean button{
+    background-color: transparent;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.5s ease;
+}
+.clean button:hover{
+    background-color: var(--btnsemitransp);
+}
+.clean span{
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+}
+.push span{
+    font-family: 'quicksand bold';
+}
+.push i{
+    margin: 0px 7px 0px;
+}
+.push{
+    flex-grow: 1;
+    text-align: right;
+}
+.push button{
+    background-color: var(--botones);
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.5s ease;
+}
+.push button:hover{
+    background-color: var(--botones-hover);
+    color: var(--texto1);
+}
+.loggo .swit{
+    margin: 21px 0px;
+    background-color: transparent;
+    padding: 10px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.loggo .swit:hover{
+    background-color: var(--btnsemitransp);
+}
+.loggo .swit span{
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+
 }

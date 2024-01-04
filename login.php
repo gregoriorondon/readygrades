@@ -19,24 +19,30 @@
     <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
     <h1 class="tlog">Crear Cuenta</h1>
     <div class="formu">
-        <input type="text" name="" id="" placeholder="Nombre">
-        <input type="text" name="" id="" placeholder="Apellido">
-        <input type="email" name="" id="" placeholder="Correo">
-        <input type="number" name="" id="" placeholder="Teléfono">
-        <input type="password" name="" id="" placeholder="Contraseña">
-        <input type="password" name="" id="" placeholder="Confirmar Contraseña">
+        <input type="text" name="" id="" placeholder="Nombre" required>
+        <input type="text" name="" id="" placeholder="Apellido" required>
+        <input type="email" name="" id="" placeholder="Correo" required>
+        <input type="number" name="" id="" placeholder="Teléfono" required maxlength="1">
+        <input type="password" name="" id="pass1" placeholder="Contraseña" required>
+        <input type="password" name="" id="pass1c" placeholder="Confirmar Contraseña" required>
         
         <div class="sigpass">
             <label for="checkbox1">
-                <input type="checkbox" name="checkbox" id="checkbox1">
+                <input type="checkbox" name="checkbox" id="checkbox1" onclick="mostrarf();">
                 Mostrar Contraseñas
             </label>
         </div>
 
-        <input type="number" name="" id="" placeholder="Cédula">
-        <input type="date" name="" id="">
-        <button type="reset">Limpiar</button>
-        <button>Siguiente</button>
+        <input type="number" name="" id="" placeholder="Cédula" required>
+        <input type="date" name="" id="" required>
+        <div class="option">
+            <div class="clean">
+                <button type="reset"><span>Limpiar</span></button>
+            </div>
+            <div class="push">
+                <button type="submit"><span>Siguiente</span><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
     </div>
     <div class="loggo">
         <button type="button" class="swit">
