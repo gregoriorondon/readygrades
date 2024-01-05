@@ -1,6 +1,9 @@
 # ReadyGrade versión web
 Esta versión va dirigida 100% en la web para que estudiantes, profesores y administradores puedan entrar.
 
+>[!Important]
+>Este proyecto aún no esta de forma funcional o dinámica (solo tiene las secciones de vienvenida y un par de estilos sin el diseño responsive).
+
 ## 🧑‍🎓 Estudiantes:
 Los estudiantes podrán ingresar con su cédula de identidad para revisar sus notas obtenidas a lo largo de su trayecto de estudio (Semestres o Trimestres, dependiendo de como sea cada ciclo de estudio).
 ## 🧑‍🏫 Profesores:
