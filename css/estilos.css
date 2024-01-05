@@ -3,6 +3,7 @@
     --texto: #000;
     --texto1: #fff;
     --texto2: #005887;
+    --texto3: #ff3000;
     --textolinkhover: #3559E0;
     --botones: #4CB9E7;
     --botones-hover: #0F2167;
@@ -118,6 +119,13 @@
 }
 .menu .m-student{
     margin-left: auto;
+}
+.m-student a, .m-teacher a{
+    transition: 0.2s ease;
+}
+.m-student a:hover, .m-teacher a:hover{
+    background-color: var(--botones-hover);
+    color: var(--texto1);
 }
 .info{
     display: flex;
@@ -415,4 +423,62 @@
     font-family: 'quicksand bold';
     color: var(--texto2);
 
+}
+/*========================================*/
+/*=============Estudiantes================*/
+/*========================================*/
+.stud{
+    margin: 30px auto 14px auto;
+    padding: 40px 70px 70px 70px;
+    border: solid 1px;
+    border-color: var(--texto);
+    border-radius: 5px;
+    width: 350px;
+    box-shadow: 10px 10px;
+}
+.log{
+    margin: 21px 0px 0px 0px;
+}
+.log input{
+    padding: 10px;
+    outline: none;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: var(--botones);
+    width: 93%;
+}
+.log button{
+    border-style: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 14px 0px 0px 0px;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'quicksand bold';
+    font-size: 14px;
+    color: var(--texto);
+    background-color: var(--botones);
+    transition: 0.2s ease;
+}
+.log button:hover{
+    background-color: var(--botones-hover);
+    color: var(--texto1);
+}
+.log1 img{
+    width: 100px;
+
+}
+.warni{
+    margin: 21px 0px 0px 0px;
+    text-align: center;
+}
+.war1, .war2{
+    font-family: 'quicksand bold';
+    font-size: 15px;
+}
+.war1{
+    color: var(--texto2);
+}
+.war2{
+    color: var(--texto3);
 }
