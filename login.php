@@ -14,6 +14,7 @@
 </head>
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
+
 <form action="" class="crecu">
 <div class="signupop">
     <center><img src="./img/logosystem.png" alt="" class="logosys"></center>
@@ -28,7 +29,7 @@
         
         <div class="sigpass">
             <label for="checkbox1">
-                <input type="checkbox" name="checkbox" id="checkbox1" onclick="mostrarf();">
+                <input type="checkbox" name="checkbox" id="checkbox1">
                 Mostrar Contraseñas
             </label>
         </div>
@@ -62,7 +63,7 @@
     <div class="viewresc">
         <div class="logpass">
             <label for="checkbox">
-                <input type="checkbox" name="" id="checkbox" onclick="mostrar();">
+                <input type="checkbox" name="" id="checkbox">
                     Mostrar Contraseña
             </label>
         </div>
@@ -82,11 +83,9 @@
     </div>
 </div>
 </form>
-<div class="minifoot">
-    <span>SISTEMA DESARROLLADO POR GREGORIO RONDÓN, CARLOS RAMOS Y YANITZA BARRIGA</span>
-</div>
-<script src="./js/showpassword.js"></script>
+<?php include './elements/minifoot.php'?>
 
+<script src="./js/showpassword.js"></script>
 <script src="./js/logcre.js"></script>
 
 </body>

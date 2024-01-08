@@ -6,8 +6,10 @@ const ch1 = document.getElementById('checkbox1');
 const cont1 = document.getElementById('pass1');
 const cont2 = document.getElementById('pass1c');
 
+ch.addEventListener("click", mostrar);
+ch1.addEventListener("click", mostrarf);
 
-function mostrar(item) {
+function mostrar() {
     if (ch.checked === true){
         cont.type = "text";
     } 
@@ -16,7 +18,7 @@ function mostrar(item) {
     }   
 };
 
-function mostrarf(item) {
+function mostrarf() {
     if (ch1.checked === true){
         cont1.type = "text";
         cont2.type = "text";
