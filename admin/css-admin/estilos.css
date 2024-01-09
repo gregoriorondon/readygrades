@@ -1,0 +1,73 @@
+@import url('fonts.css');
+:root{
+    --texto: #fff;
+    --fondo: #0b0b0b;
+    --icon-warning: #ff3000;
+    --icon-ani: #f00;
+}
+
+
+.warning{
+    font-family: 'Russo One';
+    margin: 77px;
+    background-color: var(--fondo);
+    color: var(--texto);
+}
+.warni-icon{
+    margin: auto auto 0px auto;
+    color: var(--icon-warning);
+    font-size: 77px;
+    animation: w 1s linear infinite;
+}
+.warni-text{
+    color: var(--icon-warning);
+    margin: 0px;
+    font-size: 40px;
+    animation: w 1s linear infinite;
+}
+.advert, .advert-d{
+    color: var(--icon-warning);
+    font-style: italic;
+    text-shadow: 0px 0px 21px var(--icon-ani);
+}
+.advert{
+    animation: s 1s linear infinite;
+}
+@keyframes w {
+    0%, 10%, 35%, 75%, 100%{
+        opacity: 100%;
+        text-shadow: 0px 0px 21px var(--icon-ani);
+    }
+    1%, 11%, 36%, 73%, 76%, 99%{
+        opacity: 20%;
+        text-shadow: 0px 0px 0px var(--icon-ani);
+    }
+}
+@keyframes s {
+    5%, 40%, 50%, 77%, 80%, 100%{
+        opacity: 100%;
+        text-shadow: 0px 0px 21px var(--icon-ani);
+    }
+    7%, 43%, 52%, 78%, 85%, 95%{
+        opacity: 20%;
+        text-shadow: 0px 0px 0px var(--icon-ani);
+    }
+}
+.sub{
+    background-color: transparent;
+    border: solid 2px;
+    border-radius: 5px;
+    font-family: 'Russo One';
+    font-size: 21px;
+    margin: 35px 0px 0px 0px;
+    padding: 7px;
+    color: var(--icon-warning);
+    border-color: var(--icon-warning);
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.sub:hover{
+    background-color: var(--icon-warning);
+    box-shadow: 0px 0px 14px var(--icon-ani);
+    color: var(--texto);
+}
