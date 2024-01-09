@@ -21,5 +21,6 @@
 
 </center>
 
+<script src="./js-admin/redireccion-to-admin.js"></script>
 </body>
 </html>
