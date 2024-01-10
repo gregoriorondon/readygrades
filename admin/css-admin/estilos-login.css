@@ -1,0 +1,243 @@
+@import url('fonts.css');
+:root{
+    --texto: #000;
+    --texto1: #fff;
+    --texto2: #005887;
+    --texto3: #ff3000;
+    --textolinkhover: #3559E0;
+    --botones: #4CB9E7;
+    --botones-hover: #0F2167;
+    --footer: #171a21;
+    --fondo: #ffffff;
+    --fondo40: #ffffff50;
+    --btnsemitransp: #DBEAFB;
+}
+.logosys{
+    width: 100px;
+}
+.tlog{
+    text-align: center;
+    font-family: 'Russo One';
+}
+
+.login{
+    width: 350px;
+    margin: 30px auto 14px auto;
+    padding: 40px 70px 70px 70px;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: var(--texto);
+    box-shadow: 10px 10px;
+}
+.login input, #submit{
+    border-style: solid;
+    border-color: var(--botones);
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+.relleno{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.relleno input{
+    margin: 7px 0px 0px 0px;
+    width: 100%;
+}
+#submit{
+    background-color: var(--botones);
+    font-family: 'quicksand bold';
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+#submit i{
+    margin-left: 7px;
+}
+#submit:hover{
+    color: var(--texto1);
+    background-color: var(--botones-hover);
+    border-color: var(--botones-hover);
+}
+.signsigentr{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    margin: 35px 0px 0px 0px;
+    width: 100%;
+}
+.oplog{
+    flex-grow: 1;
+    text-align: right;
+}
+.signup{
+    flex-grow: 1;
+}
+.busignup{
+    border-style: none;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.busignup:hover{
+    background-color: var(--btnsemitransp);
+}
+.spabusignup{
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+}
+.teresc{
+    padding: 10px;
+    margin: 21px 0px 0px 0px;
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+    background-color: transparent;
+    transition:  0.5s ease;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.teresc:hover{
+    background-color: var(--btnsemitransp);
+}
+.logpass{
+    margin: 21px auto;
+}
+.logpass label::selection{
+    color: none;
+}
+.logpass label, .logpass input{
+    font-family: 'quicksand bold';
+    padding: 14px 7px 14px 0px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.logpass label:hover{
+    background-color: var(--btnsemitransp);
+}
+.minifoot{
+    text-align: center;
+    color: var(--texto2);
+    font-family: 'quicksand';
+    font-size: 10px;
+    margin: 30px 0px 20px 0px;
+}
+.logpass input{
+    background: var(--botones);
+    accent-color: var(--botones);
+}
+
+/*========================================= */
+/*             === Registro ===            */
+/*========================================= */
+.oculto{
+    display: none;
+}
+.visible{
+    width: 350px;
+    margin: 30px auto 14px auto;
+    padding: 40px 70px 70px 70px;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: var(--texto);
+    box-shadow: 10px 10px;
+}
+.formu input{
+    padding: 10px;
+    margin: 7px 0px 0px 0px;
+    width: 93%;
+    outline: none;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: var(--botones);
+}
+.sigpass label{
+    background-color: transparent;
+    font-family: 'quicksand bold';
+    padding: 10px 0px 10px 0px;
+    border-style: none;
+    border-radius: 5px;
+    transition: 0.5s ease;
+}
+.sigpass label:hover{
+    background-color: var(--btnsemitransp);
+}
+.sigpass input, .sigpass label{
+    cursor: pointer;
+}
+.sigpass input{
+    margin: 21px auto;
+    width: auto;
+}
+.sigpass label::selection{
+    color: none;
+}
+.option{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 21px 0px 0px 0px;
+    width: 100%;
+}
+.clean{
+    flex-grow: 1;
+    text-align: left;;
+}
+.clean button{
+    background-color: transparent;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.5s ease;
+}
+.clean button:hover{
+    background-color: var(--btnsemitransp);
+}
+.clean span{
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+}
+.push span{
+    font-family: 'quicksand bold';
+}
+.push i{
+    margin: 0px 7px 0px;
+}
+.push{
+    flex-grow: 1;
+    text-align: right;
+}
+.push button{
+    background-color: var(--botones);
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.5s ease;
+}
+.push button:hover{
+    background-color: var(--botones-hover);
+    color: var(--texto1);
+}
+.loggo .swit{
+    margin: 21px 0px;
+    background-color: transparent;
+    padding: 10px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.loggo .swit:hover{
+    background-color: var(--btnsemitransp);
+}
+.loggo .swit span{
+    font-family: 'quicksand bold';
+    color: var(--texto2);
+
+}
+
