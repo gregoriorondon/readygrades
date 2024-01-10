@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sección Administrativo</title>
+    <link rel="stylesheet" href="./css-admin/estilos.css">
     <?php include './elements-admin/import.php'; include './elements-admin/warning.php'?>
 </head>
 <body class="warning">
