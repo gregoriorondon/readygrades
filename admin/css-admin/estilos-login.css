@@ -171,6 +171,7 @@
 }
 .sigpass input{
     margin: 21px auto;
+    accent-color: var(--botones);
     width: auto;
 }
 .sigpass label::selection{
