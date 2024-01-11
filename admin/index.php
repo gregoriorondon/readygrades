@@ -9,7 +9,13 @@
 </head>
 <body class="warning">
 <script>
-    alert('Esta Es Una Sección Solo Para Personal Autorizado');
+    //alert('Esta Es Una Sección Solo Para Personal Autorizado');
+const co = confirm('Esta Es Una Sección Solo Para Personal Autorizado');
+
+if (co == false) {
+    history.back();
+}
+
 </script>
 
 <center>
