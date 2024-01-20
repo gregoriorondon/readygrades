@@ -106,8 +106,10 @@
     margin: 10px 10px 0px 0px;
     list-style: none;
 }
-.menu a{
+.m-student, .m-teacher{
     font-family: 'quicksand semibold';
+    border-style: none;
+    border-radius: 5px;
     color: var(--texto);
     text-decoration: none;
     background-color: var(--botones);
@@ -120,10 +122,10 @@
 .menu .m-student{
     margin-left: auto;
 }
-.m-student a, .m-teacher a{
+.m-student .m-teacher {
     transition: 0.2s ease;
 }
-.m-student a:hover, .m-teacher a:hover{
+.m-student:hover, .m-teacher:hover{
     background-color: var(--botones-hover);
     color: var(--texto1);
 }

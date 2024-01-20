@@ -29,5 +29,6 @@ es una institución enmarcada dentro de la Educación Media General y de...</p>
 <?php
 include './elements/footer.php'
 ?>
+<script src="./js/links.js"></script>
 </body>
 </html>
