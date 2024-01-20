@@ -327,6 +327,34 @@
     accent-color: var(--botones);
 }
 
+.about{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px;
+}
+
+/*===========================================*/
+/*===========Diseño responsivo===============*/
+/*===========================================*/
+
+@media (max-width: 748px){
+    .about{
+        display: unset;
+    /*     flex-wrap: wrap; */
+    /*     justify-content: center; */
+    /*     gap: 3px; */
+    }
+    .m{
+        display: flex;
+        flex-direction: column;
+        /* flex-wrap: wrap; */
+        align-content: center;
+        margin: 10px;
+}   
+}
+
+
 /*========================================= */
 /*             === Registro ===            */
 /*========================================= */

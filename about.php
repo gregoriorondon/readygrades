@@ -8,11 +8,11 @@
 </head>
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
-    <div class="about"><center>        
-        <a href="historia.php"><i class="fa-solid fa-building-columns"></i>Nuestra Historia</a>
-        <a href="mision.php"><i class="fa-solid fa-graduation-cap"></i>Misión</a>
-        <a href="vision.php"><i class="fa-solid fa-binoculars"></i></i>Visión</a>
-    </center></div>
+    <div class="about">        
+        <div class="m"><a href="historia.php"><i class="fa-solid fa-building-columns"></i>Nuestra Historia</a></div>
+        <div class="m"><a href="mision.php"><i class="fa-solid fa-graduation-cap"></i>Misión</a></div>
+        <div class="m"><a href="vision.php"><i class="fa-solid fa-binoculars"></i></i>Visión</a></div>
+    </div>
 <?php include './elements/footer.php'?>
 </body>
 </html>
