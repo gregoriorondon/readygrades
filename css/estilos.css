@@ -102,19 +102,22 @@
     display: flex;
     margin-top: 10px;
 }
-.menu li{
-    margin: 10px 10px 0px 0px;
-    list-style: none;
-}
+/* .m-student, .m-teacher{ */
+/*     margin: 10px 10px 0px 0px; */
+/*     list-style: none; */
+/* } */
 .m-student, .m-teacher{
     font-family: 'quicksand semibold';
     border-style: none;
+    font-size: 15px;
     border-radius: 5px;
     color: var(--texto);
     text-decoration: none;
     background-color: var(--botones);
     padding: 10px;
     border-radius: 5px;
+    cursor: pointer;
+    margin: 0px 7px 0px 0px;
 }
 .m-student, .mc-teacher, i{
     margin-right: 7px;
@@ -184,6 +187,7 @@
     font-size: 15px;
     cursor: pointer;
     margin-left: 7px;
+    margin-right: 7px;
     transition: 0.5s ease;
 }
 .forward i{
