@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <?php include 'elements/import.php' ?>
+    <?php include './elements/import.php' ?>
 </head>
 <body class="cuerpo">
 <?php include './elements/nav.php'?>
@@ -16,7 +16,7 @@
 </div>
 <section class="sec-about">
     <div class="i-about">
-        <img class="img-about" src="./img/Classroom-rafiki.png" alt="https://storyset.com/education"><a href="https://storyset.com/education" target="_blank">Education illustrations by Storyset</a>
+        <img class="img-about" title="Education illustrations by Storyset (https://storyset.com/education)" src="./img/Classroom-rafiki.png" alt="https://storyset.com/education">
     </div>
     <div class="s-about">
         <h1>Sobre Nosotros</h1>
