@@ -2,7 +2,7 @@
     <ul class="f-info">
         <li><a href="./about.php"><i class="fa-solid fa-circle-info"></i>Sobre Nosotros</a></li>
         <li><a href="./map.php"><i class="fa-solid fa-map-location-dot"></i>Ubicación</a></li>
-        <!-- <li><a href="#">Contacto</a></li> -->
+        <li><a href="https://upttmbi.edu.ve/site/drsce/drsce.html" target="_blank"><i class="fa-solid fa-file-contract"></i>Requisitos de Inscripción</a></i></li>
     </ul>
     <ul class="f-social">
         <li><a href="https://upttmbi.edu.ve/site/index.html" target="_blank"><i class="fa-solid fa-globe"></i>Web Oficial</a></li>
