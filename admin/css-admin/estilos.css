@@ -10,20 +10,20 @@
 
 .warning{
     font-family: 'Russo One';
-    margin: 77px;
+    margin: clamp(0rem, 0.304rem + 3.4783vw, 3rem);
     background-color: var(--fondo);
     color: var(--texto);
 }
 .warni-icon{
     margin: auto auto 0px auto;
     color: var(--icon-warning);
-    font-size: 77px;
+    font-size: 700%;
     animation: w 1s linear infinite;
 }
 .warni-text{
     color: var(--icon-warning);
     margin: 0px;
-    font-size: 40px;
+    font-size: clamp(0rem, 1.304rem + 3.4783vw, 3rem);
     animation: w 1s linear infinite;
 }
 .advert, .advert-d{
@@ -53,6 +53,9 @@
         opacity: 20%;
         text-shadow: 0px 0px 0px var(--icon-ani);
     }
+}
+h1, h2{
+    font-size: clamp(0rem, 0.304rem + 3.4783vw, 3rem);
 }
 .sub{
     background-color: transparent;

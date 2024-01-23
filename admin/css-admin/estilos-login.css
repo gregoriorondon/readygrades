@@ -258,4 +258,16 @@
     color: var(--texto2);
 
 }
-
+/*======================================*/
+/*========Diseño responsivo=============*/
+/*======================================*/
+@media (max-width: 507px){
+   .login{
+        width: 290px;
+        padding: 40px 21px 70px 21px;
+   } 
+   .visible{
+       width: 290px;
+       padding: 40px 21px 70px 21px;
+   }
+}

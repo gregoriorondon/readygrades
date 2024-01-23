@@ -347,45 +347,6 @@
     border-radius: 5px;
     border-color: var(--footer);
 }
-
-/*===========================================*/
-/*===========Diseño responsivo===============*/
-/*===========================================*/
-@media (max-width: 748px){
-    .about{
-        display: unset;
-    /*     flex-wrap: wrap; */
-    /*     justify-content: center; */
-    /*     gap: 3px; */
-    }
-    .m{
-        display: flex;
-        flex-direction: column;
-        /* flex-wrap: wrap; */
-        align-content: center;
-        margin: 10px;
-    }
-    .about{
-        margin: 77px 0px 77px 0px;
-    }
-    .map iframe{
-        width: 100%;
-        height: 200%;
-    }
-    .map{
-        margin: 10% 10% 77% 10%;
-    };
-}
-@media (max-width: 452px){
-    .info{
-        display: unset;
-    }
-    .f-social{
-        margin-top: 35px;
-    }
-}
-
-
 /*========================================= */
 /*             === Registro ===            */
 /*========================================= */
@@ -497,18 +458,6 @@
 
 }
 
-@media (max-width: 507px){
-   .login{
-        width: 290px;
-        padding: 40px 21px 70px 21px;
-   } 
-   .creacu{
-       width: 290px;
-       padding: 40px 21px 70px 21px;
-   }
-}
-
-
 
 /*========================================*/
 /*=============Estudiantes================*/
@@ -522,12 +471,7 @@
     width: 350px;
     box-shadow: 10px 10px;
 }
-@media (max-width: 507px){
-    .stud{
-        width: 290px;
-        padding: 40px 21px 70px 21px;
-    }
-}
+
 .log{
     margin: 21px 0px 0px 0px;
 }
@@ -575,3 +519,55 @@
 .war2{
     color: var(--texto3);
 }
+
+/*===========================================*/
+/*===========Diseño responsivo===============*/
+/*===========================================*/
+@media (max-width: 748px){
+    .about{
+        display: unset;
+    }
+    .m{
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        margin: 10px;
+    }
+    .about{
+        margin: 77px 0px 77px 0px;
+    }
+    .map iframe{
+        width: 100%;
+        height: 200%;
+    }
+    .map{
+        margin: 10% 10% 77% 10%;
+    }
+}
+@media (max-width: 452px){
+    .info{
+        display: unset;
+    }
+    .f-social{
+        margin-top: 35px;
+    }
+}
+@media (max-width: 507px){
+    .stud{
+        width: 290px;
+        padding: 40px 21px 70px 21px;
+    }
+}
+@media (max-width: 507px){
+   .login{
+        width: 290px;
+        padding: 40px 21px 70px 21px;
+   } 
+   .creacu{
+       width: 290px;
+       padding: 40px 21px 70px 21px;
+   }
+}
+
+
+
