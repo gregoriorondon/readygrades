@@ -9,4 +9,7 @@
         <li><a href="https://www.instagram.com/upttmbi/" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
         <li><a href="https://www.twitter.com/upttmbi" target="_blank"><i class="fa-brands fa-x-twitter"></i>Twitter</a></li>
     </ul>
+    <ul class="f-admin">
+        <li><a href="./admin/index.php" target="_blank"><i class="fa-solid fa-user-tie"></i>Administrador</a></li>
+    </ul>
 </footer>

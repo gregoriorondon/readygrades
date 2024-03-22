@@ -144,11 +144,11 @@
     margin-top: auto;
     padding: 30px 0 30px 0;
 }
-.f-info, .f-social, .f-info i, .f-social i{
+.f-info, .f-social, .f-admin, .f-info i, .f-social i, .f-admin i{
     background-color: transparent;
     margin-right: 7px;
 }
-.f-info a, .f-social a, .f-info li, .f-social li{
+.f-info a, .f-social a, .f-admin a, .f-info li, .f-social li, .f-admin li{
     font-family: 'quicksand';
     margin-top: 7px;
     list-style: none;
@@ -157,7 +157,7 @@
     background-color: transparent;
     transition: 0.25s ease;
 }
-.f-info a:hover, .f-social a:hover{
+.f-info a:hover, .f-social a:hover, .f-admin a:hover{
     color: var(--textolinkhover);
 }
 .back{
