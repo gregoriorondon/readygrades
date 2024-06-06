@@ -184,7 +184,7 @@
     font-size: 15px;
     cursor: pointer;
 }
-.forward{
+.home{
     font-family: 'quicksand semibold';
     border-style: none;
     border-radius: 5px;
@@ -200,7 +200,7 @@
     background-color: transparent;
     margin-left: 7px;
 }
-.forward:hover{
+.home:hover{
     border-style: none;
     border-radius: 5px;
     color: var(--texto1);
