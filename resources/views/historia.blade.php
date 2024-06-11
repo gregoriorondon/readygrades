@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia</title>
-    <?php include './elements/import.php'?>
-</head>
+    <x-import></x-import>
 <body class="cuerpo">
-<?php
-include './elements/nav.php'
-?>
+    <x-nav></x-nav>
 <div class="historia">
     <h1>Historia</h1>
     <p>Debido al gran déficit de cupos Universitarios el Instituto Universitario de Tecnología
@@ -29,9 +21,9 @@ contaba con un (1) Coordinador Prof Vistrimo Hidalgo y siete (7) Docentes, Nohel
 Ascanio, Pbro Pedro Balza, Ines Barrios, María Pacheco, Gioconda Miele, Juan
 Ramírez y Alexandra Theodorou.</p>
     <p>Igualmente Destacan como Personal Administrativo Nancy Amada Méndez,
-María Auxiliadora de Duran, Bibliotecarios Edilberto Contreras, Leonardo Briceño, 
+María Auxiliadora de Duran, Bibliotecarios Edilberto Contreras, Leonardo Briceño,
 Personal Obrero Ilsa de Gil, Noris Pérez. La actividad Cultural en la Extensión
-El Dividive se llevó a la par con la Fundación de la misma, bajo 
+El Dividive se llevó a la par con la Fundación de la misma, bajo
 la Dirección del Ingeniero Herman Quintero, se comenzó a
 trabajar con Actividades Complementarias en el año 1989 bajo la conducción del
 Prof. Jesús Rodríguez Lera Profesional de la zona en el área Docente Musical. Ya
@@ -67,11 +59,11 @@ social, cultural y productiva para el logro de una sociedad justa e igualitaria.
     <p>El 2 de mayo del 2014 decreto N.936 el Presidente Nicolás Maduro pública en
  Gaceta Oficial, que los IUTET pasan a ser Universidades Politécnicas, quedando nuestra
  extensión como Universidad Politécnica Territorial del Estado Trujillo (U.P.T.T) Mario
- Briceño Iragorry núcleo Francisco de Miranda, en el Marco de la Misión Ama Mater, como 
-Universidad Nacional Experimental, mediante la articulación de la Misión Sucre e 
+ Briceño Iragorry núcleo Francisco de Miranda, en el Marco de la Misión Ama Mater, como
+Universidad Nacional Experimental, mediante la articulación de la Misión Sucre e
 Instituciones de Educación Universitaria.</p>
 
 </div>
-<?php include './elements/footer.php'?>
+<x-footer></x-footer>
 </body>
 </html>

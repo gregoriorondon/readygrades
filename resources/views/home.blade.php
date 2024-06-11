@@ -1,6 +1,4 @@
     <title>Inicio</title>
-    {{-- <link rel="stylesheet" href="/css/estilos.css"> --}}
-    {{-- <link href="/css/estilos.css"> --}}
     <x-import>
     </x-import>
 <body class="cuerpo">
