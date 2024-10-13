@@ -13,3 +13,23 @@ Los administradores podrán ingresar desde una sección oculta para evitar error
 
 > [!WARNING]
 > Esta plataforma aun no está disponible de forma web, solo podrá usarlo de forma local por motivos de desarrollo paralelo al la [versión de escritorio](https://github.com/gregoriorondon/readygrade-desktop) y tenga en cuenta que al estar en proceso de desarrollo puede que tenga errores y paginas no disponibles. Si Dios lo permite esperemos que en un año esté ya culminado y publicado este proyecto de forma web y de forma estable.
+
+# Ejecutar el Proyecto en Local
+## Instalar dependencias o complementos necesarios para ejecutar el proyecto
+Deberas tener ya instalado **composer** y **npm** para poder ejecutar los siguientes comandos:
+
+1. Instalar los complementos de Laravel:
+```bash
+composer install
+```
+
+2. Instalar los complementos de npm:
+```bash
+npm install
+```
+
+## Crear las Tablas de la Base de Datos
+
+```bash
+php artisan migrate
+```
