@@ -1,4 +1,5 @@
  <script defer src="js/alpinejs@3-x-x.js"></script>
+ <title>Iniciar Sesión</title>
  <x-import></x-import>
 <x-guest-layout>
     <x-authentication-card>

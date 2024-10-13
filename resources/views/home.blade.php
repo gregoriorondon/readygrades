@@ -1,6 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Inicio</title>
     <x-import>
     </x-import>
+    {{-- @vite(['resources/css/stilos.css']) --}}
+</head>
 <body class="cuerpo">
     <x-nav>
     </x-nav>
@@ -25,3 +31,4 @@ es una institución enmarcada dentro de la Educación Media General y de...</p>
 <x-footer>
 </x-footer>
 </body>
+</html>
