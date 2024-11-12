@@ -54,5 +54,8 @@
                 </x-button-login>
             </div>
         </form>
+    <div class="pt-[35%] text-center text-[#7B7B7B]">
+        <span>Si no esta registrado, diríjase al A.R.S.C.E</span>
+    </div>
     </x-authentication-card>
 </x-guest-layout>
