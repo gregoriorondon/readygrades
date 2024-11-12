@@ -30,9 +30,13 @@ Route::get('/vision', function(){
     return view('vision');
 });
 
-Route::get('/map', function(){
+route::get('/map', function(){
     return view('map');
 });
+
+/* Route::get('/soliresgis', function(){ */
+/*     return view('soliresgis'); */
+/* }); */
 
 Route::get('/hello', function(){
     return view('welcome');
