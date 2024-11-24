@@ -34,6 +34,10 @@ route::get('/map', function(){
     return view('map');
 });
 
+route::get('/administracion', function(){
+    return view('admin');
+});
+
 /* Route::get('/soliresgis', function(){ */
 /*     return view('soliresgis'); */
 /* }); */
@@ -51,4 +55,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/register', function (){
+        return view('register');
+    })->name('register');
+    Route::get('/add-student', function (){
+        return view('add-student');
+    })->name('add-student');
 });

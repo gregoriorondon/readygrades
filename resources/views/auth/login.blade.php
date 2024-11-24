@@ -5,7 +5,7 @@
     <x-authentication-card>
         <x-slot name="logo">
            <!-- <x-authentication-card-logo /> -->
-            <img src="/banner-login.png" alt="" style="border-radius: 21px;">
+            <img src="/banner-login-v2.png" alt="" style="border-radius: 21px;">
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -17,7 +17,7 @@
         @endsession
         
         <div class="mb-7">
-            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;">Iniciar Sesión</h1>
+            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;">Iniciar Sesión Como Administrador</h1>
             <p>Introduce tu usuario y contraseña para acceder</p>
         </div>
         <form method="POST" action="{{ route('login') }}">

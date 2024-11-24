@@ -5,7 +5,7 @@
 
 <a href="/estudent" class="m-student"><i class="fa-solid fa-graduation-cap"></i>Estudiante</a>
 
-<a href="/login" class="m-teacher"><i class="fa-solid fa-chalkboard-user"></i>Profesor</a>
+<a href="/lo" class="m-teacher"><i class="fa-solid fa-chalkboard-user"></i>Profesor</a>
 
 {{-- <script src="./js/links.js"></script> --}}
 </nav>

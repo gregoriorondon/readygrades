@@ -10,6 +10,6 @@
         <li><a href="https://www.twitter.com/upttmbi" target="_blank"><i class="fa-brands fa-x-twitter"></i>Twitter</a></li>
     </ul>
     <ul class="f-admin">
-        <li><a href="./admin/index.php"><i class="fa-solid fa-user-tie"></i>Administrador</a></li>
+        <li><a href="/login"><i class="fa-solid fa-user-tie"></i>Administrador</a></li>
     </ul>
 </footer>

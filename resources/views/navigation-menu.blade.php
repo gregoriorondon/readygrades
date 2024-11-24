@@ -13,7 +13,16 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <i class="fa-solid fa-house"></i>
                         {{ __('Inicio') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                        <i class="fa-solid fa-user-tie"></i>
+                        {{ __('Registrar Admin') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('add-student') }}" :active="request()->routeIs('add-student')">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        {{ __('Registrar Nuevo Estudiante') }}
                     </x-nav-link>
                 </div>
             </div>
