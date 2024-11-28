@@ -5,7 +5,7 @@
     --texto2: #005887;
     --texto3: #ff3000;
     --textolinkhover: #3559E0;
-    --botones: #4CB9E7;
+    --botones: #4272d8;
     --botones-hover: #0F2167;
     --footer: #171a21;
     --fondo: #ffffff;
@@ -49,9 +49,15 @@
     font-family: 'Russo One';
     margin-left: 5%;
     margin-right: 5%;
+    color: #fff;
+    background: #00000057;
+    max-width: fit-content;
+    padding: 7px 14px;
+    border-radius: 7px;
+    backdrop-filter: blur(3.5px);
 }
 .bienvenida{
-    background-image: linear-gradient(var(--fondo) 1%, var(--fondo40) 30%), url('/uptt.webp');
+    background-image: linear-gradient(var(--fondo) 1%, var(--fondo40) 30%), url('/uptt2.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -60,6 +66,7 @@
 }
 .sec-about{
     display: flex;
+    transform: translate(-7%);
 }
 .i-about img, .i-about a{
     width: 70%;
@@ -73,7 +80,10 @@
     font-family: 'Russo One';
 }
 .s-about{
-    margin: 0px 30px 21px 0px;
+    max-width: 35%;
+    margin: 0px 94px 21px 0px;
+    display: block;
+    align-content: center;
 }
 .s-about p{
     font-family: 'quicksand semibold';
@@ -81,7 +91,7 @@
 .s-about a{
     font-family: 'quicksand semibold';
     padding: 10px;
-    color: var(--texto);
+    color: var(--texto1);
     background-color: var(--botones);
     text-decoration: none;
     border-radius: 5px;
@@ -94,8 +104,8 @@
 .s-about i{
     margin-left: 7px;
 }
-.historia, .vision, .mision{
-    margin: 10%;
+.historia{
+    margin: 0% 10% 2% 10%;
 }
 .historia p, .vision p, .mision p, .ubicacion p{
     font-family: 'quicksand semibold';
@@ -103,9 +113,24 @@
 .historia h1, .vision h1, .mision h1, .ubicacion h1{
     font-family: 'Russo One';
 }
+.salto{
+    margin-bottom: 14px;
+}
+.organi{
+    margin: 0% 10% 7% 10%;
+}
+.organi h1{
+    font-family: 'Russo One';
+}
+.organi-i{
+    max-width: 100%;
+}
 .menu{
     display: flex;
     margin-top: 10px;
+}
+.betternet-wrapper{
+    display: none;
 }
 /* .m-student, .m-teacher{ */
 /*     margin: 10px 10px 0px 0px; */
@@ -116,7 +141,7 @@
     border-style: none;
     font-size: 15px;
     border-radius: 5px;
-    color: var(--texto);
+    color: var(--texto1);
     text-decoration: none;
     background-color: var(--botones);
     padding: 10px;
@@ -189,6 +214,7 @@
     border-style: none;
     border-radius: 5px;
     background-color: var(--botones);
+    color: var(--texto1);
     padding: 10px;
     font-size: 15px;
     cursor: pointer;

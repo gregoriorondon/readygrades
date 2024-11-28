@@ -30,6 +30,10 @@ Route::get('/vision', function(){
     return view('vision');
 });
 
+Route::get('/organigrama', function(){
+    return view('organigrama');
+});
+
 route::get('/map', function(){
     return view('map');
 });
