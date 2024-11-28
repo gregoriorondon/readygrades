@@ -1,6 +1,6 @@
 <footer class="info">
     <ul class="f-info">
-        <li><a href="/about"><i class="fa-solid fa-circle-info"></i>Sobre Nosotros</a></li>
+        <li><a href="/organigrama"><i class="fa-solid fa-sitemap"></i>Organigrama de la Institución</a></li>
         <li><a href="/map"><i class="fa-solid fa-map-location-dot"></i>Ubicación</a></li>
         <li><a href="https://upttmbi.edu.ve/site/drsce/drsce.html" target="_blank"><i class="fa-solid fa-file-contract"></i>Requisitos de Inscripción</a></i></li>
     </ul>
