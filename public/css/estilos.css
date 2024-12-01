@@ -64,9 +64,50 @@
     padding: 10% 0% 10% 0%;
     margin-top: 10px;
 }
+.sec-readygrades{
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+.readygrades{
+    width: 55%;
+    text-align: center;
+}
+.readygrades h1{
+    color: var(--botones);
+    font-family: 'Russo One';
+    font-size: 30px;
+}
+.readygrades p{
+    font-family: 'quicksand';
+    font-size: 21px;
+}
+.readylink{
+    padding: 10px;
+    background-color: var(--botones);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'quicksand bold';
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.readylink:hover{
+    background-color: var(--botones-hover);
+}
 .sec-about{
     display: flex;
-    transform: translate(-7%);
+    /* transform: translate(-7%); */
+    justify-content: center;
+    margin-top: 35px;
+}
+.sec-about h1{
+    color: var(--botones);
+    text-align: center;
+    font-family: 'Russo One';
+    font-size: 30px;
 }
 .i-about img, .i-about a{
     width: 70%;
@@ -76,17 +117,38 @@
 .i-about a{
     color: #00000010;
 }
-.s-about h1{
+.s-about summary{
     font-family: 'Russo One';
+    padding: 21px;
+    cursor: pointer;
+    font-size: 23px;
+}
+.s-about summary::marker{
+    content: "+ ";
+    font-family: monospace;
+    color: #000;
+    font-weight: 100;
+    font-size: 25px;
+}
+.s-about details[open] summary::marker {
+    content: "- ";
 }
 .s-about{
-    max-width: 35%;
-    margin: 0px 94px 21px 0px;
-    display: block;
-    align-content: center;
+    width: 55%;
+
+}
+.s-about details{
+    margin: 21px;
+    border: 1px solid;
+    border-color: #eeeeee;
+    border-radius: 7px;
+    background-color: #fff;
+    box-shadow: 0px 0px 14px #eeeeee;
 }
 .s-about p{
-    font-family: 'quicksand semibold';
+    font-family: 'quicksand';
+    padding: 0px 21px 21px 21px;
+    font-size: 21px;
 }
 .s-about a{
     font-family: 'quicksand semibold';
@@ -364,14 +426,25 @@
     margin: 10% 10% 0% 10%;
 }
 .map{
-    margin: 0% 10% 10% 10%;
+    margin: 35px 10% 10% 10%;
+    text-align: center;
+}
+.map h1{
+    color: var(--botones);
+    font-family: 'Russo One';
+    font-size: 30px;
+}
+.map p{
+    font-family: 'quicksand';
+    font-size: 21px;
 }
 .map iframe{
-    width: 100%;
+    width: 55%;
     height: 350px;
     border-style: solid;
     border-radius: 5px;
-    border-color: var(--footer);
+    border-color: #eeeeee;
+    box-shadow: 0px 0px 7px #eeeeee;
 }
 /*========================================= */
 /*             === Registro ===            */
