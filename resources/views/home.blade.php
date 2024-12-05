@@ -16,19 +16,22 @@
         <h2>"MARIO BRICEÑO IRAGORRY"</h2>
     </center>
 </div>
+<div class="readygrades-all">
+<h1>Ver Tus Notas Académicas</h1>
 <section class="sec-readygrades">
+    <div class="readygrades-img">
+        <img src="./girl-student.webp" alt="">
+    </div>
     <div class="readygrades">
-        <h1>Ver Tus Notas Académicas</h1>
         <p>El Área de Registro, Seguimiento y Control de Estudios, en conjunto con el sistema ReadyGrades, desarrollado por estudiantes de Ingeniería en Informática en colaboración con profesionales del área administrativa, ha implementado una plataforma innovadora para la visualización de calificaciones académicas, destinada a los estudiantes matriculados en nuestra institución.</p>
         <a href="/estudent"><button class="readylink"><i class="fa-solid fa-graduation-cap"></i>Estudiante</button></a>
     </div>
 </section>
+</div>
 <section class="sec-about">
-    <!-- <div class="i-about"> 
-         <img class="img-about" title="Education illustrations by Storyset (https://storyset.com/education)" src="./Classroom-rafiki.png" alt="https://storyset.com/education"> 
-     </div> -->
     <div class="s-about">
     <h1>Sobre Nosotros</h1>
+    <div class="d-about">
     <details open>
         <summary>Misión</summary>
         <p>En la UPTT, se debe formar a los jóvenes para continuar sus estudios a nivel superior, preparándolos para la vida adulta tomando en cuenta la diversidad de talentos y el estudio para lograr una educación de buena calidad que responda a los lineamientos educativos racionales.</p>
@@ -51,6 +54,7 @@
             <br class="salto">
             El 2 de mayo del 2014 decreto N.936 el Presidente Nicolás Maduro pública en Gaceta Oficial, que los IUTET pasan a ser Universidades Politécnicas, quedando nuestra extensión como Universidad Politécnica Territorial del Estado Trujillo (U.P.T.T) Mario Briceño Iragorry núcleo Francisco de Miranda, en el Marco de la Misión Ama Mater, como Universidad Nacional Experimental, mediante la articulación de la Misión Sucre e Instituciones de Educación Universitaria.</p>
     </details>
+    </div>
     </div>
 </section>
 <section class="map">

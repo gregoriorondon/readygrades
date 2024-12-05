@@ -27,6 +27,84 @@
     font-family: 'quicksand semibold';
     src: url('/fonts/quicksand/static/Quicksand-SemiBold.ttf');
 }
+@font-face {
+    font-family: 'staatliches';
+    src: url('/fonts/Staatliches/Staatliches-Regular.ttf');
+}
+@font-face {
+    font-family: 'staatliches black';
+    src: url('/fonts/Barlow/Barlow-Black.tff');
+}
+@font-face {
+    font-family: 'staatliches blackditalic';
+    src: url('/fonts/Barlow/Barlow-BlackItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches bold';
+    src: url('/fonts/Barlow/Barlow-Bold.tff');
+}
+@font-face {
+    font-family: 'staatliches bolditalic';
+    src: url('/fonts/Barlow/Barlow-BoldItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches extrabold';
+    src: url('/fonts/Barlow/Barlow-ExtraBold.tff');
+}
+@font-face {
+    font-family: 'staatliches extrabolditalic';
+    src: url('/fonts/Barlow/Barlow-ExtraBoldItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches italic';
+    src: url('/fonts/Barlow/Barlow-Italic.tff');
+}
+@font-face {
+    font-family: 'staatliches light';
+    src: url('/fonts/Barlow/Barlow-Light.tff');
+}
+@font-face {
+    font-family: 'staatliches lightitalic';
+    src: url('/fonts/Barlow/Barlow-LightItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches medium';
+    src: url('/fonts/Barlow/Barlow-Medium.tff');
+}
+@font-face {
+    font-family: 'staatliches mediumitalic';
+    src: url('/fonts/Barlow/Barlow-MediumItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches regular';
+    src: url('/fonts/Barlow/Barlow-Regular.tff');
+}
+@font-face {
+    font-family: 'staatliches semibold';
+    src: url('/fonts/Barlow/Barlow-SemiBold.tff');
+}
+@font-face {
+    font-family: 'staatliches semibolditalic';
+    src: url('/fonts/Barlow/Barlow-SemiBoldItalic.tff');
+}
+@font-face {
+    font-family: 'staatliches thin';
+    src: url('/fonts/Barlow/Barlow-Thin.tff');
+}
+@font-face {
+    font-family: 'staatliches thinitalic';
+    src: url('/fonts/Barlow/Barlow-ThinItalic.tff');
+}
+@font-face {
+    font-family: 'inter';
+    src: url('/fonts/Inter/Inter-VariableFont.ttf');
+}
+@font-face {
+    font-family: 'inter italic';
+    src: url('/fonts/Inter/Inter-Italic-VariableFont.ttf');
+}
+
+
 /*=========================================================*/
 /*=============Iconos de google fonts======================*/
 /*=========================================================*/
