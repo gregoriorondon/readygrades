@@ -5,7 +5,6 @@
     <title>Inicio</title>
     <x-import>
     </x-import>
-    {{-- @vite(['resources/css/stilos.css']) --}}
 </head>
 <body class="cuerpo">
     <x-nav>
@@ -20,7 +19,7 @@
 <h1>Ver Tus Notas Académicas</h1>
 <section class="sec-readygrades">
     <div class="readygrades-img">
-        <img src="./girl-student.webp" alt="">
+        <img src="{{ Vite::asset('resources/images/girl-student.webp') }}" alt="">
     </div>
     <div class="readygrades">
         <p>El Área de Registro, Seguimiento y Control de Estudios, en conjunto con el sistema ReadyGrades, desarrollado por estudiantes de Ingeniería en Informática en colaboración con profesionales del área administrativa, ha implementado una plataforma innovadora para la visualización de calificaciones académicas, destinada a los estudiantes matriculados en nuestra institución.</p>

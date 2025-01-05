@@ -1,11 +1,11 @@
 @font-face{
     font-family: 'Russo One';
-    src: url('/fonts/russo_One/RussoOne-Regular.ttf');
+    src: url('/resources/fonts/russo_One/RussoOne-Regular.ttf');
     font-style: normal;
 }
 @font-face{
     font-family: 'quicksand';
-    src: url('/fonts/quicksand/Quicksand-VariableFont_wght.ttf');
+    src: url('/resources/fonts/quicksand/Quicksand-VariableFont_wght.ttf');
 }
 @font-face{
     font-family: 'quicksand bold';
@@ -29,7 +29,7 @@
 }
 @font-face {
     font-family: 'staatliches';
-    src: url('/fonts/Staatliches/Staatliches-Regular.tff');
+    src: url(/resources/fonts/Staatliches/Staatliches-Regular.tff);
 }
 @font-face {
     font-family: 'staatliches black';
@@ -61,47 +61,47 @@
 }
 @font-face {
     font-family: 'staatliches light';
-    src: url('/fonts/Barlow/Barlow-Light.tff');
+    src: url('/resources/fonts/Barlow/Barlow-Light.tff');
 }
 @font-face {
     font-family: 'staatliches lightitalic';
-    src: url('/fonts/Barlow/Barlow-LightItalic.tff');
+    src: url('/resources/fonts/Barlow/Barlow-LightItalic.tff');
 }
 @font-face {
     font-family: 'staatliches medium';
-    src: url('/fonts/Barlow/Barlow-Medium.tff');
+    src: url('/resources/fonts/Barlow/Barlow-Medium.tff');
 }
 @font-face {
     font-family: 'staatliches mediumitalic';
-    src: url('/fonts/Barlow/Barlow-MediumItalic.tff');
+    src: url('/resources/fonts/Barlow/Barlow-MediumItalic.tff');
 }
 @font-face {
     font-family: 'staatliches regular';
-    src: url('/fonts/Barlow/Barlow-Regular.tff');
+    src: url('/resources/fonts/Barlow/Barlow-Regular.tff');
 }
 @font-face {
     font-family: 'staatliches semibold';
-    src: url('/fonts/Barlow/Barlow-SemiBold.tff');
+    src: url('/resources/fonts/Barlow/Barlow-SemiBold.tff');
 }
 @font-face {
     font-family: 'staatliches semibolditalic';
-    src: url('/fonts/Barlow/Barlow-SemiBoldItalic.tff');
+    src: url('/resources/fonts/Barlow/Barlow-SemiBoldItalic.tff');
 }
 @font-face {
     font-family: 'staatliches thin';
-    src: url('/fonts/Barlow/Barlow-Thin.tff');
+    src: url('/resources/fonts/Barlow/Barlow-Thin.tff');
 }
 @font-face {
     font-family: 'staatliches thinitalic';
-    src: url('/fonts/Barlow/Barlow-ThinItalic.tff');
+    src: url('/resources/fonts/Barlow/Barlow-ThinItalic.tff');
 }
 @font-face {
     font-family: 'inter';
-    src: url('/fonts/Inter/Inter-VariableFont_opsz,wght.tff');
+    src: url(/resources/fonts/Inter/Inter-VariableFont_opsz,wght.tff);
 }
 @font-face {
     font-family: 'inter italic';
-    src: url('/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.tff');
+    src: url('/resources/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.tff');
 }
 
 

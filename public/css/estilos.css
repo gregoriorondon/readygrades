@@ -1,17 +1,17 @@
-@import url('fonts.css');
-:root{
-    --texto: #000;
-    --texto1: #fff;
-    --texto2: #005887;
-    --texto3: #ff3000;
-    --textolinkhover: #3559E0;
-    --botones: #4272d8;
-    --botones-hover: #0F2167;
-    --footer: #171a21;
-    --fondo: #ffffff;
-    --fondo40: #ffffff50;
-    --btnsemitransp: #DBEAFB;
-}
+/* @import url('fonts.css'); */
+/* :root{ */
+/*     --texto: #000; */
+/*     --texto1: #fff; */
+/*     --texto2: #005887; */
+/*     --texto3: #ff3000; */
+/*     --textolinkhover: #3559E0; */
+/*     --botones: #4272d8; */
+/*     --botones-hover: #0F2167; */
+/*     --footer: #171a21; */
+/*     --fondo: #ffffff; */
+/*     --fondo40: #ffffff50; */
+/*     --btnsemitransp: #DBEAFB; */
+/* } */
 *{
     font-family: sans-serif;
     /* background-color: #fff; */
