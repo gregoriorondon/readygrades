@@ -1,4 +1,4 @@
-@import url(/resources/css/fonts.css);
+@import url(fonts.css);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +14,8 @@
     --fondo: #ffffff;
     --fondo40: #ffffff50;
     --btnsemitransp: #DBEAFB;
+    --desenfoquegeneral: blur(20px);
+    --fondodesenfoquegeneral: #00000080;
 }
 *{
     font-family: sans-serif;
@@ -54,12 +56,22 @@
     margin-left: 5%;
     margin-right: 5%;
     color: #fff;
-    background: #00000057;
+    background: var(--fondodesenfoquegeneral);
     max-width: fit-content;
     padding: 7px 14px;
     border-radius: 7px;
-    backdrop-filter: blur(3.5px);
+    backdrop-filter: var(--desenfoquegeneral);
     font-weight: 500;
+}
+@media (max-width: 1142px) {
+    .bienvenida h1, .bienvenida h2{
+        font-size: 35px;
+    }
+}
+@media (max-width: 843px) {
+    .bienvenida h1, .bienvenida h2{
+        font-size: 21px;
+    }
 }
 .bienvenida{
     background-image: linear-gradient(var(--fondo) 1%, var(--fondo40) 30%), url(/resources/images/uptt2.webp);
@@ -89,6 +101,7 @@
     width: 35rem;
     margin-right: 50px;
 }
+
 .readygrades{
     width: 35%;
     /* text-align: center; */
@@ -238,6 +251,109 @@ details[open] summary ~ * {
     display: flex;
     margin-top: 10px;
 }
+.menu-float{
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    margin: auto;
+    max-width: 80%;
+    z-index: 2;
+    display: block;
+}
+.menu-float-movile{
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    margin: auto;
+    max-width: 80%;
+    z-index: 2;
+    display: none;
+}
+@media (max-width: 664px) {
+    .menu-float{
+        display: none;
+    }
+    .menu-float-movile{
+        display: block;
+    }
+}
+
+.menu-float2{
+    background-color: var(--fondodesenfoquegeneral);
+    backdrop-filter: var(--desenfoquegeneral);
+    text-align: center;
+    border-radius: 14px;
+    padding: 14px 0px;
+    margin-top: 7px;
+}
+.menu-float a, .menu-float-movile a, .menu-float-movile span{
+    padding: 14px;
+    border-radius: 12px;
+    margin: 2px;
+    font-family: 'Inter';
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+.menu-float:hover a, .menu-float-movile:hover a, .menu-float-movile span:hover{
+    text-shadow: 0 0 3px white;
+    color: transparent;
+}
+.menu-float a:hover, .menu-float-movile a:hover, .menu-float-movile span:hover{
+    background-color: #ffffff25;
+    color: #fff;
+    text-shadow: none;
+}
+.closebtn{
+    font-size: 45px;
+    color: #fff;
+    padding: 14px;
+    border-radius: 12px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+    max-width: 70px;
+    cursor: pointer;
+}
+.movile-menu-close{
+    display: none;
+}
+.movile-menu-open-open{
+    display: none;
+}
+.movile-menu-open{
+    background-color: var(--fondodesenfoquegeneral);
+    backdrop-filter: var(--desenfoquegeneral);
+    position: fixed;
+    top: 0;
+    padding-top: 7%;
+    padding-bottom: 70%;
+    max-width: 100%;
+    min-width: 100%;
+    z-index: 3;
+}
+.movile-menu-open-nav{
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 21px;
+    font-family: 'Inter';
+    font-weight: 700;
+    gap: 21px;
+}
+.movile-menu-open-nav a{
+    padding: 21px 35px;
+    border-radius: 14px;
+    border: 1px solid;
+    border-color: aliceblue;
+    transition: .2s ease-in-out;
+}
+.movile-menu-open-nav a:hover{
+    background-color: #ffffff50;
+}
 .betternet-wrapper{
     display: none;
 }
@@ -276,7 +392,7 @@ details[open] summary ~ * {
     display: flex;
     background-color: var(--footer);
     margin-top: auto;
-    padding: 30px 0 30px 0;
+    padding: 30px 0 30px 30px;
 }
 .f-info, .f-social, .f-admin, .f-info i, .f-social i, .f-admin i{
     background-color: transparent;
@@ -488,9 +604,9 @@ details[open] summary ~ * {
 }
 .map iframe{
     width: 85.6%;
-    margin-right: 1%;
+    margin: auto;
     height: 450px;
-    border-style: solid;
+    /* border-style: solid; */
     border-radius: 5px;
     border-color: #eeeeee;
     box-shadow: 0px 0px 7px #eeeeee;
@@ -685,11 +801,11 @@ details[open] summary ~ * {
         margin: 77px 0px 77px 0px;
     }
     .map iframe{
-        width: 100%;
-        height: 200%;
+        /* width: 100%; */
+        /* height: 200%; */
     }
     .map{
-        margin: 10% 10% 77% 10%;
+        /* margin: 10% 10% 77% 10%; */
     }
 }
 @media (max-width: 452px){
@@ -716,6 +832,84 @@ details[open] summary ~ * {
        padding: 40px 21px 70px 21px;
    }
 }
-
+@media (max-width: 902px){
+    .readygrades-img, .readygrades-img img{
+        width: 25rem;
+        margin-right: 12px;
+    }
+    .readygrades{
+        margin-left: 12px;
+    }
+    .s-about{
+        width: 91%;
+        margin-right: -0.1%;
+    }
+}
+@media (min-width: 700px){
+    .sec-readygrades-movile, .sec-about-movile, .map-movile{
+        display: none;
+    }
+}
+@media (max-width: 700px){
+    .sec-readygrades, .sec-about, .map{
+        display: none;
+    }
+    .sec-readygrades-movile, .sec-about-movile, .map-movile{
+        display: block;
+    }
+    .readygrades-img, .readygrades-img img{
+        width: 90%;
+        margin: auto;
+    }
+    .readygrades{
+        width: 81%;
+        /* text-align: center; */
+        margin: auto;
+        text-align: justify;
+    }
+    .readygradesbtn{
+        text-align: center;
+    }
+    .readygrades a{
+        text-align: center;
+        margin: auto;
+    }
+    .sec-about-movile{
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        margin-top: 45px;
+    }
+    .sec-about-movile h1{
+        color: var(--botones);
+        text-align: center;
+        font-family: 'staatliches';
+        font-size: 48px;
+    }
+    .s-about{
+        max-width: 87%;
+    }
+    .map-movile{
+        margin: 35px 10% 10% 10%;
+        text-align: center;
+    }
+    .map-movile h1{
+        color: var(--botones);
+        font-family: 'staatliches';
+        font-size: 48px;
+        font-weight: 500;
+    }
+    .map-movile p{
+        font-family: 'Inter';
+        font-size: 21px;
+    }
+    .map-movile iframe{
+        width: 100%;
+        margin: auto;
+        height: 450px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 7px #eeeeee;
+    }
+}
 
 

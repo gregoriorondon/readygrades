@@ -25,11 +25,11 @@
 }
 @font-face{
     font-family: 'quicksand semibold';
-    src: url('/fonts/quicksand/static/Quicksand-SemiBold.ttf');
+    src: url('../fonts/quicksand/static/Quicksand-SemiBold.ttf');
 }
 @font-face {
     font-family: 'staatliches';
-    src: url(/resources/fonts/Staatliches/Staatliches-Regular.tff);
+    src: url('/resources/fonts/Staatliches/Staatliches-Regular.ttf');
 }
 @font-face {
     font-family: 'staatliches black';
@@ -97,7 +97,7 @@
 }
 @font-face {
     font-family: 'inter';
-    src: url(/resources/fonts/Inter/Inter-VariableFont_opsz,wght.tff);
+    src: url('../fonts/Inter/Inter-VariableFont.ttf');
 }
 @font-face {
     font-family: 'inter italic';
