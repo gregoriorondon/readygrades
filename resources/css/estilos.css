@@ -11,6 +11,7 @@
     --botones: #4272d8;
     --botones-hover: #0F2167;
     --footer: #171a21;
+    --footer-claro: #252a35;
     --fondo: #ffffff;
     --fondo40: #ffffff50;
     --btnsemitransp: #DBEAFB;
@@ -782,6 +783,21 @@ details[open] summary ~ * {
 }
 .war2{
     color: var(--texto3);
+}
+/*===========================================*/
+/*==========Dashboard administrativo=========*/
+/*===========================================*/
+.menu-admin-dashboard{
+    background-color: var(--footer);
+    color: #fff;
+    font-family: 'staatliches';
+}
+.register-add-sidebar-details{
+    background-color: var(--footer-claro);
+    border-radius: 14px;
+}
+.bg-gray{
+    background-color: grey;
 }
 
 /*===========================================*/

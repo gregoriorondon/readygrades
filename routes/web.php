@@ -1,51 +1,18 @@
 <?php
 
+use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/about', function(){
-    return view('about');
-});
-
-Route::get('/estudent', function(){
-    return view('estudiantes');
-});
-
-Route::get('/history', function(){
-    return view('historia');
-});
-
-Route::get('/login2', function(){
-    return view('login2');
-});
-
-Route::get('/login-admin', function(){
-    return view ('auth.login');
-});
-
-Route::get('/mision', function(){
-    return view('mision');
-});
-
-Route::get('/vision', function(){
-    return view('vision');
-});
-
-Route::get('/organigrama', function(){
-    return view('organigrama');
-});
-
-route::get('/map', function(){
-    return view('map');
-});
 
 route::get('/administracion', function(){
     return view('admin');
 });
 
+Route::controller(UniversityController::class)->group( function (){
+    Route::get('/', 'index');
+    Route::get('/organigrama', 'organigrama');
+    Route::get('/login-admin', 'admin');
+    Route::get('/student', 'students');
+});
 /* Route::get('/soliresgis', function(){ */
 /*     return view('soliresgis'); */
 /* }); */
