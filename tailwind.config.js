@@ -11,7 +11,12 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                inter: ['Inter'],
+                staat: ['staatliches'],
             },
+        },
+        colors: {
+            'ready': '#4272d8',
         },
     },
     plugins: [],
