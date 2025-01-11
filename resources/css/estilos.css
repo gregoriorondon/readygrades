@@ -796,8 +796,21 @@ details[open] summary ~ * {
     background-color: var(--footer-claro);
     border-radius: 14px;
 }
-.bg-gray{
-    background-color: grey;
+.main-content{
+    background-color: #fff;
+    color: var(--texto);
+}
+.menu-hiden{
+    display: flex;
+}
+.menu-hiden-button{
+    display: block;
+}
+.menu-open-button{
+    display: block;
+}
+.menu-hiden-close, .menu-button-hiden{
+    display: none;
 }
 
 /*===========================================*/
