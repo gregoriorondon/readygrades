@@ -18,5 +18,8 @@ class UniversityController extends Controller
     public function admin(){
         return view ('auth.login');
     }
+    public function studentadd(){
+        return view('auth.registro-estudiante');
+    }
     public function profesor(){}
 }

@@ -3,5 +3,5 @@ import.meta.glob([
     '../images/**',
     '../fonts/**',
     './closemenuhome',
-    './menu-admin-hide',
+    './**', //agregar todos los archivos de JavaScript de forma automatica
 ]);

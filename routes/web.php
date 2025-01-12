@@ -12,6 +12,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/organigrama', 'organigrama');
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
+    Route::get('/registro-estudiante', 'studentadd');
 });
 /* Route::get('/soliresgis', function(){ */
 /*     return view('soliresgis'); */

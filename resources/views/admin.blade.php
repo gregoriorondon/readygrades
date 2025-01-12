@@ -3,9 +3,10 @@
     {{-- <x-slot name="header"> --}}
         {{-- <h2 class="font-bold text-xl text-[#4272d8] leading-tight">Administración</h2> --}}
     {{-- </x-slot> --}}
+<x-title-section-admin>Dashboard Principal</x-title-section-admin>
     <div class="py-4">
         <div class="mx-auto">
-            <div class="overflow-hidden border border-black/50 sm:rounded-lg">
+            <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
                 <x-list-adminis />
             </div>
         </div>

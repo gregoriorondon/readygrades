@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 :root{
-    --texto: #000;
     --texto1: #fff;
     --texto2: #005887;
     --texto3: #ff3000;
@@ -12,11 +11,22 @@
     --botones-hover: #0F2167;
     --footer: #171a21;
     --footer-claro: #252a35;
-    --fondo: #ffffff;
-    --fondo40: #ffffff50;
-    --btnsemitransp: #DBEAFB;
     --desenfoquegeneral: blur(20px);
     --fondodesenfoquegeneral: #00000080;
+    /*=================================*/
+    /*==========Tema Claro=============*/
+    /*=================================*/
+    --fondo: #ffffff;
+    --fondo40: #ffffff50;
+    --borderclaro: #eeeeee;
+    --texto: #000;
+    --textofondooscuro: #fff;
+    --btnsemitransp: #DBEAFB;
+    /*=================================*/
+    /*==========Tema Oscuro============*/
+    /*=================================*/
+    --fondooscuro: #1d232f;
+    --textooscuro: #fff;
 }
 *{
     font-family: sans-serif;
@@ -56,7 +66,7 @@
     font-size: 48px;
     margin-left: 5%;
     margin-right: 5%;
-    color: #fff;
+    color: var(--textofondooscuro);
     background: var(--fondodesenfoquegeneral);
     max-width: fit-content;
     padding: 7px 14px;
@@ -125,7 +135,7 @@
     padding: 14px 55px 14px 55px;
     margin-top: 50px;
     background-color: var(--botones);
-    color: #fff;
+    color: var(--textofondooscuro);
     border: none;
     border-radius: 5px;
     font-size: 18px;
@@ -293,22 +303,22 @@ details[open] summary ~ * {
     margin: 2px;
     font-family: 'Inter';
     font-weight: 700;
-    color: #fff;
+    color: var(--textofondooscuro);
     cursor: pointer;
     transition: .2s ease-in-out;
 }
 .menu-float:hover a, .menu-float-movile:hover a, .menu-float-movile span:hover{
-    text-shadow: 0 0 3px white;
+    text-shadow: 0 0 3px var(--textofondooscuro);
     color: transparent;
 }
 .menu-float a:hover, .menu-float-movile a:hover, .menu-float-movile span:hover{
     background-color: #ffffff25;
-    color: #fff;
+    color: var(--textofondooscuro);
     text-shadow: none;
 }
 .closebtn{
     font-size: 45px;
-    color: #fff;
+    color: var(--textofondooscuro);
     padding: 14px;
     border-radius: 12px;
     display: flex;
@@ -336,7 +346,7 @@ details[open] summary ~ * {
     z-index: 3;
 }
 .movile-menu-open-nav{
-    color: #fff;
+    color: var(--textofondooscuro);
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -349,7 +359,7 @@ details[open] summary ~ * {
     padding: 21px 35px;
     border-radius: 14px;
     border: 1px solid;
-    border-color: aliceblue;
+    border-color: var(--borderclaro);
     transition: .2s ease-in-out;
 }
 .movile-menu-open-nav a:hover{
@@ -609,8 +619,8 @@ details[open] summary ~ * {
     height: 450px;
     /* border-style: solid; */
     border-radius: 5px;
-    border-color: #eeeeee;
-    box-shadow: 0px 0px 7px #eeeeee;
+    border-color: var(--borderclaro);
+    box-shadow: 0px 0px 7px var(--borderclaro);
 }
 /*========================================= */
 /*             === Registro ===            */
@@ -789,7 +799,7 @@ details[open] summary ~ * {
 /*===========================================*/
 .menu-admin-dashboard{
     background-color: var(--footer);
-    color: #fff;
+    color: var(--textofondooscuro);
     font-family: 'staatliches';
 }
 .register-add-sidebar-details{
@@ -797,8 +807,12 @@ details[open] summary ~ * {
     border-radius: 14px;
 }
 .main-content{
-    background-color: #fff;
+    background-color: var(--fondo);
     color: var(--texto);
+}
+.main-content-darkmode{
+    background-color: var(--fondooscuro);
+    color: var(--textooscuro);
 }
 .menu-hiden{
     display: flex;

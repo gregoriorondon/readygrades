@@ -33,7 +33,7 @@
                         <x-sidebar-section href="/administracion"><i class="fa-solid fa-house"></i>Dashboard</x-sidebar-section>
                         <details class="register-add-sidebar-details">
                             <summary class="cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fa-solid fa-address-book"></i>Registros</summary>
-                                <x-sidebar-section><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
+                                <x-sidebar-section href="/registro-estudiante"><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
                                 <x-sidebar-section><i class="fa-solid fa-user-plus"></i>Registrar Profesor</x-sidebar-section>
                                 <x-sidebar-section><i class="fa-solid fa-address-card"></i>Registrar Administrador</x-sidebar-section>
                         </details>
@@ -44,25 +44,27 @@
             </div>
             <!-- Main content -->
             <div class="flex flex-col flex-1 overflow-y-auto rounded-l-xl main-content redondeado">
-                <div class="flex items-center justify-between h-16 bg-white border-b border-gray-200" @style('padding: 16px 0px 16px 0px')>
-                    <div class="flex items-center px-4">
-                        <button class="menu-hiden-button hover:bg-gray-100 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
-                        <button class="menu-button-hiden hover:bg-gray-100 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
+                <div class="flex items-center justify-between h-16 border-b border-gray-200" @style('padding: 16px 0px 16px 0px')>
+                    <div class="flex items-center px-4 space-x-7">
+                        <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
+                        <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
                         <p class="mx-4 w-full ">Bienvenido/Bienvenida Usuario</p>
                     </div>
                     <script src="{{ Vite::asset('resources/js/menu-admin-hide.js')}}"></script>
-                    <div class="flex items-center pr-4">
-                        <button class="flex items-center hover:bg-gray-100 px-3 py-2 rounded-xl font-inter text-2xl"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
+                    <div class="flex items-center pr-4 space-x-4">
+                        <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-moon m-0"></i></button>
+                        <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-sun m-0"></i></button>
+                        <button class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
                     </div>
                 </div>
                 <div class="p-4 rounded-lg">
-                    <h1 class="text-4xl text-center font-bold font-inter">Dashboard Principal</h1>
                     {{-- <p class="mt-2 text-gray-600 font-inter">Resumen y estadistica general</p> --}}
                     <main>
                         {{ $slot }}
                     </main>
                 </div>
             </div>
+            <script src="{{ Vite::asset('resources/js/dark-light-mode.js')}}"></script>
         </div>
     </div>
         {{-- @stack('modals') --}}

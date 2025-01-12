@@ -1,9 +1,9 @@
-<div class="bg-white py-24 sm:py-32">
+<div class="py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:max-w-none">
       <div class="text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-inter">Metricas de la institución</h2>
-        <p class="mt-4 text-lg leading-8 text-gray-600 font-inter">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl font-inter">Metricas de la institución</h2>
+        <p class="mt-4 text-lg leading-8 font-inter">
             Un resmuen general de la actividad anual del registro y control de estudios de la institución
         </p>
       </div>
