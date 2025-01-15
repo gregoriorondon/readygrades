@@ -23,8 +23,11 @@
                 <x-input i="email" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Usuario o Correo" />
             </div>
             <div class="mt-4">
-                <x-input id="password" class="rounded-md border-gray-300 block mt-1 w-full" type="password" name="password" required autocomplete="current-password" placeholder="Contraseña" />
-                <button class="font-inter text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-#4CB9E7 mt-3" type="button"><i class="fa-regular fa-eye"></i>Ver Contraseña</button>
+                <div class="relative">
+                <x-input id="password" class="rounded-md pr-24 border-gray-300 block mt-1 w-full" type="password" name="password" required autocomplete="current-password" placeholder="Contraseña" />
+                <button class="passbtn font-inter bg-gray-200 text-sm text-gray-600 hover:text-gray-900 absolute rounded-md right-px top-1/2 -translate-y-1/2 p-2.5" type="button"><i class="fa-regular fa-eye"></i>Mostrar</button>
+                <button class="passbtnhidde hidden font-inter bg-gray-200 text-sm text-gray-600 hover:text-gray-900 absolute rounded-md right-px top-1/2 -translate-y-1/2 p-2.5" type="button"><i class="fa-regular fa-eye-slash"></i>Ocultar</button>
+                @vite(['resources/js/password-show-hide'])</div>
             </div>
 
             <!-- <div class="block" style="margin-top: 30px;">

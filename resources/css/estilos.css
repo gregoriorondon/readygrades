@@ -826,6 +826,17 @@ details[open] summary ~ * {
 .menu-hiden-close, .menu-button-hiden{
     display: none;
 }
+.btn-new-student{
+    padding: 7px;
+    background-color: var(--botones);
+    color: var(--texto1);
+    font-family: 'inter';
+    border-radius: 8px;
+    transition: ease-in-out 0.2s;
+}
+.btn-new-student:hover{
+    background-color: var(--botones-hover);
+}
 
 /*===========================================*/
 /*===========Diseño responsivo===============*/

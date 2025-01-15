@@ -13,6 +13,11 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::get('/registro-estudiante', 'studentadd');
+    Route::get('/registro-profesor', 'teacheradd');
+    Route::get('/registro-administrador', 'adminadd');
+    Route::get('/materias', 'courses');
+    Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
+    Route::get('/nomina-profesores', 'profesornomina');
 });
 /* Route::get('/soliresgis', function(){ */
 /*     return view('soliresgis'); */

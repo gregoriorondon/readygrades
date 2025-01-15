@@ -21,5 +21,19 @@ class UniversityController extends Controller
     public function studentadd(){
         return view('auth.registro-estudiante');
     }
-    public function profesor(){}
+    public function courses(){
+        return view('auth.courses');
+    }
+    public function studentsadmin(){
+        return view('auth.students');
+    }
+    public function teacheradd(){
+        return view('auth.registro-profesor');
+    }
+    public function adminadd(){
+        return view('auth.registro-admin');
+    }
+    public function profesornomina(){
+        return view('auth.profesores-nomina');
+    }
 }

@@ -4,7 +4,7 @@ let menuRound = document.querySelector('.redondeado');
 let btn = document.querySelector('.menu-hiden-button');
 let btnOpen = document.querySelector('.menu-button-hiden');
 
-let open = btn.addEventListener('click', ()=> {
+btn.addEventListener('click', ()=> {
     menu.classList.remove('menu-hiden', 'hidden', 'md:flex');
     menuRound.classList.remove('rounded-l-xl');
     menu.classList.add('menu-hiden-close', 'menu-open-comprobacion');
@@ -15,7 +15,7 @@ let open = btn.addEventListener('click', ()=> {
     localStorage.setItem('estadoMenu', 'close');
 });
 
-let close = btnOpen.addEventListener('click', ()=> {
+btnOpen.addEventListener('click', ()=> {
     menu.classList.add('menu-hiden', 'hiden', 'md:flex');
     menuRound.classList.add('rounded-l-xl');
     menu.classList.remove('menu-hiden-close', 'menu-open-comprobacion');

@@ -30,15 +30,16 @@
                 </div>
                 <div class="flex flex-col flex-1 overflow-y-auto">
                     <nav class="flex-1 px-2 py-4">
-                        <x-sidebar-section href="/administracion"><i class="fa-solid fa-house"></i>Dashboard</x-sidebar-section>
+                        <x-sidebar-section href="/administracion" :active="request()->is('administracion')"><i class="fa-solid fa-house"></i>Dashboard</x-sidebar-section>
                         <details class="register-add-sidebar-details">
-                            <summary class="cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fa-solid fa-address-book"></i>Registros</summary>
-                                <x-sidebar-section href="/registro-estudiante"><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
-                                <x-sidebar-section><i class="fa-solid fa-user-plus"></i>Registrar Profesor</x-sidebar-section>
-                                <x-sidebar-section><i class="fa-solid fa-address-card"></i>Registrar Administrador</x-sidebar-section>
+                            <summary class="selection:bg-transparent cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fa-solid fa-address-book"></i>Registros</summary>
+                                <x-sidebar-section href="/registro-estudiante" :active="request()->is('registro-estudiante')"><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
+                                <x-sidebar-section href="/registro-profesor" :active="request()->is('registro-profesor')"><i class="fa-solid fa-user-plus"></i>Registrar Profesor</x-sidebar-section>
+                                <x-sidebar-section href="/registro-administrador" :active="request()->is('registro-administrador')"><i class="fa-solid fa-address-card"></i>Registrar Administrador</x-sidebar-section>
                         </details>
-                        <x-sidebar-section href="/student"><i class="fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
-                        <x-sidebar-section href="/courses"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
+                        <x-sidebar-section href="/estudiantes-panel-administrativo" :active="request()->is('estudiantes-panel-administrativo')"><i class="fa-duotone fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
+                        <x-sidebar-section href="/nomina-profesores" :active="request()->is('nomina-profesores')"><i class="fa-duotone fa-regular fa-chalkboard-user"></i>Profesores</x-sidebar-section>
+                        <x-sidebar-section href="/materias" :active="request()->is('materias')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
                     </nav>
                 </div>
             </div>
@@ -46,11 +47,11 @@
             <div class="flex flex-col flex-1 overflow-y-auto rounded-l-xl main-content redondeado">
                 <div class="flex items-center justify-between h-16 border-b border-gray-200" @style('padding: 16px 0px 16px 0px')>
                     <div class="flex items-center px-4 space-x-7">
-                        <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
-                        <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-2xl"><i class="fa-solid fa-bars m-0"></i></button>
+                        <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
+                        <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
                         <p class="mx-4 w-full ">Bienvenido/Bienvenida Usuario</p>
                     </div>
-                    <script src="{{ Vite::asset('resources/js/menu-admin-hide.js')}}"></script>
+                    {{-- <script src="{{ Vite::asset('resources/js/menu-admin-hide.js', 'resources/js/')}}"></script> --}}
                     <div class="flex items-center pr-4 space-x-4">
                         <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-moon m-0"></i></button>
                         <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-sun m-0"></i></button>
@@ -64,7 +65,7 @@
                     </main>
                 </div>
             </div>
-            <script src="{{ Vite::asset('resources/js/dark-light-mode.js')}}"></script>
+            @vite(['resources/js/dark-light-mode.js', 'resources/js/menu-admin-hide.js'])
         </div>
     </div>
         {{-- @stack('modals') --}}
