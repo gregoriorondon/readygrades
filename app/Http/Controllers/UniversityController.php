@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UniversityController extends Controller
 {
@@ -18,9 +19,6 @@ class UniversityController extends Controller
     public function admin(){
         return view ('auth.login');
     }
-    public function studentadd(){
-        return view('auth.registro-estudiante');
-    }
     public function courses(){
         return view('auth.courses');
     }
@@ -35,5 +33,9 @@ class UniversityController extends Controller
     }
     public function profesornomina(){
         return view('auth.profesores-nomina');
+    }
+    public function admindashboard(){
+        $user = Auth::user();
+        return view('admin', ['user'=>$user]);
     }
 }

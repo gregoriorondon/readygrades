@@ -49,13 +49,16 @@
                     <div class="flex items-center px-4 space-x-7">
                         <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
                         <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
-                        <p class="mx-4 w-full ">Bienvenido/Bienvenida Usuario</p>
+                        <p class="mx-4 w-full ">Bienvenido/Bienvenida </p>
                     </div>
                     {{-- <script src="{{ Vite::asset('resources/js/menu-admin-hide.js', 'resources/js/')}}"></script> --}}
                     <div class="flex items-center pr-4 space-x-4">
                         <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-moon m-0"></i></button>
                         <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-sun m-0"></i></button>
-                        <button class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
+                        </form>
                     </div>
                 </div>
                 <div class="p-4 rounded-lg">
