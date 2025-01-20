@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,11 @@ class UniversityController extends Controller
         return view('auth.courses');
     }
     public function studentsadmin(){
-        return view('auth.students');
+        $students = Students::paginate(20);
+        return view('auth.students', ['estudiantes' => $students]);
+    }
+    public function studentsadmindetails(Students $student){
+        return view('auth.students-details', ['estudiantes' => $student]);
     }
     public function teacheradd(){
         return view('auth.registro-profesor');

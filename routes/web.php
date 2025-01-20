@@ -22,6 +22,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/registro-administrador', 'adminadd');
     Route::get('/materias', 'courses');
     Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
+    Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
     Route::get('/nomina-profesores', 'profesornomina');
 });
 
