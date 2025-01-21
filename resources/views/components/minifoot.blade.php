@@ -1,3 +1,3 @@
 <div class="minifoot">
-    <span>SISTEMA DESARROLLADO POR GREGORIO RONDÓN, CARLOS RAMOS Y YANITZA BARRIGA</span>
+    <span class="font-inter">SISTEMA DESARROLLADO POR ESTUDIANTES DEL PNF EN INFORMÁTICA</span>
 </div>

@@ -17,6 +17,17 @@ class UniversityController extends Controller
     public function students(){
         return view('estudiantes');
     }
+    public function studentspublicdetails(Students $student){
+        $student->validate([
+            'cedula'=>'required|numeric|exists:estudiantes,cedula',
+        ]);
+        $estudiante = Students::where('cedula', $student->cedula)->first();
+        if (! $estudiante) {
+            return redirect()->back()->withErros(['cedula'=>'No se encuantra registrado en nuestra institución como un estudiante.']);
+        }
+        /* return view('detalles-estudiante-publico', ['estudiante' => $student]); */
+        return view('detalles-estudiante-publico', compact('estudiante'));
+    }
     public function admin(){
         return view ('auth.login');
     }

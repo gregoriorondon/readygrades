@@ -18,6 +18,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/administracion', 'admindashboard');
     Route::get('/student', 'students');
+    Route::post('/detalles-estudiante', 'studentspublicdetails');
     Route::get('/registro-profesor', 'teacheradd');
     Route::get('/registro-administrador', 'adminadd');
     Route::get('/materias', 'courses');

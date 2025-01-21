@@ -1,9 +1,9 @@
 <x-dashboard>
     <x-slot:titulo>Detalles de {{ $estudiantes['primer-name'] }}</x-slot:titulo>
     <x-title-section-admin>Información del Estudiante {{ implode(' ', [$estudiantes['primer-name'], $estudiantes['primer-apellido']]) }}</x-title-section-admin>
-<div>
-  <div class="mt-6 border-t border-gray-100">
-    <dl class="divide-y divide-gray-100">
+<div class="">
+  <div class="mt-7 border border-gray-300 rounded-md">
+    <dl class="divide-y divide-gray-300">
       <x-details-div>
         <x-details-dt>Nombre Completo del Estudiante</x-details-dt>
         <x-details-dd>{{ implode(' ', [$estudiantes['primer-name'], $estudiantes['segundo-name']]) }}</x-details-dd>
