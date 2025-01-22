@@ -27,7 +27,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/nomina-profesores', 'profesornomina');
 });
 
-Route::controller(RegisteredAdminController::class)->group( function(){
+Route::controller(RegisteredAdminController::class)->middleware('auth')->group( function(){
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');
     Route::get('/registro-estudiante', 'studentadd');

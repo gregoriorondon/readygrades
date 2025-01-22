@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentPublic;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,15 @@ class UniversityController extends Controller
     public function students(){
         return view('estudiantes');
     }
-    public function studentspublicdetails(Students $student){
-        $student->validate([
-            'cedula'=>'required|numeric|exists:estudiantes,cedula',
+    public function studentspublicdetails(Request $request){
+        $request->validate([
+            'cedula'=>'required|numeric|exists:students,cedula',
+        ], [
+            'cedula.exists'=>'La cédula ingresada no se encuentra registrada.',
+            'cedula.required' => 'El campo cédula es obligatorio.',
+            'cedula.numeric' => 'El campo cédula debe contener solo números.',
         ]);
-        $estudiante = Students::where('cedula', $student->cedula)->first();
+        $estudiante = StudentPublic::where('cedula', $request->cedula)->first();
         if (! $estudiante) {
             return redirect()->back()->withErros(['cedula'=>'No se encuantra registrado en nuestra institución como un estudiante.']);
         }

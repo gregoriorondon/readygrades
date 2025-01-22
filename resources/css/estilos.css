@@ -7,6 +7,7 @@
     --texto2: #005887;
     --texto3: #ff3000;
     --textolinkhover: #3559E0;
+    --botones-rgb: 66,114,216;
     --botones: #4272d8;
     --botones-hover: #0F2167;
     --footer: #171a21;
@@ -793,6 +794,48 @@ details[open] summary ~ * {
 }
 .war2{
     color: var(--texto3);
+}
+.nav-data-public-student{
+    background-color: var(--borderclaro);
+}
+.components-data-public-student{
+    margin-left: 21px;
+    margin-right: 21px;
+    margin-top: 21px;
+}
+.head-data-public-student{
+    display: flex;
+    justify-content: space-between;
+    font-size: 25px;
+    color: var(--texto);
+}
+#exit{
+    padding: 7px;
+    border-radius: 7px;
+    background-color: rgba(var(--botones-rgb), 0.3);
+    transition: ease-in-out 0.2s;
+}
+#exit:hover{
+    color: var(--texto1);
+    background-color: rgba(var(--botones-rgb), 1);
+}
+.views-button-data-public-student button{
+    font-family: 'Inter';
+    font-size: 18px;
+    padding: 7px;
+    margin-right: 7px;
+}
+.views-button-data-public-student button:hover{
+    border-bottom: 2px solid;
+    border-color: var(--textolinkhover);
+}
+.views-button-data-public-student-active button{
+    border-bottom: 2px solid;
+    border-color: var(--textolinkhover);
+}
+.data-public-student{
+    font-family: 'staatliches';
+    font-size: 30px;
 }
 /*===========================================*/
 /*==========Dashboard administrativo=========*/
