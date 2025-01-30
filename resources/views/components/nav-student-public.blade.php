@@ -1,12 +1,13 @@
 <div class="nav-data-public-student">
     <section class="components-data-public-student">
         <div class="head-data-public-student">
-        <p class="data-public-student"><i class="fa-regular fa-address-card"></i>Datos Generales de {{ $usuario }}</p>
+        <p class="data-public-student">Datos Generales de {{ $usuario }}</p>
         <button id="exit" title="Volver / Salir"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
         </div>
         <div class="views-button-data-public-student">
-            <button id="overview">Descripción General</button>
-            <button id="score">Calificaciones</button>
+            <button class="overview active-button">Descripción General</button>
+            <button class="score">Calificaciones</button>
+            @Vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
         </div>
     </section>
 </div>

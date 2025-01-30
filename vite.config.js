@@ -13,6 +13,8 @@ export default defineConfig({
                 "resources/js/dark-light-mode",
                 "resources/js/menu-admin-hide",
                 "resources/js/password-show-hide",
+                "resources/js/section-calificaciones-general-public-student",
+                "resources/js/back-cedula-public-studens",
             ],
             refresh: true,
         }),

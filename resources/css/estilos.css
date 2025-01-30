@@ -1,5 +1,5 @@
 @import url(fonts.css);
-@tailwind base;
+@--botones;
 @tailwind components;
 @tailwind utilities;
 :root{
@@ -796,18 +796,17 @@ details[open] summary ~ * {
     color: var(--texto3);
 }
 .nav-data-public-student{
-    background-color: var(--borderclaro);
+    background-color: var(--botones);
 }
 .components-data-public-student{
-    margin-left: 21px;
-    margin-right: 21px;
-    margin-top: 21px;
+    margin: 21px;
 }
 .head-data-public-student{
     display: flex;
     justify-content: space-between;
-    font-size: 25px;
-    color: var(--texto);
+    font-size: 35px;
+    color: var(--texto1);
+    letter-spacing: 0.055em;
 }
 #exit{
     padding: 7px;
@@ -817,25 +816,65 @@ details[open] summary ~ * {
 }
 #exit:hover{
     color: var(--texto1);
-    background-color: rgba(var(--botones-rgb), 1);
+    background-color: var(--botones-hover);
 }
-.views-button-data-public-student button{
+.overview, .score{
     font-family: 'Inter';
     font-size: 18px;
     padding: 7px;
     margin-right: 7px;
+    color: var(--texto1);
 }
-.views-button-data-public-student button:hover{
+.overview:hover, .score:hover{
     border-bottom: 2px solid;
-    border-color: var(--textolinkhover);
+    border-color: var(--texto1);
 }
-.views-button-data-public-student-active button{
+.active-button{
     border-bottom: 2px solid;
-    border-color: var(--textolinkhover);
+    border-color: var(--texto1);
 }
 .data-public-student{
     font-family: 'staatliches';
     font-size: 30px;
+}
+.data-public-student-details{
+    display: flex;
+    justify-content: center;
+}
+.data-public-student-details section{
+/*     margin-right: 25px; */
+/*     padding-right: 25px; */
+/*     border-right: 2px solid; */
+    /* display: flex; */
+}
+.personal-data, .p-curricular-data{
+    font-family: 'Inter';
+    font-size: 21px;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-right: 55px;
+    padding: 35px;
+    padding-left: 0px;
+}
+.curricular-data div, .personal-data div{
+    margin-top: 21px;
+}
+.card-logo-public{
+    width: 450px;
+    margin-top: 21px;
+    margin-bottom: 21px;
+}
+.calificacion-publica{
+    padding: 7px 14px;
+    font-family: 'Inter';
+    background-color: var(--botones);
+    color: var(--texto1);
+    border-radius: 7px;
+    margin-top: 21px;
+    transition: ease-in-out .2s;
+}
+.calificacion-publica:hover{
+    background-color: var(--botones-hover);
 }
 /*===========================================*/
 /*==========Dashboard administrativo=========*/
