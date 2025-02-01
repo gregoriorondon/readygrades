@@ -31,7 +31,7 @@
 }
 *{
     font-family: sans-serif;
-    /* background-color: #fff; */
+/* background-color: #fff; */
 }
 .cuerpo{
     margin: 0px;
@@ -863,6 +863,20 @@ details[open] summary ~ * {
     width: 450px;
     margin-top: 21px;
     margin-bottom: 21px;
+}
+@media (max-width: 839px){
+    .data-public-student-details{
+        margin: 0px 21px;
+    }
+    .personal-data{
+        margin-right: 0px;
+        padding-right: 21px;
+    }
+}
+@media (max-width: 650px) {
+    .card-logo-public{
+        display: none;
+    }
 }
 .calificacion-publica{
     padding: 7px 14px;

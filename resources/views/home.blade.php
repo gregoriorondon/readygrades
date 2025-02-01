@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Inicio</title>
-    <x-import>
-    </x-import>
+    <x-import />
 </head>
 <body class="cuerpo">
-    <x-nav>
-    </x-nav>
+    <x-nav />
 
 <!-- Desktop Laptop and Tablet -->
 <div class="bienvenida">
@@ -25,7 +23,7 @@
     </div>
     <div class="readygrades">
         <p>El Área de Registro, Seguimiento y Control de Estudios, en conjunto con el sistema ReadyGrades, desarrollado por estudiantes de Ingeniería en Informática en colaboración con profesionales del área administrativa, ha implementado una plataforma innovadora para la visualización de calificaciones académicas, destinada a los estudiantes matriculados en nuestra institución.</p>
-        <a href="/estudent"><button class="readylink"><i class="fa-solid fa-user-graduate"></i>Estudiante</button></a>
+        <a href="/student"><button class="readylink"><i class="fa-solid fa-user-graduate"></i>Estudiante</button></a>
     </div>
 </section>
 </div>
@@ -73,7 +71,7 @@
     <div class="readygrades">
         <p>El Área de Registro, Seguimiento y Control de Estudios, en conjunto con el sistema ReadyGrades, desarrollado por estudiantes de Ingeniería en Informática en colaboración con profesionales del área administrativa, ha implementado una plataforma innovadora para la visualización de calificaciones académicas, destinada a los estudiantes matriculados en nuestra institución.</p>
         <div class="readygradesbtn">
-            <a href="/estudent"><button class="readylink"><i class="fa-solid fa-user-graduate"></i>Estudiante</button></a>
+            <a href="/student"><button class="readylink"><i class="fa-solid fa-user-graduate"></i>Estudiante</button></a>
         </div>
     </div>
 </section>
@@ -114,7 +112,6 @@
 </section>
 
 
-<x-footer>
-</x-footer>
+<x-footer />
 </body>
 </html>

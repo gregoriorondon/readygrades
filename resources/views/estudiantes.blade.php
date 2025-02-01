@@ -33,9 +33,6 @@
             </form>
         </x-authentication-card>
     </div>
-<x-minifoot>
-</x-minifoot>
-
-<x-footer>
-</x-footer>
+<x-minifoot />
+<x-footer />
 </body>

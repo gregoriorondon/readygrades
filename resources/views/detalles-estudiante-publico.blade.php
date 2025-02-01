@@ -50,7 +50,7 @@
             <x-authentication-card-logo />
         </section>
     </div>
-    <div>
+    <div class="m-7">
         <p class="text-center font-inter mb-4 text-black/50">Por temas de seguridad y privacidad del y de la estudiante no se muestran todos los datos personales requeridos en la inscripción</p>
     </div>
     <x-footer />
