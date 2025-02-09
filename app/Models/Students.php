@@ -23,4 +23,7 @@ class Students extends Model
         'carrera',
         'trayecto',
     ];
+    public function inscripciones(){
+        return $this->hasMany(Inscripciones::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carreras;
 use App\Models\StudentPublic;
 use App\Models\Students;
 use Illuminate\Http\Request;
@@ -37,7 +38,8 @@ class UniversityController extends Controller
         return view ('auth.login');
     }
     public function courses(){
-        return view('auth.courses');
+        $carrera = Carreras::all();
+        return view('auth.courses', ['courses' => $carrera]);
     }
     public function studentsadmin(){
         $students = Students::paginate(20);
@@ -54,9 +56,5 @@ class UniversityController extends Controller
     }
     public function profesornomina(){
         return view('auth.profesores-nomina');
-    }
-    public function admindashboard(){
-        $user = Auth::user();
-        return view('admin', ['user'=>$user]);
     }
 }

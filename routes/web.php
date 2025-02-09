@@ -16,25 +16,25 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/', 'index');
     Route::get('/organigrama', 'organigrama');
     Route::get('/login-admin', 'admin');
-    Route::get('/administracion', 'admindashboard');
     Route::get('/student', 'students');
     Route::post('/detalles-estudiante', 'studentspublicdetails');
     Route::get('/registro-profesor', 'teacheradd');
-    Route::get('/registro-administrador', 'adminadd');
-    Route::get('/materias', 'courses');
-    Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
-    Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
-    Route::get('/nomina-profesores', 'profesornomina');
 });
 
 Route::controller(RegisteredAdminController::class)->middleware('auth')->group( function(){
+    Route::get('/materias', 'courses');
+    Route::get('/nomina-profesores', 'profesornomina');
+    Route::get('/registro-administrador', 'adminadd');
+    Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
+    Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
+    Route::get('/administracion', 'admindashboard');
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');
     Route::get('/registro-estudiante', 'studentadd');
     Route::post('/registro-estudiante', 'studentstore');
 });
 
-Route::get('/login', [SesionController::class, 'create']);
+Route::get('/login', [SesionController::class, 'create'])->name('login');
 Route::post('/login', [SesionController::class, 'store']);
 Route::post('/logout', [SesionController::class, 'destroy']);
 

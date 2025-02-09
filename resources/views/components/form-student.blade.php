@@ -97,11 +97,13 @@
 
         <div class="sm:col-span-2 sm:col-start-1">
           <div class="mt-2">
+            
           <x-label>Carrera a Estudiar</x-label>
-            <x-select-form class="sm:max-w-full" name="carrera" id="carrera">
-              <option>Administración</option>
-              <option>Informática</option>
-              <option>Maquinaria Pesada</option>
+          @props(['courses'])
+          <x-select-form class="sm:max-w-full" name="carreras_id" id="carreras_id" > 
+                @foreach($courses as $carrera)
+                    <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
+                @endforeach
             </x-select-form>
           </div>
         </div>

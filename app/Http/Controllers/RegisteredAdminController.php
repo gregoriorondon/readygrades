@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carreras;
 use App\Models\Students;
+use App\Models\Trimestres;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +41,11 @@ class RegisteredAdminController extends Controller
         return redirect('/administracion');
     }
     public function studentadd(){
-        return view('auth.registro-estudiante');
+        $carrera = Carreras::all();
+        /* $trimestres = Trimestres::all(); */
+
+        /* dd($carrera); */
+        return view('auth.registro-estudiante', ['courses' => $carrera]);
     }
     public function studentstore(){
         /* dd(request()->all()); */
@@ -50,16 +56,39 @@ class RegisteredAdminController extends Controller
             'segundo-apellido' => ['required'],
             'genero' => ['required'],
             'nacionalidad' => ['required'],
-            'cedula' => ['required', 'min:7'],
+            'cedula' => ['required', 'min:7', 'exists:students,cedula'],
             'telefono' => ['required', 'min:11'],
             'fecha-nacimiento' => ['required', 'date'],
             'email' => ['required'],
             'direccion' => ['required'],
             'city' => ['required'],
-            'carrera' => ['required'],
-            'trayecto' => ['required'],
+            'carreras_id' => ['required'],
+            'trimestres_id' => ['required'],
+        ],[
+            'cedula.exists'=>'El Estudiante Ya Está Inscripto',
         ]);
         Students::create($studentatributes);
         return redirect('/registro-estudiante');
+    }
+    public function admindashboard(){
+        $user = Auth::user();
+        return view('admin', ['user'=>$user]);
+    }
+    public function studentsadmin(){
+        $students = Students::paginate(20);
+        return view('auth.students', ['estudiantes' => $students]);
+    }
+    public function studentsadmindetails(Students $student){
+        return view('auth.students-details', ['estudiantes' => $student]);
+    }
+    public function adminadd(){
+        return view('auth.registro-admin');
+    }
+    public function profesornomina(){
+        return view('auth.profesores-nomina');
+    }
+    public function courses(){
+        $carrera = Carreras::all();
+        return view('auth.courses', ['courses' => $carrera]);
     }
 }
