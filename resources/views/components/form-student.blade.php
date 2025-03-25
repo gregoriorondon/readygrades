@@ -97,10 +97,10 @@
 
         <div class="sm:col-span-2 sm:col-start-1">
           <div class="mt-2">
-            
+
           <x-label>Carrera a Estudiar</x-label>
           @props(['courses'])
-          <x-select-form class="sm:max-w-full" name="carreras_id" id="carreras_id" > 
+          <x-select-form class="sm:max-w-full" name="carrera" id="carreras_id" >
                 @foreach($courses as $carrera)
                     <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
                 @endforeach
@@ -110,12 +110,12 @@
         <div class="sm:col-span-2">
           <div class="mt-2">
           <x-label>Tramo y Trayecto</x-label>
-            <x-select-form class="sm:max-w-full" id="trayecto" name="trayecto">
+            <x-select-form class="sm:max-w-full" name="trayecto">
                 <option value="trayecto-inicial">Trayecto Inicial</option>
                 <optgroup label="Trayecto I">
-                    <option value="trayecto-uno-tramo-1">Tramo I</option>
-                    <option value="trayecto-uno-tramo-2">Tramo II</option>
-                    <option value="trayecto-uno-tramo-3">Tramo III</option>
+                    <option value="1">Tramo I</option>
+                    <option value="2">Tramo II</option>
+                    <option value="3">Tramo III</option>
                 </optgroup>
                 <optgroup label="Trayecto II">
                     <option value="trayecto-dos-tramo-4">Tramo IV</option>

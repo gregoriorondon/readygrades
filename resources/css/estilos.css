@@ -906,10 +906,10 @@ details[open] summary ~ * {
     background-color: var(--fondo);
     color: var(--texto);
 }
-.main-content-darkmode{
-    background-color: var(--fondooscuro);
-    color: var(--textooscuro);
-}
+/* .main-content-darkmode{ */
+/*     background-color: var(--fondooscuro); */
+/*     color: var(--textooscuro); */
+/* } */
 .menu-hiden{
     display: flex;
 }
