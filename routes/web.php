@@ -22,7 +22,12 @@ Route::controller(UniversityController::class)->group( function (){
 });
 
 Route::controller(RegisteredAdminController::class)->middleware('auth')->group( function(){
-    Route::get('/materias', 'courses');
+    Route::get('/carreras', 'courses');
+    Route::get('/autocomplete', 'autocourses');
+    Route::get('/nueva-carrera', 'newcourses');
+    Route::post('/carreras-add-post', 'carreraprocess');
+    Route::get('/tramos-y-trayectos', 'trayectosview');
+    Route::post('/crear-trayecto-y-tramos', 'trayectosadd');
     Route::get('/nomina-profesores', 'profesornomina');
     Route::get('/registro-administrador', 'adminadd');
     Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');

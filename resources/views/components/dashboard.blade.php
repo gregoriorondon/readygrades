@@ -8,19 +8,7 @@
         <x-import/>
 
     </head>
-    <body class="font-sans antialiased">
-        {{-- <x-banner /> --}}
-
-        {{-- <div class="min-h-screen bg-gray-100"> --}}
-        {{--     <!-- Page Heading --> --}}
-        {{--     @if (isset($header)) --}}
-        {{--         <header class="bg-white "> --}}
-        {{--             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"> --}}
-        {{--                 {{ $header }} --}}
-        {{--             </div> --}}
-        {{--         </header> --}}
-        {{--     @endif --}}
-        {{--     <!-- Page Content --> --}}
+    <body class="font-inter antialiased">
     <div id="menu">
         <div class="flex h-screen menu-admin-dashboard">
             <!-- sidebar -->
@@ -39,7 +27,8 @@
                         </details>
                         <x-sidebar-section href="/estudiantes-panel-administrativo" :active="request()->is('estudiantes-panel-administrativo')"><i class="fa-duotone fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
                         <x-sidebar-section href="/nomina-profesores" :active="request()->is('nomina-profesores')"><i class="fa-duotone fa-regular fa-chalkboard-user"></i>Profesores</x-sidebar-section>
-                        <x-sidebar-section href="/materias" :active="request()->is('materias')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
+                        <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
+                        <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
                     </nav>
                 </div>
             </div>
@@ -49,7 +38,7 @@
                     <div class="flex items-center px-4 space-x-7">
                         <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
                         <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
-                        <p class="mx-4 w-full ">Bienvenido/Bienvenida </p>
+                        <p class="mx-4 w-full ">Panel Administrativo</p>
                     </div>
                     {{-- <script src="{{ Vite::asset('resources/js/menu-admin-hide.js', 'resources/js/')}}"></script> --}}
                     <div class="flex items-center pr-4 space-x-4">

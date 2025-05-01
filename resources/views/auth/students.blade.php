@@ -1,6 +1,6 @@
 <x-dashboard>
 <x-slot:titulo>Estidiantes</x-slot:titulo>
-<a class="btn-new-student"  href="/registro-estudiante"><i class="fa-solid fa-plus-large"></i>Registrar Nuevo Estudiante</a>
+<x-button-a class="btn-new-student"  href="/registro-estudiante"><i class="fa-solid fa-plus-large"></i>Registrar Nuevo Estudiante</x-button-a>
 <div class="mt-7">
 <x-title-section-admin>Listado De Todos Los Estudiantes</x-title-section-admin>
     <div class="flex flex-col mt-2">
@@ -23,7 +23,7 @@
                                     Carrera
                                 </x-table-th-students>
                                 <x-table-th-students>
-                                    Trayecto
+                                    Tramo
                                 </x-table-th-students>
                                 <x-table-th-students class="text-center">
                                     Detalles
@@ -37,16 +37,16 @@
                                     {{ $estudiante['cedula'] }}
                                 </x-table-td-students>
                                 <x-table-td-students>
-                                    {{ $estudiante['primer-name'] }}
+                                    {{ $estudiante['primer_name'] }}
                                 </x-table-td-students>
                                 <x-table-td-students>
-                                    {{ $estudiante['primer-apellido'] }}
+                                    {{ $estudiante['primer_apellido'] }}
                                 </x-table-td-students>
                                 <x-table-td-students>
-                                    {{ $estudiante['carrera'] }}
+                                    {{ $estudiante->carreras->carrera }}
                                 </x-table-td-students>
                                 <x-table-td-students>
-                                    {{ $estudiante['trayecto'] }}
+                                    {{ $estudiante->tramos->tramos }}
                                 </x-table-td-students>
                                 <x-table-td-students class="text-xl text-center">
                                     <a href="/estudiantes-panel-administrativo/{{ $estudiante->id}}"><i class="fa-duotone fa-regular fa-circle-info m-0"></i></a>

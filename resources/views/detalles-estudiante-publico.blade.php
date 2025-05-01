@@ -8,11 +8,11 @@
         <section class="personal-data">
             <div>
                 <x-name-title-student-public>Nombre Completo</x-name-title-student-public>
-                <x-date-student-public>{{ implode(' ', [$estudiante['primer-name'], $estudiante['segundo-name'] ])}}</x-date-student-public>
+                <x-date-student-public>{{ implode(' ', [$estudiante['primer_name'], $estudiante['segundo_name'] ])}}</x-date-student-public>
             </div>
             <div>
                 <x-name-title-student-public>Apellido Completo</x-name-title-student-public>
-                <x-date-student-public>{{ implode(' ', [$estudiante['primer-apellido'], $estudiante['segundo-apellido'] ])}}</x-date-student-public>
+                <x-date-student-public>{{ implode(' ', [$estudiante['primer_apellido'], $estudiante['segundo_apellido'] ])}}</x-date-student-public>
             </div>
             <div>
                 <x-name-title-student-public>Genero y Nacionalidad</x-name-title-student-public>
@@ -36,11 +36,16 @@
             </div>
                 <div>
                     <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
-                    <x-date-student-public>{{ $estudiante['carrera'] }}</x-date-student-public>
+                    <x-date-student-public>{{ $estudiante->carreras->carrera }}</x-date-student-public>
                 </div>
                 <div>
                     <x-name-title-student-public>Trayecto y Tramo Actual</x-name-title-student-public>
-                    <x-date-student-public>{{ $estudiante['trayecto'] }}</x-date-student-public>
+                    <x-date-student-public>
+                        @foreach($estudiante->tramos->trayectos as $trayectos)
+                            {{ $trayectos->trayectos }}
+                        @endforeach
+                        - {{ $estudiante->tramos->tramos }}
+                    </x-date-student-public>
                 </div>
                 <div>
                     <button class="calificacion-publica">Ver Tus Notas Académicas</button>

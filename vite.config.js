@@ -6,6 +6,7 @@ export default defineConfig({
         laravel({
             input: [
                 "resources/css/app.css",
+                "resources/css/bootstrap.min.css",
                 "resources/css/estilos.css",
                 "resources/css/fonts.css",
                 "resources/js/app.js",
@@ -15,6 +16,11 @@ export default defineConfig({
                 "resources/js/password-show-hide",
                 "resources/js/section-calificaciones-general-public-student",
                 "resources/js/back-cedula-public-studens",
+                "resources/js/modales",
+                "resources/js/jquery-3.7.1.min",
+                "resources/js/jquery.min",
+                "resources/js/autocompletado-carrera",
+                "resources/js/bootstrap3-typeahead.min",
             ],
             refresh: true,
         }),

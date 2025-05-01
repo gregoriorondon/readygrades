@@ -30,7 +30,7 @@
     --textooscuro: #fff;
 }
 *{
-    font-family: sans-serif;
+    font-family: 'inter';
 /* background-color: #fff; */
 }
 .cuerpo{
@@ -932,6 +932,51 @@ details[open] summary ~ * {
 }
 .btn-new-student:hover{
     background-color: var(--botones-hover);
+}
+.newcoursesdiv{
+    max-width: 500px;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    margin-top: 21px;
+}
+#modal{
+    border: 1px solid;
+    border-color: var(--texto);
+    border-radius: 14px;
+    padding: 21px;
+    background-color: var(--fondo);
+    color: var(--texto);
+    animation: modal 0.7s cubic-bezier(0.19, 1, 0.2, 1);
+    &::backdrop{
+        /* backdrop-filter: var(--desenfoquegeneral); */
+        background-color: var(--fondodesenfoquegeneral);
+    }
+}
+@keyframes modal{
+    0% {
+        transform: translateY(-500%);
+        -webkit-transform: translateY(-500%);
+    }
+    30%{
+        opacity: 0%;
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        opacity: 100%;
+        transform: translateY(0);
+    }
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Otros navegadores */
+}
+
+/* Ocultar flechas en Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /*===========================================*/

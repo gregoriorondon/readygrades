@@ -8,18 +8,18 @@
         </p>
       </div>
       <dl class="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-3">
-        <div class="flex flex-col bg-emerald-100 p-8">
-          <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Estudiantes Activos</dt>
-          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">12,345</dd>
-        </div>
-        <div class="flex flex-col bg-indigo-100 p-8">
+        <a href="/estudiantes-panel-administrativo" class="flex flex-col bg-emerald-100 p-8 hover:bg-emerald-200 ease-in-out duration-200">
+          <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Estudiantes Registrados</dt>
+          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">{{ $estudiantes }}</dd>
+        </a>
+        <a href="/carreras" class="flex flex-col bg-indigo-100 p-8 hover:bg-indigo-200 ease-in-out duration-200">
           <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Carreras Activas</dt>
-          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">3</dd>
-        </div>
-        <div class="flex flex-col bg-amber-100 p-8">
+          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">{{ $carreras }}</dd>
+        </a>
+        <a href="/nomina-profesores" class="flex flex-col bg-amber-100 p-8 hover:bg-amber-200 ease-in-out duration-200">
           <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Profesores Activos</dt>
           <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">56</dd>
-        </div>
+        </a>
       </dl>
     </div>
   </div>

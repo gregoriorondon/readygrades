@@ -33,3 +33,12 @@ npm install
 ```bash
 php artisan migrate
 ```
+
+
+# Procedimientos Para Ejecutar El Proyecto (Solo Para Modo De Desarrollo Local Para Evitar Fallos De Seguridad)
+Para ejecutar el proyecto correctamente de manera local puedes ir al siguiente documento donde se especificará ciertos procedimientos necesarios para poder usar el proyecto de forma local:
+
+[Precedimientos de Desarrollo ](procedimientos.md)
+
+>[!Warning]
+>Tienes que tener en cuenta que en los procedimientos que se muestran pueden funcionar para producción pero tienes que cambiar ciertos valores de seguridad como las contraseñas de los administradores o usuarios, bases de datos, puertos, etc. para evitar fallos de seguridad cuando implementes el proyecto en alguna institución de estudios.

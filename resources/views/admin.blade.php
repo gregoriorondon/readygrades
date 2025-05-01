@@ -14,7 +14,7 @@
     <div class="py-4">
         <div class="mx-auto">
             <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
-                <x-list-adminis />
+                <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" />
             </div>
         </div>
     </div>

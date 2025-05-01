@@ -10,7 +10,7 @@ class Carreras extends Model
     /* use HasFactory; */
     protected $table = "carreras";
     protected $fillable = [
-        'id',
+        /* 'id', */
         'carrera',
     ];
     public function inscripciones(){
