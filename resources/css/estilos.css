@@ -890,6 +890,13 @@ details[open] summary ~ * {
 .calificacion-publica:hover{
     background-color: var(--botones-hover);
 }
+.divcarreratramonucleo{
+    display: flex;
+    grid-column: 1 / -1;
+}
+.carreratramonucleo{
+    flex: 1;
+}
 /*===========================================*/
 /*==========Dashboard administrativo=========*/
 /*===========================================*/

@@ -95,7 +95,8 @@
           </div>
         </div>
 
-        <div class="sm:col-span-2 sm:col-start-1">
+<div class="gap-x-6 gap-y-8 sm:grid-cols-6 divcarreratramonucleo">
+        <div class="carreratramonucleo">
           <div class="mt-2">
 
           <x-label>Carrera a Estudiar</x-label>
@@ -107,7 +108,7 @@
             </x-select-form>
           </div>
         </div>
-        <div class="sm:col-span-2">
+        <div class="carreratramonucleo">
           <div class="mt-2">
           <x-label>Tramo y Trayecto</x-label>
             <x-select-form class="sm:max-w-full" name="tramo_id">
@@ -120,10 +121,25 @@
                 @endforeach
             </x-select-form>
           </div>
-
         </div>
+        <div class="carreratramonucleo">
+          <div class="mt-2">
+          <x-label>Núcleos</x-label>
+            <x-select-form class="sm:max-w-full" name="tramo_id">
+                @foreach($trayectos as $trayecto)
+                    <optgroup label="{{ $trayecto->trayectos }}">
+                        @foreach($trayecto->tramos as $tramos)
+                            <option value="{{ $tramos->id }}">{{ $tramos->tramos }}</option>
+                        @endforeach
+                    </optgroup>
+                @endforeach
+            </x-select-form>
+          </div>
+        </div>
+
       </div>
     </div>
+</div>
   <div class="mt-6 flex items-center justify-end gap-x-6">
     <button type="reset" class="font-inter font-extrabold rounded-md bg-[#d84242] px-3 py-2 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#670f0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Limpiar <i class="fa-solid fa-eraser m-0"></i></button>
     <button type="submit" class="font-inter font-extrabold rounded-md bg-ready px-3 py-[0.7rem] text-sm font-semibold text-white shadow-sm hover:bg-[#0f2167] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrar <i class="fa-solid fa-floppy-disk m-0"></i></button>

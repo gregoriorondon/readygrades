@@ -20,11 +20,15 @@ class Students extends Model
         'email',
         'direccion',
         'city',
+        'nucleo_id',
         'carrera_id',
         'tramo_id',
     ];
     public function inscripciones(){
         return $this->hasMany(Inscripciones::class);
+    }
+    public function nucleos(){
+        return $this->belongsTo(Nucleos::class, 'nucleo_id');
     }
     public function carreras(){
         return $this->belongsTo(Carreras::class, 'carrera_id');

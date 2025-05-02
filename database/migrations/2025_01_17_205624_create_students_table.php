@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('nucleos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nucleo')->unique();
+            $table->timestamps();
+        });
         Schema::create('carreras', function (Blueprint $table) {
             $table->id();
             $table->string('carrera')->unique();
@@ -48,6 +53,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('direccion');
             $table->string('city');
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
             $table->unsignedBigInteger('tramo_id');

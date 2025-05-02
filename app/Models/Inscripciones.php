@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Inscripciones extends Model
 {
     use HasFactory;
+    public function nucleos(){
+        return $this->belongsTo(Nucleos::class);
+    }
     public function students(){
         return $this->belongsTo(Students::class);
     }

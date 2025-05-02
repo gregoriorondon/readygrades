@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carreras;
 use App\Models\Inscripciones;
+use App\Models\Nucleos;
 use App\Models\Students;
 use App\Models\Tramos;
 use App\Models\Trayectos;
@@ -197,6 +198,26 @@ class RegisteredAdminController extends Controller
         $carreradatos['carrera'] = Str::title(strtolower(trim($carreradatos['carrera'])));
         Carreras::create($carreradatos);
         return redirect('/carreras');
+    }
+    public function nucleo(){
+        $nucleos = Nucleos::all();
+        return view('auth.registronucleo', compact('nucleos'));
+    }
+    public function nucleoadd(Request $request){
+        // dd($request->all());
+        $nucleos = $request->validate([
+            'nucleo'=>'required|min:3',
+        ],[
+            'nucleo.required'=>'Tienes que colocar un nombre al nuevo núcleo que desea Registrar',
+            'nucleo.min'=>'Necesitas colocar 3 caráteres como mínimo',
+        ]);
+        $existeNucleo = Nucleos::whereRaw('LOWER(nucleo) LIKE ?', ['%' . $request->nucleo . '%'])->exists();
+        if ($existeNucleo) {
+            return redirect()->back()->withErrors(['error'=>'El núcleo que está intentando crear ya existe en la base de datos.']);
+        }
+        $nucleos['nucleo'] = Str::title(strtolower(trim($nucleos['nucleo'])));
+        Nucleos::create($nucleos);
+        return redirect('/nucleos');
     }
     public function trayectosview() {
         $trayectos = Trayectos::with('tramos')->get();

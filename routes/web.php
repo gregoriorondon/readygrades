@@ -26,6 +26,8 @@ Route::controller(RegisteredAdminController::class)->middleware('auth')->group( 
     Route::get('/autocomplete', 'autocourses');
     Route::get('/nueva-carrera', 'newcourses');
     Route::post('/carreras-add-post', 'carreraprocess');
+    Route::get('/nucleos', 'nucleo');
+    Route::post('/crear-nucleo', 'nucleoadd');
     Route::get('/tramos-y-trayectos', 'trayectosview');
     Route::post('/crear-trayecto-y-tramos', 'trayectosadd');
     Route::get('/nomina-profesores', 'profesornomina');
