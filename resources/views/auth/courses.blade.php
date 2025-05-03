@@ -69,13 +69,5 @@
 </x-dialog-modal>
 @vite(['resources/js/autocompletado-carrera.js'])
 @vite(['resources/js/modales.js'])
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <script>alert( '{{ $error }}' )</script>
-            @endforeach
-        </ul>
-    </div>
-@endif 
+<x-error-alert-js />
 </x-dashboard>

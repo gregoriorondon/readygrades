@@ -182,6 +182,12 @@ class RegisteredAdminController extends Controller
 
         return response()->json($datos);
     }
+    public function autonucleos(Request $request) {
+        $term = $request->input('term');
+        $datos = Nucleos::whereRaw('LOWER(nucleo) LIKE ?', ['%' . strtolower($term) . '%'])->limit(7)->get();
+
+        return response()->json($datos);
+    }
     public function newcourses(){
         return view('auth.carreras-add');
     }

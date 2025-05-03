@@ -24,6 +24,7 @@ Route::controller(UniversityController::class)->group( function (){
 Route::controller(RegisteredAdminController::class)->middleware('auth')->group( function(){
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
+    Route::get('/autocomplete/nucleos', 'autonucleos');
     Route::get('/nueva-carrera', 'newcourses');
     Route::post('/carreras-add-post', 'carreraprocess');
     Route::get('/nucleos', 'nucleo');
