@@ -16,9 +16,9 @@
           <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Carreras Activas</dt>
           <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">{{ $carreras }}</dd>
         </a>
-        <a href="/nomina-profesores" class="flex flex-col bg-amber-100 p-8 hover:bg-amber-200 ease-in-out duration-200">
-          <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Profesores Activos</dt>
-          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">56</dd>
+        <a href="/nucleos" class="flex flex-col bg-amber-100 p-8 hover:bg-amber-200 ease-in-out duration-200">
+          <dt class="text-sm font-semibold leading-6 text-gray-600 font-inter">Núcleos Universitarios</dt>
+          <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 font-inter">{{ $nucleos }}</dd>
         </a>
       </dl>
     </div>
