@@ -56,27 +56,30 @@ class RegisteredAdminController extends Controller
     public function studentstore(Request $request){
         /* dd(request()->all()); */
         $datosEstudiante = $request->validate([
-            'cedula'=>['required', 'numeric','digits:7'],
-            'primer_name'=>'required|string',
-            'primer_apellido'=>'required|string',
-            'genero'=>'required|string',
-            'nacionalidad'=>'required',
-            'fecha_nacimiento'=>'required|date',
-            'direccion'=>'required|string',
-            'city'=>'required|string',
-            'nucleo_id'=>'required|numeric',
-            'carrera_id'=>'required|numeric',
-            'tramo_id'=>'required|numeric',
+            'cedula'=>['required', 'numeric','min_digits:7'],
+            'primer_name'=>['required','string'],
+            'primer_apellido'=>['required','string'],
+            'genero'=>['required','string'],
+            'nacionalidad'=>['required'],
+            'fecha_nacimiento'=>['required'],
+            'direccion'=>['required','string'],
+            'city'=>['required','string'],
+            'nucleo_id'=>['required','numeric'],
+            'carrera_id'=>['required','numeric'],
+            'tramo_id'=>['required','numeric'],
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
-            'cedula.digits'=>'La longitud de la cédula no coincide con el mínimo requerido.',
+            'cedula.min_digits'=>'La longitud de la cédula no coincide con el mínimo requerido.',
             'primer_name.required'=>'Es obligatorio que el estudiante tenga su primer nombre.',
             'primer_name.string'=>'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
             'primer_apellido.required'=>'Es obligatorio que el estudiante tenga su primer apellido.',
             'genero.required'=>'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
             'fecha_nacimiento.required'=>'Es obligatorio colocar la fecha de nacimiento del estudiante.',
+            'direccion.required'=>'Es obligatorio que coloque la dirección donde reside el estudiante',
+            'direccion.string'=>'Es obligatorio que no coloque caracteres especiales.',
             'city.required'=>'Es obligatorio colocar la ciudad/pueblo donde reside el estudiante.',
+            'city.string'=>'Es obligatorio que no coloque caracteres especiales en la ciudad/pueblo.',
             'nacionalidad.required'=>'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
             'nucleo.required'=>'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
             'nucleo.numeric'=>'Es obligatorio que el núcleo no tenga carácteres especiales.',
@@ -97,7 +100,7 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
         
-        Students::created($datosEstudiante);
+        Students::create($datosEstudiante);
         return redirect('/registro-estudiante');
     }
     public function admindashboard(){
