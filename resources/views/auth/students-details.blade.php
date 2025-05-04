@@ -14,7 +14,13 @@
       </x-details-div>
       <x-details-div>
         <x-details-dt>Correo Electrónico</x-details-dt>
-        <x-details-dd>{{ $estudiantes['email'] }} <a target="_blank" href="mailto:{{$estudiantes['email']}}" title="Abrir gestor de correo para enviarle un correo electrónico"><i class="fa-solid fa-envelope-open-text text-lg ml-3"></i></a> </x-details-dd>
+        <x-details-dd>
+            @if($estudiantes->email === null)
+                <x-span>El Estudiante No Cuenta Con Correo Electrónico</x-span>
+            @else
+                {{ $estudiantes['email'] }} <a target="_blank" href="mailto:{{$estudiantes['email']}}" title="Abrir gestor de correo para enviarle un correo electrónico"><i class="fa-solid fa-envelope-open-text text-lg ml-3"></i></a>
+            @endif
+        </x-details-dd>
       </x-details-div>
       <x-details-div>
         <x-details-dt>Cédula</x-details-dt>
@@ -27,7 +33,13 @@
       </x-details-div>
       <x-details-div>
         <x-details-dt>Teléfono</x-details-dt>
-        <x-details-dd>{{ $estudiantes['telefono']}}</x-details-dd>
+        <x-details-dd>
+            @if($estudiantes->telefono === null)
+                <x-span>El Estudiante No Cuenta Con Teléfono</x-span>
+            @else
+                {{ $estudiantes['telefono'] }}
+            @endif
+        </x-details-dd>
       </x-details-div>
       <x-details-div>
         <x-details-dt>Fecha de Nacimiento</x-details-dt>
@@ -40,6 +52,10 @@
       <x-details-div>
         <x-details-dt>Ciudad - Pueblo</x-details-dt>
         <x-details-dd>{{ $estudiantes['city']}}</x-details-dd>
+      </x-details-div>
+      <x-details-div>
+          <x-details-dt>Dirección</x-details-dt>
+          <x-details-dd>{{ $estudiantes->direccion }}</x-details-dd>
       </x-details-div>
       <x-details-div>
         <x-details-dt>Carrera</x-details-dt>
