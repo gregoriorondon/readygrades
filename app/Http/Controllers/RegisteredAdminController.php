@@ -23,7 +23,6 @@ class RegisteredAdminController extends Controller
 {
     //
     public function create(){
-        /* dd('hola mundo'); */
         return view('auth.registro-admin');
     }
     public function store(){
@@ -45,60 +44,47 @@ class RegisteredAdminController extends Controller
             'cedula.min'=>'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
         ]);
         User::create($atributos);
-        /* Auth::login($user); */
         return redirect('/administracion');
     }
     public function studentadd(){
-        $courses = Carreras::all();
+        $courses = Carreras::orderByRaw('carrera ASC')->get();
         $trayectos = Trayectos::with('tramos')->get();
-        /* $trimestres = Trimestres::all(); */
-
+        $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         /* dd($carrera); */
-        /* return view('auth.registro-estudiante', ['courses' => $carrera]); */
-        return view('auth.registro-estudiante', compact('courses', 'trayectos'));
+        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos'));
     }
     public function studentstore(Request $request){
         /* dd(request()->all()); */
-        $studentatributes = $request->validate([
-            'primer_name' => ['required', 'text'],
-            /* 'segundo_name' => ['required'], */
-            'primer_apellido' => ['required', 'string'],
-            /* 'segundo_apellido' => ['required'], */
-            'genero' => ['required'],
-            'nacionalidad' => ['required'], 
-            'cedula' => ['required', 'min:7', 'numeric'],
-            /* 'telefono' => ['min:11', 'numeric'], */
-            'fecha_nacimiento' => ['required', 'date'],
-            /* 'email' => ['required'], */
-            'direccion' => ['required'],
-            'city' => ['required'],
-            'carrera_id' => ['required'],
-            'tramo_id' => ['required'],
+        $datosEstudiante = $request->validate([
+            'cedula'=>['required', 'numeric','digits:7'],
+            'primer_name'=>'required|string',
+            'primer_apellido'=>'required|string',
+            'genero'=>'required|string',
+            'nacionalidad'=>'required',
+            'fecha_nacimiento'=>'required|date',
+            'direccion'=>'required|string',
+            'city'=>'required|string',
+            'nucleo_id'=>'required|numeric',
+            'carrera_id'=>'required|numeric',
+            'tramo_id'=>'required|numeric',
         ],[
-            'primer_name.required'=>'El primer nombre es obligatorio',
-            'primer_name.string'=>'El nombre no debe contener caracteres numericos',
-            'primer_apellido.required'=>'El primer apellido es obligatorio',
-            'genero.required'=>'Debe colocar el genero del estudiante a inscribir',
-            'nacionalidad.required'=>'Debe colocar la nacionalidad del estudiante a inscribir',
-            'cedula.required'=>'La cédula del estudiante es obligatorio para la inscripción',
-            'cedula.min'=>'La cédula debe tener minimo 7 números',
-            'cedula.numeric'=>'La cedula no debe contener caráteres no numericos',
-            /* 'telefono.min'=>'El número de teléfono debe tener 11 números', */
-            /* 'telefono.numeric'=>'El número de teléfono no debe contener caráteres no numericos', */
-            'fecha_nacimiento.required'=>'Es obligatorio colocar la fecha de nacimiento del estudiante a inscribir',
-            'fecha_nacimiento.date'=>'La fecha de nacimiento debe de ser tipo fecha',
-            'direccion.required'=>'La dirección  del estudiante a inscribir es obligatorio',
-            'city.required'=>'La ciudad o pueblo donde vive el o la estudiante a inscribir es obligatorio',
-            'carrera_id.required'=>'Debe seleccionar una carrera existente para inscribir al estudiante',
-            'tramo_id.required'=>'Debe seleccionar un trayecto-tramo existente para inscribir al estudiante',
-            /* 'primer_name'=>'PN', */
-            /* 'segundo_name'=>'SN', */
-            /* 'primer_apellido'=>'PA', */
-            /* 'segundo_apellido'=>'SA', */
-            /* 'genero'=>'genero', */
+            'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.digits'=>'La longitud de la cédula no coincide con el mínimo requerido.',
+            'primer_name.required'=>'Es obligatorio que el estudiante tenga su primer nombre.',
+            'primer_name.string'=>'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
+            'primer_apellido.required'=>'Es obligatorio que el estudiante tenga su primer apellido.',
+            'genero.required'=>'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
+            'fecha_nacimiento.required'=>'Es obligatorio colocar la fecha de nacimiento del estudiante.',
+            'city.required'=>'Es obligatorio colocar la ciudad/pueblo donde reside el estudiante.',
+            'nacionalidad.required'=>'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
+            'nucleo.required'=>'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
+            'nucleo.numeric'=>'Es obligatorio que el núcleo no tenga carácteres especiales.',
+            'carrera_id.required'=>'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
+            'carrera_id.numeric'=>'Es obligatorio que la carrera no tenga carácteres especiales.',
+            'tramo_id.required'=>'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
+            'tramo_id.numeric'=>'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
         ]);
-
-        
 
         /* // Verificar si ya existe una inscripción para el mismo estudiante, carrera y trimestre */
         $existeInscripcion = Students::where('cedula', $request->cedula)
@@ -110,34 +96,8 @@ class RegisteredAdminController extends Controller
             // Si ya existe, redirigir con un mensaje de error
             return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
-
-        // Crear el estudiante
-        Students::create([
-            'cedula' => $request->cedula,
-            'primer_name' => $request->primer_name,
-            'segundo_name' => $request->segundo_name,
-            'primer_apellido' => $request->primer_apellido,
-            'segundo_apellido' => $request->segundo_apellido,
-            'genero' => $request->genero,
-            'nacionalidad' => $request->nacionalidad,
-            'telefono' => $request->telefono,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
-            'email' => $request->email,
-            'direccion' => $request->direccion,
-            'city' => $request->city,
-            'carrera_id' => $request->carrera_id,
-            'tramo_id' => $request->tramo_id,
-            /* $studentatributes */
-        ]);
-
-        /* // Crear la inscripción */
-        /* Inscripciones::create([ */
-        /*     'students_id' => $estudiante->id, */
-        /*     'carreras_id' => $request->carreras_id, */
-        /*     'trimestres_id' => $request->trimestres_id, */
-        /*     /1* 'fecha_inscripcion' => $request->fecha_inscripcion, *1/ */
-        /* ]); */
-        /* /1* Students::create($studentatributes); *1/ */
+        
+        Students::created($datosEstudiante);
         return redirect('/registro-estudiante');
     }
     public function admindashboard(){
@@ -145,7 +105,7 @@ class RegisteredAdminController extends Controller
         $carreras = Carreras::count();
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
-        /* $carreras = Carreras::count(); */
+
         return view('admin', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
     public function studentsadmin(){
@@ -216,7 +176,7 @@ class RegisteredAdminController extends Controller
             'nucleo'=>'required|min:3',
         ],[
             'nucleo.required'=>'Tienes que colocar un nombre al nuevo núcleo que desea Registrar',
-            'nucleo.min'=>'Necesitas colocar 3 caráteres como mínimo',
+            'nucleo.min'=>'Necesitas colocar 3 carácteres como mínimo',
         ]);
         $existeNucleo = Nucleos::whereRaw('LOWER(nucleo) LIKE ?', ['%' . $request->nucleo . '%'])->exists();
         if ($existeNucleo) {

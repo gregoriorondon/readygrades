@@ -3,7 +3,7 @@
         <i class="fa-regular fa-triangle-exclamation mr-0 text-[#f00] text-7xl"></i>
             <br class="mt-4">
         @foreach($errors->all() as $error)
-            {{ $error }}
+            {{ $error }}<br>
         @endforeach
         {{-- {{ $title }} --}}
         <br class="mt-4">

@@ -100,7 +100,7 @@
           <div class="mt-2">
 
           <x-label>Carrera a Estudiar</x-label>
-          @props(['courses', 'trayectos'])
+          @props(['courses', 'trayectos', 'nucleos'])
           <x-select-form class="sm:max-w-full" name="carrera_id" id="carreras_id" >
                 @foreach($courses as $carrera)
                     <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
@@ -125,13 +125,9 @@
         <div class="carreratramonucleo">
           <div class="mt-2">
           <x-label>Núcleos</x-label>
-            <x-select-form class="sm:max-w-full" name="tramo_id">
-                @foreach($trayectos as $trayecto)
-                    <optgroup label="{{ $trayecto->trayectos }}">
-                        @foreach($trayecto->tramos as $tramos)
-                            <option value="{{ $tramos->id }}">{{ $tramos->tramos }}</option>
-                        @endforeach
-                    </optgroup>
+            <x-select-form class="sm:max-w-full" name="nucleo_id">
+                @foreach($nucleos as $nucleo)
+                    <option value="{{ $nucleo->id }}">{{ $nucleo->nucleo }}</option>
                 @endforeach
             </x-select-form>
           </div>
@@ -144,16 +140,6 @@
     <button type="reset" class="font-inter font-extrabold rounded-md bg-[#d84242] px-3 py-2 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#670f0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Limpiar <i class="fa-solid fa-eraser m-0"></i></button>
     <button type="submit" class="font-inter font-extrabold rounded-md bg-ready px-3 py-[0.7rem] text-sm font-semibold text-white shadow-sm hover:bg-[#0f2167] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrar <i class="fa-solid fa-floppy-disk m-0"></i></button>
   </div>
-  {{-- @if ($errors->any()) --}}
-  {{--   {{-1- <div class="alert alert-danger"> -1-}} --}}
-  {{--       {{-1- <ul> -1-}} --}}
-  {{--           @foreach ($errors->all() as $error) --}}
-  {{--               <script>alert( '{{ $error }}' )</script> --}}
-  {{--           @endforeach --}}
-  {{--       {{-1- </ul> -1-}} --}}
-  {{--   {{-1- </div> -1-}} --}}
-  {{--   @endif --}}
-  {{--   <x-input-error name="error" /> --}}
       <x-dialog-modal-errors class="transition-all">
           <x-slot:botones>
               Cerrar
