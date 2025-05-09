@@ -920,13 +920,13 @@ details[open] summary ~ * {
 .menu-hiden{
     display: flex;
 }
-.menu-hiden-button{
+.menu-hiden-button, .menu-hiden-button-movil{
     display: block;
 }
 .menu-open-button{
     display: block;
 }
-.menu-hiden-close, .menu-button-hiden{
+.menu-hiden-close, .menu-button-hiden, .menu-button-hiden-movil{
     display: none;
 }
 .btn-new-student{
