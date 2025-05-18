@@ -16,6 +16,23 @@ return new class extends Migration
             $table->string('nucleo')->unique();
             $table->timestamps();
         });
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('primer-name');
+            $table->string('segundo-name');
+            $table->string('primer-apellido');
+            $table->string('segundo-apellido');
+            $table->string('genero');
+            $table->string('nacionalidad');
+            $table->string('cedula')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->rememberToken();
+            $table->timestamps();
+        });
         Schema::create('carreras', function (Blueprint $table) {
             $table->id();
             $table->string('carrera')->unique();

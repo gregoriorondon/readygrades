@@ -111,10 +111,16 @@ DB_USERNAME=root
 >También hay que __*evitar colocar el mismo archivo de configuración del entorno en producción ya que aquí muestra el usuario, contraseña, puerto, dirección y nombre de la base de datos que está utilizando el proyecto y puede ser una gran vulnerabilidad de seguridad si no se cambia al pasar a producción.*__
 
 ## Configuración de Administrador por defecto (Local)
-Se agrego en `factories` un usuario por defecto de administrador, para poder ejecutarlo en local podemos ejecutar el siguiete comando:
+Se agrego en `factories` un usuario y un núcleo por defecto para poder crear el súper administrador (root), para poder ejecutarlo en local podemos ejecutar el siguiente comando:
 
 ```sh
 php artisan tinker
+```
+
+Luego dentro de este ejecutamos el siguiente comando para crear el núcleo:
+
+```sh
+App\Models\Nucleos::factory()->create()
 ```
 
 Luego dentro de este ejecutamos el siguiente comando:
@@ -123,7 +129,10 @@ Luego dentro de este ejecutamos el siguiente comando:
 App\Models\User::factory()->create();
 ```
 
-De esta manera nos creará automáticamente un usuario de administrador con contraseña y usuario para poder entrar, pero este creará un usuario aleatorio que mas adelante se podrá cambiar en la configuración de la cuenta.
+>[!Warning]
+>Debe de ejecutarse en ése orden, de lo contrario habrá errores en la creación del súper administrador.
+
+De esta manera nos creará automáticamente un núcleo y un usuario de administrador con contraseña y usuario para poder entrar, pero este creará un nombre de usuario aleatorio que mas adelante se podrá cambiar en la configuración de la cuenta.
 
 Los datos para iniciar sesión por defecto son:
 
