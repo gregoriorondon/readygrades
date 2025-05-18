@@ -72,11 +72,11 @@
                     </div>
                     <!-- FIN VERSION MOVIL -->
                     <div class="flex items-center pr-4 space-x-4">
-                        <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-moon m-0"></i></button>
-                        <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-sun m-0"></i></button>
+                        <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Cambiar A Modo Oscuro"><i class="fa-solid fa-moon m-0"></i></button>
+                        <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Cambiar A Modo Claro"><i class="fa-solid fa-sun m-0"></i></button>
                         <form method="POST" action="/logout">
                             @csrf
-                            <button class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
+                            <button class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Cerrar Sesión"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
                         </form>
                     </div>
                 </div>
