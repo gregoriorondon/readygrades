@@ -21,7 +21,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/registro-profesor', 'teacheradd');
 });
 
-Route::controller(RegisteredAdminController::class)->middleware('auth')->group( function(){
+Route::controller(RegisteredAdminController::class)->middleware('auth', 'no-devolver')->group( function(){
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
     Route::get('/autocomplete/nucleos', 'autonucleos');

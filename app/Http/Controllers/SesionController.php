@@ -27,8 +27,10 @@ class SesionController extends Controller
         request()->session()->regenerate();
         return redirect('/administracion');
     }
-    public function destroy(){
+    public function destroy(Request $request){
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/login');
     }
 }
