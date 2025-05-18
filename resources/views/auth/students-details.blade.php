@@ -58,6 +58,10 @@
           <x-details-dd>{{ $estudiantes->direccion }}</x-details-dd>
       </x-details-div>
       <x-details-div>
+          <x-details-dt>Núcleo de Estudios</x-details-dt>
+          <x-details-dd>{{ $estudiantes->nucleos->nucleo }}</x-details-dd>
+      </x-details-div>
+      <x-details-div>
         <x-details-dt>Carrera</x-details-dt>
         <x-details-dd>{{ $estudiantes->carreras->carrera }}</x-details-dd>
       </x-details-div>

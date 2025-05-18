@@ -12,6 +12,9 @@ class StudentPublic extends Model
     public function carreras() {
         return $this->belongsTo(Carreras::class, 'carrera_id');
     }
+    public function nucleos(){
+        return $this->belongsTo(Nucleos::class, 'nucleo_id');
+    }
     public function tramos() {
         return $this->belongsTo(Tramos::class, 'tramo_id');
     }

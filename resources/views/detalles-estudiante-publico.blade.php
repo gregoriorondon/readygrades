@@ -1,8 +1,8 @@
-<title>Detalles de {{ $estudiante['primer-name'] }}</title>
+<title>Detalles de {{ $estudiante['primer_name'] }}</title>
 <x-import />
 <body class="cuerpo">
     <x-nav-student-public>
-        <x-slot:usuario>{{ implode(' ', [$estudiante['primer-name'], $estudiante['primer-apellido'] ]) }}</x-slot:usuario>
+        <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido'] ]) }}</x-slot:usuario>
     </x-nav-student-public>
     <div class="data-public-student-details">
         <section class="personal-data">
@@ -34,6 +34,10 @@
                 @endif
                 </x-date-student-public>
             </div>
+                <div>
+                    <x-name-title-student-public>Núcleo de Estudios</x-name-title-student-public>
+                    <x-date-student-public>{{ $estudiante->nucleos->nucleo }}</x-date-student-public>
+                </div>
                 <div>
                     <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
                     <x-date-student-public>{{ $estudiante->carreras->carrera }}</x-date-student-public>

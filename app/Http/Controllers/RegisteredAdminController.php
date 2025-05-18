@@ -58,7 +58,9 @@ class RegisteredAdminController extends Controller
         $datosEstudiante = $request->validate([
             'cedula'=>['required', 'numeric','min_digits:7'],
             'primer_name'=>['required','string'],
+            'segundo_name'=>['nullable','string'],
             'primer_apellido'=>['required','string'],
+            'segundo_apellido'=>['nullable','string'],
             'genero'=>['required','string'],
             'nacionalidad'=>['required'],
             'fecha_nacimiento'=>['required'],
