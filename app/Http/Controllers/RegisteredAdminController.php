@@ -105,7 +105,7 @@ class RegisteredAdminController extends Controller
             // Si ya existe, redirigir con un mensaje de error
             return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
-        
+
         Students::create($datosEstudiante);
         return redirect('/registro-estudiante');
     }
@@ -233,5 +233,8 @@ class RegisteredAdminController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Error al crear los trayectos: ' . $e->getMessage());
         }
+    }
+    public function config(){
+        return view('auth.config');
     }
 }
