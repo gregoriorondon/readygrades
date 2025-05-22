@@ -11,9 +11,6 @@ Los profesores podrán entrar registrase o ingresar con su usuario y contraseña
 ## 🧑‍💼 Administradores:
 Los administradores podrán ingresar desde una sección oculta para evitar errores al tratar de ingresar una persona no autorizada. En este caso podrán gestionar y administrar registros de profesores, materias de cada profesor admitido en cada materia correspondiente y administrar de forma permanente las notas de los estudiantes.
 
-> [!WARNING]
-> Esta plataforma aun no está disponible de forma web, solo podrá usarlo de forma local por motivos de desarrollo paralelo al la [versión de escritorio](https://github.com/gregoriorondon/readygrade-desktop) y tenga en cuenta que al estar en proceso de desarrollo puede que tenga errores y paginas no disponibles. Si Dios lo permite esperemos que en un año esté ya culminado y publicado este proyecto de forma web y de forma estable.
-
 # Ejecutar el Proyecto en Local
 ## Instalar dependencias o complementos necesarios para ejecutar el proyecto
 Deberas tener ya instalado **composer** y **npm** para poder ejecutar los siguientes comandos:
