@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Carreras;
 use App\Models\Inscripciones;
 use App\Models\Nucleos;
+use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tramos;
 use App\Models\Trayectos;
@@ -235,6 +236,8 @@ class RegisteredAdminController extends Controller
         }
     }
     public function config(){
-        return view('auth.config');
+        $sessiones = Sessions::all();
+        $datos = User::all();
+        return view('auth.config', compact('sessiones', 'datos'));
     }
 }

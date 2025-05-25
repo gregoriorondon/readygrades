@@ -40,6 +40,7 @@ Route::controller(RegisteredAdminController::class)->middleware('auth', 'no-devo
     Route::post('/registro', 'store');
     Route::get('/registro-estudiante', 'studentadd');
     Route::post('/registro-estudiante', 'studentstore');
+    Route::get('/config', 'config');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');
