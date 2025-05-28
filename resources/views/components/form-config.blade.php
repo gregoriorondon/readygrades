@@ -1,6 +1,6 @@
 <form action="POST">
     @csrf
-    @props(['datos', 'sessiones'])
+    @props(['datos', 'sesiones'])
         <div class="space-y-12 p-[21px]">
         <div>
             <p class="mt-7 text-xl font-inter text-gray-400">Editar Datos Personales</p>
@@ -54,17 +54,43 @@
                     <x-input-form type="password" name="password_confirmation" id="password" placeholder="Confirmar Nueva Contraseña" required autocomplete="off" />
                 </div>
                 <x-input-error class="sm:col-span-6 mt-[-14px]" name="password" />
+</form>
+
                 <div class="sm:col-span-full sm:col-start-1">
                     <p class="mt-7 text-xl font-inter text-gray-400">Sesiones Activas En Otros Navegadores</p>
                     <x-horizontalline />
                 </div>
-            @foreach($sessiones as $session)
-                <div class="sm:col-span-3">
-                    <x-label>Navegador</x-label>
-                    <x-span>{{ $session['user_agent'] }}</x-span>
-                    <x-span>{{ $session['ip_address'] }}</x-span>
+                <div class="sm:col-span-full sm:col-start-1 overflow-hidden border border-gray-400 rounded-lg ">
+                    <table class="min-w-full table-fixed font-inter font-normal text-lg">
+                        <thead class="border-b">
+                            <tr class="text-left">
+                                <x-table-th-students>IP</x-table-th-students>
+                                <x-table-th-students>Navegador</x-table-th-students>
+                                <x-table-th-students>Inicio</x-table-th-students>
+                                <x-table-th-students>Acción</x-table-th-students>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sesiones as $sesion)
+                                <tr class="pt-3 odd:bg-gray-100/20 event:bg-transparent event:border-b ">
+                                    <x-table-td-students>{{ $sesion->ip_address }}</x-table-td-students>
+                                    <x-table-td-students class="text-wrap mx-w-40">{{ $sesion->user_agent }}</x-table-td-students>
+                                    <x-table-td-students>{{ $sesion->created_at }}</x-table-td-students>
+                                    <x-table-td-students>
+                                        @if (session('session_token') !== $sesion->session_token)
+                                            <form method="POST" action="{{ route('auth.delete', $sesion->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit">Cerrar</button>
+                                            </form>
+                                        @else
+                                            Sesión actual
+                                        @endif
+                                    </x-table-td-students>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            @endforeach
             </div>
         </div>
-</form>

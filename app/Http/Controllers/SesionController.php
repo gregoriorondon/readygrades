@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sessions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class SesionController extends Controller
 {
@@ -12,7 +14,7 @@ class SesionController extends Controller
     public function create(){
         return view('auth.login');
     }
-    public function store(){
+    public function store(Request $request){
         /* dd(request()->all()); */
         $atributos = request()->validate([
             'email'=>['required','email'],
@@ -25,9 +27,26 @@ class SesionController extends Controller
         }
         Auth::attempt($atributos);
         request()->session()->regenerate();
+
+        $sessionToken = Str::uuid()->toString();
+
+        session(['session_token' => $sessionToken]);
+
+        Sessions::create([
+            'user_id' => Auth::id(),
+            'session_token' => $sessionToken,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+        ]);
+
         return redirect('/administracion');
     }
     public function destroy(Request $request){
+        $token = session('session_token');
+
+        if ($token) {
+            Sessions::where('session_token', $token)->delete();
+        }
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

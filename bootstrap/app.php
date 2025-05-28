@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\NoCache;
+use App\Http\Middleware\VerifySessionToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
         $middleware->alias([
-            'no-devolver'=>NoCache::class
+            'no-devolver'=>NoCache::class,
+            'token'=>VerifySessionToken::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

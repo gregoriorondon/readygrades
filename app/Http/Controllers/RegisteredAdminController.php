@@ -68,7 +68,7 @@ class RegisteredAdminController extends Controller
             'email'=>['email','nullable'],
             'telefono'=>['numeric','nullable'],
             'direccion'=>['required','string'],
-            'city'=>['required','string'],
+'city'=>['required','string'],
             'nucleo_id'=>['required','numeric'],
             'carrera_id'=>['required','numeric'],
             'tramo_id'=>['required','numeric'],
@@ -235,9 +235,18 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->with('error', 'Error al crear los trayectos: ' . $e->getMessage());
         }
     }
-    public function config(){
-        $sessiones = Sessions::all();
+    public function config() {
         $datos = User::all();
-        return view('auth.config', compact('sessiones', 'datos'));
+        $sesiones = Sessions::where('user_id', Auth::id())->get();
+        return view('auth.config', compact('sesiones', 'datos'));
     }
+    public function eliminarSesion($id){
+        $sesion = Sessions::findOrFail($id);
+        if ($sesion->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $sesion->delete();
+        return back()->with('status', 'Sesión cerrada exitosamente.');
+    }
+
 }

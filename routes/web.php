@@ -13,15 +13,13 @@ use Illuminate\Support\Facades\Route;
 /* }); */
 
 Route::controller(UniversityController::class)->group( function (){
-    /* Route::get('/', 'index'); */
-    /* Route::get('/organigrama', 'organigrama'); */
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::post('/detalles-estudiante', 'studentspublicdetails');
     Route::get('/registro-profesor', 'teacheradd');
 });
 
-Route::controller(RegisteredAdminController::class)->middleware('auth', 'no-devolver')->group( function(){
+Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-devolver', 'token'])->group( function(){
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
     Route::get('/autocomplete/nucleos', 'autonucleos');
@@ -41,6 +39,7 @@ Route::controller(RegisteredAdminController::class)->middleware('auth', 'no-devo
     Route::get('/registro-estudiante', 'studentadd');
     Route::post('/registro-estudiante', 'studentstore');
     Route::get('/config', 'config');
+    Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');

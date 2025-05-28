@@ -9,9 +9,9 @@ class Sessions extends Model
     //
     protected $table = "sessions";
     protected $fillable = [
-        'id',
         'user_id',
+        'session_token',
         'ip_address',
-        'user_agent',
+        'user_agent'
     ];
 }
