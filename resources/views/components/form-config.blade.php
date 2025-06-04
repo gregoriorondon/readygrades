@@ -3,7 +3,7 @@
     @props(['datos', 'sesiones'])
         <div class="space-y-12 p-[21px]">
         <div>
-            <p class="mt-7 text-xl font-inter text-gray-400">Editar Datos Personales</p>
+            <p class="mt-7 text-xl font-inter text-gray-400 capitalize">Información de su perfil</p>
             <x-horizontalline />
         </div>
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -36,10 +36,14 @@
                     <x-label>Cédula</x-label>
                     <x-input-form type="text" name="cedula" value="{{ $dato['cedula'] }}" placeholder="Coloque Su Cédula" autocomplete="off" />
                 </div>
+                <x-button>Guardar</x-button>
+</form>
                 <div class="sm:col-span-full sm:col-start-1">
                     <p class="mt-7 text-xl font-inter text-gray-400">Editar Acceso</p>
                     <x-horizontalline />
                 </div>
+<form class="contents">
+    @csrf
                 <div class="sm:col-span-2 sm:col-start-1">
                     <x-label>Correo / Email</x-label>
                     <x-input-form type="email" name="email" id="email" value="{{ $dato->email }}" placeholder="Correo Electrónico" required autocomplete="off" />
@@ -64,10 +68,10 @@
                     <table class="min-w-full table-fixed font-inter font-normal text-lg">
                         <thead class="border-b">
                             <tr class="text-left">
-                                <x-table-th-students>IP</x-table-th-students>
-                                <x-table-th-students>Navegador</x-table-th-students>
-                                <x-table-th-students>Inicio</x-table-th-students>
-                                <x-table-th-students>Acción</x-table-th-students>
+                                <x-table-th-students><i class="fas fa-map-marked-alt"></i>IP</x-table-th-students>
+                                <x-table-th-students><i class="fab fa-safari"></i>Navegador</x-table-th-students>
+                                <x-table-th-students><i class="fas fa-calendar-alt"></i>Inicio</x-table-th-students>
+                                <x-table-th-students><i class="fas fa-bolt"></i>Acción</x-table-th-students>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +85,7 @@
                                             <form method="POST" action="{{ route('auth.delete', $sesion->id) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit">Cerrar</button>
+                                                <button class="bg-[#f00] p-2 rounded-lg hover:bg-[#b00]" type="submit">Cerrar</button>
                                             </form>
                                         @else
                                             Sesión actual
