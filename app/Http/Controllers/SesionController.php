@@ -14,6 +14,9 @@ class SesionController extends Controller
     public function create(){
         return view('auth.login');
     }
+    public function createteacher(){
+        return view('auth.loginprofesores');
+    }
     public function store(Request $request){
         /* dd(request()->all()); */
         $atributos = request()->validate([

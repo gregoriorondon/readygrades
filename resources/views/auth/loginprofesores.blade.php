@@ -1,5 +1,6 @@
 <x-guest>
- <x-slot:titulo>Iniciar sesión como administrador</x-slot:titulo>
+ <x-slot:titulo>Iniciar sesión</x-slot:titulo>
+ <x-nav />
     <x-authentication-card>
         <x-slot name="logo">
            <x-authentication-card-logo />
@@ -12,7 +13,7 @@
         {{-- @endsession --}}
 
         <x-login-name>
-            Iniciar Sesión Como Administrador
+            Iniciar Sesión
         </x-login-name>
 
         <form method="POST" action="/login">
@@ -39,4 +40,5 @@
         <span>Si no esta registrado, diríjase al A.R.S.C.E</span>
     </div>
     </x-authentication-card>
+    <x-footer />
 </x-guest>

@@ -45,6 +45,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-dev
 Route::get('/login', [SesionController::class, 'create'])->name('login');
 Route::post('/login', [SesionController::class, 'store']);
 Route::post('/logout', [SesionController::class, 'destroy']);
+Route::get('/login-profesor', [SesionController::class, 'createteacher'])->name('login-profesor');
 
 /* Route::get('/soliresgis', function(){ */
 /*     return view('soliresgis'); */
