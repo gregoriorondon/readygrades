@@ -103,6 +103,26 @@
     font-family: 'inter italic';
     src: url('/resources/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.tff');
 }
+@font-face{
+    font-family: 'CourierPrime';
+    src: url('/resources/fonts/CourierPrime/CourierPrime-Regular.ttf');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'CourierPrimeBold';
+    src: url('/resources/fonts/CourierPrime/CourierPrime-Bold.ttf');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'CourierPrimeItalic';
+    src: url('/resources/fonts/CourierPrime/CourierPrime-Italic.ttf');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'CourierPrimeBoldItalic';
+    src: url('/resources/fonts/CourierPrime/CourierPrime-BoldItalic.ttf');
+    font-style: normal;
+}
 
 
 
