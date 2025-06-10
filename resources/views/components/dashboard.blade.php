@@ -30,6 +30,10 @@
                         <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
                         <x-sidebar-section href="/nucleos" :active="request()->is('nucleos')"><i class="fa-solid fa-signs-post"></i>Núcleos</x-sidebar-section>
                         <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
+                        <details class="register-add-sidebar-details">
+                            <summary class="selection:bg-transparent cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fas fa-file-plus"></i>Generar</summary>
+                                <x-sidebar-section href="/generar-constancia" :active="request()->is('generar-constancia')"><i class="fas fa-graduation-cap"></i>Constancia De Estudios</x-sidebar-section>
+                        </details>
                     </nav>
                 </div>
             </div>
@@ -53,6 +57,10 @@
                         <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
                         <x-sidebar-section href="/nucleos" :active="request()->is('nucleos')"><i class="fa-solid fa-signs-post"></i>Núcleos</x-sidebar-section>
                         <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
+                        <details class="register-add-sidebar-details">
+                            <summary class="selection:bg-transparent cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fas fa-file-plus"></i>Generar</summary>
+                                <x-sidebar-section href="/registro-estudiante" :active="request()->is('registro-estudiante')"><i class="fas fa-graduation-cap"></i>Constancia De Estudios</x-sidebar-section>
+                        </details>
                     </nav>
                 </div>
             </div>

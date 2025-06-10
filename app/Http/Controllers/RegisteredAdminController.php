@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carreras;
+use App\Models\ConstanciaEstudios;
 use App\Models\Inscripciones;
 use App\Models\Nucleos;
 use App\Models\Sessions;
@@ -247,6 +248,13 @@ class RegisteredAdminController extends Controller
         }
         $sesion->delete();
         return back()->with('status', 'Sesión cerrada exitosamente.');
+    }
+    public function constanciastudios(){
+        $informacion = ConstanciaEstudios::all();
+        /* $usuario = Auth::user()->nucleos->nucleo; */
+        $usuario = Auth::user();
+        /* dd($usuario); */
+        return view('auth.constanciaestudios', compact('informacion', 'usuario'));
     }
 
 }

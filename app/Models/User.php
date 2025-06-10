@@ -27,6 +27,7 @@ class User extends Authenticatable
         'cedula',
         'email',
         'password',
+        'nucleo_id',
     ];
 
     /**
@@ -50,5 +51,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function nucleos(){
+        return $this->belongsTo(Nucleos::class, 'nucleo_id');
     }
 }

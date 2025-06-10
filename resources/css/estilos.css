@@ -987,6 +987,48 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+#titulo_constancia p{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-transform: uppercase;
+}
+#cuerpo_constancia p,span{
+    font-family: "CourierPrime";
+}
+.underline-custom {
+    display: inline;
+    position: relative;
+    padding: 0px 40px 2px 40px;
+}
+
+.underline-custom::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+}
+.firma_derecha{
+    display: flex;
+    justify-content: right;
+    margin: 100px 22px 0px 22px;
+}
+.firma{
+    display: inline;
+    position: relative;
+    padding: 0px 35px;
+}
+.firma::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+}
+
 /*===========================================*/
 /*===========Diseño responsivo===============*/
 /*===========================================*/
