@@ -252,6 +252,9 @@ class RegisteredAdminController extends Controller
         $sesion->delete();
         return back()->with('status', 'Sesión cerrada exitosamente.');
     }
+    public function generar(){
+        return view('auth.generar');
+    }
     public function constanciastudios(){
         $opciones = [
             'fontDir' => resource_path('fonts/Courierpdf/'),
