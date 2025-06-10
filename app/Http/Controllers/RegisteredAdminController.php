@@ -12,6 +12,9 @@ use App\Models\Tramos;
 use App\Models\Trayectos;
 use App\Models\Trimestres;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -250,11 +253,14 @@ class RegisteredAdminController extends Controller
         return back()->with('status', 'Sesión cerrada exitosamente.');
     }
     public function constanciastudios(){
+        $opciones = [
+            'fontDir' => resource_path('fonts/Courierpdf/'),
+        ];
+
         $informacion = ConstanciaEstudios::all();
-        /* $usuario = Auth::user()->nucleos->nucleo; */
         $usuario = Auth::user();
-        /* dd($usuario); */
-        return view('auth.constanciaestudios', compact('informacion', 'usuario'));
+        $pdf = Pdf::loadView('pdf.constanciaestudios', compact(['informacion', 'usuario']))->setOption($opciones);
+        return $pdf->stream('prueba.pdf');
     }
 
 }

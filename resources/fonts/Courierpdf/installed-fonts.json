@@ -1,0 +1,17 @@
+{
+    "courierprime": {
+        "normal": "courierprime_normal_708fa075d9d694d244111bca510b9564"
+    },
+    "courierbold": {
+        "normal": "courierbold_normal_a6a57f6a249307919221137de8ff8026"
+    },
+    "courieritalic": {
+        "normal": "courieritalic_normal_3230f2f80656a862bd380450b1aeb90f"
+    },
+    "courier": {
+        "normal": "courier_normal_31c7891531b7e75af007c649894a0f12",
+        "bold": "\/opt\/lampp\/htdocs\/readygrade\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier-Bold",
+        "italic": "\/opt\/lampp\/htdocs\/readygrade\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier-Oblique",
+        "bold_italic": "\/opt\/lampp\/htdocs\/readygrade\/vendor\/dompdf\/dompdf\/lib\/fonts\/Courier-BoldOblique"
+    }
+}
