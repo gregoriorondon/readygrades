@@ -135,26 +135,38 @@
         </div>
         <div class="cuerpo_constancia">
             <p>{{ $informa['introduccion'] }}
-            <span class="underline-custom">Gregorio Alexander, Rondon Carrasquero</span>
+            <span class="underline-custom">
+                @if($estudiante['segundo_apellido'] === null)
+                    {{ $estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name'] }}
+                @else
+                    {{ $estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name'] }}
+                @endif
+            </span>
             {{ $informa['texto_pre_cedula'] }}
-            <span class="underline-custom">V29994791</span>
+            <span class="underline-custom">
+                @if($estudiante['nacionalidad'] === 'VE')
+                    V{{ $estudiante['cedula']}}
+                @else
+                    E{{ $estudiante['cedula']}}
+                @endif
+            </span>
             {{ $informa['texto_estatus_estudiante'] }}
             </p>
         </div>
         <div class="carrera" style="">
             <div>
-                <p class="carrera1">Ingeniero en Informática</p>
+                <p class="carrera1">{{ $estudiante->carreras->carrera }}</p>
             </div>
         </div>
         <div class="cuerpo_constancia" style="text-indent: 0;">
             <p>{{ $informa['texto_inicio_fecha'] }}
             <span class="underline-custom1">{{ $usuario->nucleos->nucleo }},</span>
             {{ $informa['texto_dia'] }}
-            <span class="underline-custom1">veintisiete</span>
+            <span class="underline-custom1">{{ $diaTexto }}</span>
             {{ $informa['texto_mes'] }}
-            <span class="underline-custom1">junio</span>
+            <span class="underline-custom1">{{ $mes }}</span>
             {{ $informa['texto_anio'] }}
-            <span class="underline-custom1">2025</span>
+            <span class="underline-custom1">{{ $anio }}</span>
             </p>
         </div>
         <div  class="cuerpo_constancia" style="text-indent: 0;">

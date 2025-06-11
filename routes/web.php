@@ -38,7 +38,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-dev
     Route::post('/registro', 'store');
     Route::get('/registro-estudiante', 'studentadd');
     Route::post('/registro-estudiante', 'studentstore');
-    Route::get('/generar-documentos', 'constanciastudios')->name('generarpdf');
+    Route::get('/generar-documentos', 'generar');
+    Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
+    Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
 });

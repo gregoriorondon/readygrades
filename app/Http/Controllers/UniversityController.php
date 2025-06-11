@@ -29,7 +29,7 @@ class UniversityController extends Controller
         ]);
         $estudiante = StudentPublic::with(['tramos.trayectos','carreras'])->where('cedula', $request->cedula)->first();
         if (! $estudiante) {
-            return redirect()->back()->withErros(['cedula'=>'No se encuantra registrado en nuestra institución como un estudiante.']);
+            return redirect()->back()->withErros(['cedula'=>'No se encuentra registrado en nuestra institución como un estudiante.']);
         }
         /* return view('detalles-estudiante-publico', ['estudiante' => $student]); */
         return view('detalles-estudiante-publico', compact('estudiante'));

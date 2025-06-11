@@ -13,6 +13,7 @@ use App\Models\Trayectos;
 use App\Models\Trimestres;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use GuzzleHttp\Psr7\Query;
@@ -255,15 +256,54 @@ class RegisteredAdminController extends Controller
     public function generar(){
         return view('auth.generar');
     }
-    public function constanciastudios(){
-        $opciones = [
-            'fontDir' => resource_path('fonts/Courierpdf/'),
-        ];
+    public function generarprocess(Request $request){
+        /* dd($request); */
+        $datosgenerar = $request->validate([
+            'cedula'=>['required', 'numeric','min_digits:7'],
+        ],[
+            'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.min_digits'=>'La longitud de la cédula no coincide con el mínimo requerido.',
+        ]);
+        $existe = Students::where('cedula', $datosgenerar)->first();
+        if (! $existe) {
+            return redirect()->back()->withErrors(['cedula'=>'No se encuentra registrado el estudiante con ése número de cédula']);
+        }
+        if ($request->solicitud == 'record') {
+            return redirect()->back()->with('alert','Todavia no funciona esa opcion');
+        }
+        if ($request->solicitud == 'constancia') {
 
-        $informacion = ConstanciaEstudios::all();
-        $usuario = Auth::user();
-        $pdf = Pdf::loadView('pdf.constanciaestudios', compact(['informacion', 'usuario']))->setOption($opciones);
-        return $pdf->stream('prueba.pdf');
+            $fecha = Carbon::now();
+
+            $diasEnLetras = [
+                1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
+                6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
+                11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
+                16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve',
+                20 => 'veinte', 21 => 'veintiuno', 22 => 'veintidós', 23 => 'veintitrés',
+                24 => 'veinticuatro', 25 => 'veinticinco', 26 => 'veintiséis', 27 => 'veintisiete',
+                28 => 'veintiocho', 29 => 'veintinueve', 30 => 'treinta', 31 => 'treinta y uno'
+            ];
+
+            $dia = $fecha->day;
+            $mes = $fecha->isoFormat('MMMM');
+            $anio = $fecha->year;
+            $diaTexto = $diasEnLetras[$dia] ?? $dia;
+
+            $opciones = [
+                'fontDir' => resource_path('fonts/Courierpdf/'),
+            ];
+            $informacion = ConstanciaEstudios::all();
+            $usuario = Auth::user();
+            $estudiante = Students::where('cedula', $datosgenerar)->first();
+            $pdf = Pdf::loadView('pdf.constanciaestudios', compact(['informacion', 'usuario', 'estudiante', 'diaTexto', 'mes', 'anio']))->setOption($opciones);
+            return $pdf->stream('constancia_de_estudios.pdf');
+        }
+        return view('auth.generar');
+    }
+    public function generarrecarga(){
+        return view('pdf.cerrar');
     }
 
 }
