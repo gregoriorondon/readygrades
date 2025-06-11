@@ -9,16 +9,18 @@
         <div class="sm:col-span-3">
           <div class="mt-2">
           <x-label>Nombre Completo</x-label>
-            <x-input-form type="text" name="primer-name" id="first-name" :value="old('primer-name')" placeholder="Primer Nombre" required />
-            <x-input-form type="text" name="segundo-name" id="first-name" :value="old('segundo-name')"  placeholder="Segundo Nombre" required />
+            <x-input-form type="text" name="primer-name" id="first-name" :value="old('primer-name')" placeholder="Primer Nombre" required autocomplete="off" />
+            <x-input-form type="text" name="segundo-name" id="first-name" :value="old('segundo-name')"  placeholder="Segundo Nombre" autocomplete="off" />
+            <x-input-error name="primer-name" />
           </div>
         </div>
 
         <div class="sm:col-span-3">
           <div class="mt-2">
           <x-label>Apellido Completo</x-label>
-            <x-input-form type="text" name="primer-apellido" id="last-name" :value="old('primer-apellido')"  placeholder="Primer Apellido" required />
-            <x-input-form type="text" name="segundo-apellido" id="last-name" :value="old('segundo-apellido')"  placeholder="Segundo Apellido" required />
+            <x-input-form type="text" name="primer-apellido" id="last-name" :value="old('primer-apellido')"  placeholder="Primer Apellido" required autocomplete="off" />
+            <x-input-form type="text" name="segundo-apellido" id="last-name" :value="old('segundo-apellido')"  placeholder="Segundo Apellido" autocomplete="off" />
+            <x-input-error name="primer-apellido" />
           </div>
         </div>
 
@@ -45,7 +47,7 @@
         <div class="sm:col-span-2">
           <div class="mt-2">
           <x-label>Cedula de Identidad</x-label>
-            <x-input-form class="sm:max-w-full" type="number" name="cedula" id="cedula" :value="old('cedula')"  placeholder="Número de Cedula" required />
+            <x-input-form class="sm:max-w-full" type="number" name="cedula" id="cedula" :value="old('cedula')"  placeholder="Número de Cedula" required autocomplete="off" />
             <x-input-error name="cedula" />
           </div>
         </div>
@@ -53,24 +55,64 @@
         <div class="sm:col-span-2 sm:col-start-1">
           <div class="mt-2">
           <x-label>Correo / Email</x-label>
-            <x-input-form type="email" name="email" id="email" :value="old('email')"  placeholder="Correo Electrónico del Administrador" required />
+            <x-input-form type="email" name="email" id="email" :value="old('email')"  placeholder="Correo Electrónico del Administrador" required autocomplete="off" />
+            <x-input-error name="email" />
           </div>
         </div>
 
         <div class="sm:col-span-2">
           <div class="mt-2">
           <x-label>Contraseña</x-label>
-            <x-input-form type="password" name="password" id="password" placeholder="Contrasña Temporal para Iniciar Sesión" required />
+            <x-input-form type="password" name="password" id="password" placeholder="Contrasña Temporal para Iniciar Sesión" required autocomplete="off" />
           </div>
         </div>
 
         <div class="sm:col-span-2">
           <div class="mt-2">
           <x-label>Confirmar Contraseña</x-label>
-            <x-input-form type="password" name="password_confirmation" id="password" placeholder="Confirmar Contraseña" required />
+            <x-input-form type="password" name="password_confirmation" id="password" placeholder="Confirmar Contraseña" required autocomplete="off" />
           </div>
         </div>
-            <x-input-error class="sm:col-span-6 mt-[-14px]" name="password" />
+        <x-input-error class="sm:col-span-6 mt-[-14px]" name="password" />
+
+    <div class="gap-x-6 gap-y-8 sm:grid-cols-6 divcarreratramonucleo">
+        <div class="carreratramonucleo">
+          <div class="mt-2">
+
+          <x-label class="after:content-['*'] after:text-red-400">Titulo Obtenido</x-label>
+          @props(['cargo', 'estudio', 'nucleo'])
+          <x-select-form class="sm:max-w-full" name="cargo_id" id="carreras_id" >
+                @foreach($cargo as $cargos)
+                    <option value="{{ $cargos->id }}">{{ strtoupper($cargos->cargo) }}</option>
+                @endforeach
+            </x-select-form>
+            <x-input-error name="cargo_id" />
+          </div>
+        </div>
+        <div class="carreratramonucleo">
+          <div class="mt-2">
+          <x-label class="after:content-['*'] after:text-red-400">Cargo A Ejercer</x-label>
+            <x-select-form class="sm:max-w-full" name="estudio_id">
+                @foreach($estudio as $estudios)
+                    <option value="{{ $estudios->id }}">{{ strtoupper($estudios->estudio) }} - ({{ strtoupper($estudios->abrev) }})</option>
+                @endforeach
+            </x-select-form>
+            <x-input-error name="estudio_id" />
+          </div>
+        </div>
+        <div class="carreratramonucleo">
+          <div class="mt-2">
+          <x-label class="after:content-['*'] after:text-red-400">Núcleo</x-label>
+            <x-select-form class="sm:max-w-full" name="nucleo_id">
+                @foreach($nucleo as $nucleos)
+                    <option value="{{ $nucleos->id }}">{{ $nucleos->nucleo }}</option>
+                @endforeach
+            </x-select-form>
+            <x-input-error name="nucleo_id" />
+          </div>
+        </div>
+    </div>
+
       </div>
     </div>
   <div class="mt-6 flex items-center justify-end gap-x-6">

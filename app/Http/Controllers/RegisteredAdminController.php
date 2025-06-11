@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
+use App\Models\Estudios;
 use App\Models\Inscripciones;
 use App\Models\Nucleos;
 use App\Models\Sessions;
@@ -31,23 +33,36 @@ class RegisteredAdminController extends Controller
     public function create(){
         return view('auth.registro-admin');
     }
-    public function store(){
+    public function store(Request $request){
         /* dd(request()->all()); */
-        $atributos = request()->validate([
-            'primer-name' => ['required'],
-            'segundo-name' => ['required'],
+        $atributos = $request->validate([
+            'primer-name' => ['required', 'string'],
+            'segundo-name' => ['nullable', 'string'],
             'primer-apellido' => ['required'],
-            'segundo-apellido' => ['required'],
+            'segundo-apellido' => ['nullable'],
             'genero' => ['required'],
             'nacionalidad' => ['required'],
             'cedula' => ['required', 'min:7'],
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'min:7', 'confirmed'],
+            'estudio_id' => ['required', 'numeric'],
+            'cargo_id' => ['required', 'numeric'],
+            'nucleo_id' => ['required', 'numeric'],
         ],[
+            'primer-name.required'=>'Es necesario por lo menos el primer nombre.',
+            'primer-apellido.required'=>'Es necesario por lo menos el primer apellido.',
             'password.required'=>'Es necesaria una contraseña',
             'password.confirmed'=>'Las contraseñas no coinciden',
             'password.min'=>'La contraseña debe tener un mínimo de 7 caracteres',
             'cedula.min'=>'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
+            'email.required'=>'Debe colocar un correo electrónico valido.',
+            'email.email'=>'Debe colocar un correo electrónico valido.',
+            'estudio_id.required'=>'Introduzca un estudio válido.',
+            'estudio_id.numeric'=>'Introduzca un estudio válido.',
+            'cargo_id.required'=>'Introduzca un cargo válido.',
+            'cargo_id.numeric'=>'Introduzca un cargo válido.',
+            'nucleo_id.required'=>'Introduzca un núcleo válido.',
+            'nucleo_id.numeric'=>'Introduzca un núcleo válido.',
         ]);
         User::create($atributos);
         return redirect('/administracion');
@@ -136,7 +151,10 @@ class RegisteredAdminController extends Controller
         return view('auth.students-details', compact('estudiantes', 'student'));
     }
     public function adminadd(){
-        return view('auth.registro-admin');
+        $estudio = Estudios::orderByRaw('estudio ASC')->get();
+        $cargo = Cargos::orderByRaw('cargo ASC')->get();
+        $nucleo = Nucleos::orderByRaw('nucleo ASC')->get();
+        return view('auth.registro-admin', compact(['estudio', 'cargo', 'nucleo']));
     }
     public function profesornomina(){
         return view('auth.profesores-nomina');

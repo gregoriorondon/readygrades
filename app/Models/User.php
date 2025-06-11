@@ -28,6 +28,8 @@ class User extends Authenticatable
         'email',
         'password',
         'nucleo_id',
+        'estudio_id',
+        'cargo_id',
     ];
 
     /**
@@ -51,6 +53,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function cargos(){
+        return $this->belongsTo(Nucleos::class, 'cargo_id');
+    }
+    public function estudios(){
+        return $this->belongsTo(Nucleos::class, 'estudio_id');
     }
     public function nucleos(){
         return $this->belongsTo(Nucleos::class, 'nucleo_id');

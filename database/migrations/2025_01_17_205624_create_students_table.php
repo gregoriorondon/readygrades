@@ -16,6 +16,17 @@ return new class extends Migration
             $table->string('nucleo')->unique();
             $table->timestamps();
         });
+        Schema::create('cargos', function (Blueprint $table) {
+            $table->id();
+            $table->string('cargo')->unique();
+            $table->timestamps();
+        });
+        Schema::create('estudios', function (Blueprint $table) {
+            $table->id();
+            $table->string('estudio')->unique();
+            $table->string('abrev')->unique();
+            $table->timestamps();
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('primer-name');
@@ -28,6 +39,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('estudio_id');
+            $table->foreign('estudio_id')->references('id')->on('estudios')->cascadeOnUpdate();
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->cascadeOnUpdate();
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->rememberToken();

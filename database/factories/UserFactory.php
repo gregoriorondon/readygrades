@@ -26,6 +26,8 @@ class UserFactory extends Factory
             'cedula' => '12345678',
             'email' => 'admin@admin',
             'password' => '$2y$12$xLsAjv/AEOJBAUXTYAhgFO3ifCm9y6oo8gcU8PAE28zYnQ62s5YAe',
+            'estudio_id' => '1',
+            'cargo_id' => '1',
             'nucleo_id' => '1',
         ];
     }
