@@ -175,13 +175,13 @@
         <div class="firma_derecha">
             <div class="firma1" id="cuerpo_constancia" style="text-transform: uppercase;">
                 <span class="firma"> </span>
-                <p>Grado. {{ $usuario['primer-name'] . ' ' .  $usuario['primer-apellido'] }}</p>
-                <p>Cargo</p>
+                <p>{{ $usuario->estudios->abrev }}. {{ $usuario['primer-name'] . ' ' .  $usuario['primer-apellido'] }}</p>
+                <p>{{ $usuario->cargos->cargo }}</p>
             </div>
         </div>
         <div  class="cuerpo_constancia" style="text-indent: 0; font-size: 12px;">
             <p style="text-transform: none;">{{ $informa['texto_emitido_por'] }}
-            <span>Grado. {{ $usuario['primer-name'] . ' ' .  $usuario['primer-apellido'] }}</span>
+            <span style="text-transform: uppercase;">{{ $usuario->estudios->abrev }}. {{ $usuario['primer-name'] . ' ' .  $usuario['primer-apellido'] }}</span>
             </p>
         </div>
         <div class="cuerpo_constancia">

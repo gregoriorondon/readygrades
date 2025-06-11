@@ -55,10 +55,10 @@ class User extends Authenticatable
         ];
     }
     public function cargos(){
-        return $this->belongsTo(Nucleos::class, 'cargo_id');
+        return $this->belongsTo(Cargos::class, 'cargo_id');
     }
     public function estudios(){
-        return $this->belongsTo(Nucleos::class, 'estudio_id');
+        return $this->belongsTo(Estudios::class, 'estudio_id');
     }
     public function nucleos(){
         return $this->belongsTo(Nucleos::class, 'nucleo_id');
