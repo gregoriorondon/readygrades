@@ -41,6 +41,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-dev
     Route::get('/generar-documentos', 'generar');
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
+    Route::get('/agregar-cargo', 'cargoadd');
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
 });

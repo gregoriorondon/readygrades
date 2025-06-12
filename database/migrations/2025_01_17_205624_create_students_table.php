@@ -30,9 +30,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('primer-name');
-            $table->string('segundo-name');
+            $table->string('segundo-name')->nullable();
             $table->string('primer-apellido');
-            $table->string('segundo-apellido');
+            $table->string('segundo-apellido')->nullable();
             $table->string('genero');
             $table->string('nacionalidad');
             $table->string('cedula')->unique();

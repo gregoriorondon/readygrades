@@ -16,8 +16,6 @@ use App\Models\Trimestres;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +63,7 @@ class RegisteredAdminController extends Controller
             'nucleo_id.numeric'=>'Introduzca un núcleo válido.',
         ]);
         User::create($atributos);
-        return redirect('/administracion');
+        return redirect('/registro-administrador')->with('alert', 'Se creo el usuario correctamente');
     }
     public function studentadd(){
         $courses = Carreras::orderByRaw('carrera ASC')->get();
@@ -322,6 +320,9 @@ class RegisteredAdminController extends Controller
     }
     public function generarrecarga(){
         return view('pdf.cerrar');
+    }
+    public function cargoadd(){
+        return view('auth.cargoadd');
     }
 
 }
