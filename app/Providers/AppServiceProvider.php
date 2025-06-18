@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Route::middleware('api')->group(base_path('routes/api.php'));
         Gate::define('root', function (User $user) {
-            if ($user->cargos->tipo === 'superadmin'){
+            if ($user->cargos->tipos->tipo === 'superadmin'){
                 return Response::allow();
             }
             return Response::deny('Usted No Esta Autorizado');

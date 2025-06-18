@@ -16,10 +16,16 @@ return new class extends Migration
             $table->string('nucleo')->unique();
             $table->timestamps();
         });
+        Schema::create('tipos', function (Blueprint $table) {
+            $table->id();
+            $table->string('tipo')->unique();
+            $table->timestamps();
+        });
         Schema::create('cargos', function (Blueprint $table) {
             $table->id();
             $table->string('cargo')->unique();
-            $table->string('tipo')->unique();
+            $table->unsignedBigInteger('tipo_id');
+            $table->foreign('tipo_id')->references('id')->on('tipos')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('estudios', function (Blueprint $table) {
@@ -106,5 +112,6 @@ return new class extends Migration
         Schema::dropIfExists('tramos');
         Schema::dropIfExists('tramo_trayecto');
         Schema::dropIfExists('students');
+        Schema::dropIfExists('tipos');
     }
 };

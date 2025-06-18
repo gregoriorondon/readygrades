@@ -12,4 +12,7 @@ class Cargos extends Model
     protected $fillable = [
         'cargo',
     ];
+    public function tipos(){
+        return $this->belongsTo(Tipos::class, 'tipo_id');
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class CargosFactory extends Factory
+class TiposFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class CargosFactory extends Factory
     public function definition(): array
     {
         return [
-            'cargo'=>'jefe de administracion',
-            'tipo_id'=>'1'
+            'tipo'=>'superadmin',
         ];
     }
 }
