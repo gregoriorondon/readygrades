@@ -17,7 +17,8 @@ class CargosFactory extends Factory
     public function definition(): array
     {
         return [
-            'cargo'=>'jefe de arsce',
+            'cargo'=>'jefe de administracion',
+            'tipo'=>'superadmin',
         ];
     }
 }

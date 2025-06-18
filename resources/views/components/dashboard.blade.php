@@ -28,8 +28,10 @@
                         <x-sidebar-section href="/estudiantes-panel-administrativo" :active="request()->is('estudiantes-panel-administrativo')"><i class="fa-duotone fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
                         <x-sidebar-section href="/nomina-profesores" :active="request()->is('nomina-profesores')"><i class="fa-duotone fa-regular fa-chalkboard-user"></i>Profesores</x-sidebar-section>
                         <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
+                        @can('root')
                         <x-sidebar-section href="/nucleos" :active="request()->is('nucleos')"><i class="fa-solid fa-signs-post"></i>Núcleos</x-sidebar-section>
                         <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
+                    @endcan
                         <x-sidebar-section href="/generar-documentos" :active="request()->is('generar-documentos')"><i class="fas fa-file-plus"></i>Generar</x-sidebar-section>
                     </nav>
                 </div>

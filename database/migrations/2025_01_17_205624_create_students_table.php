@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('cargos', function (Blueprint $table) {
             $table->id();
             $table->string('cargo')->unique();
+            $table->string('tipo')->unique();
             $table->timestamps();
         });
         Schema::create('estudios', function (Blueprint $table) {
