@@ -314,7 +314,12 @@ class RegisteredAdminController extends Controller
             $usuario = Auth::user();
             $estudiante = Students::where('cedula', $datosgenerar)->first();
             $pdf = Pdf::loadView('pdf.constanciaestudios', compact(['informacion', 'usuario', 'estudiante', 'diaTexto', 'mes', 'anio']))->setOption($opciones);
-            return $pdf->stream('constancia_de_estudios.pdf');
+            $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+            if ($request->descargar == 'on') {
+                return $pdf->download($filename);
+            } else {
+                return $pdf->stream($filename);
+            }
         }
         return view('auth.generar');
     }
