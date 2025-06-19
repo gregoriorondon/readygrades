@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -21,6 +22,11 @@ return new class extends Migration
             $table->string('tipo')->unique();
             $table->timestamps();
         });
+        DB::table('tipos')->insert([
+            ['tipo'=>'superadmin', 'created_at'=>now(), 'updated_at'=>now()],
+            ['tipo'=>'administrador', 'created_at'=>now(), 'updated_at'=>now()],
+            ['tipo'=>'profesor', 'created_at'=>now(), 'updated_at'=>now()]
+            ]);
         Schema::create('cargos', function (Blueprint $table) {
             $table->id();
             $table->string('cargo')->unique();
@@ -96,8 +102,8 @@ return new class extends Migration
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
-            $table->unsignedBigInteger('tramo_id');
-            $table->foreign('tramo_id')->references('id')->on('tramos')->cascadeOnUpdate();
+            $table->unsignedBigInteger('tramo_trayecto_id');
+            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
             $table->timestamps();
         });
     }
