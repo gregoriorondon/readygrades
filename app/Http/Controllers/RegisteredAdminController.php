@@ -10,6 +10,7 @@ use App\Models\Inscripciones;
 use App\Models\Nucleos;
 use App\Models\Sessions;
 use App\Models\Students;
+use App\Models\Tipos;
 use App\Models\Tramos;
 use App\Models\Trayectos;
 use App\Models\Trimestres;
@@ -327,7 +328,34 @@ class RegisteredAdminController extends Controller
         return view('pdf.cerrar');
     }
     public function cargoadd(){
-        return view('auth.cargoadd');
+        $tipo = Tipos::all();
+        return view('auth.cargoadd', compact('tipo'));
+    }
+    public function cargosave(Request $request){
+        // dd($request);
+        if ($request->check == 'on') {
+            $atributos = $request->validate([
+                'tipo' => 'required|string|max:100|unique:tipos,tipo'
+            ],[
+                'tipo.required'=>'Es necesario que coloque un tipo de empleo real. Ejemplo: Profesor, Administrador o Secretario',
+                'tipo.unique'=>'El tipo de cargo que está creando ya existe',
+            ]);
+            Tipos::create($atributos);
+            return redirect()->route('cargo.index')->with('alert', 'Tipo de cargo creado exitosamente!');
+        } else {
+            $atributos = $request->validate([
+                'cargo' => 'required|string|max:100',
+                'tipo_id' => 'required|integer',
+            ],[
+                'cargo.required'=>'Es necesario que coloque un cargo real. Ejemplo Jefe Administrador',
+                'cargo.string'=>'Es necesario que contenga valores alfabeticos y no númericos',
+                'cargo.max'=>'No debe se sobrepasar mas de 100 carácteres',
+                'tipo_id.required'=>'Debe colocar un tipo de cargo real',
+                'tipo_id.integer'=>'No debe contener carácteres especiales',
+            ]);
+            Cargos::create($atributos);
+            return redirect()->route('cargo.index')->with('alert', 'Cargo creado exitosamente!');
+        }
     }
 
 }
