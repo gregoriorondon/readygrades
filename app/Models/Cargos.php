@@ -11,6 +11,7 @@ class Cargos extends Model
     protected $table = 'cargos';
     protected $fillable = [
         'cargo',
+        'tipo_id'
     ];
     public function tipos(){
         return $this->belongsTo(Tipos::class, 'tipo_id');

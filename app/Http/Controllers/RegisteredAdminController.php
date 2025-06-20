@@ -41,7 +41,7 @@ class RegisteredAdminController extends Controller
             'segundo-apellido' => ['nullable'],
             'genero' => ['required'],
             'nacionalidad' => ['required'],
-            'cedula' => ['required', 'min:7'],
+            'cedula' => ['required', 'min:7', 'unique:users,cedula'],
             'email' => ['required', 'email'],
             'password' => ['required', 'min:7', 'confirmed'],
             'estudio_id' => ['required', 'numeric'],
@@ -54,6 +54,7 @@ class RegisteredAdminController extends Controller
             'password.confirmed'=>'Las contraseñas no coinciden',
             'password.min'=>'La contraseña debe tener un mínimo de 7 caracteres',
             'cedula.min'=>'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
+            'cedula.unique'=>'La persona que está tratando de registrar ya su cédula fue registrada en este sistema.',
             'email.required'=>'Debe colocar un correo electrónico valido.',
             'email.email'=>'Debe colocar un correo electrónico valido.',
             'estudio_id.required'=>'Introduzca un estudio válido.',
@@ -87,10 +88,10 @@ class RegisteredAdminController extends Controller
             'email'=>['email','nullable'],
             'telefono'=>['numeric','nullable'],
             'direccion'=>['required','string'],
-'city'=>['required','string'],
+            'city'=>['required','string'],
             'nucleo_id'=>['required','numeric'],
             'carrera_id'=>['required','numeric'],
-            'tramo_id'=>['required','numeric'],
+            'tramo_trayecto_id'=>['required','numeric'],
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
@@ -111,14 +112,14 @@ class RegisteredAdminController extends Controller
             'nucleo.numeric'=>'Es obligatorio que el núcleo no tenga carácteres especiales.',
             'carrera_id.required'=>'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
             'carrera_id.numeric'=>'Es obligatorio que la carrera no tenga carácteres especiales.',
-            'tramo_id.required'=>'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
-            'tramo_id.numeric'=>'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
+            'tramo_trayecto_id.required'=>'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
+            'tramo_trayecto_id.numeric'=>'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
         ]);
 
         /* // Verificar si ya existe una inscripción para el mismo estudiante, carrera y trimestre */
         $existeInscripcion = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
-            ->where('tramo_id', $request->tramo_id)
+            ->where('tramo_trayecto_id', $request->tramo_id)
             ->exists();
 
         if ($existeInscripcion) {
@@ -127,7 +128,7 @@ class RegisteredAdminController extends Controller
         }
 
         Students::create($datosEstudiante);
-        return redirect('/registro-estudiante');
+        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente.');
     }
     public function admindashboard(){
         $user = Auth::user();
@@ -328,34 +329,29 @@ class RegisteredAdminController extends Controller
         return view('pdf.cerrar');
     }
     public function cargoadd(){
-        $tipo = Tipos::all();
+        $tipo = Tipos::where('tipo','!=','superadmin')->get();
         return view('auth.cargoadd', compact('tipo'));
     }
     public function cargosave(Request $request){
         // dd($request);
-        if ($request->check == 'on') {
-            $atributos = $request->validate([
-                'tipo' => 'required|string|max:100|unique:tipos,tipo'
-            ],[
-                'tipo.required'=>'Es necesario que coloque un tipo de empleo real. Ejemplo: Profesor, Administrador o Secretario',
-                'tipo.unique'=>'El tipo de cargo que está creando ya existe',
-            ]);
-            Tipos::create($atributos);
-            return redirect()->route('cargo.index')->with('alert', 'Tipo de cargo creado exitosamente!');
+        $tipo = Tipos::find($request->tipo_id);
+        if ($tipo && $tipo->tipo == 'superadmin') {
+            return redirect()->back()->withErrors(['error' => 'El tipo de cargo no es valido.']);
         } else {
             $atributos = $request->validate([
-                'cargo' => 'required|string|max:100',
-                'tipo_id' => 'required|integer',
+                'cargo' => 'required|unique:cargos,cargo|string|max:100',
+                'tipo_id' => 'required|exists:tipos,id|integer',
             ],[
                 'cargo.required'=>'Es necesario que coloque un cargo real. Ejemplo Jefe Administrador',
                 'cargo.string'=>'Es necesario que contenga valores alfabeticos y no númericos',
+                'cargo.unique'=>'El cargo que está intentando crear ya existe.',
                 'cargo.max'=>'No debe se sobrepasar mas de 100 carácteres',
                 'tipo_id.required'=>'Debe colocar un tipo de cargo real',
                 'tipo_id.integer'=>'No debe contener carácteres especiales',
+                'tipo_id.exists'=>'El tipo de cargo que está intentando usar no existe.',
             ]);
             Cargos::create($atributos);
             return redirect()->route('cargo.index')->with('alert', 'Cargo creado exitosamente!');
         }
     }
-
 }
