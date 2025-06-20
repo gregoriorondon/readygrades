@@ -90,8 +90,8 @@ class RegisteredAdminController extends Controller
             'direccion'=>['required','string'],
             'city'=>['required','string'],
             'nucleo_id'=>['required','numeric'],
-            'carrera_id'=>['required','numeric'],
-            'tramo_trayecto_id'=>['required','numeric'],
+            'carrera_id'=>['required','numeric','exists:carreras,id'],
+            'tramo_trayecto_id'=>['required','numeric', 'exists:tramo_trayecto,id'],
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
@@ -112,8 +112,10 @@ class RegisteredAdminController extends Controller
             'nucleo.numeric'=>'Es obligatorio que el núcleo no tenga carácteres especiales.',
             'carrera_id.required'=>'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
             'carrera_id.numeric'=>'Es obligatorio que la carrera no tenga carácteres especiales.',
+            'carrera_id.exists'=>'La carrera no es válida.',
             'tramo_trayecto_id.required'=>'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
             'tramo_trayecto_id.numeric'=>'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
+            'tramo_trayecto_id.exists'=>'El tramo y trayecto no es válido.',
         ]);
 
         /* // Verificar si ya existe una inscripción para el mismo estudiante, carrera y trimestre */
