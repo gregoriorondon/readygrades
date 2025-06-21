@@ -40,25 +40,33 @@ return new class extends Migration
             $table->string('abrev')->unique();
             $table->timestamps();
         });
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('secciones', function (Blueprint $table) {
             $table->id();
-            $table->string('primer-name');
-            $table->string('segundo-name')->nullable();
-            $table->string('primer-apellido');
-            $table->string('segundo-apellido')->nullable();
-            $table->string('genero');
-            $table->string('nacionalidad');
-            $table->string('cedula')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->unsignedBigInteger('estudio_id');
-            $table->foreign('estudio_id')->references('id')->on('estudios')->cascadeOnUpdate();
-            $table->unsignedBigInteger('cargo_id');
-            $table->foreign('cargo_id')->references('id')->on('cargos')->cascadeOnUpdate();
-            $table->unsignedBigInteger('nucleo_id');
-            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
-            $table->rememberToken();
+            $table->string('seccion')->unique();
+            $table->timestamps();
+        });
+        Schema::create('materias', function (Blueprint $table) {
+            $table->id();
+            $table->string('materia')->unique();
+            $table->timestamps();
+        });
+        Schema::create('pensum', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('carrera_id');
+            $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
+            $table->unsignedBigInteger('tramo_trayecto_id');
+            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
+            $table->unsignedBigInteger('materia_id');
+            $table->foreign('materia_id')->references('id')->on('materias')->cascadeOnUpdate();
+            $table->timestamps();
+        });
+        Schema::create('notas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nota');
+            $table->unsignedBigInteger('pensum_id');
+            $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('carreras', function (Blueprint $table) {
@@ -104,6 +112,60 @@ return new class extends Migration
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
             $table->unsignedBigInteger('tramo_trayecto_id');
             $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
+            $table->unsignedBigInteger('seccion_id');
+            $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeOnUpdate();
+            $table->timestamps();
+        });
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('primer-name');
+            $table->string('segundo-name')->nullable();
+            $table->string('primer-apellido');
+            $table->string('segundo-apellido')->nullable();
+            $table->string('genero');
+            $table->string('nacionalidad');
+            $table->string('cedula')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->unsignedBigInteger('estudio_id');
+            $table->foreign('estudio_id')->references('id')->on('estudios')->cascadeOnUpdate();
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->cascadeOnUpdate();
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+        Schema::create('profesores', function (Blueprint $table) {
+            $table->id();
+            $table->string('primer-name');
+            $table->string('segundo-name')->nullable();
+            $table->string('primer-apellido');
+            $table->string('segundo-apellido')->nullable();
+            $table->string('genero');
+            $table->string('nacionalidad');
+            $table->string('cedula')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->unsignedBigInteger('estudio_id');
+            $table->foreign('estudio_id')->references('id')->on('estudios')->cascadeOnUpdate();
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->cascadeOnUpdate();
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+        Schema::create('profesor_asignar', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('profesor_id');
+            $table->foreign('profesor_id')->references('id')->on('profesores')->cascadeOnUpdate();
+            $table->unsignedBigInteger('pensum_id');
+            $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
+            $table->unsignedBigInteger('seccion_id');
+            $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -118,6 +180,16 @@ return new class extends Migration
         Schema::dropIfExists('tramos');
         Schema::dropIfExists('tramo_trayecto');
         Schema::dropIfExists('students');
+        Schema::dropIfExists('nucleos');
         Schema::dropIfExists('tipos');
+        Schema::dropIfExists('notas');
+        Schema::dropIfExists('pensum');
+        Schema::dropIfExists('materias');
+        Schema::dropIfExists('secciones');
+        Schema::dropIfExists('estudios');
+        Schema::dropIfExists('cargos');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('profesores');
+        Schema::dropIfExists('profesor_asignar');
     }
 };
