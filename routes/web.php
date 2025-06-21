@@ -16,7 +16,6 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::post('/detalles-estudiante', 'studentspublicdetails');
-    Route::get('/registro-profesor', 'teacheradd');
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-devolver', 'token'])->group( function(){
@@ -30,6 +29,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-dev
     Route::get('/tramos-y-trayectos', 'trayectosview');
     Route::post('/crear-trayecto-y-tramos', 'trayectosadd');
     Route::get('/nomina-profesores', 'profesornomina');
+    Route::get('/registro-profesor', 'teacheradd');
+    Route::post('/registro-profesor', 'teacherstore')->name('registro.profesor');
+    Route::get('/docentes-panel-administrativo/{docentes}', 'teacherinfo');
     Route::get('/registro-administrador', 'adminadd');
     Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
     Route::get('/estudiantes-panel-administrativo', 'studentsadmin');

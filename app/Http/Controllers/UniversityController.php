@@ -48,9 +48,6 @@ class UniversityController extends Controller
     public function studentsadmindetails(Students $student){
         return view('auth.students-details', ['estudiantes' => $student]);
     }
-    public function teacheradd(){
-        return view('auth.registro-profesor');
-    }
     public function adminadd(){
         return view('auth.registro-admin');
     }

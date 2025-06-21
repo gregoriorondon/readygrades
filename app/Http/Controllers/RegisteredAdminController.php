@@ -8,6 +8,7 @@ use App\Models\ConstanciaEstudios;
 use App\Models\Estudios;
 use App\Models\Inscripciones;
 use App\Models\Nucleos;
+use App\Models\Profesores;
 use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tipos;
@@ -25,6 +26,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class RegisteredAdminController extends Controller
 {
@@ -41,12 +43,12 @@ class RegisteredAdminController extends Controller
             'segundo-apellido' => ['nullable'],
             'genero' => ['required'],
             'nacionalidad' => ['required'],
-            'cedula' => ['required', 'min:7', 'unique:users,cedula'],
-            'email' => ['required', 'email'],
+            'cedula' => ['required', 'min:7', 'unique:users,cedula', 'unique:profesores,cedula'],
+            'email' => ['required', 'email', 'unique:users,email', 'unique:profesores,email'],
             'password' => ['required', 'min:7', 'confirmed'],
-            'estudio_id' => ['required', 'numeric'],
-            'cargo_id' => ['required', 'numeric'],
-            'nucleo_id' => ['required', 'numeric'],
+            'estudio_id' => ['required', 'numeric', 'exists:estudios,id'],
+            'cargo_id' => ['required', 'numeric', 'exists:cargos,id'],
+            'nucleo_id' => ['required', 'numeric', 'exists:nucleos,id'],
         ],[
             'primer-name.required'=>'Es necesario por lo menos el primer nombre.',
             'primer-apellido.required'=>'Es necesario por lo menos el primer apellido.',
@@ -57,12 +59,16 @@ class RegisteredAdminController extends Controller
             'cedula.unique'=>'La persona que está tratando de registrar ya su cédula fue registrada en este sistema.',
             'email.required'=>'Debe colocar un correo electrónico valido.',
             'email.email'=>'Debe colocar un correo electrónico valido.',
+            'email.unique'=>'El correo que está tratando de registrar ya fue registrado en este sistema.',
             'estudio_id.required'=>'Introduzca un estudio válido.',
             'estudio_id.numeric'=>'Introduzca un estudio válido.',
+            'estudio_id.exists'=>'Introduzca un estudio válido.',
             'cargo_id.required'=>'Introduzca un cargo válido.',
             'cargo_id.numeric'=>'Introduzca un cargo válido.',
+            'cargo_id.exists'=>'Introduzca un cargo válido.',
             'nucleo_id.required'=>'Introduzca un núcleo válido.',
             'nucleo_id.numeric'=>'Introduzca un núcleo válido.',
+            'nucleo_id.exists'=>'Introduzca un núcleo válido.',
         ]);
         User::create($atributos);
         return redirect('/registro-administrador')->with('alert', 'Se creo el usuario correctamente');
@@ -92,6 +98,7 @@ class RegisteredAdminController extends Controller
             'nucleo_id'=>['required','numeric'],
             'carrera_id'=>['required','numeric','exists:carreras,id'],
             'tramo_trayecto_id'=>['required','numeric', 'exists:tramo_trayecto,id'],
+            'seccion_id'=>['nullable','numeric' ],
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
@@ -159,7 +166,55 @@ class RegisteredAdminController extends Controller
         return view('auth.registro-admin', compact(['estudio', 'cargo', 'nucleo']));
     }
     public function profesornomina(){
-        return view('auth.profesores-nomina');
+        $docentes = Profesores::paginate(20);
+        return view('auth.profesores-nomina', compact('docentes'));
+    }
+    public function teacheradd(){
+        $estudio = Estudios::orderByRaw('estudio ASC')->get();
+        $cargo = Cargos::whereHas('tipos', function($query){$query->where('tipo', 'profesor');})->orderByRaw('cargo ASC')->get();
+        $nucleo = Nucleos::orderByRaw('nucleo ASC')->get();
+        return view('auth.registro-profesor', compact(['estudio', 'cargo', 'nucleo']));
+    }
+    public function teacherstore(Request $request){
+        $atributos = $request->validate([
+            'primer-name' => ['required', 'string'],
+            'segundo-name' => ['nullable', 'string'],
+            'primer-apellido' => ['required'],
+            'segundo-apellido' => ['nullable'],
+            'genero' => ['required'],
+            'nacionalidad' => ['required'],
+            'cedula' => ['required', 'min:7', 'unique:profesores,cedula', 'unique:users,cedula'],
+            'email' => ['required', 'email', 'unique:profesores,email', 'unique:users,email'],
+            'password' => ['required', 'min:7', 'confirmed'],
+            'estudio_id' => ['required', 'numeric', 'exists:estudios,id'],
+            'cargo_id' => ['required', 'numeric'],
+            'nucleo_id' => ['required', 'numeric', 'exists:nucleos,id'],
+        ],[
+            'primer-name.required'=>'Es necesario por lo menos el primer nombre.',
+            'primer-apellido.required'=>'Es necesario por lo menos el primer apellido.',
+            'password.required'=>'Es necesaria una contraseña',
+            'password.confirmed'=>'Las contraseñas no coinciden',
+            'password.min'=>'La contraseña debe tener un mínimo de 7 caracteres',
+            'cedula.min'=>'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
+            'cedula.unique'=>'La persona que está tratando de registrar ya su cédula fue registrada en este sistema.',
+            'email.required'=>'Debe colocar un correo electrónico valido.',
+            'email.email'=>'Debe colocar un correo electrónico valido.',
+            'email.unique'=>'El correo/Email que está tratando de usar ya está registrado en el sistema.',
+            'estudio_id.required'=>'Introduzca un estudio válido.',
+            'estudio_id.numeric'=>'Introduzca un estudio válido.',
+            'estudio_id.exists'=>'Introduzca un estudio válido.',
+            'cargo_id.required'=>'Introduzca un cargo válido.',
+            'cargo_id.numeric'=>'Introduzca un cargo válido.',
+            'nucleo_id.required'=>'Introduzca un núcleo válido.',
+            'nucleo_id.numeric'=>'Introduzca un núcleo válido.',
+            'nucleo_id.exists'=>'Introduzca un núcleo válido.',
+        ]);
+        Profesores::create($atributos);
+        return redirect()->back()->with('alert', 'Se creo el usuario correctamente');
+    }
+    public function teacherinfo($id){
+        $docentes = Profesores::all()->findOrFail($id);
+        return view('auth.profesores-details', compact('docentes'));
     }
     /* public function courses(){ */
     /*     $courses = Carreras::all(); */

@@ -11,7 +11,7 @@
                 <header class="mt-3">Seleccionar El Tipo De Cargo:</header>
                 <x-select-form name="tipo_id">
                     @foreach ($tipo as $tipos)
-                        <option value="{{ $tipos->id }}">{{ $tipos->tipo }}</option>
+                        <option value="{{ $tipos->id }}">{{ strtoupper($tipos->tipo) }}</option>
                     @endforeach
                 </x-select-form>
             </div>
@@ -19,17 +19,5 @@
                     class="fa-solid fa-plus mr-0 ml-2"></i></x-button>
         </form>
     </div>
-    @if (!$errors->all())
-        <x-dialog-modal-correct class="transition-all">
-            <x-slot:botones>
-                Cerrar
-            </x-slot:botones>
-        </x-dialog-modal-correct>
-    @else
-        <x-dialog-modal-errors class="transition-all">
-            <x-slot:botones>
-                Cerrar
-            </x-slot:botones>
-        </x-dialog-modal-errors>
-    @endif
+    <x-error-and-correct-dialog />
 </x-dashboard>
