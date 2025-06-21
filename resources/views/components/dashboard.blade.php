@@ -18,47 +18,19 @@
                 </div>
                 <div class="flex flex-col flex-1 overflow-y-auto">
                     <nav class="flex-1 px-2 py-4">
-                        <x-sidebar-section href="/administracion" :active="request()->is('administracion')"><i class="fa-solid fa-house"></i>Dashboard</x-sidebar-section>
-                        <details class="register-add-sidebar-details">
-                            <summary class="selection:bg-transparent cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fa-solid fa-address-book"></i>Registros</summary>
-                                <x-sidebar-section href="/registro-estudiante" :active="request()->is('registro-estudiante')"><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
-                                <x-sidebar-section href="/registro-profesor" :active="request()->is('registro-profesor')"><i class="fa-solid fa-user-plus"></i>Registrar Profesor</x-sidebar-section>
-                                <x-sidebar-section href="/registro-administrador" :active="request()->is('registro-administrador')"><i class="fa-solid fa-address-card"></i>Registrar Administrador</x-sidebar-section>
-                        </details>
-                        <x-sidebar-section href="/estudiantes-panel-administrativo" :active="request()->is('estudiantes-panel-administrativo')"><i class="fa-duotone fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
-                        <x-sidebar-section href="/nomina-profesores" :active="request()->is('nomina-profesores')"><i class="fa-duotone fa-regular fa-chalkboard-user"></i>Profesores</x-sidebar-section>
-                        <x-sidebar-section href="/nomina-administradores" :active="request()->is('nomina-administradores')"><i class="fa-solid fa-user-tie"></i>Administradores</x-sidebar-section>
-                        <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
-                        @can('root')
-                        <x-sidebar-section href="/nucleos" :active="request()->is('nucleos')"><i class="fa-solid fa-signs-post"></i>Núcleos</x-sidebar-section>
-                        <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
-                    @endcan
-                        <x-sidebar-section href="/generar-documentos" :active="request()->is('generar-documentos')"><i class="fas fa-file-plus"></i>Generar</x-sidebar-section>
+                        <x-nav-admin />
                     </nav>
                 </div>
             </div>
             <!-- sidebar Movil -->
-            <div class="menu-admin-dashboard sidebar-movil -translate-x-96 flex md:hidden flex-col w-64 fixed z-[3] pb-[70%]">
+            <div class="menu-admin-dashboard sidebar-movil -translate-x-96 flex md:hidden flex-col w-64 fixed z-[3] h-screen">
                 <div class="flex items-center justify-center h-16">
                     <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
-                    <span class="close-sidebar-movil bg-[#f00] hover:bg-[#b00] rounded-lg cursor-pointer p-1 px-3 ml-4 transition-all"><i class="fa-solid fa-xmark m-0"></i></span>
+                    <span class="close-sidebar-movil bg-[#f00] hover:bg-[#b00] rounded-lg cursor-pointer p-1 px-3 ml-4 transition-all"><i class="fa-solid fa-xmark flex py-1 m-0"></i></span>
                 </div>
                 <div class="flex flex-col flex-1 overflow-y-auto">
                     <nav class="flex-1 px-2 py-4">
-                        <x-sidebar-section href="/administracion" :active="request()->is('administracion')"><i class="fa-solid fa-house"></i>Dashboard</x-sidebar-section>
-                        <details class="register-add-sidebar-details">
-                            <summary class="selection:bg-transparent cursor-pointer px-4 py-2 mt-2 font-inter"><i class="fa-solid fa-address-book"></i>Registros</summary>
-                                <x-sidebar-section href="/registro-estudiante" :active="request()->is('registro-estudiante')"><i class="fa-solid fa-square-plus"></i>Registrar Estudiantes</x-sidebar-section>
-                                <x-sidebar-section href="/registro-profesor" :active="request()->is('registro-profesor')"><i class="fa-solid fa-user-plus"></i>Registrar Profesor</x-sidebar-section>
-                                <x-sidebar-section href="/registro-administrador" :active="request()->is('registro-administrador')"><i class="fa-solid fa-address-card"></i>Registrar Administrador</x-sidebar-section>
-                        </details>
-                        <x-sidebar-section href="/estudiantes-panel-administrativo" :active="request()->is('estudiantes-panel-administrativo')"><i class="fa-duotone fa-solid fa-user-graduate"></i>Estudiantes</x-sidebar-section>
-                        <x-sidebar-section href="/nomina-profesores" :active="request()->is('nomina-profesores')"><i class="fa-duotone fa-regular fa-chalkboard-user"></i>Profesores</x-sidebar-section>
-                        <x-sidebar-section href="/nomina-administradores" :active="request()->is('nomina-administradores')"><i class="fa-solid fa-user-tie"></i>Administradores</x-sidebar-section>
-                        <x-sidebar-section href="/carreras" :active="request()->is('carreras')"><i class="fa-solid fa-graduation-cap"></i>Carreras</x-sidebar-section>
-                        <x-sidebar-section href="/nucleos" :active="request()->is('nucleos')"><i class="fa-solid fa-signs-post"></i>Núcleos</x-sidebar-section>
-                        <x-sidebar-section href="/tramos-y-trayectos" :active="request()->is('tramos-y-trayectos')"><i class="fa-solid fa-list-timeline"></i>Trayectos y Tramos</x-sidebar-section>
-                        <x-sidebar-section href="/generar-documentos" :active="request()->is('generar-documentos')"><i class="fas fa-file-plus"></i>Generar</x-sidebar-section>
+                        <x-nav-admin />
                     </nav>
                 </div>
             </div>
