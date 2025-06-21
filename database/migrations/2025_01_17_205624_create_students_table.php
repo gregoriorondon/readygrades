@@ -50,25 +50,6 @@ return new class extends Migration
             $table->string('materia')->unique();
             $table->timestamps();
         });
-        Schema::create('pensum', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('carrera_id');
-            $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
-            $table->unsignedBigInteger('tramo_trayecto_id');
-            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
-            $table->unsignedBigInteger('materia_id');
-            $table->foreign('materia_id')->references('id')->on('materias')->cascadeOnUpdate();
-            $table->timestamps();
-        });
-        Schema::create('notas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nota');
-            $table->unsignedBigInteger('pensum_id');
-            $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
-            $table->unsignedBigInteger('student_id');
-            $table->foreign('student_id')->references('id')->on('students')->cascadeOnUpdate();
-            $table->timestamps();
-        });
         Schema::create('carreras', function (Blueprint $table) {
             $table->id();
             $table->string('carrera')->unique();
@@ -156,6 +137,25 @@ return new class extends Migration
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->rememberToken();
+            $table->timestamps();
+        });
+        Schema::create('pensum', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('carrera_id');
+            $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
+            $table->unsignedBigInteger('tramo_trayecto_id');
+            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
+            $table->unsignedBigInteger('materia_id');
+            $table->foreign('materia_id')->references('id')->on('materias')->cascadeOnUpdate();
+            $table->timestamps();
+        });
+        Schema::create('notas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nota');
+            $table->unsignedBigInteger('pensum_id');
+            $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('profesor_asignar', function (Blueprint $table) {
