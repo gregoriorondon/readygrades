@@ -154,7 +154,7 @@ class RegisteredAdminController extends Controller
     }
     public function adminadd(){
         $estudio = Estudios::orderByRaw('estudio ASC')->get();
-        $cargo = Cargos::orderByRaw('cargo ASC')->get();
+        $cargo = Cargos::whereHas('tipos', function($query){$query->where('tipo', 'administrador');})->orderByRaw('cargo ASC')->get();
         $nucleo = Nucleos::orderByRaw('nucleo ASC')->get();
         return view('auth.registro-admin', compact(['estudio', 'cargo', 'nucleo']));
     }
