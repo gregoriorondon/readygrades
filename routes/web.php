@@ -38,6 +38,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-dev
     Route::get('/administracion', 'admindashboard');
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');
+    Route::get('/nomina-administradores', 'admininfo');
+    Route::get('/administrador-panel-administrativo/{administrador}', 'admindetails');
     Route::get('/registro-estudiante', 'studentadd');
     Route::post('/registro-estudiante', 'studentstore');
     Route::get('/generar-documentos', 'generar');

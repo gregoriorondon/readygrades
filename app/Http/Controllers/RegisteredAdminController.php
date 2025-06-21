@@ -73,6 +73,14 @@ class RegisteredAdminController extends Controller
         User::create($atributos);
         return redirect('/registro-administrador')->with('alert', 'Se creo el usuario correctamente');
     }
+    public function admininfo(){
+        $administradores = User::wherehas('cargos.tipos', function($query){$query->where('tipo', 'administrador');})->paginate(20);
+        return view('auth.administradores-nomina', compact('administradores'));
+    }
+    public function admindetails($id){
+        $administrador = User::all()->findOrFail($id);
+        return view('auth.administradores-details', compact('administrador'));
+    }
     public function studentadd(){
         $courses = Carreras::orderByRaw('carrera ASC')->get();
         $trayectos = Trayectos::with('tramos')->get();
@@ -161,7 +169,7 @@ class RegisteredAdminController extends Controller
     }
     public function adminadd(){
         $estudio = Estudios::orderByRaw('estudio ASC')->get();
-        $cargo = Cargos::whereHas('tipos', function($query){$query->where('tipo', 'administrador');})->orderByRaw('cargo ASC')->get();
+        $cargo = Cargos::wherehas('tipos', function($query){$query->where('tipo', 'administrador');})->orderByRaw('cargo ASC')->get();
         $nucleo = Nucleos::orderByRaw('nucleo ASC')->get();
         return view('auth.registro-admin', compact(['estudio', 'cargo', 'nucleo']));
     }
