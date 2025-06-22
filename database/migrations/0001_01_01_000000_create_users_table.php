@@ -34,6 +34,22 @@ return new class extends Migration
             $table->string('user_agent');
             $table->timestamps();
         });
+        Schema::create('sessionsroot', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('root_id')->onDelete('cascade');
+            $table->string('ip_address', 45)->nullable();
+            $table->string('session_token')->unique();
+            $table->string('user_agent');
+            $table->timestamps();
+        });
+        Schema::create('sessionsteacher', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('teacher_id')->onDelete('cascade');
+            $table->string('ip_address', 45)->nullable();
+            $table->string('session_token')->unique();
+            $table->string('user_agent');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -44,5 +60,7 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('sessionsroot');
+        Schema::dropIfExists('sessionsteacher');
     }
 };

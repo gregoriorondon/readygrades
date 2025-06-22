@@ -1,16 +1,10 @@
 <?php
 
+use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\RegisteredAdminController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\UniversityController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
-
-/* route::get('/administracion', function(){ */
-/*     return view('admin',[ */
-/*         'user'=>User::all() */
-/*     ]); */
-/* }); */
 
 Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
@@ -18,7 +12,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::post('/detalles-estudiante', 'studentspublicdetails');
 });
 
-Route::controller(RegisteredAdminController::class)->middleware(['auth', 'no-devolver', 'token'])->group( function(){
+Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
     Route::get('/autocomplete/nucleos', 'autonucleos');
@@ -55,29 +49,8 @@ Route::get('/login', [SesionController::class, 'create'])->name('login');
 Route::post('/login', [SesionController::class, 'store']);
 Route::post('/logout', [SesionController::class, 'destroy']);
 Route::get('/login-profesor', [SesionController::class, 'createteacher'])->name('login-profesor');
+// Route::post('/login', [SesionController::class, 'store']);
 
-/* Route::get('/soliresgis', function(){ */
-/*     return view('soliresgis'); */
-/* }); */
-
-Route::get('/hello', function(){
-    return view('welcome');
-});
-
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::get('/register', function (){
-        return view('register');
-    })->name('register');
-    Route::get('/add-student', function (){
-        return view('add-student');
-    })->name('add-student');
+Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->group( function(){
+    Route::get('/dashboard', 'board');
 });

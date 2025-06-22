@@ -4,18 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sessions extends Model
+class SessionRoot extends Model
 {
     //
-    protected $table = 'sessions';
-
+    protected $table = "sessionsroot";
     protected $fillable = [
-        'user_id',
+        'root_id',
         'session_token',
         'ip_address',
         'user_agent'
     ];
-
     public function cargos()
     {
         return $this->belongsTo(Cargos::class, 'cargo_id');

@@ -6,7 +6,6 @@ use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
 use App\Models\Estudios;
-use App\Models\Inscripciones;
 use App\Models\Nucleos;
 use App\Models\Profesores;
 use App\Models\Sessions;
@@ -14,11 +13,9 @@ use App\Models\Students;
 use App\Models\Tipos;
 use App\Models\Tramos;
 use App\Models\Trayectos;
-use App\Models\Trimestres;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +23,6 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class RegisteredAdminController extends Controller
 {
@@ -148,7 +144,10 @@ class RegisteredAdminController extends Controller
         return redirect()->back()->with('alert', 'El estudiante fue registado correctamente.');
     }
     public function admindashboard(){
-        $user = Auth::user();
+        $user = Auth::guard('admins')->user() ?? Auth::guard('root')->user();
+        if (!$user) {
+            return redirect('/login');
+        }
         $carreras = Carreras::count();
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
@@ -174,7 +173,7 @@ class RegisteredAdminController extends Controller
         return view('auth.registro-admin', compact(['estudio', 'cargo', 'nucleo']));
     }
     public function profesornomina(){
-        $docentes = Profesores::paginate(20);
+        $docentes = Profesores::orderByRaw('created_at DESC')->paginate(20);
         return view('auth.profesores-nomina', compact('docentes'));
     }
     public function teacheradd(){

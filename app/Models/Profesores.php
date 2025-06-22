@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Profesores extends Model
+class Profesores extends Authenticatable
 {
     //
+    use Notifiable;
     protected $fillable = [
         'primer-name',
         'segundo-name',
