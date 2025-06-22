@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             return Response::deny('Usted No Esta Autorizado');
         });
         Gate::define('admins', function ($user) {
-            if ($user instanceof Profesores && $user->cargos->tipos->tipo === 'administrador') {
+            if ($user instanceof User && $user->cargos->tipos->tipo === 'administrador') {
                 return Response::allow();
             }
             return Response::deny('Usted No Esta Autorizado');

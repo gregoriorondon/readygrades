@@ -14,7 +14,15 @@
             <!-- sidebar -->
             <div class="menu-hiden menu-admin-dashboard hidden md:flex flex-col w-64">
                 <div class="flex items-center justify-center h-16">
-                    <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
+                    @can('admins')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
+                    @endcan
+                    @can('root')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-lock"></i>Super Admin</span>
+                    @endcan
+                    @can('profesor')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-chalkboard-user"></i>Docente</span>
+                    @endcan
                 </div>
                 <div class="flex flex-col flex-1 overflow-y-auto">
                     <nav class="flex-1 px-2 py-4">
@@ -25,7 +33,15 @@
             <!-- sidebar Movil -->
             <div class="menu-admin-dashboard sidebar-movil -translate-x-96 flex md:hidden flex-col w-64 fixed z-[3] h-screen">
                 <div class="flex items-center justify-center h-16">
-                    <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
+                    @can('admins')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
+                    @endcan
+                    @can('root')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-lock"></i>Super Admin</span>
+                    @endcan
+                    @can('profesor')
+                        <span class="font-bold font-inter uppercase"><i class="fa-solid fa-chalkboard-user"></i>Docente</span>
+                    @endcan
                     <span class="close-sidebar-movil bg-[#f00] hover:bg-[#b00] rounded-lg cursor-pointer p-1 px-3 ml-4 transition-all"><i class="fa-solid fa-xmark flex py-1 m-0"></i></span>
                 </div>
                 <div class="flex flex-col flex-1 overflow-y-auto">
@@ -41,12 +57,22 @@
                     <div class="hidden md:flex items-center px-4 space-x-7">
                         <button class="menu-hiden-button hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
                         <button class="menu-button-hiden hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
-                        <p class="mx-4 w-full ">Panel Administrativo</p>
+                        @cannot('profesor')
+                            <p class="mx-4 w-full ">Panel Administrativo</p>
+                        @endcannot
+                        @can('profesor')
+                            <p class="mx-4 w-full ">Gestión Académica</p>
+                        @endcannot
                     </div>
                     <!-- INICIO VERSION MOVIL -->
                     <div class="md:hidden flex items-center px-4 space-x-7">
                         <button class="menu-hiden-button-movil hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
-                        <p class="mx-4 w-full ">Panel Administrativo</p>
+                        @cannot('profesor')
+                            <p class="mx-4 w-full ">Panel Administrativo</p>
+                        @endcannot
+                        @can('profesor')
+                            <p class="mx-4 w-full ">Gestión Académica</p>
+                        @endcannot
                     </div>
                     <!-- FIN VERSION MOVIL -->
                     <div class="flex items-center pr-4 space-x-4">
@@ -60,7 +86,6 @@
                     </div>
                 </div>
                 <div class="p-4 rounded-lg">
-                    {{-- <p class="mt-2 text-gray-600 font-inter">Resumen y estadistica general</p> --}}
                     <main>
                         {{ $slot }}
                     </main>
