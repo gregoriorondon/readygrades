@@ -4,7 +4,7 @@
         <a href="/" class="{{ request()->is('/') ? 'underline underline-offset-8 decoration-4' : 'no-underline' }}"><i class="fa-solid fa-house"></i>Inicio</a>
         <a href="/organigrama" class="{{ request()->is('organigrama') ? 'underline underline-offset-8 decoration-4' : 'no-underline' }}"><i class="fa-solid fa-sitemap"></i>Organigrama</a>
         <a href="/student" class="{{ request()->is('student') ? 'underline underline-offset-8 decoration-4' : 'no-underline' }}"><i class="fa-solid fa-user-graduate"></i>Estudiante</a>
-        <a href="/login" class="{{ request()->is('login-profesor') ? 'underline underline-offset-8 decoration-4' : 'no-underline' }}"><i class="fa-solid fa-right-to-bracket"></i>Iniciar Sesión</a>
+        <a href="/login" class="{{ request()->is('login') ? 'underline underline-offset-8 decoration-4' : 'no-underline' }}"><i class="fa-solid fa-right-to-bracket"></i>Iniciar Sesión</a>
     </nav>
 </div>
 

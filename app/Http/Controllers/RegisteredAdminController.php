@@ -152,7 +152,7 @@ class RegisteredAdminController extends Controller
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
 
-        return view('admin', compact('user', 'carreras', 'estudiantes', 'nucleos'));
+        return view('auth.admin', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
     public function studentsadmin(){
         $estudiantes = Students::paginate(20);
