@@ -18,6 +18,6 @@ class ProfesorController extends Controller
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
 
-        return view('auth.admin', compact('user', 'carreras', 'estudiantes', 'nucleos'));
+        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
 }

@@ -152,7 +152,7 @@ class RegisteredAdminController extends Controller
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
 
-        return view('auth.admin', compact('user', 'carreras', 'estudiantes', 'nucleos'));
+        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
     public function studentsadmin(){
         $estudiantes = Students::paginate(20);
@@ -231,7 +231,7 @@ class RegisteredAdminController extends Controller
     public function courses(){
         $courses = Carreras::all();
         $tra = Trayectos::with('tramos')->get();
-        return view('auth.courses', compact('courses', 'tra'));
+        return view('auth.superadmin.courses', compact('courses', 'tra'));
     }
     public function autocourses(Request $request) {
         $term = $request->input('term');
@@ -244,9 +244,6 @@ class RegisteredAdminController extends Controller
         $datos = Nucleos::whereRaw('LOWER(nucleo) LIKE ?', ['%' . strtolower($term) . '%'])->limit(7)->get();
 
         return response()->json($datos);
-    }
-    public function newcourses(){
-        return view('auth.carreras-add');
     }
     public function carreraprocess(Request $request){
         $carreradatos = $request->validate([
@@ -265,7 +262,7 @@ class RegisteredAdminController extends Controller
     }
     public function nucleo(){
         $nucleos = Nucleos::all();
-        return view('auth.registronucleo', compact('nucleos'));
+        return view('auth.superadmin.registronucleo', compact('nucleos'));
     }
     public function nucleoadd(Request $request){
         // dd($request->all());
@@ -285,7 +282,7 @@ class RegisteredAdminController extends Controller
     }
     public function trayectosview() {
         $trayectos = Trayectos::with('tramos')->get();
-        return view('auth.trayectos-tramos', compact('trayectos'));
+        return view('auth.superadmin.trayectos-tramos', compact('trayectos'));
         /* $tramos = Trayectos::all(); */
         /* return view('auth.trayectos-tramos', compact('tramos')); */
     }
@@ -394,7 +391,7 @@ class RegisteredAdminController extends Controller
     }
     public function cargoadd(){
         $tipo = Tipos::where('tipo','!=','superadmin')->get();
-        return view('auth.cargoadd', compact('tipo'));
+        return view('auth.superadmin.cargoadd', compact('tipo'));
     }
     public function cargosave(Request $request){
         // dd($request);

@@ -13,15 +13,18 @@ Route::controller(UniversityController::class)->group( function (){
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
+    // Carreras
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
-    Route::get('/autocomplete/nucleos', 'autonucleos');
-    Route::get('/nueva-carrera', 'newcourses');
     Route::post('/carreras-add-post', 'carreraprocess');
+    // Nucleos
+    Route::get('/autocomplete/nucleos', 'autonucleos');
     Route::get('/nucleos', 'nucleo');
     Route::post('/crear-nucleo', 'nucleoadd');
+    // Tramos-Trayectos
     Route::get('/tramos-y-trayectos', 'trayectosview');
     Route::post('/crear-trayecto-y-tramos', 'trayectosadd');
+    //
     Route::get('/nomina-profesores', 'profesornomina');
     Route::get('/registro-profesor', 'teacheradd');
     Route::post('/registro-profesor', 'teacherstore')->name('registro.profesor');
@@ -39,8 +42,10 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/generar-documentos', 'generar');
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
+    //Cargo
     Route::get('/agregar-cargo', 'cargoadd')->name('cargo.index');
     Route::post('/agregar-create', 'cargosave')->name('crearcargo');
+    //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
 });
