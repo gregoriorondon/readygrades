@@ -1,6 +1,6 @@
 <x-dashboard>
 <x-slot:titulo>Estidiantes</x-slot:titulo>
-<x-button-a class="btn-new-student"  href="/registro-estudiante"><i class="fa-solid fa-plus-large"></i>Registrar Nuevo Estudiante</x-button-a>
+<x-button-a class="btn-new-student"  link="registro-estudiante" icon="fa-solid fa-plus-large">Registrar Nuevo Estudiante</x-button-a>
 <div class="mt-7">
 <x-title-section-admin>Listado De Todos Los Estudiantes</x-title-section-admin>
     <div class="flex flex-col mt-2">

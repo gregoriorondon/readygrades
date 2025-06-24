@@ -1,6 +1,6 @@
 <x-dashboard>
     <x-slot:titulo>Profesores</x-slot:titulo>
-    <x-button-a class="btn-new-student"  href="/registro-profesor"><i class="fa-solid fa-plus-large"></i>Registrar Nuevo Profesor</x-button-a>
+    <x-button-a class="btn-new-student"  link="registro-profesor" icon="fa-solid fa-plus-large">Registrar Nuevo Profesor</x-button-a>
 <div class="mt-7">
 <x-title-section-admin>Listado De Todos Los Profesores Registrados</x-title-section-admin>
     <div class="flex flex-col mt-2">
