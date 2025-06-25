@@ -48,6 +48,13 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
+    //Materias
+    Route::get('/materias', 'materias');
+    Route::post('/materia', 'materiasadd');
+    //Pensum
+    Route::get('/pensum', 'pensum');
+    Route::get('/pensum-add', 'pensumadd');
+    Route::post('/pensums', 'pensumstore');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');

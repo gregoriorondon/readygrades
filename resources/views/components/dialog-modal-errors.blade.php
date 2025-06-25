@@ -1,4 +1,4 @@
-<dialog {{ $attributes->merge(['id'=>'modal']) }}>
+<dialog {{ $attributes->merge(['id'=>'modalerror']) }}>
     <div class="text-2xl text-center font-bold font-inter text-[#f00]">
         <i class="fa-regular fa-triangle-exclamation mr-0 text-[#f00] text-7xl"></i>
             <br class="mt-4">
@@ -16,7 +16,7 @@
 </dialog>
 @if($errors->any())
     <script>
-        let dialogo = document.querySelector('#modal');
+        let dialogo = document.querySelector('#modalerror');
         let botonAbrir = document.querySelector('#abrirmodal');
         let botonCerrar = document.querySelectorAll('#cerrarmodal');
             dialogo.showModal();

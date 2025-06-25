@@ -48,6 +48,7 @@ return new class extends Migration
         Schema::create('materias', function (Blueprint $table) {
             $table->id();
             $table->string('materia')->unique();
+            $table->string('codigo')->unique();
             $table->timestamps();
         });
         Schema::create('carreras', function (Blueprint $table) {

@@ -1,6 +1,6 @@
 <x-dashboard>
     <x-slot:titulo>Administradores</x-slot:titulo>
-    <x-button-a class="btn-new-student"  href="/registro-administrador"><i class="fa-solid fa-plus-large"></i>Registrar Nuevo Administrador</x-button-a>
+    <x-button-a class="btn-new-student"  link="registro-administrador" icon="fa-solid fa-plus-large">Registrar Nuevo Administrador</x-button-a>
 <div class="mt-7">
 <x-title-section-admin>Listado De Todos Los Administradores Registrados</x-title-section-admin>
     <div class="flex flex-col mt-2">

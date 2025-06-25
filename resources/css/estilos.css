@@ -948,7 +948,7 @@ details[open] summary ~ * {
     justify-content: center;
     margin-top: 21px;
 }
-#modal{
+#modal, #modalerror, #modalcorrect{
     border: 1px solid;
     border-color: var(--texto);
     border-radius: 14px;

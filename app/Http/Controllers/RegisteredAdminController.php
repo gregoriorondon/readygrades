@@ -6,12 +6,15 @@ use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
 use App\Models\Estudios;
+use App\Models\Materias;
 use App\Models\Nucleos;
+use App\Models\Pensum;
 use App\Models\Profesores;
 use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tipos;
 use App\Models\Tramos;
+use App\Models\TramoTrayecto;
 use App\Models\Trayectos;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -414,5 +417,58 @@ class RegisteredAdminController extends Controller
             Cargos::create($atributos);
             return redirect()->route('cargo.index')->with('alert', 'Cargo creado exitosamente!');
         }
+    }
+    public function materias() {
+        $materias = Materias::orderBy('materia')->get();
+        return view('auth.superadmin.materias', compact('materias'));
+    }
+    public function materiasadd(Request $request) {
+        $atributos = $request->validate([
+            'materia'=>'string|unique:materias,materia',
+            'codigo'=>'string|unique:materias,codigo',
+        ],[
+            'materia.string'=>'debe colocar texto',
+            'materia.unique'=>'La materia que está tratando de registrar ya existe',
+            'codigo.string'=>'debe colocar texto',
+            'codigo.unique'=>'La materia que está tratando de registrar ya existe',
+        ]);
+        Materias::create($atributos);
+        return redirect()->back()->with('alert','Se Registró con Exito');
+    }
+    public function pensum() {
+        $trayecto = Trayectos::with('tramos')->get();
+        $materias = Materias::all();
+        $carrera = Carreras::all();
+        return view('auth.superadmin.pensum', compact(['trayecto', 'materias', 'carrera']));
+    }
+    public function pensumadd() {
+        $trayecto = Trayectos::with('tramos')->get();
+        $materias = Materias::orderBy('materia')->get();
+        $carrera = Carreras::orderBy('carrera')->get();
+        return view('auth.superadmin.crearpensum', compact(['trayecto', 'materias', 'carrera']));
+    }
+    public function pensumstore(Request $request) {
+        $request->validate([
+            'tramo_trayecto_id' => 'required',
+            'carrera_id' => 'required|exists:carreras,id',
+            'materias' => 'required|array',
+            'materias.*' => 'exists:materias,id'
+        ],[
+            'tramo_trayecto_id.required'=>'requiere tramo_trayecto',
+            'carrera_id.required'=>'Requiere carrera',
+            'materias.required'=>'Requiere materias',
+        ]);
+        $existePensum = Pensum::where('carrera_id', $request->carrera_id)->where('tramo_trayecto_id', $request->tramo_trayecto_id)->where('materia_id', $request->materias)->exists();
+        if ($existePensum) {
+            return redirect()->back()->withErrors(['error'=>'El plan de estudios tiene por lo menos una materia ya registrada en ese tramo y carrera.']);
+        }
+        foreach ($request->materias as $materiaId) {
+            Pensum::create([
+                'tramo_trayecto_id' => $request->tramo_trayecto_id,
+                'carrera_id' => $request->carrera_id,
+                'materia_id' => $materiaId
+            ]);
+        }
+        return redirect()->back()->with('alert', 'Plan de estudios creado correctamente');
     }
 }
