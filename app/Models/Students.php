@@ -41,6 +41,6 @@ class Students extends Model
         return $this->belongsTo(Tramos::class, 'tramo_trayecto_id');
     }
     public function secciones(){
-        return $this->belongsTo(Secciones::class, 'nucleo_id');
+        return $this->belongsTo(Secciones::class, 'seccion_id');
     }
 }

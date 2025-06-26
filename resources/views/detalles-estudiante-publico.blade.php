@@ -4,7 +4,7 @@
     <x-nav-student-public>
         <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido'] ]) }}</x-slot:usuario>
     </x-nav-student-public>
-    <div class="data-public-student-details">
+    <div class="data-public-student-details items-center">
         <section class="personal-data">
             <div>
                 <x-name-title-student-public>Nombre Completo</x-name-title-student-public>
@@ -15,17 +15,15 @@
                 <x-date-student-public>{{ implode(' ', [$estudiante['primer_apellido'], $estudiante['segundo_apellido'] ])}}</x-date-student-public>
             </div>
             <div>
-                <x-name-title-student-public>Genero y Nacionalidad</x-name-title-student-public>
-                <x-date-student-public>
+                <x-name-title-student-public>Género y Nacionalidad</x-name-title-student-public>
+                <x-date-student-public>{{ ucfirst($estudiante->genero) }}
                 @if($estudiante['genero'] === 'masculino')
-                    Masculino
                     @if($estudiante['nacionalidad']==='VE')
                         Venezolano
                     @else
                         Extrangero
                     @endif
                 @else
-                    Femenino
                     @if($estudiante['nacionalidad']==='VE')
                         Venezolana
                     @else
@@ -49,6 +47,12 @@
                             {{ $trayectos->trayectos }}
                         @endforeach
                         - {{ $estudiante->tramos->tramos }}
+                    </x-date-student-public>
+                </div>
+                <div>
+                    <x-name-title-student-public>Sección Actual</x-name-title-student-public>
+                    <x-date-student-public>
+                        {{ $estudiante->secciones->seccion }}
                     </x-date-student-public>
                 </div>
                 <div>
