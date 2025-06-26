@@ -47,7 +47,7 @@
       </x-details-div>
       <x-details-div>
         <x-details-dt>Genero</x-details-dt>
-        <x-details-dd>{{ $estudiantes['genero']}}</x-details-dd>
+        <x-details-dd>{{ ucfirst(strtolower($estudiantes['genero'])) }}</x-details-dd>
       </x-details-div>
       <x-details-div>
         <x-details-dt>Ciudad - Pueblo</x-details-dt>
@@ -72,6 +72,10 @@
                 {{ $trayectos->trayectos }}
             @endforeach
             - {{ $estudiantes->tramos->tramos }}</x-details-dd>
+      </x-details-div>
+      <x-details-div>
+        <x-details-dt>Sección</x-details-dt>
+        <x-details-dd>{{ $estudiantes->secciones->seccion }}</x-details-dd>
       </x-details-div>
     </dl>
   </div>

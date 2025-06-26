@@ -106,7 +106,7 @@
                             <div class="mt-2">
 
                                 <x-label class="after:content-['*'] after:text-red-400">Carrera a Estudiar</x-label>
-                                @props(['courses', 'trayectos', 'nucleos'])
+                                @props(['courses', 'trayectos', 'nucleos', 'secciones'])
                                 <x-select-form class="sm:max-w-full" name="carrera_id" id="carreras_id">
                                     @foreach ($courses as $carrera)
                                         <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
@@ -134,6 +134,16 @@
                                 <x-select-form class="sm:max-w-full" name="nucleo_id">
                                     @foreach ($nucleos as $nucleo)
                                         <option value="{{ $nucleo->id }}">{{ $nucleo->nucleo }}</option>
+                                    @endforeach
+                                </x-select-form>
+                            </div>
+                        </div>
+                        <div class="carreratramonucleo">
+                            <div class="mt-2">
+                                <x-label class="after:content-['*'] after:text-red-400">Sección</x-label>
+                                <x-select-form class="sm:max-w-full" name="seccion_id">
+                                    @foreach ($secciones as $seccion)
+                                            <option value="{{ $seccion->id }}">{{ $seccion->seccion }}</option>
                                     @endforeach
                                 </x-select-form>
                             </div>

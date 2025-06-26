@@ -23,6 +23,7 @@ class Students extends Model
         'nucleo_id',
         'carrera_id',
         'tramo_trayecto_id',
+        'seccion_id',
     ];
     public function inscripciones(){
         return $this->hasMany(Inscripciones::class);
@@ -38,5 +39,8 @@ class Students extends Model
     }
     public function tramos(){
         return $this->belongsTo(Tramos::class, 'tramo_trayecto_id');
+    }
+    public function secciones(){
+        return $this->belongsTo(Secciones::class, 'nucleo_id');
     }
 }

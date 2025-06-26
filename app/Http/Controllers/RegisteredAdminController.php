@@ -10,6 +10,7 @@ use App\Models\Materias;
 use App\Models\Nucleos;
 use App\Models\Pensum;
 use App\Models\Profesores;
+use App\Models\Secciones;
 use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tipos;
@@ -84,8 +85,9 @@ class RegisteredAdminController extends Controller
         $courses = Carreras::orderByRaw('carrera ASC')->get();
         $trayectos = Trayectos::with('tramos')->get();
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
-        /* dd($carrera); */
-        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos'));
+        $secciones = Secciones::orderByRaw('seccion ASC')->get();
+        // dd($carrera);
+        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones'));
     }
     public function studentstore(Request $request){
         /* dd(request()->all()); */
@@ -105,7 +107,7 @@ class RegisteredAdminController extends Controller
             'nucleo_id'=>['required','numeric'],
             'carrera_id'=>['required','numeric','exists:carreras,id'],
             'tramo_trayecto_id'=>['required','numeric', 'exists:tramo_trayecto,id'],
-            'seccion_id'=>['nullable','numeric' ],
+            'seccion_id'=>['nullable','numeric','exists:secciones,id' ],
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
@@ -268,6 +270,27 @@ class RegisteredAdminController extends Controller
         $carreradatos['carrera'] = Str::title(strtolower(trim($carreradatos['carrera'])));
         Carreras::create($carreradatos);
         return redirect('/carreras');
+    }
+    public function searchseccion(Request $request) {
+        $term = $request->input('term');
+        $datos = Secciones::whereRaw('LOWER(seccion) LIKE ?', ['%' . strtolower($term) . '%'])->limit(7)->get();
+
+        return response()->json($datos);
+    }
+    public function seccionadd(Request $request){
+        $secciondatos = $request->validate([
+            'seccion' => ['required', 'min:1', 'string', 'regex:/^[^\d]*$/'],
+        ],[
+            'seccion.regex'=>'La sección no debe contener números',
+            'seccion.min'=>'La sección tiene que tener 1 carácter como mínimo',
+        ]);
+        $existeSeccion = Secciones::whereRaw('LOWER(seccion) LIKE ?', ['%' . $request->seccion . '%'])->exists();
+        if ($existeSeccion) {
+            return redirect()->back()->withErrors(['error'=>'La sección que está intentando crear ya existe en la base de datos.']);
+        }
+        $secciondatos['seccion'] = Str::title(strtolower(trim($secciondatos['seccion'])));
+        Secciones::create($secciondatos);
+        return redirect()->back()->with('alert','La sección se creó con exito.');
     }
     public function nucleo(){
         $nucleos = Nucleos::all();
