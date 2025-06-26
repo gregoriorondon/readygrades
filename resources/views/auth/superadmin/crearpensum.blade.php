@@ -43,46 +43,59 @@
                                         Seleccione Las Materias Que Deseas Agregar
                                     </div>
                                     <div class="mt-4 text-sm text-gray-700 font-inter">
-                                        <x-input-form type="text" name="searchmateria"
-                                            placeholder="Buscar Materia" />
-                                        <div class="border rounded-md mt-2" style="border-color: var(--text);">
-                                            <table class="w-full">
-                                                <thead class="sticky top-0 bg-gray-100/20">
-                                                    <tr>
-                                                        <th class="py-3 font-inter font-normal text-left pl-4">
-                                                            Nombre</th>
-                                                        <th class="py-3 font-inter font-normal text-center">Código
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($materias as $materia)
-                                                        <tr class="odd:bg-gray-300/10 border-t">
-                                                            <td class="">
-                                                                <div class="flex items-center">
-                                                                    <x-label
-                                                                        class="py-3 pl-4 cursor-pointer select-none">
-                                                                        <x-input-check type="checkbox" name="materias[]"
-                                                                            value="{{ $materia->id }}"
-                                                                            class="mr-3 accent-blue-700" />
-                                                                        {{ $materia->materia }}
-                                                                    </x-label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center font-mono text-sm">
-                                                                {{ $materia->codigo }}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                        <x-input-form type="text" name="searchmateria" id="autocomplete"
+                                            autocomplete="off" placeholder="Buscar Materia" />
+                                        <div id="suggestions" class="mt-2 rounded max-h-40 overflow-y-auto"></div>
+                                        <div>
+                                            <div class="mt-3 text-lg text-center font-bold font-inter text-gray-700">
+                                                Materias Seleccionadas
+                                            </div>
+                                            <div id="selected-list" class="mt-4"></div>
                                         </div>
+                                        <details>
+                                            <summary
+                                                class="font-inter text-lg cursor-pointer hover:bg-gray-400/20 px-2 rounded-md">
+                                                Lista De Materias</summary>
+                                            <div class="border rounded-md mt-2" style="border-color: var(--text);">
+                                                <table class="w-full">
+                                                    <thead class="sticky top-0 bg-gray-100/20">
+                                                        <tr>
+                                                            <th class="py-3 font-inter font-normal text-left pl-4">
+                                                                Nombre</th>
+                                                            <th class="py-3 font-inter font-normal text-center">Código
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($materias as $materia)
+                                                            <tr class="odd:bg-gray-300/10 border-t">
+                                                                <td class="">
+                                                                    <div class="flex items-center">
+                                                                        <x-label
+                                                                            class="py-3 pl-4 cursor-pointer select-none">
+                                                                            <x-input-check type="checkbox"
+                                                                                name="materias[]"
+                                                                                value="{{ $materia->id }}"
+                                                                                class="mr-3 accent-blue-700" />
+                                                                            {{ $materia->materia }}
+                                                                        </x-label>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-center font-mono text-sm">
+                                                                    {{ $materia->codigo }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </details>
                                     </div>
                                     <div class="font-inter flex justify-end mt-3">
                                         <x-button id="cerrarmodal" type="button">Aceptar</x-button>
                                     </div>
                                 </dialog>
-                                {{-- @vite(['resources/js/autocompletado-carrera.js']) --}}
+                                @vite(['resources/js/autocompletado-pensum.js'])
                                 @vite(['resources/js/modales.js'])
                             </div>
                         </div>

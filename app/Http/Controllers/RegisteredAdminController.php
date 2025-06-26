@@ -248,6 +248,12 @@ class RegisteredAdminController extends Controller
 
         return response()->json($datos);
     }
+    public function searchpensum(Request $request) {
+        $term = $request->input('term');
+        $datos = Materias::whereRaw('LOWER(materia) LIKE ?', ['%' . strtolower($term) . '%'])->orWhereRaw('LOWER(codigo) LIKE ?', ['%' . strtolower($term) . '%'])->limit(7)->get(['id', 'materia', 'codigo']);
+
+        return response()->json($datos);
+    }
     public function carreraprocess(Request $request){
         $carreradatos = $request->validate([
             'carrera' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],

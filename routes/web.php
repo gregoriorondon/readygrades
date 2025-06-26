@@ -55,6 +55,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/pensum', 'pensum');
     Route::get('/pensum-add', 'pensumadd');
     Route::post('/pensums', 'pensumstore');
+    Route::get('/autocomplete/pensum', 'searchpensum');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');
