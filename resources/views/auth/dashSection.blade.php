@@ -20,12 +20,9 @@
     <div class="py-4">
         <div class="mx-auto">
             <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
-                @can('root')
+                @cannot('profesor')
                     <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" />
-                @endcan
-                @can('adminis')
-                    <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" />
-                @endcan
+                @endcannot
                 @can('profesor')
                     <x-docente.welcome />
                 @endcan
