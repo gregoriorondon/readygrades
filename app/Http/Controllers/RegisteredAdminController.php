@@ -448,11 +448,11 @@ class RegisteredAdminController extends Controller
         }
     }
     public function materias() {
-        $materias = Materias::orderBy('materia')->get();
+        $materias = Materias::orderBy('materia')->paginate(20);
         return view('auth.superadmin.materias', compact('materias'));
     }
     public function materiasadd(Request $request) {
-        $atributos = $request->validate([
+        $request->validate([
             'materia'=>'string|unique:materias,materia',
             'codigo'=>'string|unique:materias,codigo',
         ],[
@@ -461,6 +461,12 @@ class RegisteredAdminController extends Controller
             'codigo.string'=>'debe colocar texto',
             'codigo.unique'=>'La materia que está tratando de registrar ya existe',
         ]);
+        $atributosuno = strtolower($request->input('materia'));
+        $atributosdos = strtolower($request->input('codigo'));
+        $atributos = [
+            'materia' => $atributosuno,
+            'codigo' => $atributosdos,
+        ];
         Materias::create($atributos);
         return redirect()->back()->with('alert','Se Registró con Exito');
     }
