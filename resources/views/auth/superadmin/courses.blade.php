@@ -32,7 +32,7 @@
                                     {{ $carrera->created_at }}
                                 </x-table-td-students>
                                 <x-table-td-students>
-                                    <a href="/edit-courses/{{ $carrera->id }}"></a>
+                                    <a href="/edit-courses/{{ $carrera->id }}" class="hover:bg-gray-400/20 transition-all p-1 rounded-lg"><i class="fas fa-edit mr-3 text-xl"></i>Editar Carrera</a>
                                 </x-table-td-students>
                             </tr>
                             @endforeach
@@ -69,5 +69,5 @@
 </x-dialog-modal>
 @vite(['resources/js/autocompletado-carrera.js'])
 @vite(['resources/js/modales.js'])
-<x-error-alert-js />
+<x-error-and-correct-dialog />
 </x-dashboard>

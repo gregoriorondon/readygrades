@@ -271,6 +271,27 @@ class RegisteredAdminController extends Controller
         Carreras::create($carreradatos);
         return redirect('/carreras');
     }
+    public function carreraedit($id) {
+        $courses = Carreras::all()->findOrFail($id);
+        return view('auth.superadmin.editcourses', compact('courses'));
+    }
+    public function cambiarcarrera(Request $request, $id) {
+        $request->validate([
+            'carrera' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
+        ],[
+            'carrera.regex'=>'La carrera no debe contener números',
+            'carrera.min'=>'La carrera tiene que tener 3 carácteres como mínimo',
+        ]);
+        $carreranormalizada = Str::title(strtolower(trim($request->carrera)));
+
+        $existeCarrera = Carreras::where('id', '!=', $id)->whereRaw('LOWER(carrera) LIKE ?', [strtolower($carreranormalizada)])->exists();
+        if ($existeCarrera) {
+            return redirect()->back()->withErrors(['error'=>'La carrera que está intentando crear ya existe en la base de datos.']);
+        }
+        Carreras::where('id', $id)->update(['carrera'=>$carreranormalizada]);
+
+        return redirect('/carreras')->with('alert','Se guardó con exito los cambios');
+    }
     public function searchseccion(Request $request) {
         $term = $request->input('term');
         $datos = Secciones::whereRaw('LOWER(seccion) LIKE ?', ['%' . strtolower($term) . '%'])->limit(7)->get();

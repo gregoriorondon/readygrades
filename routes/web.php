@@ -17,6 +17,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/carreras', 'courses');
     Route::get('/autocomplete', 'autocourses');
     Route::post('/carreras-add-post', 'carreraprocess');
+    Route::get('/edit-courses/{carrera}', 'carreraedit');
+    Route::post('/savecarrera/{carrera}', 'cambiarcarrera');
     // Nucleos
     Route::get('/autocomplete/nucleos', 'autonucleos');
     Route::get('/nucleos', 'nucleo');
