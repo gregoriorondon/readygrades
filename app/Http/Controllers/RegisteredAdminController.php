@@ -472,6 +472,37 @@ class RegisteredAdminController extends Controller
         $materias = Materias::orderBy('materia')->paginate(20);
         return view('auth.superadmin.materias', compact('materias'));
     }
+    public function materiaedit($id) {
+        $materias = Materias::all()->findOrFail($id);
+        return view('auth.superadmin.materiaedit', compact('materias'));
+    }
+    public function cambiaredit(Request $request, $id) {
+        $request->validate([
+            'materia' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
+            'codigo' => ['required', 'min:3', 'string'],
+        ],[
+            'materia.required'=>'La materia no debe estar vacía',
+            'materia.regex'=>'La materia no debe contener números',
+            'materia.min'=>'La materia tiene que tener 3 carácteres como mínimo',
+            'codigo.required'=>'El código no debe estar vacía',
+            'codigo.min'=>'El código debe tener 3 carácteres como mínimo',
+            'codigo.string'=>'El código debe ser texto y no carácteres especiales',
+        ]);
+        $materianormalizada = Str::title(strtolower(trim($request->materia)));
+        $codigonormalizada = Str::title(strtolower(trim($request->codigo)));
+
+        $existeCarrera = Materias::where('id', '!=', $id)->whereRaw('LOWER(materia) LIKE ?', [strtolower($materianormalizada)])->exists();
+        if ($existeCarrera) {
+            return redirect()->back()->withErrors(['error'=>'La materia que está intentando guardar ya existe en la base de datos.']);
+        }
+        $existeCarrera = Materias::where('id', '!=', $id)->whereRaw('LOWER(codigo) LIKE ?', [strtolower($codigonormalizada)])->exists();
+        if ($existeCarrera) {
+            return redirect()->back()->withErrors(['error'=>'El codigo que está intentando guardar ya existe en la base de datos.']);
+        }
+        Materias::where('id', $id)->update(['materia'=>$materianormalizada,'codigo'=>"$codigonormalizada"]);
+
+        return redirect('/materias')->with('alert','Se guardó con exito los cambios');
+    }
     public function materiasadd(Request $request) {
         $request->validate([
             'materia'=>'string|unique:materias,materia',
