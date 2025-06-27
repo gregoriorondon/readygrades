@@ -7,7 +7,7 @@
                 <div class="flex justify-between">
                     <span class="font-bold font-inter text-lg">{{ $nucleo->nucleo }}</span>
                     <span class="font-inter text-gray-500 text-xs mt-auto mb-auto">Fecha de creación: {{ $nucleo->created_at}}</span>
-                    <span class="text-gray-500 text-lg mt-auto mb-auto" title="Editar Nombre"><a class="p-1" href="/nucleos/editar/{{ $nucleo->id}}"><i class="fa-solid fa-pen-to-square m-0"></i></a></span>
+                    <span class="text-gray-500 text-lg mt-auto mb-auto" title="Editar Nombre"><a class="p-1" href="/edit-nucleo/{{ $nucleo->id}}"><i class="fa-solid fa-pen-to-square m-0"></i></a></span>
                 </div>
             </li>
         @endforeach
@@ -28,7 +28,7 @@
                 </div>
         </form>
     </dialog>
-<x-error-alert-js />
+<x-error-and-correct-dialog />
 @vite(['resources/js/autocompletado-nucleos.js'])
 @vite(['resources/js/modales.js'])
 </x-dashboard>

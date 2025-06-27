@@ -22,6 +22,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // Nucleos
     Route::get('/autocomplete/nucleos', 'autonucleos');
     Route::get('/nucleos', 'nucleo');
+    Route::get('/edit-nucleo/{nucleo}', 'nucleoedit');
+    Route::post('/save-nucleo/{nucleo}', 'editnucleosave');
     Route::post('/crear-nucleo', 'nucleoadd');
     // Tramos-Trayectos
     Route::get('/tramos-y-trayectos', 'trayectosview');

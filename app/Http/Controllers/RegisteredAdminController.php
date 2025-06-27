@@ -333,6 +333,27 @@ class RegisteredAdminController extends Controller
         Nucleos::create($nucleos);
         return redirect('/nucleos');
     }
+    public function nucleoedit($id) {
+        $nucleo = Nucleos::all()->findOrFail($id);
+        return view('auth.superadmin.nucleoedit', compact('nucleo'));
+    }
+    public function editnucleosave(Request $request, $id) {
+        $request->validate([
+            'nucleo' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
+        ],[
+            'nucleo.required'=>'El núcleo no debe estar vacío',
+            'nucleo.regex'=>'El núcleo no debe contener números',
+            'nucleo.min'=>'El núcleo debe de tener 3 carácteres como mínimo',
+        ]);
+        $nucleonormalizada = Str::title(strtolower(trim($request->nucleo)));
+
+        $existeNucleo = Nucleos::where('id', '!=', $id)->whereRaw('LOWER(nucleo) LIKE ?', [strtolower($nucleonormalizada)])->exists();
+        if ($existeNucleo) {
+            return redirect()->back()->withErrors(['error'=>'El núcleo que está intentando guardar ya existe en la base de datos.']);
+        }
+        Nucleos::where('id', $id)->update(['nucleo'=>$nucleonormalizada]);
+        return redirect('/nucleos')->with('alert','Se guardó con exito los cambios');
+    }
     public function trayectosview() {
         $trayectos = Trayectos::with('tramos')->get();
         return view('auth.superadmin.trayectos-tramos', compact('trayectos'));
