@@ -269,7 +269,7 @@ class RegisteredAdminController extends Controller
         }
         $carreradatos['carrera'] = Str::title(strtolower(trim($carreradatos['carrera'])));
         Carreras::create($carreradatos);
-        return redirect('/carreras');
+        return redirect('/carreras')->with('alert','La carrera se creó con exito.');
     }
     public function carreraedit($id) {
         $courses = Carreras::all()->findOrFail($id);

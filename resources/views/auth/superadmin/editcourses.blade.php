@@ -34,6 +34,7 @@
                                         </x-table-td-students>
                                         <x-table-td-students>
                                             {{-- <a href="/edit-courses/{{ $carrera->id }}" class="hover:bg-gray-400/20 transition-all p-1 rounded-lg"><i class="fas fa-edit mr-3 text-xl"></i>Editar Carrera</a> --}}
+                                            <x-button type="button" class="bg-[#f00] hover:bg-[#b00]" onclick="history.back()">Cancelar</x-button>
                                             <x-button type="submit">Guardar Cambios</x-button>
                                         </x-table-td-students>
                                     </form>
