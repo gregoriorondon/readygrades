@@ -23,13 +23,13 @@
                                 </td>
                                 <td class="text-center py-2 px-8">
                                     <x-input-form value="{{ mb_strtoupper(trim($materias->codigo)), 'UTF-8' }}"
-                                        name="codigo" autocomplete="off" autocomplete="Código de la materia" />
+                                        name="codigo" autocomplete="off" placeholder="Código de la materia" />
                                 </td>
-                                <td class="text-center py-2 px-8 flex">
+                                <x-table-td-students class="text-center py-2 px-8">
                                     <x-button type="button" class="bg-[#f00] hover:bg-[#b00] transition-all"
                                         onclick="history.back()">Cancelar</x-button>
                                     <x-button type="submit">Guardar Cambios</x-button>
-                                </td>
+                                </x-table-td-students>
                             </tr>
                         </form>
                     </tbody>
