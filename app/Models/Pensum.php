@@ -16,10 +16,13 @@ class Pensum extends Model
     public function carreras(){
         return $this->belongsTo(Carreras::class, 'carrera_id');
     }
-    public function tramoTrayectos(){
-        return $this->belongsTo(TramoTrayecto::class, 'tramo_trayecto_id');
+    public function tramos(){
+        return $this->belongsTo(Tramos::class, 'tramo_trayecto_id');
+    }
+    public function trayectos(){
+        return $this->belongsTo(Trayectos::class, 'tramo_trayecto_id');
     }
     public function materias(){
-        return $this->belongsTo(Materias::class, 'maetria_id');
+        return $this->belongsTo(Materias::class, 'materia_id');
     }
 }

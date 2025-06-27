@@ -474,7 +474,12 @@ class RegisteredAdminController extends Controller
         $trayecto = Trayectos::with('tramos')->get();
         $materias = Materias::all();
         $carrera = Carreras::all();
-        return view('auth.superadmin.pensum', compact(['trayecto', 'materias', 'carrera']));
+        $pensum = Pensum::with('tramos', 'carreras', 'trayectos')
+                    ->select('tramo_trayecto_id', 'carrera_id')
+                    ->groupBy('tramo_trayecto_id', 'carrera_id')
+                    ->get();
+        $pensumUnidos = Pensum::select('tramo_trayecto_id')->distinct()->get();
+        return view('auth.superadmin.pensum', compact(['trayecto', 'materias', 'carrera','pensum','pensumUnidos']));
     }
     public function pensumadd() {
         $trayecto = Trayectos::with('tramos')->get();
