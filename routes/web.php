@@ -71,6 +71,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/seccionadd', 'seccionadd');
     // Periodos
     Route::get('/periodos', 'periodos');
+    Route::post('/add-periodo', 'addperiodo');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');

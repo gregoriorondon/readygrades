@@ -10,6 +10,7 @@ use App\Models\Materias;
 use App\Models\Notas;
 use App\Models\Nucleos;
 use App\Models\Pensum;
+use App\Models\Periodos;
 use App\Models\Profesores;
 use App\Models\Secciones;
 use App\Models\Sessions;
@@ -637,6 +638,26 @@ class RegisteredAdminController extends Controller
         return redirect()->back()->with('alert', 'Plan de estudios creado correctamente');
     }
     public function periodos() {
-        return view('auth.periodo-academico');
+        $periodo = Periodos::paginate(20);
+        return view('auth.periodo-academico', compact('periodo'));
+    }
+    public function addperiodo(Request $request) {
+        // dd($request);
+        $atributos = $request->validate([
+            'inicio'=>'required|unique:periodos,inicio',
+            'fin'=>'required|unique:periodos,fin',
+            'nombre'=>'string|nullable',
+        ],[
+            'inicio.date'=>'Se necesita colocar el periodo de inicio como una fecha.',
+            'inicio.required'=>'Es obligatorio colocar el periodo de inicio.',
+            'inicio.unique'=>'Ya existe esa fecha de inicio de periodo academico.',
+            'fin.date'=>'Se necesita colocar el periodo de inicio como una fecha.',
+            'fin.required'=>'Es obligatorio colocar la fecha final del periodo académico.',
+            'fin.unique'=>'Ya existe esta fecha de inicio de periodo académico.',
+            'nombre.string'=>'No debe colocar carácteres especiales en el nombre del periodo académico.',
+        ]);
+        $atributos['activo']=true;
+        Periodos::create($atributos);
+        return redirect()->back()->with('alert','Se creó e inició un nuevo periodo académico.');
     }
 }
