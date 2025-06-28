@@ -1,7 +1,12 @@
 <x-dashboard>
     <x-slot:titulo>Calificaciones De {{ $estudiante['primer_name'] }}</x-slot:titulo>
-    <x-title-section-admin>Calificaciones Del Estudiante
-        {{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-title-section-admin>
+    @if ($estudiante->genero !== 'masculino')
+        <x-title-section-admin>Calificaciones  De La Estudiante
+            {{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-title-section-admin>
+    @else
+        <x-title-section-admin>Calificaciones  Del Estudiante
+            {{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-title-section-admin>
+    @endif
     <div class="mx-auto w-fit text-center">
         <div class="mt-7 border border-gray-300 rounded-md">
             <dl class="divide-y divide-gray-300 ">
@@ -17,7 +22,7 @@
 
         </div>
         <div class="flex justify-end mt-2">
-            <x-button type="button" onclick="history.back()">Regresar</x-button>
+            <x-button type="button" icon="fas fa-arrow-left" onclick="history.back()">Regresar</x-button>
         </div>
     </div>
 </x-dashboard>
