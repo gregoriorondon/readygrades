@@ -636,4 +636,7 @@ class RegisteredAdminController extends Controller
         }
         return redirect()->back()->with('alert', 'Plan de estudios creado correctamente');
     }
+    public function periodos() {
+        return view('auth.periodo-academico');
+    }
 }

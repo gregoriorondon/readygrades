@@ -19,11 +19,10 @@ return new class extends Migration
         });
         Schema::create('periodos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->unique();
+            $table->string('nombre')->nullable();
             $table->date('inicio');
-            $table->date('fin')->nullable();
+            $table->date('fin');
             $table->boolean('activo')->default(true);
-            $table->boolean('cerrado')->default(false);
             $table->timestamps();
         });
         Schema::create('tipos', function (Blueprint $table) {

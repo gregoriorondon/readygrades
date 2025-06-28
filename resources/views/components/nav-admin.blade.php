@@ -24,6 +24,7 @@
     @can('root')
         <x-sidebar-section link="nucleos" icon="fa-solid fa-signs-post">Núcleos</x-sidebar-section>
     @endcan
+    <x-sidebar-section link="periodos" icon="fas fa-calendar-alt">Periodos Académicos</x-sidebar-section>
     <x-sidebar-section link="generar-documentos" icon="fas fa-file-plus">Generar</x-sidebar-section>
 @endcannot
 @can('profesor')
