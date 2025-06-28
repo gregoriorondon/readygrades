@@ -172,7 +172,7 @@ class RegisteredAdminController extends Controller
         return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
     public function studentsadmin(){
-        $estudiantes = Students::paginate(20);
+        $estudiantes = Students::orderByRaw('created_at DESC')->paginate(20);
         return view('auth.students', compact('estudiantes'));
     }
     public function studentsadmincalification($id){
