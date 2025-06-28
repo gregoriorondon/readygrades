@@ -52,6 +52,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     //Cargo
     Route::get('/agregar-cargo', 'cargoadd')->name('cargo.index');
     Route::post('/agregar-create', 'cargosave')->name('crearcargo');
+    Route::get('/edit-cargo/{cargo}', 'cargoedit');
+    Route::post('/save-cargo/{cargo}', 'cargoeditsave')->name('savecargoedit');
     //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');

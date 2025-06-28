@@ -515,7 +515,7 @@ class RegisteredAdminController extends Controller
         if ($tipo && $tipo->tipo == 'superadmin') {
             return redirect()->back()->withErrors(['error' => 'El tipo de cargo no es valido.']);
         } else {
-            $request->validate([
+            $atributos = $request->validate([
                 'cargo' => 'required|string|max:100',
                 'tipo_id' => 'required|exists:tipos,id|integer',
             ],[
@@ -526,20 +526,14 @@ class RegisteredAdminController extends Controller
                 'tipo_id.integer'=>'No debe contener carácteres especiales',
                 'tipo_id.exists'=>'El tipo de cargo que está intentando usar no existe.',
             ]);
-            $cargoNormalizado = Str::title(strtolower(trim($request->cargo)));
-            $existeCargo = Cargos::where('id', '!=', $id)
-                        ->where('cargo', $cargoNormalizado)
-                        ->exists();
-
-            if ($existeCargo) {
-                return redirect()->back()->withErrors(['error' => 'El cargo ya existe']);
-            }
-            Cargos::where('id', $id)->update([
-                'cargo' => $cargoNormalizado,
-                'tipo_id' => $request->tipo_id
-            ]);
-            return redirect('/agregar-cargo')->with('alert','Se guardaron los cambios de manera correcta');
+            $atributoslow = Str::title(strtolower(trim($atributos)));
+            $existeCargo = Cargos::where('id', '!=', $id)->whereRaw('LOWER(cargo) LIKE ?', [strtolower($request->cargo)])->exists();
+                if ($existeCargo) {
+                    return redirect()->back()->withErrors(['error'=>'El cargo que está intentando guardar ya existe en la base de datos.']);
+                }
         }
+        Cargos::where('id', $id)->update($atributos);
+        return redirect('/agregar-cargo')->with('alert','Se guardaron los cambios de manera correcta');
     }
     public function materias() {
         $materias = Materias::orderBy('materia')->paginate(20);
