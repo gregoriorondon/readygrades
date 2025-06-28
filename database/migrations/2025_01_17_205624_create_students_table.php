@@ -17,6 +17,15 @@ return new class extends Migration
             $table->string('nucleo')->unique();
             $table->timestamps();
         });
+        Schema::create('periodos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre')->unique();
+            $table->date('inicio');
+            $table->date('fin')->nullable();
+            $table->boolean('activo')->default(true);
+            $table->boolean('cerrado')->default(false);
+            $table->timestamps();
+        });
         Schema::create('tipos', function (Blueprint $table) {
             $table->id();
             $table->string('tipo')->unique();
@@ -157,6 +166,8 @@ return new class extends Migration
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->cascadeOnUpdate();
+            $table->unsignedBigInteger('periodo_id');
+            $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('profesor_asignar', function (Blueprint $table) {
@@ -192,5 +203,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('profesores');
         Schema::dropIfExists('profesor_asignar');
+        Schema::dropIfExists('periodos');
     }
 };
