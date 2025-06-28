@@ -89,8 +89,9 @@ class RegisteredAdminController extends Controller
         }])->get();
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
+        $periodo = Periodos::first();
         // dd($carrera);
-        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones'));
+        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo'));
     }
     public function studentstore(Request $request){
         /* dd(request()->all()); */

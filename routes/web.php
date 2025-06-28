@@ -38,14 +38,14 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
     Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
     Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
+    Route::get('/registro-estudiante', 'studentadd');
+    Route::post('/registro-estudiante', 'studentstore');
 
     Route::get('/administracion', 'admindashboard');
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');
     Route::get('/nomina-administradores', 'admininfo');
     Route::get('/administrador-panel-administrativo/{administrador}', 'admindetails');
-    Route::get('/registro-estudiante', 'studentadd');
-    Route::post('/registro-estudiante', 'studentstore');
     Route::get('/generar-documentos', 'generar');
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');

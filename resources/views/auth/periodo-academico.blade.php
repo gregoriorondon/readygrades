@@ -32,7 +32,7 @@
                         <tr class="odd:bg-gray-400/20">
                             <td class="px-12 p-4 border-t">{{ $periodos->inicio }}</td>
                             <td class="px-12 p-4 border-t">{{ $periodos->fin }}</td>
-                            @if($periodos->activo !== false)
+                            @if((bool)$periodos->activo !== false)
                                 <td class="px-12 p-4 border-t"><a href="" class="bg-green-500/50 hover:bg-green-500/80 p-3 rounded-lg">Activo</a></td>
                             @else
                                 <td class="px-12 p-4">Finalizado</td>
