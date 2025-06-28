@@ -9,4 +9,10 @@ class Materias extends Model
     //
     protected $table = "materias";
     protected $fillable = ['materia','codigo'];
+    public function pensums() {
+        return $this->belongsTo(Pensum::class, 'pensum_id');
+    }
+    public function materiasRelacionadas() {
+        return $this->hasMany(Materias::class);
+    }
 }

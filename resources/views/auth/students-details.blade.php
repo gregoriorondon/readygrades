@@ -77,6 +77,15 @@
         <x-details-dt>Sección</x-details-dt>
         <x-details-dd>{{ $estudiantes->secciones->seccion }}</x-details-dd>
       </x-details-div>
+      <x-details-div>
+        <x-details-dt>Notas - Calificaciones</x-details-dt>
+        <x-details-dd>
+            <a href="/estudiantes-calificacion/{{ $estudiantes->id }}" class="flex items-center px-1 hover:bg-gray-400/20 transition-all rounded-lg w-fit">
+                <i class="fa-solid fa-award text-xl"></i>
+                Ver o Gestionar Notas - Calificaciones Del Estudiante
+            </a>
+        </x-details-dd>
+      </x-details-div>
     </dl>
   </div>
 </div>

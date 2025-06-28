@@ -7,6 +7,7 @@ use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
 use App\Models\Estudios;
 use App\Models\Materias;
+use App\Models\Notas;
 use App\Models\Nucleos;
 use App\Models\Pensum;
 use App\Models\Profesores;
@@ -15,7 +16,6 @@ use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tipos;
 use App\Models\Tramos;
-use App\Models\TramoTrayecto;
 use App\Models\Trayectos;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -83,7 +83,9 @@ class RegisteredAdminController extends Controller
     }
     public function studentadd(){
         $courses = Carreras::orderByRaw('carrera ASC')->get();
-        $trayectos = Trayectos::with('tramos')->get();
+        $trayectos = Trayectos::with(['tramos' => function($query) {
+            $query->withPivot('id');
+        }])->get();
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
         // dd($carrera);
@@ -134,18 +136,28 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.exists'=>'El tramo y trayecto no es válido.',
         ]);
 
-        /* // Verificar si ya existe una inscripción para el mismo estudiante, carrera y trimestre */
         $existeInscripcion = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
-            ->where('tramo_trayecto_id', $request->tramo_id)
+            ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->exists();
 
         if ($existeInscripcion) {
-            // Si ya existe, redirigir con un mensaje de error
             return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
 
-        Students::create($datosEstudiante);
+        $student = Students::create($datosEstudiante);
+
+        $materiasPensum = Pensum::where('carrera_id', $request->carrera_id)
+            ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
+            ->get();
+
+        foreach ($materiasPensum as $materia) {
+            Notas::create([
+                'pensum_id' => $materia->id,
+                'student_id' => $student->id,
+                'nota' => null
+            ]);
+        }
         return redirect()->back()->with('alert', 'El estudiante fue registado correctamente.');
     }
     public function admindashboard(){
@@ -163,11 +175,14 @@ class RegisteredAdminController extends Controller
         $estudiantes = Students::paginate(20);
         return view('auth.students', compact('estudiantes'));
     }
-    /* public function studentsadmindetails(Students $student){ */
-    /*     return view('auth.students-details', ['estudiantes' => $student]); */
-    /* } */
+    public function studentsadmincalification($id){
+        $estudiante = Students::all()->findOrFail($id);
+        $notas = Notas::with('pensums.materias')->where('student_id',$id)->get();
+        return view('auth.students-calification', compact('estudiante', 'notas'));
+    }
     public function studentsadmindetails($id){
         $estudiantes = Students::with(['tramos.trayectos'])->findOrFail($id);
+        $nota = Notas::all();
         $student = Trayectos::with('tramos')->get();
         return view('auth.students-details', compact('estudiantes', 'student'));
     }

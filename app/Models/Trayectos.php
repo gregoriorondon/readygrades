@@ -11,6 +11,6 @@ class Trayectos extends Model
     protected $table = 'trayectos';
     protected $fillable = ['trayectos'];
     public function tramos(){
-        return $this->belongsToMany(Tramos::class, 'tramo_trayecto', 'trayecto_id', 'tramo_id');
+        return $this->belongsToMany(Tramos::class, 'tramo_trayecto', 'trayecto_id', 'tramo_id')->withPivot('id');
     }
 }

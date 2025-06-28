@@ -121,7 +121,7 @@
                                     @foreach ($trayectos as $trayecto)
                                         <optgroup label="{{ $trayecto->trayectos }}">
                                             @foreach ($trayecto->tramos as $tramos)
-                                                <option value="{{ $tramos->id }}">{{ $tramos->tramos }}</option>
+                                                <option value="{{ $tramos->pivot->id }}">{{ $tramos->tramos }}</option>
                                             @endforeach
                                         </optgroup>
                                     @endforeach

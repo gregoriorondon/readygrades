@@ -43,4 +43,7 @@ class Students extends Model
     public function secciones(){
         return $this->belongsTo(Secciones::class, 'seccion_id');
     }
+    public function notas() {
+        return $this->hasMany(Notas::class);
+    }
 }

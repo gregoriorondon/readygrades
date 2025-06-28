@@ -34,8 +34,11 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/registro-profesor', 'teacherstore')->name('registro.profesor');
     Route::get('/docentes-panel-administrativo/{docentes}', 'teacherinfo');
     Route::get('/registro-administrador', 'adminadd');
+    // Estudiantes
     Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
+    Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
     Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
+
     Route::get('/administracion', 'admindashboard');
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');

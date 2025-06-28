@@ -152,7 +152,7 @@ return new class extends Migration
         });
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->string('nota');
+            $table->string('nota')->nullable();
             $table->unsignedBigInteger('pensum_id');
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('student_id');

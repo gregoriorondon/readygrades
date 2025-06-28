@@ -25,4 +25,7 @@ class Pensum extends Model
     public function materias(){
         return $this->belongsTo(Materias::class, 'materia_id');
     }
+    public function notas() {
+        return $this->hasMany(Notas::class);
+    }
 }
