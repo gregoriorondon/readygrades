@@ -153,10 +153,17 @@ class RegisteredAdminController extends Controller
             ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->get();
 
+        $periodo = Periodos::first();
+
+        if (!$periodo->activo) {
+            return redirect()->back()->withErrors(['error'=>'El periodo que está tratando de usar está cerrado.']);
+        }
+
         foreach ($materiasPensum as $materia) {
             Notas::create([
                 'pensum_id' => $materia->id,
                 'student_id' => $student->id,
+                'periodo_id' => $periodo->id,
                 'nota' => null
             ]);
         }
