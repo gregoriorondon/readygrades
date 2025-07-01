@@ -177,6 +177,9 @@ return new class extends Migration
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('seccion_id');
             $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeOnUpdate();
+            $table->unsignedBigInteger('periodo_id');
+            $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeOnUpdate();
+            $table->unique(['pensum_id', 'seccion_id', 'periodo_id'], 'unique_sections');
             $table->timestamps();
         });
     }

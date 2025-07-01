@@ -8,24 +8,40 @@ class Pensum extends Model
 {
     //
     protected $table = 'pensum';
+
     protected $fillable = [
         'carrera_id',
         'tramo_trayecto_id',
         'materia_id',
     ];
-    public function carreras(){
+
+    public function carreras()
+    {
         return $this->belongsTo(Carreras::class, 'carrera_id');
     }
-    public function tramos(){
+
+    public function tramos()
+    {
         return $this->belongsTo(Tramos::class, 'tramo_trayecto_id');
     }
-    public function trayectos(){
+
+    public function trayectos()
+    {
         return $this->belongsTo(Trayectos::class, 'tramo_trayecto_id');
     }
-    public function materias(){
+
+    public function tramoTrayecto()
+    {
+        return $this->belongsTo(TramoTrayecto::class, 'tramo_trayecto_id')->with('tramos');
+    }
+
+    public function materias()
+    {
         return $this->belongsTo(Materias::class, 'materia_id');
     }
-    public function notas() {
+
+    public function notas()
+    {
         return $this->hasMany(Notas::class);
     }
 }

@@ -62,4 +62,7 @@ class Profesores extends Authenticatable
     {
         return $this->belongsTo(Nucleos::class, 'nucleo_id');
     }
+    public function asignaciones() {
+        return $this->hasMany(Asignar::class, 'profesor_id');
+    }
 }

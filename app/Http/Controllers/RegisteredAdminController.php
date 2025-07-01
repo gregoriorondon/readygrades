@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignar;
 use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
@@ -667,5 +668,44 @@ class RegisteredAdminController extends Controller
         $atributos['activo']=true;
         Periodos::create($atributos);
         return redirect()->back()->with('alert','Se creó e inició un nuevo periodo académico.');
+    }
+    // =========================================================
+    // ========== ASIGNAR PENSUM A PROFESOR O DOCENTE===========
+    // =========================================================
+    public function preasignar() {
+        $carreras = Carreras::all();
+        $secciones = Secciones::all();
+        $periodos = Periodos::all();
+        return view('auth.asignar', compact('carreras', 'secciones', 'periodos'));
+    }
+    public function asignar(Request $request) {
+        // dd($request);
+
+        if (!$request->filled('cedula')) {
+        return redirect()->back()->withErrors(['error'=>'No ingresaste una cédula para búscar.']);
+    }
+        $request->validate(['cedula' => 'required|string']);
+
+        $profesor = Profesores::where('cedula', $request->cedula)->first();
+
+        if (!$profesor) {
+            return redirect()->back()->withErrors(['error' => 'Profesor no encontrado']);
+        }
+
+        $asignaciones = $profesor->asignaciones()
+            ->with('pensums.carreras', 'pensums.tramoTrayecto.tramos', 'pensum.materias')
+            ->get();
+
+        $carreras = Carreras::all();
+        $secciones = Secciones::all();
+        $periodos = Periodos::all();
+        $pensums = Pensum::pluck('tramo_trayecto_id')->unique();
+        $trayectos = Trayectos::whereHas('tramos', function($query) use ($pensums){
+            $query->whereIn('tramo_trayecto.id', $pensums);
+        })->with(['tramos' => function($query) use ($pensums) {
+            $query->whereIn('tramo_trayecto.id',$pensums);
+        }])->get();
+
+        return view('auth.asignar-form', compact('profesor', 'asignaciones', 'carreras', 'secciones', 'periodos', 'trayectos', 'pensums'));
     }
 }
