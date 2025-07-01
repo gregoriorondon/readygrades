@@ -12,10 +12,10 @@ class Asignar extends Model
         return $this->hasMany(Asignar::class);
     }
     public function pensums() {
-        return $this->belongsTo(Pensum::class);
+        return $this->belongsTo(Pensum::class, 'pensum_id');
     }
     public function secciones() {
-        return $this->belongsTo(Secciones::class);
+        return $this->belongsTo(Secciones::class, 'seccion_id');
     }
     public function periodos() {
         return $this->belongsTo(Periodos::class);

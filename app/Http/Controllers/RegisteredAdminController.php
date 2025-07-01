@@ -18,6 +18,7 @@ use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\Tipos;
 use App\Models\Tramos;
+use App\Models\TramoTrayecto;
 use App\Models\Trayectos;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -679,33 +680,115 @@ class RegisteredAdminController extends Controller
         return view('auth.asignar', compact('carreras', 'secciones', 'periodos'));
     }
     public function asignar(Request $request) {
-        // dd($request);
-
         if (!$request->filled('cedula')) {
-        return redirect()->back()->withErrors(['error'=>'No ingresaste una cédula para búscar.']);
-    }
+            return redirect()->back()->withErrors(['error'=>'No ingresaste una cédula para búscar.']);
+        }
         $request->validate(['cedula' => 'required|string']);
-
         $profesor = Profesores::where('cedula', $request->cedula)->first();
-
         if (!$profesor) {
             return redirect()->back()->withErrors(['error' => 'Profesor no encontrado']);
         }
-
         $asignaciones = $profesor->asignaciones()
-            ->with('pensums.carreras', 'pensums.tramoTrayecto.tramos', 'pensum.materias')
+            ->with('pensums.carreras', 'pensums.tramoTrayecto.tramos', 'pensums.tramoTrayecto.trayectos', 'pensums.materias', 'secciones')
             ->get();
-
-        $carreras = Carreras::all();
+        $pensumcarrera = Pensum::pluck('carrera_id')->unique();
+        $carreras = Carreras::whereIn('id',$pensumcarrera)->get();
         $secciones = Secciones::all();
-        $periodos = Periodos::all();
         $pensums = Pensum::pluck('tramo_trayecto_id')->unique();
         $trayectos = Trayectos::whereHas('tramos', function($query) use ($pensums){
             $query->whereIn('tramo_trayecto.id', $pensums);
         })->with(['tramos' => function($query) use ($pensums) {
-            $query->whereIn('tramo_trayecto.id',$pensums);
+            $query->whereIn('tramo_trayecto.id', $pensums);
         }])->get();
+        return view('auth.asignar-form', compact('profesor', 'asignaciones', 'carreras', 'secciones', 'trayectos', 'pensums'));
+    }
+    public function desasignarprofesor($id) {
+        Asignar::destroy($id);
+        return back()->with('success', 'Materia desasignada');
+    }
+    public function crearasignacion(Profesores $profesor) {
+        $carreras = Carreras::all();
+        $secciones = Secciones::all();
+        $periodos = Periodos::all();
 
-        return view('auth.asignar-form', compact('profesor', 'asignaciones', 'carreras', 'secciones', 'periodos', 'trayectos', 'pensums'));
+        return view('admin.asignar-form', compact('profesor', 'carreras', 'secciones', 'periodos'));
+    }
+    public function asignardocentesave(Request $request) {
+        $periodoActivo = Periodos::where('activo', true)->first();
+
+        if (!$periodoActivo) {
+            return redirect()->back()->withErrors('No hay un período activo configurado.');
+        }
+        $request->validate([
+            'profesor_id' => 'required|exists:profesores,id',
+            'carrera_id' => 'required|exists:carreras,id',
+            'tramo_trayecto_id' => 'required|exists:tramo_trayecto,id'
+        ],[
+            'profesor_id.required'=>'Necesitas ingresar un profesor',
+            'profesor_id.exists'=>'El profesor que esta tratando de usar no existe',
+            'carrera_id.required'=>'Necesitas ingresar una carrera',
+            'carrera_id.exists'=>'La carrera que estas tratanto de usar no existe',
+            'tramo_trayecto_id.required'=>'Necesitas ingresar un Tramo',
+            'tramo_trayecto_id.exists'=>'El tramo que estes tratanto de usar no existe',
+        ]);
+        $profesor = $request->profesor_id;
+        $carrera = $request->carrera_id;
+        $tramotrayecto = $request->tramo_trayecto_id;
+        $materias = Pensum::where('carrera_id', $request->carrera_id)
+        ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
+        ->whereNotIn('id', function($query) use ($request) {
+            $query->select('pensum_id')
+                  ->from('profesor_asignar')
+                  ->where('profesor_id', $request->profesor_id);
+        })->with('materias')->get();
+        $carreras = Carreras::find($carrera);
+        $tramos = TramoTrayecto::with('tramos')->find($tramotrayecto);
+        $secciones = Secciones::all();
+        return view('auth.asignar-materias', compact('profesor', 'tramotrayecto', 'carrera', 'materias', 'secciones', 'carreras', 'tramos'));
+    }
+    public function asignardocentesavemateria(Request $request) {
+        $request->validate([
+            'profesor_id' => 'required|exists:profesores,id',
+            'carrera_id' => 'required|exists:carreras,id',
+            'materia_id'=>'required|array',
+            'materia_id.*'=>'exists:materias,id',
+            'seccion_id'=>'required|array',
+            'seccion_id.*'=>'exists:secciones,id',
+            'tramo_trayecto_id' => 'required|exists:tramo_trayecto,id'
+        ],[
+            'profesor_id.required'=>'Necesitas ingresar un profesor',
+            'profesor_id.exists'=>'El profesor que esta tratando de usar no existe',
+            'carrera_id.required'=>'Necesitas ingresar una carrera',
+            'carrera_id.exists'=>'La carrera que estas tratanto de usar no existe',
+            'tramo_trayecto_id.required'=>'Necesitas ingresar un Tramo',
+            'tramo_trayecto_id.exists'=>'El tramo que estes tratanto de usar no existe',
+        ]);
+        $asignacioncreada = 0;
+        $materiaenpensum = [];
+        foreach ($request->materia_id as $materiaId) {
+            $pensum = Pensum::where('carrera_id', $request->carrera_id)->where('tramo_trayecto_id', $request->tramo_trayecto_id)->where('materia_id', $materiaId)->first();
+            if (!$pensum) {
+                $materiaenpensum[] = $materiaId;
+                continue;
+            }
+            foreach ($request->seccion_id as $seccionesId) {
+                Asignar::updateOrCreate([
+                    'pensum_id' => $pensum->id,
+                    'seccion_id' => $seccionesId,
+                ],[
+                    'profesor_id' => $request->profesor_id,
+                ]);
+                $asignacioncreada++;
+            }
+        }
+        $mensaje = $asignacioncreada > 0
+            ? "Se asignaron {$asignacioncreada} materias/secciones correctamente"
+            : "No se realizaron asignaciones";
+
+        if (!empty($materiasNoEnPensum)) {
+            $materias = Materias::whereIn('id', $materiasNoEnPensum)->pluck('materia')->toArray();
+            $mensaje .= ". Materias no en pensum: " . implode(', ', $materias);
+        }
+        return redirect()->route('asignar')->with('alert',$mensaje);
     }
 }

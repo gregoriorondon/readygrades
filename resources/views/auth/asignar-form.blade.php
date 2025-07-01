@@ -20,7 +20,7 @@
         @if (isset($profesor))
             <div class="card mb-4">
                 <div class="flex justify-center">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary">
                         <p class="text-lg font-inter">Profesor: {{ $profesor->{'primer-name'} }}
                             {{ $profesor->{'primer-apellido'} }}</p>
                         <p class="text-lg font-inter">Núcleo: {{ $profesor->nucleos->nucleo }}</p>
@@ -33,20 +33,61 @@
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    @if ($asignaciones->isEmpty())
+                        <div class="alert alert-info text-gray-400/40 select-none text-center mt-4 text-3xl">
+                            {{ ucwords('No tiene asignaciones registradas') }}
+                        </div>
+                    @else
+                        <div class="flex justify-center mt-9">
+                            <div class="border rounded-lg">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="px-9 py-3">Carrera</th>
+                                        <th class="px-9 py-3">Tramo</th>
+                                        <th class="px-9 py-3">Materia</th>
+                                        <th class="px-9 py-3">Sección</th>
+                                        <th class="px-9 py-3">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($asignaciones as $asig)
+                                        <tr class="odd:bg-gray-400/20">
+                                            <td class="px-9 py-3 text-center">{{ $asig->pensums->carreras->carrera ?? 'N/A' }}</td>
+                                            <td class="px-9 py-3 text-center">{{ $asig->pensums->tramoTrayecto->tramos->tramos ?? 'N/A' }}</td>
+                                            <td class="px-9 py-3 text-center">{{ mb_strtoupper(trim($asig->pensums->materias->materia), 'UTF-8') ?? 'N/A' }}</td>
+                                            <td class="px-9 py-3 text-center">{{ $asig->secciones->seccion ?? 'N/A' }}</td>
+                                            <td class="px-9 py-3 text-center">
+                                                <form method="POST"
+                                                    action="{{ route('asignar.desasignar', $asig->id) }}">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class=" hover:bg-[#b00] hover:text-white px-2 py-1 rounded-lg">
+                                                        <i class="fas fa-trash"></i> Desasignar
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
         @endif
     </div>
-
-    <x-dialog-modal class="transition-all" form="carreraform">
+    <x-dialog-modal class="transition-all" form="asignarForm">
         <x-slot:title>
-            {{ ucwords('asignar materias al docente') }}
+            {{ ucwords('asignar trayecto y carrera al docente') }}
         </x-slot:title>
         <x-slot:content>
-            <form id="asignarForm" method="POST" action="{{ route('asignar.store') }}">
+            <form id="asignarForm" method="get" action="{{ route('asignar.store') }}">
                 @csrf
                 <input type="hidden" name="profesor_id" value="{{ $profesor->id }}">
-
-                <div class="flex">
+                <div class="">
                     <div class="row mb-3">
                         <x-label class="form-label">Carrera</x-label>
                         <x-select-form name="carrera_id" id="carreraSelect" class="form-select" required>
@@ -55,26 +96,15 @@
                             @endforeach
                         </x-select-form>
                     </div>
-                    <div class="ml-2">
+                    <div class="row mb-12">
                         <x-label class="form-label">Tramo</x-label>
-                        <x-select-form name="tramo_id" id="tramoSelect" class="form-select" required>
+                        <x-select-form name="tramo_trayecto_id" id="tramoSelect" class="form-select" required>
                             @foreach ($trayectos as $trayecto)
                                 <optgroup label="{{ $trayecto->trayectos }}">
                                     @foreach ($trayecto->tramos as $tramos)
                                         <option value="{{ $tramos->pivot->id }}">{{ $tramos->tramos }}</option>
                                     @endforeach
                                 </optgroup>
-                            @endforeach
-                        </x-select-form>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <x-label class="form-label">Sección</x-label>
-                        <x-select-form name="seccion_id" id="seccionSelect" class="form-select" required>
-                            @foreach ($secciones as $seccion)
-                                <option value="{{ $seccion->id }}">{{ $seccion->seccion }}</option>
                             @endforeach
                         </x-select-form>
                     </div>

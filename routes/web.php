@@ -73,8 +73,11 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/periodos', 'periodos');
     Route::post('/add-periodo', 'addperiodo');
     // Asignar
-    Route::get('/asignar', 'preasignar');
-    Route::get('/asignar-cedula', 'asignar')->name('asignar.buscar');
+    Route::get('/asignar', 'preasignar')->name('asignar');
+    Route::get('/asignar-form', 'asignar')->name('asignar.buscar');
+    Route::get('/asignar-profesor', 'asignardocentesave')->name('asignar.store');
+    Route::post('/asignar-profesor-materia', 'asignardocentesavemateria')->name('save.asignacion');
+    Route::delete('/asignar-profesor/{id}', 'desasignarprofesor')->name('asignar.desasignar');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');
