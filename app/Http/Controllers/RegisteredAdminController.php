@@ -763,6 +763,11 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.required'=>'Necesitas ingresar un Tramo',
             'tramo_trayecto_id.exists'=>'El tramo que estes tratanto de usar no existe',
         ]);
+        $periodoActivo = Periodos::where('activo', true)->first();
+
+        if (!$periodoActivo) {
+            return redirect()->back()->with('error', 'No hay un período activo configurado');
+        }
         $asignacioncreada = 0;
         $materiaenpensum = [];
         foreach ($request->materia_id as $materiaId) {
