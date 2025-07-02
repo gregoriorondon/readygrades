@@ -77,11 +77,33 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-end mb-8 mr-8">
-                                                <form action="" method="post">
+                                                <form action="/pdfcalificacion" method="post">
                                                     @csrf
-                                                    <x-label><x-input-check type="checkbox"  />{{ ucwords('llenar información básica + calificaciones automáticamente') }}</x-label>
+                                                    <input type="text" hidden name="carrera"
+                                                        value="{{ $carrera['carrera'] }}">
+                                                    <input type="text" hidden name="tramo"
+                                                        value="{{ $tramo['nombre'] }}">
+                                                    <input type="text" hidden name="asignatura"
+                                                        value="{{ $asignacion->pensums->materias->materia }}">
+                                                    <input type="text" hidden name="codigoasig"
+                                                        value="{{ $asignacion->pensums->materias->codigo }}">
+                                                    @foreach ($asignacion->students as $estudiante)
+                                                        <input type="text" hidden name="primernombre[]"
+                                                            value="{{ $estudiante->primer_name }}">
+                                                        <input type="text" hidden name="segundonombre[]"
+                                                            value="{{ $estudiante->segundo_name }}">
+                                                        <input type="text" hidden name="primerapellido[]"
+                                                            value="{{ $estudiante->primer_apellido }}">
+                                                        <input type="text" hidden name="segundoapellido[]"
+                                                            value="{{ $estudiante->segundo_apellido }}">
+                                                        <input type="text" hidden name="cedula[]"
+                                                            value="{{ $estudiante->cedula }}">
+                                                    @endforeach
+                                                    <x-label><x-input-check
+                                                            type="checkbox" name="rellenardatos" />{{ ucwords('llenar información básica + calificaciones automáticamente') }}</x-label>
                                                     <div class="flex justify-end mt-8">
-                                                        <x-button type="submit" icon="fa-solid fa-download">Descargar Acta</x-button>
+                                                        <x-button type="submit" icon="fa-solid fa-download">Descargar
+                                                            Acta</x-button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -96,4 +118,5 @@
             </div>
         @endforeach
     </div>
+    <x-error-and-correct-dialog />
 </x-dashboard>
