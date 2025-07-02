@@ -88,4 +88,5 @@ Route::get('/login-profesor', [SesionController::class, 'createteacher'])->name(
 
 Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->group( function(){
     Route::get('/dashboard', 'board');
+    Route::get('/asignaciones', 'asignaciones');
 });
