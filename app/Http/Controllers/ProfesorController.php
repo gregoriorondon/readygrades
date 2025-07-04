@@ -137,6 +137,6 @@ class ProfesorController extends Controller
         $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'seccion', 'carrera', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
         $pdf->setOptions(['isRemoteEnabled' => true]);
         $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
-        return $pdf->stream($filename);
+        return $pdf->download($filename);
     }
 }
