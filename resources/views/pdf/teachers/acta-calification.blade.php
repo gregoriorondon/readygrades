@@ -8,93 +8,298 @@
 </head>
 <style>
     * {
-        font-family: sans-serif;
+        font-family: serif;
+        font-size: 10px;
+        letter-spacing: 1px;
     }
 
     .centrado {
-        text-align: center;
+        text-align: left;
+        padding-left: 20px;
+        font-weight: 700;
+    }
+
+    .titulo {
+        font-family: serif;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 3px;
+    }
+
+    .titulotd {
+        width: 75%;
+    }
+
+    .titulodos {
+        text-align: right;
+        font-family: serif;
+        font-size: 12px;
     }
 
     span {
         padding-left: 12px;
         padding-right: 12px;
-        border-bottom: 1px solid;
+        font-weight: 700;
     }
 
-    table {
+    .defi {
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .datos {
         border-collapse: collapse;
+        width: 100%;
     }
 
-    td {}
-
-    th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
-
-    td,
+    .borde,
     th {
         border: 1px solid;
     }
 
-    .numero {
-        width: 50px;
-        text-align: center;
+    .nombre {
+        width: fit-content;
+        padding: auto 12px;
+
     }
 
-    .nombre {
-        width: 500px;
-        padding: 3px 12px;
-
+    .por {
+        font-size: 8px;
     }
 
     .cedula {
-        width: 200px;
+        width: fit-content;
+        padding-left: 7px;
+        padding-right: 7px;
+        text-align: center;
+    }
+
+    .firma {
+        display: inline-block;
+        position: relative;
+        margin-left: 10px;
+        width: 100px;
+        border-bottom: 1px solid;
+    }
+
+    .titulotabla {
+        width: 100%;
+    }
+
+    .tipoevacol,
+    .evaluiacioncol,
+    .definitivacol,
+    .notas,
+    .numero,
+    .cedula,
+    .nombre,
+    .nota {
+        border: 1px solid;
         text-align: center;
     }
 
     .notas,
     .nota {
-        width: 100px;
+        width: fit-content;
         text-align: center;
+        padding: auto 3px;
+    }
+
+    .nota {
+        font-size: 8px;
+    }
+
+    .tdfecha {
+        vertical-align: bottom;
+    }
+
+    .fecha {
+        text-align: right;
+    }
+
+    .bold {
+        font-weight: 700;
+    }
+
+
+    .light {
+        font-weight: normal;
+    }
+
+    .numero {
+        padding: 3px;
+        width: 12px;
+        font-weight: 700;
+    }
+
+    .tipoevacol {
+        height: 12px;
+    }
+
+    .evaluiacioncol {
+        height: 7px;
+    }
+
+    .definitivacol {
+        height: 12px;
     }
 </style>
 
 <body>
-    <p class="centrado">{{ mb_strtoupper(trim('acta de calificación final.'), 'UTF-8') }}</p>
-    <p>{{ mb_strtoupper(trim('carrera: '), 'UTF-8') }} <span>{{ mb_strtoupper(trim($carrera), 'UTF-8') }}</span>
-        {{ mb_strtoupper(trim(' asignatura: '), 'UTF-8') }} <span>{{ mb_strtoupper(trim($materia), 'UTF-8') }}</span>
-        {{ mb_strtoupper(trim('código'), 'UTF-8') }} <span>{{ mb_strtoupper(trim($codigo), 'UTF-8') }}</span> </p>
+    <!-- TITULO - CINTILLO -->
+    <table class="datos">
+        <tr>
+            <td>
+                <p class="titulo">{{ mb_strtoupper(trim('universidad politécnica territorial'), 'UTF-8') }}</p>
+                <p class="titulo">{{ mb_strtoupper(trim('del estado trujillo'), 'UTF-8') }}</p>
+                <p class="titulo">
+                    {{ mb_strtoupper(trim('área de registro, seguimiento y control de estudios'), 'UTF-8') }}
+                </p>
+            </td>
+            <td class="tdfecha">
+                <p class="fecha">
+                    {{ mb_strtoupper(trim(' fecha '), 'UTF-8') }}
+                    <span>
+                        {{ $dia . ' / ' . $mes . ' / ' . $anio }}
+                    </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- TITULO - NOMBRE DE LAPSO -->
+    <table class="titulotabla">
+        <tr>
+            <td class="titulotd">
+                <p class="titulodos">
+                    {{ mb_strtoupper(trim('control de evaluación del rendimiento estudiantil'), 'UTF-8') }}
+                </p>
+            </td>
+            <td class="centrado">
+                <p>{{ mb_strtoupper(trim($lapso->nombre), 'UTF-8') }}</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ASEIGNATURA SECCIONES Y DATOS DE ASIGNATURAS -->
+    <p>
+        {{ mb_strtoupper(trim('nombre de la asignatura '), 'UTF-8') }}
+        <span>
+            {{ mb_strtoupper(trim($materia), 'UTF-8') }}
+        </span>
+    </p>
+    <p>
+        {{ mb_strtoupper(trim('código de la asignatura'), 'UTF-8') }}
+        <span>
+            {{ mb_strtoupper(trim($codigo), 'UTF-8') }}
+        </span>
+        {{ mb_strtoupper(trim('sección'), 'UTF-8') }}
+        <span>
+            {{ mb_strtoupper(trim($seccion->seccion), 'UTF-8') }}
+        </span>
+        {{ mb_strtoupper(trim('u.c'), 'UTF-8') }}
+        <span></span>
+        {{ mb_strtoupper(trim('aula'), 'UTF-8') }}
+        <span>{{ mb_strtoupper(trim($aula), 'UTF-8') }}</span>
+    </p>
+    <!-- PROFESOR - DOCENTE -->
     @if ($user->genero == 'masculino')
-        <p>{{ mb_strtoupper(trim('profesor: '), 'UTF-8') }}
+        <p>{{ mb_strtoupper(trim('nombre del docente '), 'UTF-8') }}
         @else
-        <p>{{ mb_strtoupper(trim('profesora: '), 'UTF-8') }}
+        <p>{{ mb_strtoupper(trim('nombre de la docente '), 'UTF-8') }}
     @endif
-    <span>{{ mb_strtoupper(trim($user['primer-name'] . ' ' . $user['primer-apellido']), 'UTF-8') }}</span>
-    {{ mb_strtoupper(trim(' cédula: '), 'UTF-8') }} <span>{{ $user->cedula }}</span> </p>
-    <p>{{ mb_strtoupper(trim('lapso académico: '), 'UTF-8') }}
-        <span>{{ mb_strtoupper(trim($lapso->nombre), 'UTF-8') }}</span>
-        {{ mb_strtoupper(trim(' fecha: '), 'UTF-8') }} <span>{{ $dia . '/' . $mes . '/' . $anio }}</span>
+    <span>
+        {{ mb_strtoupper(trim($user['primer-name'] . ' ' . $user['primer-apellido']), 'UTF-8') }}
+    </span>
+    {{ mb_strtoupper(trim(' cédula '), 'UTF-8') }}
+    <span>
+        {{ $user->cedula }}
+    </span>
+    {{ mb_strtoupper(trim('firma'), 'UTF-8') }}
+    <span class="firma"></span>
     </p>
     <div>
-        <table>
+        <!-- TODOS LOS DATOS DEL ESTUDIANTE -->
+        <table class="datos">
             <thead>
                 <tr>
-                    <th class="numero">{{ mb_strtoupper(trim('n'), 'UTF-8') }}</th>
-                    <th class="nombre">{{ mb_strtoupper(trim('apellidos y nombres'), 'UTF-8') }}</th>
-                    <th class="cedula">{{ mb_strtoupper(trim('cédula'), 'UTF-8') }}</th>
-                    <th class="notas">{{ mb_strtoupper(trim('calif. numérica'), 'UTF-8') }}</th>
-                    <th class="nota">{{ mb_strtoupper(trim('calif. en letra'), 'UTF-8') }}</th>
+                    <td colspan="3" rowspan="2" class="tipoevacol">
+                        {{ mb_strtoupper(trim('tipo de evaluación'), 'UTF-8') }}
+                    </td>
+                    <td colspan="4" class="evaluiacioncol">
+                        {{ mb_strtoupper(trim('continua'), 'UTF-8') }}
+                    </td>
+                    <td colspan="2" class="definitivacol" style="border-bottom: none;">
+                        {{ mb_strtoupper(trim('definitiva'), 'UTF-8') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2" class="notas bold">
+                        {{ mb_strtoupper(trim('e01'), 'UTF-8') }}
+                        <br>
+                        <span class="por light">
+                            {{ mb_strtoupper(trim('25,00'), 'UTF-8') }}
+                        </span>
+                    </td>
+                    <td rowspan="2" class="notas bold">
+                        {{ mb_strtoupper(trim('e02'), 'UTF-8') }}
+                        <br>
+                        <span class="por light">
+                            {{ mb_strtoupper(trim('25,00'), 'UTF-8') }}
+                        </span>
+                    </td>
+                    <td rowspan="2" class="notas bold">
+                        {{ mb_strtoupper(trim('e03'), 'UTF-8') }}
+                        <br>
+                        <span class="por light">
+                            {{ mb_strtoupper(trim('25,00'), 'UTF-8') }}
+                        </span>
+                    </td>
+                    <td rowspan="2" class="notas bold">
+                        {{ mb_strtoupper(trim('e04'), 'UTF-8') }}
+                        <br>
+                        <span class="por light">
+                            {{ mb_strtoupper(trim('25,00'), 'UTF-8') }}
+                        </span>
+                    </td>
+                    <td class="defi">
+                        {{ mb_strtoupper(trim('acum'), 'UTF-8') }}
+                    </td>
+                    <td class="defi" style="border-right: 1px solid;">
+                        {{ mb_strtoupper(trim('def'), 'UTF-8') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="numero bold">
+                        {{ mb_strtoupper(trim('n°'), 'UTF-8') }}
+                    </td>
+                    <td class="cedula bold">
+                        {{ mb_strtoupper(trim('cédula'), 'UTF-8') }}
+                    </td>
+                    <td class="nombre bold">
+                        {{ mb_strtoupper(trim('apellidos y nombres'), 'UTF-8') }}
+                    </td>
+                    <td class="nota">
+                        {{ mb_strtoupper(trim('extra'), 'UTF-8') }}
+                    </td>
+                    <td class="nota">
+                        {{ mb_strtoupper(trim('20'), 'UTF-8') }}
+                    </td>
                 </tr>
             </thead>
+            <!-- TODOS LOS DATOS DEL ESTUDIANTE -->
             <tbody>
                 @for ($i = 0; $i < count($nombres); $i++)
                     <tr>
-                        <td class="numero">{{ $i + 1 }}</td>
-                        <td class="nombre">{{ trim($apellidos[$i]) . ' ' . trim($nombres[$i]) }}</td>
-                        <td class="cedula">{{ $cedulas[$i] }}</td>
-                        <td class="notas">null</td>
-                        <td class="nota">null</td>
+                        <td class="numero borde">{{ $i + 1 }}</td>
+                        <td class="cedula borde">{{ $cedulas[$i] }}</td>
+                        <td class="nombre borde">{{ trim($apellidos[$i]) . ', ' . trim($nombres[$i]) }}</td>
+                        <td class="notas borde">null</td>
+                        <td class="notas borde">null</td>
+                        <td class="notas borde">null</td>
+                        <td class="notas borde">null</td>
+                        <td class="nota borde">null</td>
+                        <td class="nota borde">null</td>
                     </tr>
                 @endfor
             </tbody>

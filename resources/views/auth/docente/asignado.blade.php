@@ -77,7 +77,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-end mb-8 mr-8">
-                                                <form action="/pdfcalificacion" method="post">
+                                                <form action="/pdfcalificacion" method="post" id="pdfcalificacion">
                                                     @csrf
                                                     <input type="text" hidden name="carrera"
                                                         value="{{ $carrera['carrera'] }}">
@@ -99,12 +99,35 @@
                                                         <input type="text" hidden name="cedula[]"
                                                             value="{{ $estudiante->cedula }}">
                                                     @endforeach
-                                                    <x-label><x-input-check
-                                                            type="checkbox" name="rellenardatos" />{{ ucwords('llenar información básica + calificaciones automáticamente') }}</x-label>
                                                     <div class="flex justify-end mt-8">
-                                                        <x-button type="submit" icon="fa-solid fa-download">Descargar
+                                                        <x-button type="button" id="abrirmodal"
+                                                            icon="fa-solid fa-download">Descargar
                                                             Acta</x-button>
                                                     </div>
+                                                    <!-- ===================================================== -->
+                                                    <!-- ============ VENTANA MODAL PARA NUEVA SECCION ======= -->
+                                                    <!-- ===================================================== -->
+
+                                                    <x-dialog-modal class="transition-all" form="pdfcalificacion">
+                                                        <x-slot:title>
+                                                            Registro De La Nueva Sección
+                                                        </x-slot:title>
+                                                        <x-slot:content>
+                                                                <x-span>{{ ucwords(trim('ingrese el nombre del aula en el que inpartió las actividades.')) }}</x-span>
+                                                                <br>
+                                                                <x-span class="text-gray-400/50">{{ ucwords(trim('en el caso de no tener un aula específica puede dejar en blanco y proseguir con la descarga.')) }}</x-span>
+                                                                <x-input class="bg-transparent mt-2" id="autocomplete"
+                                                                    type="text" name="aula"
+                                                                    placeholder="{{ ucwords(trim('ingrese el aula')) }}"
+                                                                    autocomplete="off" />
+                                                            </form>
+                                                        </x-slot:content>
+                                                        <x-slot:botones>
+                                                            Generar PDF
+                                                        </x-slot:botones>
+                                                    </x-dialog-modal>
+                                                    @vite(['resources/js/modales.js'])
+
                                                 </form>
                                             </div>
 

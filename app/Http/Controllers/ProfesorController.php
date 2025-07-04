@@ -71,6 +71,7 @@ class ProfesorController extends Controller
     public function descargarcalificacion(Request $request)
     {
         $request->validate([
+            'aula' => 'nullable|string|max:26',
             'carrera' => 'required|string',
             'codigoasig' => 'required|string',
             'tramo' => 'required|string',
@@ -86,6 +87,8 @@ class ProfesorController extends Controller
             'cedula' => 'required|array',
             'cedula.*' => 'required|string',
         ], [
+            'aula.required' => 'El campo de aula debe ser texto.',
+            'aula.max' => 'El aula ingresado excede el límite de carácteres.',
             'carrera.required' => 'El campo carrera es obligatorio.',
             'codigoasig.required' => 'El campo codigo es obligatorio.',
             'tramo.required' => 'El campo tramo es obligatorio.',
@@ -127,17 +130,13 @@ class ProfesorController extends Controller
         foreach ($request->primerapellido as $i => $apellido) {
             $apellidos[] = $apellido . ' ' . ($request->segundoapellido[$i] ?? '');
         }
-
+        $aula = $request->aula;
+        $primerEstudiante = Students::where('cedula', $request->cedula[0])->first();
+        $seccion = $primerEstudiante->secciones;
         $cedulas = $request->cedula;
-        // $calificaciones = $request->ca;
-        if ($request->rellenardatos == 'on') {
-            $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('carrera', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4', 'landscape');
-            $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
-            return $pdf->download($filename);
-        } else {
-            $pdf = Pdf::loadView('pdf.teachers.acta-calification-clean', compact('cedulas', 'user', 'lapso', 'nombres', 'apellidos'))->setPaper('A4', 'landscape');
-            $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
-            return $pdf->download($filename);
-        }
+        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'seccion', 'carrera', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
+        $pdf->setOptions(['isRemoteEnabled' => true]);
+        $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
+        return $pdf->stream($filename);
     }
 }
