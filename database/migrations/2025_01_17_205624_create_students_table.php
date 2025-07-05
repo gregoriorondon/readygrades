@@ -19,7 +19,7 @@ return new class extends Migration
         });
         Schema::create('periodos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();
+            $table->string('nombre');
             $table->date('inicio');
             $table->date('fin');
             $table->boolean('activo')->default(true);
@@ -102,8 +102,10 @@ return new class extends Migration
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
             $table->unsignedBigInteger('tramo_trayecto_id');
             $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
-            $table->unsignedBigInteger('seccion_id');
-            $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeOnUpdate();
+            $table->unsignedbiginteger('seccion_id');
+            $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeonupdate();
+            $table->unsignedbiginteger('periodo_id');
+            $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeonupdate();
             $table->timestamps();
         });
         Schema::create('users', function (Blueprint $table) {
@@ -160,7 +162,12 @@ return new class extends Migration
         });
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->string('nota')->nullable();
+            $table->string('nota_uno')->nullable();
+            $table->string('nota_dos')->nullable();
+            $table->string('nota_tres')->nullable();
+            $table->string('nota_cuatro')->nullable();
+            $table->string('nota_recuperacion')->nullable();
+            $table->boolean('editado')->default(false);
             $table->unsignedBigInteger('pensum_id');
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('student_id');

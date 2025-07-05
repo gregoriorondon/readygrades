@@ -8,7 +8,12 @@ class Notas extends Model
 {
     protected $table = 'notas';
     protected $fillable = [
-        'nota',
+        'nota_uno',
+        'nota_dos',
+        'nota_tres',
+        'nota_cuatro',
+        'nota_recuperacion',
+        'editado',
         'pensum_id',
         'student_id',
         'periodo_id'

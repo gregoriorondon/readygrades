@@ -140,26 +140,28 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.exists'=>'El tramo y trayecto no es válido.',
         ]);
 
+        $periodo = Periodos::first();
+
+        if (!$periodo->activo) {
+            return redirect()->back()->withErrors(['error'=>'El periodo que está tratando de usar está cerrado.']);
+        }
+
         $existeInscripcion = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
             ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
+            ->where('periodo_id', $periodo->id)
             ->exists();
 
         if ($existeInscripcion) {
             return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
 
+        $datosEstudiante['periodo_id'] = $periodo->id;
         $student = Students::create($datosEstudiante);
 
         $materiasPensum = Pensum::where('carrera_id', $request->carrera_id)
             ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->get();
-
-        $periodo = Periodos::first();
-
-        if (!$periodo->activo) {
-            return redirect()->back()->withErrors(['error'=>'El periodo que está tratando de usar está cerrado.']);
-        }
 
         foreach ($materiasPensum as $materia) {
             Notas::create([
@@ -656,7 +658,7 @@ class RegisteredAdminController extends Controller
         $atributos = $request->validate([
             'inicio'=>'required|unique:periodos,inicio',
             'fin'=>'required|unique:periodos,fin',
-            'nombre'=>'string|nullable',
+            'nombre'=>'required|string',
         ],[
             'inicio.date'=>'Se necesita colocar el periodo de inicio como una fecha.',
             'inicio.required'=>'Es obligatorio colocar el periodo de inicio.',
@@ -664,6 +666,7 @@ class RegisteredAdminController extends Controller
             'fin.date'=>'Se necesita colocar el periodo de inicio como una fecha.',
             'fin.required'=>'Es obligatorio colocar la fecha final del periodo académico.',
             'fin.unique'=>'Ya existe esta fecha de inicio de periodo académico.',
+            'nombre.required'=>'No debe dejar el nombre del periodo académico en blanco.',
             'nombre.string'=>'No debe colocar carácteres especiales en el nombre del periodo académico.',
         ]);
         $atributos['activo']=true;
