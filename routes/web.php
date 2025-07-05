@@ -72,6 +72,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // Periodos
     Route::get('/periodos', 'periodos');
     Route::post('/add-periodo', 'addperiodo');
+    Route::post('/inactive-periodo', 'desasignarperiodo');
     // Asignar
     Route::get('/asignar', 'preasignar')->name('asignar');
     Route::get('/asignar-form', 'asignar')->name('asignar.buscar');

@@ -673,6 +673,25 @@ class RegisteredAdminController extends Controller
         Periodos::create($atributos);
         return redirect()->back()->with('alert','Se creó e inició un nuevo periodo académico.');
     }
+    public function desasignarperiodo(Request $request){
+        $request->validate([
+            'accion' => 'required|string',
+        ],[
+            'accion.required' => 'Debe colocar la acción que desea llevar a cabo.',
+            'accion.string' => 'Debe colocar la accion como un texto sin caracteres especiales',
+        ]);
+
+        $normalizar = Str::lower($request->accion);
+        if ($normalizar !== 'si') {
+            return redirect()->back()->with('alert', 'Se canceló la desactivación del periodo académico.');
+        } else {
+            $periodo = Periodos::where('activo', true)->first();
+            $periodo->activo = false;
+            $periodo->save();
+
+            return redirect()->back()->with('alert','Periodo académico desactivado correctamente.');
+        }
+    }
     // =========================================================
     // ========== ASIGNAR PENSUM A PROFESOR O DOCENTE===========
     // =========================================================
