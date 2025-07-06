@@ -554,6 +554,9 @@ class RegisteredAdminController extends Controller
             return redirect('/agregar-cargo')->with('alert','Se guardaron los cambios de manera correcta');
         }
     }
+    // =========================================================
+    // ========== MATERIAS ===========
+    // =========================================================
     public function materias() {
         $materias = Materias::orderBy('materia')->paginate(20);
         return view('auth.superadmin.materias', compact('materias'));
@@ -566,6 +569,7 @@ class RegisteredAdminController extends Controller
         $request->validate([
             'materia' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
             'codigo' => ['required', 'min:3', 'string'],
+            'unidadcurricular' => ['required', 'numeric'],
         ],[
             'materia.required'=>'La materia no debe estar vacía',
             'materia.regex'=>'La materia no debe contener números',
@@ -573,6 +577,8 @@ class RegisteredAdminController extends Controller
             'codigo.required'=>'El código no debe estar vacía',
             'codigo.min'=>'El código debe tener 3 carácteres como mínimo',
             'codigo.string'=>'El código debe ser texto y no carácteres especiales',
+            'unidadcurricular.required'=>'Es necesario la unidad curricular para crear la materia',
+            'unidadcurricular.numeric'=>'La unidad curricular deben ser números',
         ]);
         $materianormalizada = Str::title(strtolower(trim($request->materia)));
         $codigonormalizada = Str::title(strtolower(trim($request->codigo)));
@@ -593,21 +599,28 @@ class RegisteredAdminController extends Controller
         $request->validate([
             'materia'=>'string|unique:materias,materia',
             'codigo'=>'string|unique:materias,codigo',
+            'unidadcurricular' => ['required', 'numeric'],
         ],[
             'materia.string'=>'debe colocar texto',
             'materia.unique'=>'La materia que está tratando de registrar ya existe',
             'codigo.string'=>'debe colocar texto',
             'codigo.unique'=>'La materia que está tratando de registrar ya existe',
+            'unidadcurricular.required'=>'Es necesario la unidad curricular para crear la materia',
+            'unidadcurricular.numeric'=>'La unidad curricular deben ser números',
         ]);
         $atributosuno = strtolower($request->input('materia'));
         $atributosdos = strtolower($request->input('codigo'));
         $atributos = [
             'materia' => $atributosuno,
             'codigo' => $atributosdos,
+            'unidadcurricular' => $request->unidadcurricular,
         ];
         Materias::create($atributos);
         return redirect()->back()->with('alert','Se Registró con Exito');
     }
+    // =========================================================
+    // ========== PENSUM ===========
+    // =========================================================
     public function pensum() {
         $trayecto = Trayectos::with('tramos')->get();
         $materias = Materias::all();
@@ -649,6 +662,9 @@ class RegisteredAdminController extends Controller
         }
         return redirect()->back()->with('alert', 'Plan de estudios creado correctamente');
     }
+    // =========================================================
+    // ========== PERIODOS ACADEMICOS ===========
+    // =========================================================
     public function periodos() {
         $periodo = Periodos::paginate(20);
         return view('auth.periodo-academico', compact('periodo'));

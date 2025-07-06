@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asignar;
 use App\Models\Carreras;
+use App\Models\Materias;
 use App\Models\Notas;
 use App\Models\Nucleos;
 use App\Models\Periodos;
@@ -120,6 +121,7 @@ class ProfesorController extends Controller
         $carrera = $request->carrera;
         $codigo = $request->codigoasig;
         $materia = $request->asignatura;
+        $unidad = Materias::where('materia', $materia)->value('unidadcurricular');
         $nombres = [];
         $apellidos = [];
 
@@ -134,7 +136,7 @@ class ProfesorController extends Controller
         $primerEstudiante = Students::where('cedula', $request->cedula[0])->first();
         $seccion = $primerEstudiante->secciones;
         $cedulas = $request->cedula;
-        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'seccion', 'carrera', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
+        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'seccion', 'carrera', 'unidad', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
         $pdf->setOptions(['isRemoteEnabled' => true]);
         $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
         return $pdf->download($filename);

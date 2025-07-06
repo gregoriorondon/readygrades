@@ -77,7 +77,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex justify-end mb-8 mr-8">
-                                                <form action="/pdfcalificacion" method="post" id="pdfcalificacion">
+                                                <form action="/pdfcalificacion" method="post"
+                                                    id="pdfcalificacion-{{ $asignacion->id }}">
                                                     @csrf
                                                     <input type="text" hidden name="carrera"
                                                         value="{{ $carrera['carrera'] }}">
@@ -100,33 +101,35 @@
                                                             value="{{ $estudiante->cedula }}">
                                                     @endforeach
                                                     <div class="flex justify-end mt-8">
-                                                        <x-button type="button" id="abrirmodal"
+                                                        <x-button type="button" id="abrirmodal-{{ $asignacion->id }}"
                                                             icon="fa-solid fa-download">Descargar
                                                             Acta</x-button>
                                                     </div>
                                                     <!-- ===================================================== -->
-                                                    <!-- ============ VENTANA MODAL PARA NUEVA SECCION ======= -->
+                                                    <!-- ============ VENTANA MODAL PARA AULA ======= -->
                                                     <!-- ===================================================== -->
 
-                                                    <x-dialog-modal class="transition-all" form="pdfcalificacion">
+                                                    <x-dialog-modal-multiple class="transition-all"
+                                                        form="pdfcalificacion-{{ $asignacion->id }}"
+                                                        id="modal-{{ $asignacion->id }}">
                                                         <x-slot:title>
-                                                            Registro De La Nueva Sección
+                                                            {{ ucwords(trim('ingresar el aula donde se impartieron las clases')) }}
                                                         </x-slot:title>
                                                         <x-slot:content>
-                                                                <x-span>{{ ucwords(trim('ingrese el nombre del aula en el que inpartió las actividades.')) }}</x-span>
-                                                                <br>
-                                                                <x-span class="text-gray-400/50">{{ ucwords(trim('en el caso de no tener un aula específica puede dejar en blanco y proseguir con la descarga.')) }}</x-span>
-                                                                <x-input class="bg-transparent mt-2" id="autocomplete"
-                                                                    type="text" name="aula"
-                                                                    placeholder="{{ ucwords(trim('ingrese el aula')) }}"
-                                                                    autocomplete="off" />
-                                                            </form>
+                                                            <x-span>{{ ucwords(trim('ingrese el nombre del aula en el que inpartió las actividades.')) }}</x-span>
+                                                            <br>
+                                                            <x-span
+                                                                class="text-gray-400/50">{{ ucwords(trim('en el caso de no tener un aula específica puede dejar en blanco y proseguir con la descarga.')) }}</x-span>
+                                                            <x-input class="bg-transparent mt-2" type="text"
+                                                                name="aula"
+                                                                placeholder="{{ ucwords(trim('ingrese el aula')) }}"
+                                                                autocomplete="off" />
                                                         </x-slot:content>
                                                         <x-slot:botones>
                                                             Generar PDF
                                                         </x-slot:botones>
-                                                    </x-dialog-modal>
-                                                    @vite(['resources/js/modales.js'])
+                                                    </x-dialog-modal-multiple>
+                                                    @vite(['resources/js/modalesmultiples.js'])
 
                                                 </form>
                                             </div>

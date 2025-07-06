@@ -198,7 +198,7 @@
             {{ mb_strtoupper(trim($seccion->seccion), 'UTF-8') }}
         </span>
         {{ mb_strtoupper(trim('u.c'), 'UTF-8') }}
-        <span></span>
+        <span>{{ $unidad }}</span>
         {{ mb_strtoupper(trim('aula'), 'UTF-8') }}
         <span>{{ mb_strtoupper(trim($aula), 'UTF-8') }}</span>
     </p>

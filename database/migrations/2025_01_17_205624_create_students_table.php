@@ -57,6 +57,7 @@ return new class extends Migration
             $table->id();
             $table->string('materia')->unique();
             $table->string('codigo')->unique();
+            $table->string('unidadcurricular');
             $table->timestamps();
         });
         Schema::create('carreras', function (Blueprint $table) {
