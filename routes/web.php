@@ -89,6 +89,11 @@ Route::get('/login-profesor', [SesionController::class, 'createteacher'])->name(
 
 Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->group( function(){
     Route::get('/dashboard', 'board');
+    // Materias asignadas
     Route::get('/asignaciones', 'asignaciones');
+    // Calificar estudiante
+    Route::get('/calificacion/{asignacion}/estudiante/{estudiante}', 'calificaciones');
+    Route::post('/guardar-calificacion', 'guardarcalificacion');
+    // descargar calificaciones
     Route::post('/pdfcalificacion', 'descargarcalificacion');
 });

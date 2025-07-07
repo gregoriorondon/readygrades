@@ -290,16 +290,25 @@
             <!-- TODOS LOS DATOS DEL ESTUDIANTE -->
             <tbody>
                 @for ($i = 0; $i < count($nombres); $i++)
+                    @php
+                        $cedula = $cedulas[$i];
+                        $studentId = $estudiantesIds[$cedula] ?? null;
+                        $nota = $studentId ? $notasPorEstudiante[$studentId] ?? null : null;
+                    @endphp
                     <tr>
                         <td class="numero borde">{{ $i + 1 }}</td>
                         <td class="cedula borde">{{ $cedulas[$i] }}</td>
                         <td class="nombre borde">{{ trim($apellidos[$i]) . ', ' . trim($nombres[$i]) }}</td>
-                        <td class="notas borde">null</td>
-                        <td class="notas borde">null</td>
-                        <td class="notas borde">null</td>
-                        <td class="notas borde">null</td>
+                        <td class="notas borde">{{ $nota->nota_uno ?? '' }}</td>
+                        <td class="notas borde">{{ $nota->nota_dos ?? '' }}</td>
+                        <td class="notas borde">{{ $nota->nota_tres ?? '' }}</td>
+                        <td class="notas borde">{{ $nota->nota_cuatro ?? '' }}</td>
                         <td class="nota borde">null</td>
-                        <td class="nota borde">null</td>
+                        @php
+                            $notasuma = $nota['nota_uno'] + $nota['nota_dos'] + $nota['nota_tres'] + $nota['nota_cuatro'];
+                            $notaDefinitiva = round($notasuma / 4);
+                        @endphp
+                        <td class="nota borde">{{ $notaDefinitiva }}</td>
                     </tr>
                 @endfor
             </tbody>

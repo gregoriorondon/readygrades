@@ -38,7 +38,7 @@
                                                             @forelse($asignacion->students as $estudiante)
                                                                 <tr class="odd:bg-gray-400/20 border-t">
                                                                     <td class="px-9 py-3 text-center">
-                                                                        {{ $asignacion->pensums->materias->materia }}
+                                                                        {{ ucwords($asignacion->pensums->materias->materia) }}
                                                                     </td>
                                                                     <td class="px-9 py-3 text-center">
                                                                         {{ $asignacion->secciones->seccion }}
@@ -51,18 +51,11 @@
                                                                     </td>
                                                                     <td
                                                                         class="px-9 py-3 text-center flex justify-center items-center">
-                                                                        <x-select-form name="" id=""
-                                                                            class="!w-fit !mt-0">
-                                                                            @for ($j = 0; $j <= 20; $j++)
-                                                                                <option value="{{ $j }}">
-                                                                                    {{ $j }}</option>
-                                                                            @endfor
-                                                                        </x-select-form>
-                                                                        <button type="submit"
+                                                                        <a href="/calificacion/{{ $asignacion->id }}/estudiante/{{ $estudiante->id }}"
                                                                             class="p-2 ml-2 hover:bg-gray-400/20 rounded-lg"
-                                                                            title="Cailifcar Definitiva">
+                                                                            title="Cailifcar Estudiante">
                                                                             <i class="fa-solid fa-award"></i> Calificar
-                                                                        </button>
+                                                                        </a>
                                                                     </td>
                                                                 </tr>
                                                             @empty
@@ -80,8 +73,10 @@
                                                 <form action="/pdfcalificacion" method="post"
                                                     id="pdfcalificacion-{{ $asignacion->id }}">
                                                     @csrf
+                                                    <input type="text" hidden name="pensum_id"
+                                                        value="{{ $asignacion->pensums->id }}">
                                                     <input type="text" hidden name="carrera"
-                                                        value="{{ $carrera['carrera'] }}">
+                                                        value="{{ $asignacion->pensums->carreras->carrera }}">
                                                     <input type="text" hidden name="tramo"
                                                         value="{{ $tramo['nombre'] }}">
                                                     <input type="text" hidden name="asignatura"
@@ -120,7 +115,7 @@
                                                             <br>
                                                             <x-span
                                                                 class="text-gray-400/50">{{ ucwords(trim('en el caso de no tener un aula específica puede dejar en blanco y proseguir con la descarga.')) }}</x-span>
-                                                            <x-input class="bg-transparent mt-2" type="text"
+                                                            <x-input-form class="bg-transparent mt-2" type="text"
                                                                 name="aula"
                                                                 placeholder="{{ ucwords(trim('ingrese el aula')) }}"
                                                                 autocomplete="off" />
@@ -130,10 +125,8 @@
                                                         </x-slot:botones>
                                                     </x-dialog-modal-multiple>
                                                     @vite(['resources/js/modalesmultiples.js'])
-
                                                 </form>
                                             </div>
-
                                         </details>
                                     @endforeach
                                 </details>

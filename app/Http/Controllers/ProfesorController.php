@@ -28,6 +28,9 @@ class ProfesorController extends Controller
         return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos'));
     }
 
+    // ==================================================================================
+    // ============== VER ASIGNACIONES DE CARREREAS TRAMOS Y MATERIA ====================
+    // ==================================================================================
     public function asignaciones()
     {
         $user = Auth::guard('teachers')->user();
@@ -69,6 +72,96 @@ class ProfesorController extends Controller
         return view('auth.docente.asignado', compact('agrupadas'));
     }
 
+    // ==================================================================================
+    // ============== CALIFICAR ESTUDIANTES SELECCIONADOS ====================
+    // ==================================================================================
+    public function calificaciones($asignacion_id, $estudiante_id)
+    {
+        $asignacion = Asignar::with('pensums.materias')->findOrFail($asignacion_id);
+        $estudiante = Students::findOrFail($estudiante_id);
+        $lapso = Periodos::all()->first();
+        $pensumId = $asignacion->pensums->first()->id;  // O usa pluck() si hay múltiples
+
+        $notas = Notas::where('pensum_id', $pensumId)
+            ->where('periodo_id', $lapso->id)
+            ->where('student_id', $estudiante_id)  // Filtra por estudiante
+            ->first();
+        return view('auth.docente.calificar', compact('asignacion', 'estudiante', 'notas'));
+    }
+
+    public function guardarcalificacion(Request $request)
+    {
+        $request->validate([
+            'asignacion_id' => 'required|exists:profesor_asignar,id',
+            'estudiante_id' => 'required|exists:students,id',
+            'pensum_id' => 'required|exists:pensum,id',
+            'nota_uno' => 'nullable|numeric|min:0|max:20',
+            'nota_dos' => 'nullable|numeric|min:0|max:20',
+            'nota_tres' => 'nullable|numeric|min:0|max:20',
+            'nota_cuatro' => 'nullable|numeric|min:0|max:20',
+            'notaExtra' => 'nullable|numeric|min:0|max:20',
+            'nota_definitiva' => 'required|numeric|min:0|max:20',
+        ], [
+            'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
+            'asignacion_id.exists' => 'La asignación que está tratando de usar no existe.',
+            'estudiante_id.required' => 'Debe usar el identificador de la asignación.',
+            'estudiante_id.exists' => 'La asignación que está tratando de usar no existe.',
+            'pensum_id.required' => 'Debe usar el identificador de la asignación.',
+            'pensum_id.exists' => 'La asignación que está tratando de usar no existe.',
+            'nota_uno' => 'nullable|numeric|min:0|max:20',
+            'nota_dos' => 'nullable|numeric|min:0|max:20',
+            'nota_tres' => 'nullable|numeric|min:0|max:20',
+            'nota_cuatro' => 'nullable|numeric|min:0|max:20',
+            'notaExtra' => 'nullable|numeric|min:0|max:20',
+            'nota_definitiva.required' => 'Es necesario que ingrese la nota definitiva',
+            'nota_definitiva.numeric' => 'La definitiva debe ser un valor numérico',
+        ]);
+        $periodo = Periodos::where('activo', true)->first();
+
+        $notas = Notas::where([
+            'pensum_id' => $request->pensum_id,
+            'student_id' => $request->estudiante_id,
+            'periodo_id' => $periodo->id,
+        ])->first();
+
+        if (!$notas) {
+            Notas::create([
+                'pensum_id' => $request->pensum_id,
+                'student_id' => $request->estudiante_id,
+                'periodo_id' => $periodo->id,
+                'nota_uno' => $request->nota_uno,
+                'nota_dos' => $request->nota_dos,
+                'nota_tres' => $request->nota_tres,
+                'nota_cuatro' => $request->nota_cuatro,
+                // 'nota_recuperacion' => $request->notaExtra,
+                // 'nota_definitiva' => $request->nota_definitiva,
+            ]);
+        } else {
+            if (is_null($notas->nota_uno) && !is_null($request->nota_uno)) {
+                $notas->nota_uno = $request->nota_uno;
+            }
+            if (is_null($notas->nota_dos) && !is_null($request->nota_dos)) {
+                $notas->nota_dos = $request->nota_dos;
+            }
+            if (is_null($notas->nota_tres) && !is_null($request->nota_tres)) {
+                $notas->nota_tres = $request->nota_tres;
+            }
+            if (is_null($notas->nota_cuatro) && !is_null($request->nota_cuatro)) {
+                $notas->nota_cuatro = $request->nota_cuatro;
+            }
+            if (is_null($notas->nota_recuperacion) && !is_null($request->notaExtra)) {
+                $notas->nota_recuperacion = $request->notaExtra;
+            }
+
+            $notas->save();
+        }
+
+        return redirect()->back()->with('alert', 'Notas guardadas correctamente');
+    }
+
+    // ==================================================================================
+    // ============== DESCARGAR CALIFICACIONES DE ESTUDIANTES EN PDF ====================
+    // ==================================================================================
     public function descargarcalificacion(Request $request)
     {
         $request->validate([
@@ -87,6 +180,7 @@ class ProfesorController extends Controller
             'segundoapellido.*' => 'nullable|string',
             'cedula' => 'required|array',
             'cedula.*' => 'required|string',
+            'pensum_id' => 'required|exists:pensum,id',
         ], [
             'aula.required' => 'El campo de aula debe ser texto.',
             'aula.max' => 'El aula ingresado excede el límite de carácteres.',
@@ -102,6 +196,8 @@ class ProfesorController extends Controller
             'cedula.required' => 'Debe haber al menos una cédula.',
             'cedula.*.required' => 'Todas las cédulas deben estar completas.',
             'cedula.*.string' => 'Cada cédula debe ser texto.',
+            'pensum_id.required' => 'Es necesario el identificador del pensum',
+            'pensum_id.exists' => 'El identificador del pensum no coincide con lo identificadores dentro del sistema',
         ]);
 
         $user = Auth::guard('teachers')->user();
@@ -114,6 +210,18 @@ class ProfesorController extends Controller
         }
 
         $lapso = Periodos::all()->first();
+        $notas = Notas::where('pensum_id', $request->pensum_id)->where('periodo_id', $lapso->id)->get();
+        $notasPorEstudiante = [];
+        foreach ($notas as $nota) {
+            $notasPorEstudiante[$nota->student_id] = $nota;
+        }
+        $estudiantesIds = [];
+        foreach ($request->cedula as $cedula) {
+            $estudiante = Students::where('cedula', $cedula)->first();
+            if ($estudiante) {
+                $estudiantesIds[$cedula] = $estudiante->id;  // [cedula => student_id]
+            }
+        }
         $fecha = Carbon::now();
         $dia = $fecha->day;
         $mes = $fecha->month;
@@ -136,7 +244,7 @@ class ProfesorController extends Controller
         $primerEstudiante = Students::where('cedula', $request->cedula[0])->first();
         $seccion = $primerEstudiante->secciones;
         $cedulas = $request->cedula;
-        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'seccion', 'carrera', 'unidad', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
+        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'notasPorEstudiante', 'estudiantesIds', 'seccion', 'carrera', 'unidad', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
         $pdf->setOptions(['isRemoteEnabled' => true]);
         $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
         return $pdf->download($filename);
