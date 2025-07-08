@@ -34,7 +34,7 @@
                             <x-details-dt>{{ ucwords(trim('primera nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_uno))
-                                    <x-select-form name="nota_uno" class="!mt-0 w-[120px] nota-select" id="nota1">
+                                    <x-select-form name="nota_uno" class="!mt-0 !w-[120px] nota-select" id="nota1">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -54,7 +54,7 @@
                             <x-details-dt>{{ ucwords(trim('segunda nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_dos))
-                                    <x-select-form name="nota_dos" class="!mt-0 w-[120px] nota-select" id="nota2">
+                                    <x-select-form name="nota_dos" class="!mt-0 !w-[120px] nota-select" id="nota2">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -74,7 +74,7 @@
                             <x-details-dt>{{ ucwords(trim('tercera nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_tres))
-                                    <x-select-form name="nota_tres" class="!mt-0 w-[120px] nota-select" id="nota3">
+                                    <x-select-form name="nota_tres" class="!mt-0 !w-[120px] nota-select" id="nota3">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -94,7 +94,7 @@
                             <x-details-dt>{{ ucwords(trim('cuarta nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_cuatro))
-                                    <x-select-form name="nota_cuatro" class="!mt-0 w-[120px] nota-select"
+                                    <x-select-form name="nota_cuatro" class="!mt-0 !w-[120px] nota-select"
                                         id="nota4">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
@@ -116,7 +116,7 @@
                             <x-details-dt>{{ ucwords(trim('nota extra:')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_extra))
-                                    <x-select-form name="nota_extra" class="!mt-0 w-[130px] nota-select" id="notaExtra">
+                                    <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select" id="notaExtra">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">

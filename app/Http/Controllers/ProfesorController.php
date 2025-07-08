@@ -80,7 +80,7 @@ class ProfesorController extends Controller
         $asignacion = Asignar::with('pensums.materias')->findOrFail($asignacion_id);
         $estudiante = Students::findOrFail($estudiante_id);
         $lapso = Periodos::all()->first();
-        $pensumId = $asignacion->pensums->first()->id;  // O usa pluck() si hay múltiples
+        $pensumId = $asignacion->pensum_id;  // O usa pluck() si hay múltiples
 
         $notas = Notas::where('pensum_id', $pensumId)
             ->where('periodo_id', $lapso->id)
@@ -100,7 +100,7 @@ class ProfesorController extends Controller
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
             'notaExtra' => 'nullable|numeric|min:0|max:20',
-            'nota_definitiva' => 'required|numeric|min:0|max:20',
+            // 'nota_definitiva' => 'required|numeric|min:0|max:20',
         ], [
             'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
             'asignacion_id.exists' => 'La asignación que está tratando de usar no existe.',
@@ -113,8 +113,8 @@ class ProfesorController extends Controller
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
             'notaExtra' => 'nullable|numeric|min:0|max:20',
-            'nota_definitiva.required' => 'Es necesario que ingrese la nota definitiva',
-            'nota_definitiva.numeric' => 'La definitiva debe ser un valor numérico',
+            // 'nota_definitiva.required' => 'Es necesario que ingrese la nota definitiva',
+            // 'nota_definitiva.numeric' => 'La definitiva debe ser un valor numérico',
         ]);
         $periodo = Periodos::where('activo', true)->first();
 
