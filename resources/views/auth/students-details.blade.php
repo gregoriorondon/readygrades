@@ -18,28 +18,28 @@
             <dl class="divide-y divide-gray-300 ">
                 <x-details-div>
                     @if ($estudiantes->genero !== 'masculino')
-                        <x-details-dt>Nombre Completo De La Estudiante</x-details-dt>
+                        <x-details-dt>Nombre Completo De La Estudiante:</x-details-dt>
                     @else
-                        <x-details-dt>Nombre Completo Del Estudiante</x-details-dt>
+                        <x-details-dt>Nombre Completo Del Estudiante:</x-details-dt>
                     @endif
                     <x-details-dd>{{ implode(' ', [$estudiantes['primer_name'], $estudiantes['segundo_name']]) }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
                     @if ($estudiantes->genero !== 'masculino')
-                        <x-details-dt>Apellido Completo De La Estudiante</x-details-dt>
+                        <x-details-dt>Apellido Completo De La Estudiante:</x-details-dt>
                     @else
-                        <x-details-dt>Apellido Completo Del Estudiante</x-details-dt>
+                        <x-details-dt>Apellido Completo Del Estudiante:</x-details-dt>
                     @endif
                     <x-details-dd>{{ implode(' ', [$estudiantes['primer_apellido'], $estudiantes['segundo_apellido']]) }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Correo Electrónico</x-details-dt>
+                    <x-details-dt>Correo Electrónico:</x-details-dt>
                     <x-details-dd>
                         @if ($estudiantes->email === null)
                             @if ($estudiantes->genero !== 'masculino')
-                                <x-span>La Estudiante No Cuenta Con Correo Electrónico</x-span>
+                                <x-span>La Estudiante No Cuenta Con Correo Electrónico:</x-span>
                             @else
-                                <x-span>El Estudiante No Cuenta Con Correo Electrónico</x-span>
+                                <x-span>El Estudiante No Cuenta Con Correo Electrónico:</x-span>
                             @endif
                         @else
                             {{ $estudiantes['email'] }} <a target="_blank" href="mailto:{{ $estudiantes['email'] }}"
@@ -49,7 +49,7 @@
                     </x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Cédula</x-details-dt>
+                    <x-details-dt>Cédula:</x-details-dt>
                     <x-details-dd>
                         @if ($estudiantes->nacionalidad === 'VE')
                             V -
@@ -59,13 +59,13 @@
                     </x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Teléfono</x-details-dt>
+                    <x-details-dt>Teléfono:</x-details-dt>
                     <x-details-dd>
                         @if ($estudiantes->telefono === null)
                             @if ($estudiantes->genero !== 'masculino')
-                                <x-span>La Estudiante No Cuenta Con Teléfono</x-span>
+                                <x-span>La Estudiante No Cuenta Con Teléfono:</x-span>
                             @else
-                                <x-span>El Estudiante No Cuenta Con Teléfono</x-span>
+                                <x-span>El Estudiante No Cuenta Con Teléfono:</x-span>
                             @endif
                         @else
                             {{ $estudiantes['telefono'] }}
@@ -73,31 +73,31 @@
                     </x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Fecha de Nacimiento</x-details-dt>
+                    <x-details-dt>Fecha de Nacimiento:</x-details-dt>
                     <x-details-dd>{{ $estudiantes['fecha_nacimiento'] }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Genero</x-details-dt>
+                    <x-details-dt>Genero:</x-details-dt>
                     <x-details-dd>{{ ucfirst(strtolower($estudiantes['genero'])) }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Ciudad - Pueblo</x-details-dt>
+                    <x-details-dt>Ciudad - Pueblo:</x-details-dt>
                     <x-details-dd>{{ $estudiantes['city'] }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Dirección</x-details-dt>
+                    <x-details-dt>Dirección:</x-details-dt>
                     <x-details-dd>{{ $estudiantes->direccion }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Núcleo de Estudios</x-details-dt>
+                    <x-details-dt>Núcleo de Estudios:</x-details-dt>
                     <x-details-dd>{{ $estudiantes->nucleos->nucleo }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Carrera</x-details-dt>
+                    <x-details-dt>Carrera:</x-details-dt>
                     <x-details-dd>{{ $estudiantes->carreras->carrera }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Trayecto y Tramo</x-details-dt>
+                    <x-details-dt>Trayecto y Tramo:</x-details-dt>
                     <x-details-dd>
                         @foreach ($estudiantes->tramos->trayectos as $trayectos)
                             {{ $trayectos->trayectos }}
@@ -106,11 +106,11 @@
                     </x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Sección</x-details-dt>
+                    <x-details-dt>Sección:</x-details-dt>
                     <x-details-dd>{{ $estudiantes->secciones->seccion }}</x-details-dd>
                 </x-details-div>
                 <x-details-div>
-                    <x-details-dt>Notas - Calificaciones</x-details-dt>
+                    <x-details-dt>Notas - Calificaciones:</x-details-dt>
                     <x-details-dd>
                         @if ($estudiantes->genero !== 'masculino')
                             <a href="/estudiantes-calificacion/{{ $estudiantes->id }}"

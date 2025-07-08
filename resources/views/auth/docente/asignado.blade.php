@@ -9,22 +9,22 @@
                     <div class="">
                         <details>
                             <summary
-                                class="hover:bg-gray-400/40 rounded-t-lg rounded-b-lg py-4 pl-8 text-2xl font-inter font-bold cursor-pointer">
+                                class="hover:bg-gray-400/40 rounded-t-lg rounded-b-lg py-4 pl-4 md:pl-8 text-lg md:text-2xl font-inter font-bold cursor-pointer">
                                 {{ $carrera['carrera'] }}</summary>
                             @foreach ($carrera['tramos'] as $tramo)
                                 <details>
                                     <summary
-                                        class="bg-gray-400/10 hover:bg-gray-400/20 text-xl pl-12 py-4 font-inter font-semibold cursor-pointer">
+                                        class="bg-gray-400/10 hover:bg-gray-400/20 text-base md:text-xl pl-6 md:pl-12 py-3 md:py-4 font-inter font-semibold cursor-pointer">
                                         {{ $tramo['nombre'] }}</summary>
                                     @foreach ($tramo['asignaciones'] as $asignacion)
                                         <details>
                                             <summary
-                                                class="hover:bg-gray-400/20 font-inter pl-16 text-2xl font-medium py-2 cursor-pointer">
+                                                class="hover:bg-gray-400/20 font-inter pl-8 md:pl-16 text-lg md:text-xl font-medium py-2 cursor-pointer">
                                                 {{ ucwords($asignacion->pensums->materias->materia) . ':' }}
                                             </summary>
-                                            <div class="flex justify-center mx-8 mb-9">
-                                                <div class="border rounded-lg w-full">
-                                                    <table class="min-w-full">
+                                            <div class="mx-2 md:mx-8 mb-4 md:mb-9 border rounded-lg overflow-x-auto">
+                                                <div class="">
+                                                    <table class="">
                                                         <thead>
                                                             <tr>
                                                                 <th class="px-9 py-3">Materia</th>

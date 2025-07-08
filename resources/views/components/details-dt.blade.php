@@ -1,1 +1,1 @@
-<dt {{ $attributes->merge(['class'=>'ml-7 text-sm/6 font-medium font-inter']) }}>{{ $slot }}</dt>
+<dt {{ $attributes->merge(['class'=>'ml-7 text-sm font-bold font-inter ']) }}>{{ $slot }}</dt>

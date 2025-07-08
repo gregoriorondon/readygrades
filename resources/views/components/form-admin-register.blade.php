@@ -134,8 +134,3 @@
                     <i class="fa-solid fa-floppy-disk m-0"></i></button>
             </div>
 </form>
-@if (session('alert'))
-    <script>
-        alert("{{ session('alert') }}");
-    </script>
-@endif

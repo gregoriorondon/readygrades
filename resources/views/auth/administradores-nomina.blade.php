@@ -3,11 +3,11 @@
     <x-button-a class="btn-new-student"  link="registro-administrador" icon="fa-solid fa-plus-large">Registrar Nuevo Administrador</x-button-a>
 <div class="mt-7">
 <x-title-section-admin>Listado De Todos Los Administradores Registrados</x-title-section-admin>
-    <div class="flex flex-col mt-2">
-        <div class="overflow-x-auto">
-            <div class="py-2 inline-block min-w-full">
-                <div class="overflow-hidden border-gray-200 border border-solid rounded-lg">
-                    <table class="min-w-full">
+    <div class="">
+        <div class="border-gray-200 border border-solid mt-2 rounded-lg">
+            <div class="">
+                <div class="flex flex-col overflow-x-auto">
+                    <table class="">
                         <thead class="border-b">
                             <tr>
                                 <x-table-th-students>
@@ -27,9 +27,9 @@
                                 </x-table-th-students>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y">
                             @foreach($administradores as $administrador)
-                            <tr class="odd:bg-gray-100/20 event:bg-transparent border-b">
+                            <tr class="odd:bg-gray-100/20 event:bg-transparent">
                                 <x-table-td-students>
                                     {{ $administrador['cedula'] }}
                                 </x-table-td-students>
