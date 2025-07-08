@@ -249,4 +249,42 @@ class ProfesorController extends Controller
         $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
         return $pdf->download($filename);
     }
+
+    // ==================================================================================
+    // ============== DESCARGAR SOLICITUD EDICION DE NOTAS ERRONEAS  ====================
+    // ==================================================================================
+    public function solicitudedicion(Request $request)
+    {
+        $request->validate([
+            'nota'=>'required|numeric|min:1|max:20',
+            'materia'=>'required|string|exists:materias,materia',
+        ],[
+            'nota.required'=>'Debes de elegir la nota que deseas editar',
+            'nota.numeric'=>'La nota debe de ser de tipo numérico',
+            'nota.min'=>'La nota debe de ser mínimo de 1 punto',
+            'nota.max'=>'La nota no debe de superar los 20 puntos',
+            'materia.required'=>'Debes de tener la materia para poder solicitar la corrección',
+            'materia.string'=>'Debes de tener la materia como texto',
+            'materia.exists'=>'La matería que está tratando de colocar no existe en el sistema, por favor no modifique el formulario para evitar errores en su solicitud',
+        ]);
+        $notas = $request->nota;
+        $materias = $request->materia;
+        $notasEnLetras = [
+            1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
+            6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
+            11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
+            16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve', 20 => 'veinte'
+        ];
+        $notaTexto = $notasEnLetras[$notas] ?? $notas;
+        $estudiante = Students::findOrFail($request->estudiante_id);
+        $user = Auth::guard('teachers')->user();
+        $periodo = Periodos::all()->first();
+        $fecha = Carbon::now();
+        $day = $fecha->day;
+        $mes = $fecha->isoFormat('MMMM');
+        $anio = $fecha->year;
+        $pdf = Pdf::loadView('pdf.teachers.solicitud-de-correccion', compact('user', 'estudiante', 'periodo', 'notaTexto', 'notas', 'materias', 'day', 'mes', 'anio'));
+        $filename = 'Solicitud_de_correccion_de_notas_' . $estudiante->primer_name .'_' . $estudiante->primer_apellido . '_' . $estudiante->cedula . '_' . $materias . '_' . $estudiante->carreras->carrera . '.pdf';
+        return $pdf->download($filename);
+    }
 }

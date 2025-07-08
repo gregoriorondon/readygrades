@@ -94,6 +94,7 @@ Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->gro
     // Calificar estudiante
     Route::get('/calificacion/{asignacion}/estudiante/{estudiante}', 'calificaciones');
     Route::post('/guardar-calificacion', 'guardarcalificacion');
+    Route::post('/editar-nota-pdf', 'solicitudedicion');
     // descargar calificaciones
     Route::post('/pdfcalificacion', 'descargarcalificacion');
 });

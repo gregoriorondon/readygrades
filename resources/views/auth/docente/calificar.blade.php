@@ -3,18 +3,25 @@
     <x-title-section-admin>{{ ucwords(trim('calificar estudiante seleccionado')) }}</x-title-section-admin>
     <div>
         <div class="mt-7">
-            @if ($estudiante->genero === 'masculino')
-                <p>{{ ucwords('nombre del estudiante: ' . $estudiante->primer_name . ' ' . $estudiante->segundo_name) }}
-                </p>
-                <p>{{ ucwords('apellido del estudiante: ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}
-                </p>
-            @else
-                <p>{{ ucwords('nombre de la estudiante: ' . $estudiante->primer_name . ' ' . $estudiante->segundo_name) }}
-                </p>
-                <p>{{ ucwords('apellido de la estudiante: ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}
-                </p>
-            @endif
-            <p>{{ ucwords('cédula: ' . $estudiante->cedula) }}</p>
+            <div class="flex justify-between items-end">
+                <div>
+                    @if ($estudiante->genero === 'masculino')
+                        <p>{{ ucwords('nombre del estudiante: ' . $estudiante->primer_name . ' ' . $estudiante->segundo_name) }}
+                        </p>
+                        <p>{{ ucwords('apellido del estudiante: ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}
+                        </p>
+                    @else
+                        <p>{{ ucwords('nombre de la estudiante: ' . $estudiante->primer_name . ' ' . $estudiante->segundo_name) }}
+                        </p>
+                        <p>{{ ucwords('apellido de la estudiante: ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}
+                        </p>
+                    @endif
+                    <p>{{ ucwords('cédula: ' . $estudiante->cedula) }}</p>
+                </div>
+                <div>
+                    <x-button id="abrirmodal" icon="fa-solid fa-file-pen">{{ ucwords('solicitar edición') }}</x-button>
+                </div>
+            </div>
             <div class="mt-7 border rounded-lg">
                 <form action="/guardar-calificacion" method="post" id="guardarcalifi">
                     @csrf
@@ -37,7 +44,7 @@
                                 @else
                                     <x-span id="nota1-display" class="mr-4">{{ $notas->nota_uno . ' pts' }}</x-span>
                                     <input type="hidden" id="nota1" value="{{ $notas->nota_uno }}">
-                                    <x-button>Editar</x-button>
+
                                 @endif
                             </x-details-dd>
                         </x-details-div>
@@ -57,7 +64,7 @@
                                 @else
                                     <x-span id="nota2-display" class="mr-4">{{ $notas->nota_dos . ' pts' }}</x-span>
                                     <input type="hidden" id="nota2" value="{{ $notas->nota_dos }}">
-                                    <x-button>Editar</x-button>
+
                                 @endif
                             </x-details-dd>
                         </x-details-div>
@@ -77,7 +84,7 @@
                                 @else
                                     <x-span id="nota3-display" class="mr-4">{{ $notas->nota_tres . ' pts' }}</x-span>
                                     <input type="hidden" id="nota3" value="{{ $notas->nota_tres }}">
-                                    <x-button>Editar</x-button>
+
                                 @endif
                             </x-details-dd>
                         </x-details-div>
@@ -96,9 +103,10 @@
                                         @endfor
                                     </x-select-form>
                                 @else
-                                    <x-span id="nota4-display" class="mr-4">{{ $notas->nota_cuatro . ' pts' }}</x-span>
+                                    <x-span id="nota4-display"
+                                        class="mr-4">{{ $notas->nota_cuatro . ' pts' }}</x-span>
                                     <input type="hidden" id="nota4" value="{{ $notas->nota_cuatro }}">
-                                    <x-button>Editar</x-button>
+
                                 @endif
                             </x-details-dd>
                         </x-details-div>
@@ -108,7 +116,7 @@
                             <x-details-dt>{{ ucwords(trim('nota extra:')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_extra))
-                                    <x-select-form name="nota_extra" class="!mt-0 w-[120px] nota-select" id="notaExtra">
+                                    <x-select-form name="nota_extra" class="!mt-0 w-[130px] nota-select" id="notaExtra">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -117,7 +125,7 @@
                                     </x-select-form>
                                 @else
                                     <x-span class="mr-4">{{ $notas->nota_extra . ' pts' }}</x-span>
-                                    <x-button>Editar</x-button>
+
                                 @endif
                             </x-details-dd>
                         </x-details-div>
@@ -175,5 +183,46 @@
             }
         });
     </script>
+    <!-- ===================================================== -->
+    <!-- ============ VENTANA MODAL PARA SOLICITAR EDICION ======= -->
+    <!-- ===================================================== -->
+
+    <x-dialog-modal class="transition-all max-w-[500px]" form="pdfeditcion">
+        <x-slot:title>
+            {{ ucwords(trim('generar solicitud de corrección de notas')) }}
+        </x-slot:title>
+        <x-slot:content>
+            <form action="/editar-nota-pdf" method="POST" id="pdfeditcion">
+                @csrf
+                <x-span>{{ ucwords(trim('ingrese la nota a editar para generar la solicitud. Descárguela y entréguela al administrador de ARSE para su corrección.')) }}</x-span>
+                <br>
+                <x-select-form name="nota" class="my-9 nota-select" id="notaExtra">
+                    <option value="">{{ ucwords('seleccione la calificación a editar') }}</option>
+                    @if (!empty($notas->nota_uno))
+                        <option value="{{ $notas->nota_uno }}">{{ ucwords('primera nota: ') . $notas->nota_uno }}</option>
+                    @endif
+                    @if (!empty($notas->nota_dos))
+                        <option value="{{ $notas->nota_dos }}">{{ ucwords('segunda nota: ') . $notas->nota_dos }}</option>
+                    @endif
+                    @if (!empty($notas->nota_tres))
+                        <option value="{{ $notas->nota_tres }}">{{ ucwords('tercera nota: ') . $notas->nota_tres }}</option>
+                    @endif
+                    @if (!empty($notas->nota_cuatro))
+                        <option value="{{ $notas->nota_cuatro }}">{{ ucwords('cuarta nota: ') . $notas->nota_cuatro }}</option>
+                    @endif
+                    @if (!empty($notas->nota_extra))
+                        <option value="{{ $notas->nota_extra }}">{{ ucwords('nota extra: ') . $notas->nota_extra }}</option>
+                    @endif
+                </x-select-form>
+                <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
+                <input type="hidden" name="materia" value="{{ $notas->pensums->materias->materia }}">
+            </form>
+        </x-slot:content>
+        <x-slot:botones>
+            {{ ucwords('generar') }}
+        </x-slot:botones>
+    </x-dialog-modal>
+    @vite(['resources/js/modales.js'])
+
     <x-error-and-correct-dialog />
 </x-dashboard>
