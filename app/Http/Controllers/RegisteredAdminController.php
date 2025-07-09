@@ -570,6 +570,7 @@ class RegisteredAdminController extends Controller
             'materia' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
             'codigo' => ['required', 'min:3', 'string'],
             'unidadcurricular' => ['required', 'numeric'],
+            'per'=>'nullable',
         ],[
             'materia.required'=>'La materia no debe estar vacía',
             'materia.regex'=>'La materia no debe contener números',
@@ -591,7 +592,11 @@ class RegisteredAdminController extends Controller
         if ($existeCarrera) {
             return redirect()->back()->withErrors(['error'=>'El codigo que está intentando guardar ya existe en la base de datos.']);
         }
-        Materias::where('id', $id)->update(['materia'=>$materianormalizada,'codigo'=>"$codigonormalizada"]);
+        Materias::where('id', $id)->update([
+            'materia'=>$materianormalizada,
+            'codigo'=>$codigonormalizada,
+            'per' => $request->boolean('per'),
+        ]);
 
         return redirect('/materias')->with('alert','Se guardó con exito los cambios');
     }
@@ -600,6 +605,7 @@ class RegisteredAdminController extends Controller
             'materia'=>'string|unique:materias,materia',
             'codigo'=>'string|unique:materias,codigo',
             'unidadcurricular' => ['required', 'numeric'],
+            'per'=>'nullable',
         ],[
             'materia.string'=>'debe colocar texto',
             'materia.unique'=>'La materia que está tratando de registrar ya existe',
@@ -607,6 +613,7 @@ class RegisteredAdminController extends Controller
             'codigo.unique'=>'La materia que está tratando de registrar ya existe',
             'unidadcurricular.required'=>'Es necesario la unidad curricular para crear la materia',
             'unidadcurricular.numeric'=>'La unidad curricular deben ser números',
+            'per.required'=>'Debe seleccionar si puede tener PER la materia',
         ]);
         $atributosuno = strtolower($request->input('materia'));
         $atributosdos = strtolower($request->input('codigo'));
@@ -614,6 +621,7 @@ class RegisteredAdminController extends Controller
             'materia' => $atributosuno,
             'codigo' => $atributosdos,
             'unidadcurricular' => $request->unidadcurricular,
+            'per' => $request->boolean('per'),
         ];
         Materias::create($atributos);
         return redirect()->back()->with('alert','Se Registró con Exito');
@@ -833,5 +841,9 @@ class RegisteredAdminController extends Controller
             $mensaje .= ". Materias no en pensum: " . implode(', ', $materias);
         }
         return redirect()->route('asignar')->with('alert',$mensaje);
+    }
+    public function correccion($nota_id, $estudiante_id, $periodo_id, $pensums_id) {
+        $notas = Notas::where('pensum_id', $pensums_id)->where('periodo_id', $periodo_id)->where('student_id', $estudiante_id)->first();
+        return view('auth.correccion', compact('notas'));
     }
 }

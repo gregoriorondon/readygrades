@@ -2,7 +2,7 @@
     <x-slot:titulo>Materias</x-slot:titulo>
     <x-title-section-admin>Agregar Una Nueva Materia Al Sistema</x-title-section-admin>
     <div class="flex justify-center my-8">
-        <div class="w-[30%]">
+        <div class="xl:w-[30%] w-[85%]">
             <form action="/materia" method="post">
                 @csrf
                 <x-label>Nombre De La Materia:<x-input-form type="text" name="materia" autocomplete="off"
@@ -12,6 +12,9 @@
                 <x-label class="mt-3">{{ ucwords('unidad curricular:') }}<x-input-form type="numeric"
                         name="unidadcurricular" autocomplete="off"
                         placeholder="Ingrese la unidad curricular de la materia" :value="old('unidadcurricular')" /></x-label>
+                <x-label class="mt-3"><x-input-check type="checkbox" name="per" value="on" />
+                        {{ ucwords('tiene PER') }}
+                </x-label>
                 <div class="flex justify-end">
                     <x-button class="mt-2" type="submit">Enviar</x-button>
                 </div>
