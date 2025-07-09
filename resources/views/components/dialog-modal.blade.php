@@ -8,6 +8,6 @@
     </div>
     <div class="font-inter flex justify-between mt-3">
         <x-button id="cerrarmodal" type="button" class="bg-[#f00] hover:bg-[#b00]">Cancelar</x-button>
-        <x-button {{ $attributes->merge(['form'=>'', 'type'=>'submit'])->only('form') }}>{{ $botones }}</x-button>
+        <x-button {{ $attributes->merge(['form'=>'', 'type'=>'submit', 'id'=>''])->only('form') }}>{{ $botones }}</x-button>
     </div>
 </dialog>

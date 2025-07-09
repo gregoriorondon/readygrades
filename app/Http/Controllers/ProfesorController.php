@@ -256,6 +256,7 @@ class ProfesorController extends Controller
     public function solicitudedicion(Request $request)
     {
         $request->validate([
+            'asignacion_id' => 'required|exists:profesor_asignar,id',
             'nota'=>'required|numeric|min:1|max:20',
             'materia'=>'required|string|exists:materias,materia',
         ],[
@@ -266,9 +267,15 @@ class ProfesorController extends Controller
             'materia.required'=>'Debes de tener la materia para poder solicitar la corrección',
             'materia.string'=>'Debes de tener la materia como texto',
             'materia.exists'=>'La matería que está tratando de colocar no existe en el sistema, por favor no modifique el formulario para evitar errores en su solicitud',
+            'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
+            'asignacion_id.exists' => 'La asignación que está tratando de usar no existe.',
         ]);
         $notas = $request->nota;
         $materias = $request->materia;
+        $estudiante_id = $request->estudiante_id;
+        $asignacion = Asignar::with('pensums.materias')->findOrFail($request->asignacion_id);
+        $pensumId = $asignacion->pensum_id;  // O usa pluck() si hay múltiples
+        $periodo = Periodos::all()->first();
         $notasEnLetras = [
             1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
             6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
@@ -276,9 +283,14 @@ class ProfesorController extends Controller
             16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve', 20 => 'veinte'
         ];
         $notaTexto = $notasEnLetras[$notas] ?? $notas;
+        $nota = Notas::where('pensum_id', $pensumId)
+            ->where('periodo_id', $periodo->id)
+            ->where('student_id', $estudiante_id)  // Filtra por estudiante
+            ->first();
+        $nota->editado = true;
+        $nota->save();
         $estudiante = Students::findOrFail($request->estudiante_id);
         $user = Auth::guard('teachers')->user();
-        $periodo = Periodos::all()->first();
         $fecha = Carbon::now();
         $day = $fecha->day;
         $mes = $fecha->isoFormat('MMMM');

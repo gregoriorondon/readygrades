@@ -216,6 +216,7 @@
                 </x-select-form>
                 <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
                 <input type="hidden" name="materia" value="{{ $notas->pensums->materias->materia }}">
+                <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
             </form>
         </x-slot:content>
         <x-slot:botones>
