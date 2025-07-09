@@ -24,7 +24,7 @@
                                             </summary>
                                             <div class="mx-2 md:mx-8 mb-4 md:mb-9 border rounded-lg overflow-x-auto">
                                                 <div class="">
-                                                    <table class="">
+                                                    <table class="w-full">
                                                         <thead>
                                                             <tr>
                                                                 <th class="px-9 py-3">Materia</th>

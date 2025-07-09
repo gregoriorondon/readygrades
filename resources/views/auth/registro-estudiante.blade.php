@@ -1,7 +1,7 @@
 <x-dashboard>
     <x-slot:titulo>Registrar Nuevo Estudiante</x-slot:titulo>
-    <x-title-section-admin>Registro de Nuevo Estudiante</x-title-section-admin>
     <x-button type="button" id="abrirmodal" icon="fa-solid fa-plus-large">Agregar Una Nueva Sección</x-button>
+    <x-title-section-admin>Registro de Nuevo Estudiante</x-title-section-admin>
     @if($periodo !== null)
         @if((bool)$periodo->activo !== false)
             <x-form-student :courses="$courses" :trayectos="$trayectos" :nucleos="$nucleos" :secciones="$secciones" />

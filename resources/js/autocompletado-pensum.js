@@ -24,7 +24,7 @@ function updateSelectedList() {
             div.className = 'selected-item rounded-lg border my-1';
             div.innerHTML = `
                 <button type="button" class="remove-item flex justify-between w-full p-2 items-center hover:bg-gray-400/20" data-id="${id}">
-                    <span class="font-inter">${materiaName} ${materiaCode}</span>
+                    <span class="font-inter uppercase">${materiaName} (${materiaCode})</span>
                     <i class="fa-solid fa-trash text-red-500 hover:text-red-700"></i>
                 </button>
             `;
@@ -85,7 +85,7 @@ searchInput.addEventListener("input", function(e) {
                 div.innerHTML = `
                     <div class="rounded-lg border my-1">
                         <button type="button" class="flex items-center justify-between w-full add-item hover:bg-gray-400/20 p-2" data-id="${item.id}">
-                            <span class="font-inter">${item.materia} (${item.codigo})</span>
+                            <span class="font-inter uppercase">${item.materia} (${item.codigo})</span>
                             <i class="fa-solid fa-plus text-green-500"></i>
                         </button>
                     </div>
