@@ -58,6 +58,7 @@ return new class extends Migration
             $table->string('materia')->unique();
             $table->string('codigo')->unique();
             $table->string('unidadcurricular');
+            $table->boolean('per')->default(true);
             $table->timestamps();
         });
         Schema::create('carreras', function (Blueprint $table) {
@@ -167,8 +168,14 @@ return new class extends Migration
             $table->string('nota_dos')->nullable();
             $table->string('nota_tres')->nullable();
             $table->string('nota_cuatro')->nullable();
+            $table->string('nota_extra')->nullable();
             $table->string('nota_recuperacion')->nullable();
             $table->boolean('editado')->default(false);
+            $table->string('nota_editar_uno')->nullable();
+            $table->string('nota_editar_dos')->nullable();
+            $table->string('nota_editar_tres')->nullable();
+            $table->string('nota_editar_cuatro')->nullable();
+            $table->string('nota_editar_extra')->nullable();
             $table->unsignedBigInteger('pensum_id');
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('student_id');
