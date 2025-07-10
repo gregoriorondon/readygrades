@@ -14,7 +14,7 @@
                                 placeholder="Primer Nombre (Obligatorio)" :value="old('primer_name')" required
                                 autocomplete="off" />
                             <x-input-form type="text" name="segundo_name" id="first-name"
-                                placeholder="Segundo Nombre" :value="old('segundo_name')" autocomplete="off" />
+                                placeholder="Segundo Nombre" value="{{old('segundo_name')}}" autocomplete="off" />
                         </div>
                     </div>
 

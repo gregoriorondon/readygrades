@@ -86,6 +86,10 @@ class ProfesorController extends Controller
             ->where('periodo_id', $lapso->id)
             ->where('student_id', $estudiante_id)  // Filtra por estudiante
             ->first();
+
+        if (!$notas) {
+            return redirect()->back()->withErrors(['error'=>'El o la estudiante que fue asígnado a usted, su inscripción tuvo un error, porfavor informe este hecho para resolver el error']);
+        }
         return view('auth.docente.calificar', compact('asignacion', 'estudiante', 'notas'));
     }
 

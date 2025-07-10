@@ -143,7 +143,7 @@ class RegisteredAdminController extends Controller
         $periodo = Periodos::first();
 
         if (!$periodo->activo) {
-            return redirect()->back()->withErrors(['error'=>'El periodo que está tratando de usar está cerrado.']);
+            return redirect()->back()->withInput()->withErrors(['error'=>'El periodo que está tratando de usar está cerrado.']);
         }
 
         $existeInscripcion = Students::where('cedula', $request->cedula)
@@ -153,15 +153,19 @@ class RegisteredAdminController extends Controller
             ->exists();
 
         if ($existeInscripcion) {
-            return redirect()->back()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
+            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
         }
-
-        $datosEstudiante['periodo_id'] = $periodo->id;
-        $student = Students::create($datosEstudiante);
 
         $materiasPensum = Pensum::where('carrera_id', $request->carrera_id)
             ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->get();
+
+        if ($materiasPensum->isEmpty()) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
+        }
+
+        $datosEstudiante['periodo_id'] = $periodo->id;
+        $student = Students::create($datosEstudiante);
 
         foreach ($materiasPensum as $materia) {
             Notas::create([
