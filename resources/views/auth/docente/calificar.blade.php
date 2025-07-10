@@ -116,7 +116,8 @@
                             <x-details-dt>{{ ucwords(trim('nota extra:')) }}</x-details-dt>
                             <x-details-dd>
                                 @if (empty($notas->nota_extra))
-                                    <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select" id="notaExtra">
+                                    <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select"
+                                        id="notaExtra">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -196,24 +197,30 @@
                 @csrf
                 <x-span>{{ ucwords(trim('ingrese la nota a editar para generar la solicitud. Descárguela y entréguela al administrador de ARSE para su corrección.')) }}</x-span>
                 <br>
-                <x-select-form name="nota" class="my-9 nota-select" id="notaExtra">
+                <x-select-form name="nota" class="my-9 nota-select" id="notaSeleccionada">
                     <option value="">{{ ucwords('seleccione la calificación a editar') }}</option>
                     @if (!empty($notas->nota_uno))
-                        <option value="{{ $notas->nota_uno }}">{{ ucwords('primera nota: ') . $notas->nota_uno }}</option>
+                        <option value="{{ $notas->nota_uno }}" data-nombre="nota_uno">
+                            {{ ucwords('primera nota: ') . $notas->nota_uno }}</option>
                     @endif
                     @if (!empty($notas->nota_dos))
-                        <option value="{{ $notas->nota_dos }}">{{ ucwords('segunda nota: ') . $notas->nota_dos }}</option>
+                        <option value="{{ $notas->nota_dos }}" data-nombre="nota_dos">
+                            {{ ucwords('segunda nota: ') . $notas->nota_dos }}</option>
                     @endif
                     @if (!empty($notas->nota_tres))
-                        <option value="{{ $notas->nota_tres }}">{{ ucwords('tercera nota: ') . $notas->nota_tres }}</option>
+                        <option value="{{ $notas->nota_tres }}" data-nombre="nota_tres">
+                            {{ ucwords('tercera nota: ') . $notas->nota_tres }}</option>
                     @endif
                     @if (!empty($notas->nota_cuatro))
-                        <option value="{{ $notas->nota_cuatro }}">{{ ucwords('cuarta nota: ') . $notas->nota_cuatro }}</option>
+                        <option value="{{ $notas->nota_cuatro }}" data-nombre="nota_cuatro">
+                            {{ ucwords('cuarta nota: ') . $notas->nota_cuatro }}</option>
                     @endif
                     @if (!empty($notas->nota_extra))
-                        <option value="{{ $notas->nota_extra }}">{{ ucwords('nota extra: ') . $notas->nota_extra }}</option>
+                        <option value="{{ $notas->nota_extra }}" data-nombre="nota_extra">
+                            {{ ucwords('nota extra: ') . $notas->nota_extra }}</option>
                     @endif
                 </x-select-form>
+                <input type="hidden" name="campo_editar" id="campoEditar">
                 <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
                 <input type="hidden" name="materia" value="{{ $notas->pensums->materias->materia }}">
                 <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
@@ -224,6 +231,18 @@
         </x-slot:botones>
     </x-dialog-modal>
     @vite(['resources/js/modales.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notaSelect = document.getElementById('notaSeleccionada');
+            const campoEditarInput = document.getElementById('campoEditar');
+
+            notaSelect.addEventListener('change', function() {
+                const selectedOption = notaSelect.options[notaSelect.selectedIndex];
+                const nombreCampo = selectedOption.getAttribute('data-nombre');
+                campoEditarInput.value = nombreCampo ?? '';
+            });
+        });
+    </script>
 
     <x-error-and-correct-dialog />
 </x-dashboard>

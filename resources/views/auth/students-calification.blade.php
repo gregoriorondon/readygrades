@@ -13,9 +13,9 @@
                 <table class="w-full">
                     <thead class="border-b">
                         <tr>
-                            <th class="py-3 font-inter">Nota</th>
-                            <th class="py-3 font-inter">Materia</th>
-                            <th class="py-3 font-inter">Acción</th>
+                            <th class="py-3 px-8 font-inter">Nota</th>
+                            <th class="py-3 px-8 font-inter">Materia</th>
+                            <th class="py-3 px-8 font-inter">Acción</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
@@ -26,12 +26,15 @@
                                     $definitiva = round($suma / 4);
                                 @endphp
                                 <td class="py-3 font-inter text-center">{{ $definitiva }} pts</td>
-                                <td class="py-3 font-inter text-center">{{ ucwords($nota->pensums->materias->materia) }}</td>
+                                <td class="py-3 font-inter text-center">{{ ucwords($nota->pensums->materias->materia) }}
+                                </td>
                                 <td class="py-3 font-inter text-center">
-                                    @if((bool)$nota->editado === true)
-                                        <x-button>Editar</x-button>
+                                    @if ((bool) $nota->editado === true)
+                                        <x-button-a
+                                            link="correccion/{{ $nota->id }}/estudiante/{{ $nota->students->id }}/{{ $nota->periodos->id }}/{{ $nota->pensums->id }}">Editar</x-button-a>
                                     @else
-                                        <button disabled class="bg-gray-400/20 py-2 px-4 rounded-lg">Editar</button>
+                                        <button disabled
+                                            class="px-4 py-2 bg-gray-400/20 rounded-md font-semibold text-xs uppercase tracking-widest">Editar</button>
                                     @endif
                                 </td>
                             </tr>
@@ -41,7 +44,9 @@
             </div>
         </div>
         <div class="flex justify-end mt-2">
-            <x-button type="button" icon="fas fa-arrow-left" onclick="history.back()">Regresar</x-button>
+            <x-button-a link="estudiantes-panel-administrativo/{{ $estudiante->id }}"
+                icon="fas fa-arrow-left">Regresar</x-button-a>
         </div>
     </div>
+    <x-error-and-correct-dialog />
 </x-dashboard>

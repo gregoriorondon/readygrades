@@ -844,6 +844,33 @@ class RegisteredAdminController extends Controller
     }
     public function correccion($nota_id, $estudiante_id, $periodo_id, $pensums_id) {
         $notas = Notas::where('pensum_id', $pensums_id)->where('periodo_id', $periodo_id)->where('student_id', $estudiante_id)->first();
-        return view('auth.correccion', compact('notas'));
+        $estudiante = Students::findOrFail($estudiante_id);
+        $pensum = Pensum::findOrFail($pensums_id);
+        $periodo = Periodos::findOrFail($periodo_id);
+        return view('auth.correccion', compact('notas', 'estudiante', 'pensum', 'periodo'));
+    }
+    // correccion de notas
+    public function savecorreccion(Request $request) {
+        $request->validate([
+            'correccion'=>'required|numeric|min:1|max:20',
+        ],[
+            'correccion.required'=>'La casilla de la nota corregida no debe ser la anterior ni debe estar vacía',
+            'correccion.numeric'=>'La nota corregida debe ser un número',
+            'correccion.min'=>'La nota no debe de ser un valor inferior a 1',
+            'correccion.max'=>'La nota no debe de ser un valor superior a 20',
+        ]);
+        $nota = Notas::where('pensum_id', $request->pensum_id)
+            ->where('periodo_id', $request->periodo_id)
+            ->where('student_id', $request->estudiante_id)
+            ->firstOrFail();
+        $campoEditar = $nota->nota_editar;
+        if (!in_array($campoEditar, ['nota_uno', 'nota_dos', 'nota_tres', 'nota_cuatro', 'nota_extra'])) {
+            return back()->withErrors(['nota_editar' => 'No se puede identificar qué nota debe corregirse.']);
+        }
+        $nota->$campoEditar = $request->correccion;
+        $nota->editado = false;
+        $nota->nota_editar = null;
+        $nota->save();
+        return redirect('/estudiantes-calificacion/'.$request->estudiante_id )->with('alert', 'La nota fue corregida exitosamente.');
     }
 }

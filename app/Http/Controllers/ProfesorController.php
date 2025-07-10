@@ -259,6 +259,7 @@ class ProfesorController extends Controller
             'asignacion_id' => 'required|exists:profesor_asignar,id',
             'nota'=>'required|numeric|min:1|max:20',
             'materia'=>'required|string|exists:materias,materia',
+            'campo_editar' => 'required|in:nota_uno,nota_dos,nota_tres,nota_cuatro,nota_extra',
         ],[
             'nota.required'=>'Debes de elegir la nota que deseas editar',
             'nota.numeric'=>'La nota debe de ser de tipo numérico',
@@ -282,11 +283,13 @@ class ProfesorController extends Controller
             11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
             16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve', 20 => 'veinte'
         ];
+        $campoEditar = $request->campo_editar;
         $notaTexto = $notasEnLetras[$notas] ?? $notas;
         $nota = Notas::where('pensum_id', $pensumId)
             ->where('periodo_id', $periodo->id)
             ->where('student_id', $estudiante_id)  // Filtra por estudiante
             ->first();
+        $nota->nota_editar = $campoEditar;
         $nota->editado = true;
         $nota->save();
         $estudiante = Students::findOrFail($request->estudiante_id);
