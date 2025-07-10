@@ -102,29 +102,55 @@
                             $user['segundo-apellido'],
                     ) }}
                 </span>
-                @if($user->genero === 'masculino')
-                    , Venezolano, Titular de la cédula de identidad N°.
+                @if ($user->nacionalidad === 'VE')
+                    @if ($user->genero === 'masculino')
+                        , Venezolano, Titular de la cédula de identidad N°.
+                    @else
+                        , Venezolana, Titular de la cédula de identidad N°.
+                    @endif
                 @else
-                    , Venezolana, Titular de la cédula de identidad N°.
+                    @if ($user->genero === 'masculino')
+                        , Extrangero, Titular de la cédula de identidad N°.
+                    @else
+                        , Extrangera, Titular de la cédula de identidad N°.
+                    @endif
                 @endif
-                <span class="subrayado bold">{{ $user->cedula }}</span>, Docente de ésta Universidad en la Unidad Curricular:
+                <span class="subrayado bold">
+                    @if($user->nacionalidad === 'VE')
+                        {{ 'V-' . $user->cedula }}
+                    @else
+                        {{ 'E-' . $user->cedula }}
+                    @endif
+                </span>, Docente de ésta Universidad en la Unidad Curricular:
                 <span class="subrayado bold">{{ ucwords($materias) }}</span> Sección:
                 <span class="subrayado bold">{{ ucwords($estudiante->secciones->seccion) }}</span> en el Trayecto:
-                @foreach($estudiante->tramos->trayectos as $tramos)
-                    <span class="subrayado bold">{{ ucwords( preg_replace('/[^0-9]/', '', $tramos->trayectos)) }}</span>, Tramo
+                @foreach ($estudiante->tramos->trayectos as $tramos)
+                    <span
+                        class="subrayado bold">{{ ucwords(preg_replace('/[^0-9]/', '', $tramos->trayectos)) }}</span>,
+                    Tramo
                 @endforeach
-                <span class="subrayado bold">{{ ucwords( preg_replace('/[^0-9]/', '', $estudiante->tramos->tramos)) }}</span>
-                @if($estudiante->genero === 'masculino')
+                <span
+                    class="subrayado bold">{{ ucwords(preg_replace('/[^0-9]/', '', $estudiante->tramos->tramos)) }}</span>
+                @if ($estudiante->genero === 'masculino')
                     hago constar que el estudiante:
                 @else
                     hago constar que la estudiante:
                 @endif
-                <span class="subrayado bold">{{ ucwords($estudiante->primer_name . ' ' . $estudiante->segundo_name . ' ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}</span> Cédula de identidad N°:
-                <span class="subrayado bold">{{ $estudiante->cedula }}</span> cursante de la carrera de:
-                <span class="subrayado bold">{{ ucwords($estudiante->carreras->carrera) }}</span> quien reprobará o aprobará la Unidad Curricular en el periodo
+                <span
+                    class="subrayado bold">{{ ucwords($estudiante->primer_name . ' ' . $estudiante->segundo_name . ' ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}</span>
+                Cédula de identidad N°:
+                <span class="subrayado bold">
+                    @if($estudiante->nacionalidad === 'VE')
+                        {{ 'V-' . $estudiante->cedula }}
+                    @else
+                        {{ 'E-' . $estudiante->cedula }}
+                    @endif
+                </span> cursante de la carrera de:
+                <span class="subrayado bold">{{ ucwords($estudiante->carreras->carrera) }}</span> quien reprobará o
+                aprobará la Unidad Curricular en el periodo
                 <span class="subrayado bold">{{ ucwords($periodo->nombre) }}</span>, con una calificación de
                 <span class="subrayado bold">{{ ucwords($notaTexto) }}</span>
-                <span class="subrayado bold">{{ '(' .  $notas . ')' }}</span> puntos.
+                <span class="subrayado bold">{{ '(' . $notas . ')' }}</span> puntos.
             </p>
         </div>
         <p>Agradezco efectuar la corrección en el sistema de control de notas de DACE.</p>
@@ -134,7 +160,13 @@
                 <span class="firma-linea"></span>
             </center>
             <p class="bold centrado leading-1">{{ ucwords(trim('firma docente')) }}</p>
-            <p class="bold centrado leading-1">{{ mb_strtoupper(trim('c.i.n°: ' . $user->cedula), 'UTF-8') }}</p>
+            <p class="bold centrado leading-1">
+                @if($user->nacionalidad === 'VE')
+                    {{ mb_strtoupper(trim('c.i.n°: V-' . $user->cedula), 'UTF-8') }}
+                @else
+                    {{ mb_strtoupper(trim('c.i.n°: E-' . $user->cedula), 'UTF-8') }}
+                @endif
+            </p>
         </div>
     </div>
     <table>
