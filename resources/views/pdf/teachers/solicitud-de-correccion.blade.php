@@ -110,9 +110,9 @@
                     @endif
                 @else
                     @if ($user->genero === 'masculino')
-                        , Extrangero, Titular de la cédula de identidad N°.
+                        , Extranjero, Titular de la cédula de identidad N°.
                     @else
-                        , Extrangera, Titular de la cédula de identidad N°.
+                        , Extranjera, Titular de la cédula de identidad N°.
                     @endif
                 @endif
                 <span class="subrayado bold">
