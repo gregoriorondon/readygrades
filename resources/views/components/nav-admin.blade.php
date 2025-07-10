@@ -7,6 +7,7 @@
         <x-sidebar-section link="registro-administrador" icon="fa-solid fa-address-card">Registrar Administrador</x-sidebar-section>
         @can('root')
             <x-sidebar-section link="agregar-cargo" icon="fa-solid fa-briefcase">Agregar Un Cargo</x-sidebar-section>
+            <x-sidebar-section link="agregar-titulo" icon="fa fa-diploma">Agregar Un Título</x-sidebar-section>
         @endcan
     </details>
     @can('root')

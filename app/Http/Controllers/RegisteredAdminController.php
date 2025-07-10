@@ -873,4 +873,27 @@ class RegisteredAdminController extends Controller
         $nota->save();
         return redirect('/estudiantes-calificacion/'.$request->estudiante_id )->with('alert', 'La nota fue corregida exitosamente.');
     }
+    public function titulos() {
+        $estudios = Estudios::paginate(20);
+        return view('auth.superadmin.titulos', compact('estudios'));
+    }
+    public function savetitulo(Request $request) {
+        $request->validate([
+            'estudio'=>'required|string|unique:estudios,estudio',
+            'abrev'=>'required|string|unique:estudios,abrev',
+        ],[
+            'estudio.required'=>'No debe dejar la casilla del título vacío',
+            'estudio.string'=>'El título debe ser un texto',
+            'estudio.unique'=>'El título que intenta crear ya existe',
+            'abrev.required'=>'No debe dejar la casilla del la abreviatura vacía',
+            'abrev.string'=>'La abreviatura debe ser un texto',
+            'abrev.unique'=>'La abreviatura que intenta crear ya existe',
+        ]);
+
+        $normalisarTitulo = Str::lower($request->estudio);
+        $normalisarAbrev = Str::lower($request->abrev);
+
+        Estudios::create(['estudio'=>$normalisarTitulo, 'abrev'=>$normalisarAbrev]);
+        return redirect()->back()->with('alert','El título profesional se registro con exito');
+    }
 }
