@@ -31,10 +31,11 @@
                                 <td class="py-3 font-inter text-center">
                                     @if ((bool) $nota->editado === true)
                                         <x-button-a
-                                            link="correccion/{{ $nota->id }}/estudiante/{{ $nota->students->id }}/{{ $nota->periodos->id }}/{{ $nota->pensums->id }}">Editar</x-button-a>
+                                            link="correccion/{{ $nota->id }}/estudiante/{{ $nota->students->id }}/{{ $nota->periodos->id }}/{{ $nota->pensums->id }}">Corregir</x-button-a>
                                     @else
                                         <button disabled
-                                            class="px-4 py-2 bg-gray-400/20 rounded-md font-semibold text-xs uppercase tracking-widest">Editar</button>
+                                            class="px-4 py-2 bg-gray-400/20 rounded-md font-semibold text-xs uppercase tracking-widest cursor-not-allowed">
+                                            <i class="fa-solid fa-ban"></i>Corregir</button>
                                     @endif
                                 </td>
                             </tr>
