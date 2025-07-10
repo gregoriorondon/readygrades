@@ -84,6 +84,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/asignar-profesor', 'asignardocentesave')->name('asignar.store');
     Route::post('/asignar-profesor-materia', 'asignardocentesavemateria')->name('save.asignacion');
     Route::delete('/asignar-profesor/{id}', 'desasignarprofesor')->name('asignar.desasignar');
+    // cargar notas manualmente
+    Route::get('/cargar-notas', 'cargarnotas');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');

@@ -896,4 +896,7 @@ class RegisteredAdminController extends Controller
         Estudios::create(['estudio'=>$normalisarTitulo, 'abrev'=>$normalisarAbrev]);
         return redirect()->back()->with('alert','El título profesional se registro con exito');
     }
+    public function cargarnotas() {
+        return view('auth.carga-manual');
+    }
 }
