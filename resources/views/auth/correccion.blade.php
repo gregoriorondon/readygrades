@@ -8,12 +8,16 @@
                 <p>{{ ucwords('cédula: ') . $estudiante->cedula }}</p>
                 <p>{{ ucwords('materia: ') . $pensum->materias->materia }}</p>
                 <p>{{ ucwords('periodo de la asignatura: ') . $periodo->nombre }}</p>
-                <form action="/save-correccion" method="post">
+                <form action="/save-correccion" method="post" class="mt-4">
                     @csrf
                     @if ($notas->nota_editar === 'nota_uno')
                         <x-label>{{ ucwords('corregir la primera calificación 25%:') }}
                             <x-select-form name="correccion">
-                                <option>{{ $notas->nota_uno }}</option>
+                                <option>{{ $notas->nota_uno . ' pts (' . ucwords('calificación anterior') . ')' }}</option>
+                                @for ($j = 1; $j <= 20; $j++)
+                                    <option value="{{ $j }}">
+                                        {{ $j . ' pts ' }}</option>
+                                @endfor
                             </x-select-form>
                         </x-label>
                     @endif
