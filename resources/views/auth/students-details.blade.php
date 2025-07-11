@@ -11,7 +11,7 @@
                         {{ implode(' ', [$estudiantes['primer_name'], $estudiantes['primer_apellido']]) }}</x-title-section-admin>
                 @endif
             </div>
-            <x-button-a link="" icon="fas fa-edit">Editar Datos</x-button-a>
+            <x-button-a link="student-edit/{{ $estudiantes->id }}" icon="fas fa-edit">Editar Datos</x-button-a>
     </div>
     <div class="">
         <div class="mt-7 border border-gray-300 rounded-md">
@@ -131,5 +131,5 @@
         </div>
 
     </div>
-
+    <x-error-and-correct-dialog />
 </x-dashboard>
