@@ -9,6 +9,7 @@
 <style>
     * {
         font-family: sans-serif;
+        font-size: 15px;
     }
 
     .centrado {
@@ -68,15 +69,35 @@
     .font-justify {
         text-align: justify;
     }
+
+    .titulo-grande {
+        font-size: 17px;
+    }
+
+    .w-50 {
+        width: 50%;
+    }
+
+    .pagenum:before {
+        content: counter(page);
+    }
+
+    .derecha {
+        float: right;
+    }
+
+    .border-none {
+        border: none;
+    }
 </style>
 
 <body>
-    <p class="centrado bold">{{ mb_strtoupper(trim('solicitud de corrección de notas'), 'UTF-8') }}</p>
+    <p class="centrado bold titulo-grande">{{ mb_strtoupper(trim('solicitud de corrección de notas'), 'UTF-8') }}</p>
     <table>
         <tr>
             <td class="uno padding-7">A:</td>
-            <td class="dos bold padding-7">
-                {{ ucwords(trim('jefe del departamento de admisión y control de estudios')) }}</td>
+            <td class="dos bold padding-7 ">
+                {{ ucwords(trim('jefe del departamento de registro, seguimiento y control de estudios')) }}</td>
         </tr>
         <tr>
             <td class="uno padding-7">{{ strtoupper('de:') }}</td>
@@ -116,7 +137,7 @@
                     @endif
                 @endif
                 <span class="subrayado bold">
-                    @if($user->nacionalidad === 'VE')
+                    @if ($user->nacionalidad === 'VE')
                         {{ 'V-' . $user->cedula }}
                     @else
                         {{ 'E-' . $user->cedula }}
@@ -140,7 +161,7 @@
                     class="subrayado bold">{{ ucwords($estudiante->primer_name . ' ' . $estudiante->segundo_name . ' ' . $estudiante->primer_apellido . ' ' . $estudiante->segundo_apellido) }}</span>
                 Cédula de identidad N°:
                 <span class="subrayado bold">
-                    @if($estudiante->nacionalidad === 'VE')
+                    @if ($estudiante->nacionalidad === 'VE')
                         {{ 'V-' . $estudiante->cedula }}
                     @else
                         {{ 'E-' . $estudiante->cedula }}
@@ -150,18 +171,20 @@
                 aprobará la Unidad Curricular en el periodo
                 <span class="subrayado bold">{{ ucwords($periodo->nombre) }}</span>, con una calificación de
                 <span class="subrayado bold">{{ ucwords($notaTexto) }}</span>
-                <span class="subrayado bold">{{ '(' . $notas . ')' }}</span> puntos.
+                <span class="subrayado bold">{{ '(' . $notas . ')' }}</span> puntos. Motivado a:
+                <span class="subrayado bold">{{ ucwords($motivo) }}</span>
             </p>
         </div>
-        <p>Agradezco efectuar la corrección en el sistema de control de notas de DACE.</p>
+        <p>Agradezco efectuar la corrección en el sistema de control de notas de DRSCE.</p>
         <p>Sin más a que hacer referencia, me despido. Atentamente.</p>
         <div>
             <center>
                 <span class="firma-linea"></span>
             </center>
-            <p class="bold centrado leading-1">{{ ucwords(trim('firma docente')) }}</p>
             <p class="bold centrado leading-1">
-                @if($user->nacionalidad === 'VE')
+                {{ ucwords(trim('firma docente: ' . $user['primer-name'] . ' ' . $user['primer-apellido'])) }}</p>
+            <p class="bold centrado leading-1">
+                @if ($user->nacionalidad === 'VE')
                     {{ mb_strtoupper(trim('c.i.n°: V-' . $user->cedula), 'UTF-8') }}
                 @else
                     {{ mb_strtoupper(trim('c.i.n°: E-' . $user->cedula), 'UTF-8') }}
@@ -174,8 +197,9 @@
             <td colspan="2" class="bold centrado">{{ mb_strtoupper(trim('autorizado por')) }}</td>
         </tr>
         <tr>
-            <td class="bold centrado">{{ mb_strtoupper(trim('jefe del departamento académico')) }}</td>
-            <td class="bold centrado">{{ mb_strtoupper(trim('división docencia/recibe dace')) }}</td>
+            <td class="bold centrado w-50">{{ mb_strtoupper(trim('coordinador del pnf')) }}</td>
+            <td class="bold centrado w-50">{{ mb_strtoupper(trim('coordinador drsce / jefes de áreas'), 'UTF-8') }}
+            </td>
         </tr>
         <tr>
             <td class="padding-7">{{ mb_strtoupper(trim('nombre:')) }}</td>
@@ -207,8 +231,10 @@
             </li>
         </ul>
         <hr>
-        <p class="centrado">{{ mb_strtoupper(trim('corrección válida sin enmiendas.'), 'UTF-8') }}</p>
+        <p class="centrado border-none">{{ mb_strtoupper(trim('corrección válida sin enmiendas.'), 'UTF-8') }} <span
+                class="derecha">Página <span class="pagenum"></span></span> </p>
     </div>
+
 </body>
 
 </html>

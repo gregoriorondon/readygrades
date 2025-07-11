@@ -262,6 +262,7 @@ class ProfesorController extends Controller
         $request->validate([
             'asignacion_id' => 'required|exists:profesor_asignar,id',
             'nota'=>'required|numeric|min:1|max:20',
+            'motivo'=>'required|string',
             'materia'=>'required|string|exists:materias,materia',
             'campo_editar' => 'required|in:nota_uno,nota_dos,nota_tres,nota_cuatro,nota_extra',
         ],[
@@ -269,6 +270,8 @@ class ProfesorController extends Controller
             'nota.numeric'=>'La nota debe de ser de tipo numérico',
             'nota.min'=>'La nota debe de ser mínimo de 1 punto',
             'nota.max'=>'La nota no debe de superar los 20 puntos',
+            'motivo.required'=>'Para solicitar la corrección de la nota debe ingresar el motivo de su solicitud',
+            'motivo.string'=>'El motivo de su solicitud debe ser de tipo texto',
             'materia.required'=>'Debes de tener la materia para poder solicitar la corrección',
             'materia.string'=>'Debes de tener la materia como texto',
             'materia.exists'=>'La matería que está tratando de colocar no existe en el sistema, por favor no modifique el formulario para evitar errores en su solicitud',
@@ -302,7 +305,8 @@ class ProfesorController extends Controller
         $day = $fecha->day;
         $mes = $fecha->isoFormat('MMMM');
         $anio = $fecha->year;
-        $pdf = Pdf::loadView('pdf.teachers.solicitud-de-correccion', compact('user', 'estudiante', 'periodo', 'notaTexto', 'notas', 'materias', 'day', 'mes', 'anio'));
+        $motivo = $request->motivo;
+        $pdf = Pdf::loadView('pdf.teachers.solicitud-de-correccion', compact('user', 'estudiante', 'periodo', 'notaTexto', 'notas', 'materias', 'day', 'mes', 'anio', 'motivo'));
         $filename = 'Solicitud_de_correccion_de_notas_' . $estudiante->primer_name .'_' . $estudiante->primer_apellido . '_' . $estudiante->cedula . '_' . $materias . '_' . $estudiante->carreras->carrera . '.pdf';
         return $pdf->download($filename);
     }

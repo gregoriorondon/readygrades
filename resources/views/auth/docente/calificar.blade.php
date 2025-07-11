@@ -197,7 +197,8 @@
                 @csrf
                 <x-span>{{ ucwords(trim('ingrese la nota a editar para generar la solicitud. Descárguela y entréguela al administrador de ARSE para su corrección.')) }}</x-span>
                 <br>
-                <x-select-form name="nota" class="my-9 nota-select" id="notaSeleccionada">
+                <x-label class="mt-4">{{ ucwords('seleccione la nota que desea corregir:') }}</x-label>
+                <x-select-form name="nota" class="mb-4 nota-select" id="notaSeleccionada">
                     <option value="">{{ ucwords('seleccione la calificación a editar') }}</option>
                     @if (!empty($notas->nota_uno))
                         <option value="{{ $notas->nota_uno }}" data-nombre="nota_uno">
@@ -220,6 +221,9 @@
                             {{ ucwords('nota extra: ') . $notas->nota_extra }}</option>
                     @endif
                 </x-select-form>
+                <x-label>{{ ucwords('ingrese el motivo de su solicitud de corrección:') }}
+                    <x-input-form class="mb-9 mt-0" type="text" name="motivo" placeholder="Ejemplo: Error en la selección de la calificación..." autocomplete="off" />
+                </x-label>
                 <input type="hidden" name="campo_editar" id="campoEditar">
                 <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
                 <input type="hidden" name="materia" value="{{ $notas->pensums->materias->materia }}">
