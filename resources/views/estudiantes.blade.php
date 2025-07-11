@@ -18,7 +18,7 @@
             <form method="POST" action="/detalles-estudiante">
                 @csrf
                 <div>
-                    <x-input type="number" name="cedula" placeholder="Ingrese su Cédula" />
+                    <x-input type="number" name="cedula" placeholder="Ingrese su Cédula" autocomplete="off" />
                     <x-input-error name="cedula" />
                 </div>
                 <div class="flex items-center justify-end mt-4">

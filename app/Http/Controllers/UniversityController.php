@@ -27,11 +27,13 @@ class UniversityController extends Controller
             'cedula.required' => 'El campo cédula es obligatorio.',
             'cedula.numeric' => 'El campo cédula debe contener solo números.',
         ]);
-        $estudiante = StudentPublic::with(['tramos.trayectos','carreras','secciones'])->where('cedula', $request->cedula)->first();
+        $estudiante = StudentPublic::with(['tramos.trayectos','carreras','secciones'])
+            ->where('cedula', $request->cedula)
+            ->orderBy('created_at', 'desc')
+            ->first();
         if (! $estudiante) {
             return redirect()->back()->withErros(['cedula'=>'No se encuentra registrado en nuestra institución como un estudiante.']);
         }
-        /* return view('detalles-estudiante-publico', ['estudiante' => $student]); */
         return view('detalles-estudiante-publico', compact('estudiante'));
     }
     public function admin(){
