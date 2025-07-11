@@ -5,11 +5,11 @@
         <form action="/add-periodo" method="post">
             @csrf
             <x-label class="mt-3">Selecciona la fecha de inicio del período académico</x-label>
-            <x-input-form type="date" name="inicio" />
+            <x-input-form type="date" name="inicio" :value="old('inicio')" />
             <x-label class="mt-3">Selecciona la fecha de final del período académico</x-label>
-            <x-input-form type="date" name="fin" />
+            <x-input-form type="date" name="fin" :value="old('fin')" />
             <x-label class="mt-3">Coloca un nombre al período académico</x-label>
-            <x-input-form type="text" name="nombre" placeholder="Nombre del período académico" />
+            <x-input-form type="text" name="nombre" :value="old('nombre')" placeholder="Nombre del período académico" autocomplete="off" />
 
             <div class="mt-7 flex justify-between">
                 <x-button type="button" onclick="history.back()" class="bg-[#f00] hover:bg-[#b00]">Cancelar</x-button>

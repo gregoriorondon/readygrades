@@ -30,6 +30,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\Return_;
 
 class RegisteredAdminController extends Controller
 {
@@ -774,7 +775,6 @@ class RegisteredAdminController extends Controller
         return view('auth.periodo-academico', compact('periodo'));
     }
     public function addperiodo(Request $request) {
-        // dd($request);
         $atributos = $request->validate([
             'inicio'=>'required|unique:periodos,inicio',
             'fin'=>'required|unique:periodos,fin',
@@ -789,6 +789,10 @@ class RegisteredAdminController extends Controller
             'nombre.required'=>'No debe dejar el nombre del periodo académico en blanco.',
             'nombre.string'=>'No debe colocar carácteres especiales en el nombre del periodo académico.',
         ]);
+        $activo = Periodos::where('activo', true)->first();
+        if ($activo) {
+            return redirect()->back()->withInput()->withErrors(['error'=>'Actualmente ya existe un periodo activo']);
+        }
         $atributos['activo']=true;
         Periodos::create($atributos);
         return redirect()->back()->with('alert','Se creó e inició un nuevo periodo académico.');
@@ -938,6 +942,9 @@ class RegisteredAdminController extends Controller
         }
         return redirect()->route('asignar')->with('alert',$mensaje);
     }
+    // =============================================================================
+    // correccion de notas
+    // =============================================================================
     public function correccion($nota_id, $estudiante_id, $periodo_id, $pensums_id) {
         $notas = Notas::where('pensum_id', $pensums_id)->where('periodo_id', $periodo_id)->where('student_id', $estudiante_id)->first();
         $estudiante = Students::findOrFail($estudiante_id);
@@ -945,7 +952,6 @@ class RegisteredAdminController extends Controller
         $periodo = Periodos::findOrFail($periodo_id);
         return view('auth.correccion', compact('notas', 'estudiante', 'pensum', 'periodo'));
     }
-    // correccion de notas
     public function savecorreccion(Request $request) {
         $request->validate([
             'correccion'=>'required|numeric|min:1|max:20',
