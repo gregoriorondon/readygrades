@@ -117,7 +117,8 @@
                                                                 $materiaData['nota']->nota_uno +
                                                                 $materiaData['nota']->nota_dos +
                                                                 $materiaData['nota']->nota_tres +
-                                                                $materiaData['nota']->nota_cuatro;
+                                                                $materiaData['nota']->nota_cuatro +
+                                                                $materiaData['nota']->nota_extra;
                                                             $definitivaDivicion = round($definitiva / 4);
                                                         @endphp
                                                         <tr class="text-center odd:bg-gray-400/20">

@@ -117,7 +117,7 @@
                             <x-details-dd>
                                 @if (empty($notas->nota_extra))
                                     <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select"
-                                        id="notaExtra">
+                                        id="nota_extra">
                                         <option value="">{{ ucwords('seleccione') }}</option>
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
@@ -167,11 +167,11 @@
                 const nota2 = parseFloat(document.getElementById('nota2').value) || 0;
                 const nota3 = parseFloat(document.getElementById('nota3').value) || 0;
                 const nota4 = parseFloat(document.getElementById('nota4').value) || 0;
-                const notaExtra = parseFloat(document.getElementById('notaExtra').value) || 0;
+                const notaExtra = parseFloat(document.getElementById('nota_extra').value) || 0;
 
-                let sumaTotal = nota1 + nota2 + nota3 + nota4;
+                let sumaTotal = nota1 + nota2 + nota3 + nota4 + notaExtra;
 
-                if (notaExtra > 0) {
+                if ( notaExtra > 0) {
                     sumaTotal += notaExtra;
                 }
 

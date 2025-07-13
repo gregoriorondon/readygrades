@@ -22,7 +22,7 @@
                         @foreach ($notas as $nota)
                             <tr class="odd:bg-gray-100/20">
                                 @php
-                                    $suma = $nota->nota_uno + $nota->nota_dos + $nota->nota_tres + $nota->nota_cuatro;
+                                    $suma = $nota->nota_uno + $nota->nota_dos + $nota->nota_tres + $nota->nota_cuatro + $nota->nota_extra;
                                     $definitiva = round($suma / 4);
                                 @endphp
                                 <td class="py-3 font-inter text-center">{{ $definitiva }} pts</td>

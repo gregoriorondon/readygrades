@@ -103,7 +103,7 @@ class ProfesorController extends Controller
             'nota_dos' => 'nullable|numeric|min:0|max:20',
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
-            'notaExtra' => 'nullable|numeric|min:0|max:20',
+            'nota_extra' => 'nullable|numeric|min:0|max:20',
             // 'nota_definitiva' => 'required|numeric|min:0|max:20',
         ], [
             'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
@@ -116,7 +116,7 @@ class ProfesorController extends Controller
             'nota_dos' => 'nullable|numeric|min:0|max:20',
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
-            'notaExtra' => 'nullable|numeric|min:0|max:20',
+            'nota_extra' => 'nullable|numeric|min:0|max:20',
             // 'nota_definitiva.required' => 'Es necesario que ingrese la nota definitiva',
             // 'nota_definitiva.numeric' => 'La definitiva debe ser un valor numérico',
         ]);
@@ -137,6 +137,7 @@ class ProfesorController extends Controller
                 'nota_dos' => $request->nota_dos,
                 'nota_tres' => $request->nota_tres,
                 'nota_cuatro' => $request->nota_cuatro,
+                'nota_extra' => $request->nota_extra,
                 // 'nota_recuperacion' => $request->notaExtra,
                 // 'nota_definitiva' => $request->nota_definitiva,
             ]);
@@ -152,6 +153,9 @@ class ProfesorController extends Controller
             }
             if (is_null($notas->nota_cuatro) && !is_null($request->nota_cuatro)) {
                 $notas->nota_cuatro = $request->nota_cuatro;
+            }
+            if (is_null($notas->nota_extra) && !is_null($request->nota_extra)) {
+                $notas->nota_extra = $request->nota_extra;
             }
             if (is_null($notas->nota_recuperacion) && !is_null($request->notaExtra)) {
                 $notas->nota_recuperacion = $request->notaExtra;
