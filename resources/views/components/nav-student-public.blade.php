@@ -5,8 +5,8 @@
         <button id="exit" title="Volver / Salir"><i class="fa-solid fa-arrow-right-from-bracket m-0"></i></button>
         </div>
         <div class="views-button-data-public-student">
-            <button class="overview active-button">Descripción General</button>
-            <button class="score">Calificaciones</button>
+            <button class="overview active-button"><i class="fas fa-user-graduate"></i>Descripción General</button>
+            <button class="score"><i class="fas fa-award"></i>Calificaciones</button>
         </div>
     </section>
 </div>

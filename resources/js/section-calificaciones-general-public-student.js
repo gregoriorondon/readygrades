@@ -1,6 +1,7 @@
 let general = document.querySelector('.overview');
 let calificacion = document.querySelector('.score');
 let boton = document.querySelector('.calificacion-publica');
+let botonDos = document.querySelector('.datos-publico');
 let basic = document.querySelector('.data-public-student-details');
 let notas = document.querySelector('.notas-students');
 
@@ -26,4 +27,12 @@ boton.addEventListener('click', ()=>{
     basic.classList.add('hidden');
     calificacion.classList.add('active-button');
     notas.classList.remove('hidden');
+});
+
+botonDos.addEventListener('click', ()=>{
+    basic.classList.add('data-public-student-details');
+    general.classList.add('active-button');
+    basic.classList.remove('hidden');
+    calificacion.classList.remove('active-button');
+    notas.classList.add('hidden');
 });

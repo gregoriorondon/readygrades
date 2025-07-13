@@ -1,5 +1,12 @@
-<title>Detalles de {{ $estudiante['primer_name'] }}</title>
-<x-import />
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de {{ $estudiante['primer_name'] }}</title>
+    <x-import />
+</head>
 
 <body class="cuerpo">
     <x-nav-student-public>
@@ -37,19 +44,17 @@
                 <x-name-title-student-public>Núcleo de Estudios</x-name-title-student-public>
                 <x-date-student-public>{{ $estudiante->nucleos->nucleo }}</x-date-student-public>
             </div>
-            <div>
-                <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
-                <x-date-student-public>{{ $estudiante->carreras->carrera }}</x-date-student-public>
-            </div>
-            <div>
-                <x-name-title-student-public>Trayecto y Tramo Actual</x-name-title-student-public>
-                <x-date-student-public>
-                    @foreach ($estudiante->tramos->trayectos as $trayectos)
-                        {{ $trayectos->trayectos }}
-                    @endforeach
-                    - {{ $estudiante->tramos->tramos }}
-                </x-date-student-public>
-            </div>
+            @foreach ($tramosActuales as $carreraId => $tramos)
+                @php
+                    $carrera = $notasAgrupadas[$carreraId]['carrera'] ?? null;
+                @endphp
+                @if ($carrera)
+                    <div>
+                        <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
+                        <x-date-student-public>{{ $carrera->carrera . ' - ' . $tramos['tramo']->tramos }}</x-date-student-public>
+                    </div>
+                @endif
+            @endforeach
             <div>
                 <x-name-title-student-public>Sección Actual</x-name-title-student-public>
                 <x-date-student-public>
@@ -57,7 +62,7 @@
                 </x-date-student-public>
             </div>
             <div>
-                <button class="calificacion-publica">Ver Tus Notas Académicas</button>
+                <button class="calificacion-publica"><i class="fas fa-award"></i>Ver Tus Notas Académicas</button>
             </div>
         </section>
         <section class="card-logo-public">
@@ -141,6 +146,9 @@
                     @endif
                 </details>
             @endforeach
+            <div class="flex justify-center text-xl">
+                <button class="datos-publico"><i class="fas fa-user-graduate"></i>Ver Tus Datos Personales</button>
+            </div>
         </section>
         <section class="card-logo-public">
             <x-authentication-card-logo />
@@ -153,3 +161,6 @@
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
     <x-footer />
 </body>
+</body>
+
+</html>

@@ -99,7 +99,20 @@ class UniversityController extends Controller
                 'nota' => $nota
             ];
         }
-        return view('detalles-estudiante-publico', compact('estudiante', 'notasAgrupadas'));
+
+        $tramosActuales = [];
+        foreach ($registrosAcademicos as $registro) {
+            $carreraId = $registro->carrera_id;
+
+            if (!isset($tramosActuales[$carreraId]) ||
+                    $registro->created_at > $tramosActuales[$carreraId]['fecha']) {
+                $tramosActuales[$carreraId] = [
+                    'tramo' => $registro->tramos,
+                    'fecha' => $registro->created_at
+                ];
+            }
+        }
+        return view('detalles-estudiante-publico', compact('estudiante', 'notasAgrupadas', 'tramosActuales'));
     }
 
     public function admin()

@@ -879,7 +879,7 @@ details[open] summary ~ * {
         display: none;
     }
 }
-.calificacion-publica{
+.calificacion-publica, .datos-publico{
     padding: 7px 14px;
     font-family: 'Inter';
     background-color: var(--botones);
@@ -888,7 +888,7 @@ details[open] summary ~ * {
     margin-top: 21px;
     transition: ease-in-out .2s;
 }
-.calificacion-publica:hover{
+.calificacion-publica:hover, .datos-publico:hover{
     background-color: var(--botones-hover);
 }
 .divcarreratramonucleo{
