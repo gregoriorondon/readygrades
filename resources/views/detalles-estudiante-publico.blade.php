@@ -70,7 +70,12 @@
         </section>
     </div>
     <div class="hidden notas-students flex justify-center items-center">
-        <section class="notas w-[35%] mr-6">
+        <section class="notas w-full lg:w-[50%] mx-6">
+            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">
+                {{ ucwords('calificaciones académicas') }}
+            </h1>
+            <p class="font-inter mb-7">
+                {{ ucwords('En esta sección, podrás consultar tus calificaciones correspondientes a las carreras y tramos que has cursado.') }}</p>
             @foreach ($notasAgrupadas as $carreraId => $carreraData)
                 <details class="border-2 rounded-xl text-xl divide-y-2  text-[#4272d8] my-3 detalles-carreras">
                     <summary
@@ -91,22 +96,12 @@
                                 @if (empty($tramoData['materias']))
                                     <p class="pl-12 py-3">No hay materias registradas</p>
                                 @else
-                                    @foreach ($tramoData['materias'] as $materiaId => $materiaData)
-                                        @php
-                                            $definitiva =
-                                                $materiaData['nota']->nota_uno +
-                                                $materiaData['nota']->nota_dos +
-                                                $materiaData['nota']->nota_tres +
-                                                $materiaData['nota']->nota_cuatro;
-                                            $definitivaDivicion = round($definitiva / 4);
-                                        @endphp
-                                        <details class="divide-y-2 materias-publico">
-                                            <summary class="pl-12 py-3 cursor-pointer">
-                                                {{ $materiaData['materia']->materia }}
-                                            </summary>
+                                    <div class="materias-tabla overflow-x-auto">
+                                        <div class="">
                                             <table class="w-full tabla-notas-publico">
                                                 <thead>
-                                                    <tr class="divide-x-2 divide-[#4272d8] text-center">
+                                                    <tr class="text-center">
+                                                        <th title="Título De La Materia">Materia</th>
                                                         <th title="Primera Nota">25%</th>
                                                         <th title="Segunda Nota">25%</th>
                                                         <th title="Trecera Nota">25%</th>
@@ -116,30 +111,43 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr class="divide-x-2 divide-[#4272d8] text-center">
-                                                        <td
-                                                            title="Primera nota de la asignatura es: {{ $materiaData['nota']->nota_uno ?? 'Aún no tienes nota' }}">
-                                                            {{ $materiaData['nota']->nota_uno }}</td>
-                                                        <td
-                                                            title="Segunda nota de la asignatura es: {{ $materiaData['nota']->nota_dos ?? 'Aún no tienes nota' }}">
-                                                            {{ $materiaData['nota']->nota_dos }}</td>
-                                                        <td
-                                                            title="Tercera nota de la asignatura es: {{ $materiaData['nota']->nota_tres ?? 'Aún no tienes nota' }}">
-                                                            {{ $materiaData['nota']->nota_tres }}</td>
-                                                        <td
-                                                            title="Cuarta nota de la asignatura es: {{ $materiaData['nota']->nota_cuatro ?? 'Aún no tienes nota' }}">
-                                                            {{ $materiaData['nota']->nota_cuatro }}</td>
-                                                        <td
-                                                            title="Nota extra de la asignatura es: {{ $materiaData['nota']->nota_extra ?? 'Aún no tienes nota' }}">
-                                                            {{ $materiaData['nota']->nota_extra }}</td>
-                                                        <td
-                                                            title="La definitiva es una suma de las calificaciones dividida entre 4">
-                                                            {{ $definitivaDivicion . ' pts' }}</td>
-                                                    </tr>
+                                                    @foreach ($tramoData['materias'] as $materiaId => $materiaData)
+                                                        @php
+                                                            $definitiva =
+                                                                $materiaData['nota']->nota_uno +
+                                                                $materiaData['nota']->nota_dos +
+                                                                $materiaData['nota']->nota_tres +
+                                                                $materiaData['nota']->nota_cuatro;
+                                                            $definitivaDivicion = round($definitiva / 4);
+                                                        @endphp
+                                                        <tr class="text-center odd:bg-gray-400/20">
+                                                            <td class="min-w-[200px] font-inter">
+                                                                {{ ucwords($materiaData['materia']->materia) }}
+                                                            </td>
+                                                            <td class="min-w-16"
+                                                                title="Primera nota de la asignatura es: {{ $materiaData['nota']->nota_uno ?? 'Aún no tienes nota' }}">
+                                                                {{ $materiaData['nota']->nota_uno }}</td>
+                                                            <td class="min-w-16"
+                                                                title="Segunda nota de la asignatura es: {{ $materiaData['nota']->nota_dos ?? 'Aún no tienes nota' }}">
+                                                                {{ $materiaData['nota']->nota_dos }}</td>
+                                                            <td class="min-w-16"
+                                                                title="Tercera nota de la asignatura es: {{ $materiaData['nota']->nota_tres ?? 'Aún no tienes nota' }}">
+                                                                {{ $materiaData['nota']->nota_tres }}</td>
+                                                            <td class="min-w-16"
+                                                                title="Cuarta nota de la asignatura es: {{ $materiaData['nota']->nota_cuatro ?? 'Aún no tienes nota' }}">
+                                                                {{ $materiaData['nota']->nota_cuatro }}</td>
+                                                            <td class="min-w-16"
+                                                                title="Nota extra de la asignatura es: {{ $materiaData['nota']->nota_extra ?? 'Aún no tienes nota' }}">
+                                                                {{ $materiaData['nota']->nota_extra }}</td>
+                                                            <td class="min-w-16"
+                                                                title="La definitiva es una suma de las calificaciones dividida entre 4">
+                                                                {{ $definitivaDivicion . ' pts' }}</td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
-                                        </details>
-                                    @endforeach
+                                        </div>
+                                    </div>
                                 @endif
                             </details>
                         @endforeach
@@ -149,8 +157,14 @@
             <div class="flex justify-center text-xl">
                 <button class="datos-publico"><i class="fas fa-user-graduate"></i>Ver Tus Datos Personales</button>
             </div>
+            <div class="warni">
+                <span class="war1 font-inter">Tenga en cuenta que si intenta copiar o tomar alguna foto de las notas que
+                    quiere visualizar</span>
+                <br>
+                <span class="war2 font-inter">NO TIENEN NINGÚN VALOR ACADÉMICO LEGAL</span>
+            </div>
         </section>
-        <section class="card-logo-public">
+        <section class="card-logo-public mr-6 lg:block hidden">
             <x-authentication-card-logo />
         </section>
     </div>
@@ -160,7 +174,6 @@
     </div>
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
     <x-footer />
-</body>
 </body>
 
 </html>

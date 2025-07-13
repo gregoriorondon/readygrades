@@ -1057,17 +1057,17 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #fff;
     border-radius: 0px;
 }
+.tramos-detalles[open] summary{
+    background-color: var(--botones-hover);
+    color: #fff;
+    border-radius: 0px;
+}
 .tramos-detalles:last-child summary:hover{
     background-color: var(--botones-hover);
     color: #fff;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 }
-/* .tramos-detalles summary:hover{ */
-/*     background-color: var(--botones-hover); */
-/*     color: #fff; */
-/*     border-radius: 12px; */
-/* } */
 .materias-publico summary:hover{
     background-color: var(--botones-hover);
     color: #fff;
@@ -1082,16 +1082,27 @@ input[type="number"]::-webkit-inner-spin-button {
     /* border: none; */
     user-select: none;
     border-color: var(--botones);
-    background-color: var(--botones-hover);
-    color: #fff;
+    /* background-color: var(--botones-hover); */
+    /* color: #fff; */
+    color: var(--texto);
 }
 .tabla-notas-publico th{
     border-bottom: 1px solid;
     border-color: var(--botones);
 }
 .tabla-notas-publico th, td{
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding: 21px 7px;
+    min-width: 100px;
+}
+.materias-tabla{
+    border: 1px solid !important;
+    border-bottom: 1px solid;
+    border-color: var(--botones);
+    margin: 8px;
+    border-radius: 7px;
+}
+.notas-students{
+    margin: 0px 12px;
 }
 
 /*===========================================*/
