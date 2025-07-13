@@ -20,8 +20,13 @@ class StudentPublic extends Model
     }
     public function trayectos() {
         return $this->belongsToMany(Trayectos::class, 'tramo_trayecto_id');
-    }
+    }public function tramoTrayecto() {
+    return $this->belongsTo(TramoTrayecto::class, 'tramo_trayecto_id');
+}
     public function secciones(){
         return $this->belongsTo(Secciones::class, 'seccion_id');
+    }
+    public function notas() {
+        return $this->hasMany(Notas::class);
     }
 }

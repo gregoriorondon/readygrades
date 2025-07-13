@@ -7,7 +7,6 @@
         <div class="views-button-data-public-student">
             <button class="overview active-button">Descripción General</button>
             <button class="score">Calificaciones</button>
-            @Vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
         </div>
     </section>
 </div>

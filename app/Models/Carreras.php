@@ -16,4 +16,7 @@ class Carreras extends Model
     public function inscripciones(){
         return $this->hasMany(Inscripciones::class);
     }
+    public function student() {
+        return $this->belongsTo(StudentPublic::class, 'carrera_id');
+    }
 }
