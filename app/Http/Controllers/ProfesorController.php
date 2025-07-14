@@ -88,7 +88,7 @@ class ProfesorController extends Controller
             ->first();
 
         if (!$notas) {
-            return redirect()->back()->withErrors(['error'=>'El o la estudiante que fue asígnado a usted, su inscripción tuvo un error, porfavor informe este hecho para resolver el error']);
+            return redirect()->back()->withErrors(['error' => 'El o la estudiante que fue asígnado a usted, su inscripción tuvo un error, porfavor informe este hecho para resolver el error']);
         }
         return view('auth.docente.calificar', compact('asignacion', 'estudiante', 'notas'));
     }
@@ -208,7 +208,6 @@ class ProfesorController extends Controller
             'pensum_id.exists' => 'El identificador del pensum no coincide con lo identificadores dentro del sistema',
         ]);
 
-        $user = Auth::guard('teachers')->user();
         $no_encontrados = collect($request->cedula)->filter(function ($cedula) {
             return !Students::where('cedula', $cedula)->exists();
         });
@@ -217,42 +216,42 @@ class ProfesorController extends Controller
             return redirect()->back()->withErrors(['error' => 'Uno o más estudiantes no están registrados en el sistema.']);
         }
 
-        $lapso = Periodos::all()->first();
-        $notas = Notas::where('pensum_id', $request->pensum_id)->where('periodo_id', $lapso->id)->get();
-        $notasPorEstudiante = [];
-        foreach ($notas as $nota) {
-            $notasPorEstudiante[$nota->student_id] = $nota;
-        }
-        $estudiantesIds = [];
-        foreach ($request->cedula as $cedula) {
-            $estudiante = Students::where('cedula', $cedula)->first();
-            if ($estudiante) {
-                $estudiantesIds[$cedula] = $estudiante->id;  // [cedula => student_id]
-            }
-        }
+        $cedulas = $request->cedula;
+        $studentIds = Students::whereIn('cedula', $cedulas)->pluck('id')->toArray();
+        $estudiantes = Students::whereIn('id', $studentIds)->get();
         $fecha = Carbon::now();
         $dia = $fecha->day;
         $mes = $fecha->month;
         $anio = $fecha->year;
-        $carrera = $request->carrera;
-        $codigo = $request->codigoasig;
+        $lapso = Periodos::find($request->periodo_id ?? $estudiantes->first()->periodo_id);
         $materia = $request->asignatura;
+        $codigo = $request->codigoasig;
+        $seccion = $estudiantes->first()->secciones;
         $unidad = Materias::where('materia', $materia)->value('unidadcurricular');
-        $nombres = [];
-        $apellidos = [];
-
-        foreach ($request->primernombre as $i => $nombre) {
-            $nombres[] = $nombre . ' ' . ($request->segundonombre[$i] ?? '');
-        }
-
-        foreach ($request->primerapellido as $i => $apellido) {
-            $apellidos[] = $apellido . ' ' . ($request->segundoapellido[$i] ?? '');
-        }
+        $user = Auth::guard('teachers')->user();
+        $notasPorEstudiante = Notas::where('pensum_id', $request->pensum_id)
+            ->whereIn('student_id', $studentIds)
+            ->get()
+            ->keyBy('student_id');
+        $carrera = $request->carrera;
         $aula = $request->aula;
-        $primerEstudiante = Students::where('cedula', $request->cedula[0])->first();
-        $seccion = $primerEstudiante->secciones;
-        $cedulas = $request->cedula;
-        $pdf = Pdf::loadView('pdf.teachers.acta-calification', compact('aula', 'notasPorEstudiante', 'estudiantesIds', 'seccion', 'carrera', 'unidad', 'materia', 'codigo', 'cedulas', 'lapso', 'dia', 'mes', 'anio', 'nombres', 'apellidos', 'user'))->setPaper('A4');
+        $pdf = Pdf::loadView('pdf.teachers.acta-calification',
+            compact(
+                'cedulas',
+                'estudiantes',
+                'dia',
+                'mes',
+                'anio',
+                'lapso',
+                'materia',
+                'codigo',
+                'seccion',
+                'unidad',
+                'user',
+                'notasPorEstudiante',
+                'carrera',
+                'aula',
+            ))->setPaper('A4');
         $pdf->setOptions(['isRemoteEnabled' => true]);
         $filename = 'Constancia_de_estudios_' . $carrera . '_' . $materia . '.pdf';
         return $pdf->download($filename);
@@ -265,20 +264,20 @@ class ProfesorController extends Controller
     {
         $request->validate([
             'asignacion_id' => 'required|exists:profesor_asignar,id',
-            'nota'=>'required|numeric|min:1|max:20',
-            'motivo'=>'required|string',
-            'materia'=>'required|string|exists:materias,materia',
+            'nota' => 'required|numeric|min:1|max:20',
+            'motivo' => 'required|string',
+            'materia' => 'required|string|exists:materias,materia',
             'campo_editar' => 'required|in:nota_uno,nota_dos,nota_tres,nota_cuatro,nota_extra',
-        ],[
-            'nota.required'=>'Debes de elegir la nota que deseas editar',
-            'nota.numeric'=>'La nota debe de ser de tipo numérico',
-            'nota.min'=>'La nota debe de ser mínimo de 1 punto',
-            'nota.max'=>'La nota no debe de superar los 20 puntos',
-            'motivo.required'=>'Para solicitar la corrección de la nota debe ingresar el motivo de su solicitud',
-            'motivo.string'=>'El motivo de su solicitud debe ser de tipo texto',
-            'materia.required'=>'Debes de tener la materia para poder solicitar la corrección',
-            'materia.string'=>'Debes de tener la materia como texto',
-            'materia.exists'=>'La matería que está tratando de colocar no existe en el sistema, por favor no modifique el formulario para evitar errores en su solicitud',
+        ], [
+            'nota.required' => 'Debes de elegir la nota que deseas editar',
+            'nota.numeric' => 'La nota debe de ser de tipo numérico',
+            'nota.min' => 'La nota debe de ser mínimo de 1 punto',
+            'nota.max' => 'La nota no debe de superar los 20 puntos',
+            'motivo.required' => 'Para solicitar la corrección de la nota debe ingresar el motivo de su solicitud',
+            'motivo.string' => 'El motivo de su solicitud debe ser de tipo texto',
+            'materia.required' => 'Debes de tener la materia para poder solicitar la corrección',
+            'materia.string' => 'Debes de tener la materia como texto',
+            'materia.exists' => 'La matería que está tratando de colocar no existe en el sistema, por favor no modifique el formulario para evitar errores en su solicitud',
             'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
             'asignacion_id.exists' => 'La asignación que está tratando de usar no existe.',
         ]);
@@ -311,7 +310,7 @@ class ProfesorController extends Controller
         $anio = $fecha->year;
         $motivo = $request->motivo;
         $pdf = Pdf::loadView('pdf.teachers.solicitud-de-correccion', compact('user', 'estudiante', 'periodo', 'notaTexto', 'notas', 'materias', 'day', 'mes', 'anio', 'motivo'));
-        $filename = 'Solicitud_de_correccion_de_notas_' . $estudiante->primer_name .'_' . $estudiante->primer_apellido . '_' . $estudiante->cedula . '_' . $materias . '_' . $estudiante->carreras->carrera . '.pdf';
+        $filename = 'Solicitud_de_correccion_de_notas_' . $estudiante->primer_name . '_' . $estudiante->primer_apellido . '_' . $estudiante->cedula . '_' . $materias . '_' . $estudiante->carreras->carrera . '.pdf';
         return $pdf->download($filename);
     }
 }

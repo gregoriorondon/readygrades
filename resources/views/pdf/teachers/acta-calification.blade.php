@@ -226,7 +226,7 @@
                     <td colspan="3" rowspan="2" class="tipoevacol">
                         {{ mb_strtoupper(trim('tipo de evaluación'), 'UTF-8') }}
                     </td>
-                    <td colspan="4" class="evaluiacioncol">
+                    <td colspan="5" class="evaluiacioncol">
                         {{ mb_strtoupper(trim('continua'), 'UTF-8') }}
                     </td>
                     <td colspan="2" class="definitivacol" style="border-bottom: none;">
@@ -262,6 +262,13 @@
                             {{ mb_strtoupper(trim('25,00'), 'UTF-8') }}
                         </span>
                     </td>
+                    <td rowspan="2" class="notas bold">
+                        {{ mb_strtoupper(trim('EXTRA'), 'UTF-8') }}
+                        <br>
+                        <span class="por light">
+                            {{ mb_strtoupper(trim(''), 'UTF-8') }}
+                        </span>
+                    </td>
                     <td class="defi">
                         {{ mb_strtoupper(trim('acum'), 'UTF-8') }}
                     </td>
@@ -287,30 +294,38 @@
                     </td>
                 </tr>
             </thead>
-            <!-- TODOS LOS DATOS DEL ESTUDIANTE -->
             <tbody>
-                @for ($i = 0; $i < count($nombres); $i++)
-                    @php
-                        $cedula = $cedulas[$i];
-                        $studentId = $estudiantesIds[$cedula] ?? null;
-                        $nota = $studentId ? $notasPorEstudiante[$studentId] ?? null : null;
-                    @endphp
+                @foreach ($notasPorEstudiante as $notas)
                     <tr>
-                        <td class="numero borde">{{ $i + 1 }}</td>
-                        <td class="cedula borde">{{ $cedulas[$i] }}</td>
-                        <td class="nombre borde">{{ trim($apellidos[$i]) . ', ' . trim($nombres[$i]) }}</td>
-                        <td class="notas borde">{{ $nota->nota_uno ?? '' }}</td>
-                        <td class="notas borde">{{ $nota->nota_dos ?? '' }}</td>
-                        <td class="notas borde">{{ $nota->nota_tres ?? '' }}</td>
-                        <td class="notas borde">{{ $nota->nota_cuatro ?? '' }}</td>
-                        <td class="nota borde">null</td>
+                        <td class="numero borde">{{ $loop->iteration }}</td>
+                        <td class="cedula borde">{{ $notas->students->cedula }}</td>
+                        <td class="nombre borde">
+                            {{ $notas->students->primer_apellido .
+                                ' ' .
+                                $notas->students->segundo_apellido .
+                                ' ' .
+                                $notas->students->primer_name .
+                                ' ' .
+                                $notas->students->segundo_name }}
+                        </td>
+                        <td class="notas borde">{{ $notas->nota_uno }}</td>
+                        <td class="notas borde">{{ $notas->nota_dos }}</td>
+                        <td class="notas borde">{{ $notas->nota_tres }}</td>
+                        <td class="notas borde">{{ $notas->nota_cuatro }}</td>
+                        <td class="notas borde">{{ $notas->nota_extra }}</td>
+                        <td class="nota borde"></td>
                         @php
-                            $notasuma = $nota['nota_uno'] + $nota['nota_dos'] + $nota['nota_tres'] + $nota['nota_cuatro'];
+                            $notasuma =
+                                $notas->nota_uno +
+                                $notas->nota_dos +
+                                $notas->nota_tres +
+                                $notas->nota_cuatro +
+                                $notas->nota_extra;
                             $notaDefinitiva = round($notasuma / 4);
                         @endphp
                         <td class="nota borde">{{ $notaDefinitiva }}</td>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
