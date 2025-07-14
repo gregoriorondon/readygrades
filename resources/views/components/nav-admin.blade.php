@@ -17,6 +17,7 @@
                 <x-sidebar-section link="carreras" icon="fa-solid fa-graduation-cap">Carreras</x-sidebar-section>
                 <x-sidebar-section link="tramos-y-trayectos" icon="fa-solid fa-list-timeline">Trayectos y Tramos</x-sidebar-section>
                 <x-sidebar-section link="pensum" icon="fa-solid fa-scroll">Pensum</x-sidebar-section>
+                <x-sidebar-section link="students-academic-tittle" icon="fas fa-file-certificate">Títulos Académicos</x-sidebar-section>
         </details>
     @endcan
     <x-sidebar-section link="estudiantes-panel-administrativo" icon="fa-duotone fa-solid fa-user-graduate">Estudiantes</x-sidebar-section>
