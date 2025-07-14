@@ -59,6 +59,12 @@
                     </x-details-dd>
                 </x-details-div>
                 <x-details-div>
+                    <x-details-dt>Código:</x-details-dt>
+                    <x-details-dd>
+                        {{ $estudiantes->codigo }}
+                    </x-details-dd>
+                </x-details-div>
+                <x-details-div>
                     <x-details-dt>Teléfono:</x-details-dt>
                     <x-details-dd>
                         @if ($estudiantes->telefono === null)

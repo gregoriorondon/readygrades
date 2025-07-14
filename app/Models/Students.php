@@ -15,6 +15,7 @@ class Students extends Model
         'genero',
         'nacionalidad',
         'cedula',
+        'codigo',
         'telefono',
         'fecha_nacimiento',
         'email',

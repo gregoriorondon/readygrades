@@ -8,7 +8,9 @@
                     @csrf
                     <div class="space-y-12 p-[21px]">
                         <div class="border-gray-900/10 pb-12">
-                            <p class="mt-7 text-xl font-inter text-gray-400">{{ mb_convert_case('cambie únicamente los datos que desea corregir', MB_CASE_TITLE, 'UTF-8') }}</p>
+                            <p class="mt-7 text-xl font-inter text-gray-400">
+                                {{ mb_convert_case('cambie únicamente los datos que desea corregir', MB_CASE_TITLE, 'UTF-8') }}
+                            </p>
 
                             <div class="border-gray-900/10 pb-12">
                                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -182,6 +184,15 @@
                                                         </option>
                                                     @endforeach
                                                 </x-select-form>
+                                            </div>
+                                        </div>
+                                        <div class="carreratramonucleo">
+                                            <div class="mt-2">
+                                                <x-label class="after:content-['*'] after:text-red-400">Agregar
+                                                    Código</x-label>
+                                                <x-input-form name="codigo" autocomplete="off"
+                                                    placeholder="Agregar código al estudiante"
+                                                    value="{{ $estudiantes->codigo }}" />
                                             </div>
                                         </div>
                                     </div>

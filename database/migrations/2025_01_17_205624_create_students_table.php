@@ -87,6 +87,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('cedula');
+            $table->string('codigo');
             $table->string('primer_name');
             $table->string('segundo_name')->nullable();
             $table->string('primer_apellido');

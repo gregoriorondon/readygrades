@@ -148,7 +148,12 @@
                                 </x-select-form>
                             </div>
                         </div>
-
+                        <div class="carreratramonucleo">
+                            <div class="mt-2">
+                                <x-label class="after:content-['*'] after:text-red-400">Agregar Código</x-label>
+                                <x-input-form name="codigo" autocomplete="off" placeholder="Agregar código al estudiante" :value="old('codigo')" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

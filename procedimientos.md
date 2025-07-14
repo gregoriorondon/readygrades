@@ -117,7 +117,17 @@ Se agrego en `factories` un usuario y un núcleo por defecto para poder crear el
 php artisan tinker
 ```
 
-Luego dentro de este ejecutamos el siguiente comando para crear el núcleo:
+Luego dentro de este ejecutamos el siguiente comando:
+
+```sh
+App\Models\Cargos::factory()->create()
+```
+
+
+```sh
+App\Models\Estudios::factory()->create()
+```
+
 
 ```sh
 App\Models\Nucleos::factory()->create()

@@ -116,6 +116,7 @@ class RegisteredAdminController extends Controller
             'carrera_id'=>['required','numeric','exists:carreras,id'],
             'tramo_trayecto_id'=>['required','numeric', 'exists:tramo_trayecto,id'],
             'seccion_id'=>['nullable','numeric','exists:secciones,id' ],
+            'codigo'=>'required|string',
         ],[
             'cedula.required'=>'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric'=>'La cédula de identidad no debe contener carácteres no númericos.',
@@ -140,6 +141,7 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.required'=>'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
             'tramo_trayecto_id.numeric'=>'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
             'tramo_trayecto_id.exists'=>'El tramo y trayecto no es válido.',
+            'codigo.required'=>'Es obligatorio que coloque un código al estudiante',
         ]);
 
         $periodo = Periodos::first();
@@ -150,12 +152,12 @@ class RegisteredAdminController extends Controller
 
         $existeInscripcion = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
-            ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
+            // ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->where('periodo_id', $periodo->id)
             ->exists();
 
         if ($existeInscripcion) {
-            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y trimestre.']);
+            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
         }
 
         $materiasPensum = Pensum::where('carrera_id', $request->carrera_id)
