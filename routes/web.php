@@ -50,7 +50,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/registro', 'store');
     Route::get('/nomina-administradores', 'admininfo');
     Route::get('/administrador-panel-administrativo/{administrador}', 'admindetails');
+    //Generar
     Route::get('/generar-documentos', 'generar');
+    Route::post('/submit-student-cedula', 'busquedagenerar');
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
     //Cargo

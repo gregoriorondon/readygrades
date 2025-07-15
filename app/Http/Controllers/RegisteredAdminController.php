@@ -107,7 +107,7 @@ class RegisteredAdminController extends Controller
         }])->get();
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
-        $periodo = Periodos::first();
+        $periodo = Periodos::where('activo', true)->first();
         return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo'));
     }
 
@@ -158,9 +158,9 @@ class RegisteredAdminController extends Controller
             'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
         ]);
 
-        $periodo = Periodos::first();
+        $periodo = Periodos::where('activo', true)->first();
 
-        if (!$periodo->activo) {
+        if (!$periodo) {
             return redirect()->back()->withInput()->withErrors(['error' => 'El periodo que está tratando de usar está cerrado.']);
         }
 
@@ -205,7 +205,7 @@ class RegisteredAdminController extends Controller
         $courses = Carreras::orderByRaw('carrera ASC')->get();
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
-        $periodo = Periodos::first();
+        $periodo = Periodos::where('activo', true)->first();
         return view('auth.studentedit', compact('estudiantes', 'courses', 'trayectos', 'nucleos', 'secciones', 'periodo'));
     }
 
@@ -609,14 +609,16 @@ class RegisteredAdminController extends Controller
         return back()->with('status', 'Sesión cerrada exitosamente.');
     }
 
+    // ======================================================
+    //      GENERAR
+    // ======================================================
     public function generar()
     {
         return view('auth.generar');
     }
 
-    public function generarprocess(Request $request)
+    public function busquedagenerar(Request $request)
     {
-        /* dd($request); */
         $datosgenerar = $request->validate([
             'cedula' => ['required', 'numeric', 'min_digits:7'],
         ], [
@@ -624,45 +626,84 @@ class RegisteredAdminController extends Controller
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
             'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
         ]);
+        $cedula = Students::where('cedula', $datosgenerar)->first();
+        if (!$cedula) {
+            return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
+        }
+        $activo = Periodos::where('activo', true)->first();
+        $estudiantes = Students::where('cedula', $datosgenerar)
+            ->where('periodo_id', $activo->id)
+            ->get();
+        return view('auth.busqueda-generar', compact('cedula', 'estudiantes'));
+    }
+
+    public function generarprocess(Request $request)
+    {
+        $datosgenerar = $request->validate([
+            'cedula' => ['required', 'numeric', 'min_digits:7'],
+            'carrera_id'=>'required|numeric|exists:carreras,id',
+        ], [
+            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+            'carrera_id.required' => 'Es necesario que coloque la ccarrera del estudiante.',
+            'carrera_id.numeric' => 'La carrera no debe contener carácteres no númericos.',
+            'carrera_id.exists' => 'La ccarrera no coincide con las carreras del sistema.',
+        ]);
         $existe = Students::where('cedula', $datosgenerar)->first();
         if (!$existe) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
-        if ($request->solicitud == 'record') {
-            return redirect()->back()->with('alert', 'Todavia no funciona esa opcion');
-        }
-        if ($request->solicitud == 'constancia') {
-            $fecha = Carbon::now();
+        $fecha = Carbon::now();
 
-            $diasEnLetras = [
-                1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
-                6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
-                11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
-                16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve',
-                20 => 'veinte', 21 => 'veintiuno', 22 => 'veintidós', 23 => 'veintitrés',
-                24 => 'veinticuatro', 25 => 'veinticinco', 26 => 'veintiséis', 27 => 'veintisiete',
-                28 => 'veintiocho', 29 => 'veintinueve', 30 => 'treinta', 31 => 'treinta y uno'
-            ];
+        $diasEnLetras = [
+            1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
+            6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
+            11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
+            16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve',
+            20 => 'veinte', 21 => 'veintiuno', 22 => 'veintidós', 23 => 'veintitrés',
+            24 => 'veinticuatro', 25 => 'veinticinco', 26 => 'veintiséis', 27 => 'veintisiete',
+            28 => 'veintiocho', 29 => 'veintinueve', 30 => 'treinta', 31 => 'treinta y uno'
+        ];
 
-            $dia = $fecha->day;
-            $mes = $fecha->isoFormat('MMMM');
-            $anio = $fecha->year;
-            $diaTexto = $diasEnLetras[$dia] ?? $dia;
+        $dia = $fecha->day;
+        $mes = $fecha->isoFormat('MMMM');
+        $anio = $fecha->year;
+        $diaTexto = $diasEnLetras[$dia] ?? $dia;
 
-            $opciones = [
-                'fontDir' => resource_path('fonts/Courierpdf/'),
-            ];
-            $informacion = ConstanciaEstudios::all();
-            $usuario = Auth::user();
-            $estudiante = Students::where('cedula', $datosgenerar)->first();
-            $pdf = Pdf::loadView('pdf.constanciaestudios', compact(['informacion', 'usuario', 'estudiante', 'diaTexto', 'mes', 'anio']))->setOption($opciones);
-            $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
-            if ($request->descargar == 'on') {
-                return $pdf->download($filename);
-            } else {
-                return $pdf->stream($filename);
-            }
-        }
+        $opciones = [
+            'fontDir' => resource_path('fonts/Courierpdf/'),
+        ];
+        $informacion = ConstanciaEstudios::first();
+        $usuario = Auth::user();
+        $activo = Periodos::where('activo', true)->first();
+        $estudiante = Students::where('cedula', $request->cedula)
+            ->where('carrera_id', $request->carrera_id)
+            ->where('periodo_id', $activo->id)
+            ->first();
+        $estudiantes = Students::where('cedula', $datosgenerar)
+            ->where('periodo_id', $activo->id)
+            ->get();
+        $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
+        $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
+            ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
+            ->orderBy('tramo_trayecto_id', 'desc')
+            ->first();
+        // dd($carreras);
+        $pdf = Pdf::loadView('pdf.constanciaestudios',
+            compact([
+                'informacion',
+                'usuario',
+                'estudiante',
+                'estudiantes',
+                'diaTexto',
+                'mes',
+                'anio',
+                'titulosacademicos',
+                'carreras'
+            ]))->setOption($opciones);
+        $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+        return $pdf->download($filename);
         return view('auth.generar');
     }
 
@@ -671,6 +712,9 @@ class RegisteredAdminController extends Controller
         return view('pdf.cerrar');
     }
 
+    // ======================================================
+    //      CARGOS DE LOS USUARIOS
+    // ======================================================
     public function cargoadd()
     {
         $tipo = Tipos::where('tipo', '!=', 'superadmin')->get();
@@ -877,7 +921,7 @@ class RegisteredAdminController extends Controller
     // =========================================================
     public function periodos()
     {
-        $periodo = Periodos::paginate(20);
+        $periodo = Periodos::orderBy('created_at', 'desc')->paginate(20);
         return view('auth.periodo-academico', compact('periodo'));
     }
 
@@ -1106,6 +1150,9 @@ class RegisteredAdminController extends Controller
         return redirect('/estudiantes-calificacion/' . $request->estudiante_id)->with('alert', 'La nota fue corregida exitosamente.');
     }
 
+    // ======================================================
+    //      TITULO UNIVERSITARIO DE LOS USUARIOS
+    // ======================================================
     public function titulos()
     {
         $estudios = Estudios::paginate(20);
@@ -1138,6 +1185,9 @@ class RegisteredAdminController extends Controller
         return view('auth.carga-manual');
     }
 
+    // ======================================================
+    //      TITULO ACADEMICO PARA LOS ESTUDIANTES
+    // ======================================================
     public function tituloAcademicoUniversitario()
     {
         $carreras = Carreras::orderBy('carrera', 'asc')->get();

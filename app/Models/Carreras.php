@@ -19,4 +19,7 @@ class Carreras extends Model
     public function student() {
         return $this->belongsTo(StudentPublic::class, 'carrera_id');
     }
+    public function titulos() {
+        return $this->hasOne(TituloAcademico::class, 'carrera_id');
+    }
 }
