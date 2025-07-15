@@ -84,6 +84,25 @@ return new class extends Migration
             $table->foreign('trayecto_id')->references('id')->on('trayectos')->cascadeOnUpdate();
             $table->timestamps();
         });
+        // Crear el Trayecto Inicial
+        DB::table('trayectos')->insert([
+            'trayectos'=>'Trayecto Inicial',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        $trayectoId = DB::getPdo()->lastInsertId();
+        DB::table('tramos')->insert([
+            'tramos'=>'Tramo Inicial',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        $tramoId = DB::getPdo()->lastInsertId();
+        DB::table('tramo_trayecto')->insert([
+            'tramo_id'=> $tramoId,
+            'trayecto_id'=> $trayectoId,
+            'created_at'=>now(),
+            'updated_at'=>now(),
+        ]);
         Schema::create('students', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('cedula');
