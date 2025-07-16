@@ -78,6 +78,13 @@ class RegisteredAdminController extends Controller
             'nucleo_id.numeric' => 'Introduzca un núcleo válido.',
             'nucleo_id.exists' => 'Introduzca un núcleo válido.',
         ]);
+        $atributos['primer-name'] = Str::title(ucwords($atributos['primer-name']));
+        $atributos['primer-apellido'] = Str::title(ucwords($atributos['primer-apellido']));
+        $atributos['nacionalidad'] = Str::upper($atributos['nacionalidad']);
+        $atributos['genero'] = Str::lower($atributos['genero']);
+        $atributos['email'] = Str::lower($atributos['email']);
+        $atributos['segundo-name'] = $atributos['segundo-name'] ? Str::title(ucwords($atributos['segundo-name'])) : null;
+        $atributos['segundo-apellido'] = $atributos['segundo-apellido'] ? Str::title(ucwords($atributos['segundo-apellido'])) : null;
         User::create($atributos);
         return redirect('/registro-administrador')->with('alert', 'Se creo el usuario correctamente');
     }
@@ -183,6 +190,15 @@ class RegisteredAdminController extends Controller
         }
 
         $datosEstudiante['periodo_id'] = $periodo->id;
+        $datosEstudiante['primer_name'] = Str::title(ucwords($datosEstudiante['primer_name']));
+        $datosEstudiante['segundo_name'] = $datosEstudiante['segundo_name'] ? Str::title(ucwords($datosEstudiante['segundo_name'])) : null;
+        $datosEstudiante['primer_apellido'] = Str::title(ucwords($datosEstudiante['primer_apellido']));
+        $datosEstudiante['segundo_apellido'] = $datosEstudiante['segundo_apellido'] ? Str::title(ucwords($datosEstudiante['segundo_apellido'])) : null;
+        $datosEstudiante['genero'] = Str::lower($datosEstudiante['genero']);
+        $datosEstudiante['nacionalidad'] = Str::upper($datosEstudiante['nacionalidad']);
+        $datosEstudiante['email'] = $datosEstudiante['email'] ? Str::lower($datosEstudiante['email']) : null;
+        $datosEstudiante['direccion'] = Str::title(ucwords($datosEstudiante['direccion']));
+        $datosEstudiante['city'] = Str::title(ucwords($datosEstudiante['city']));
         $student = Students::create($datosEstudiante);
 
         foreach ($materiasPensum as $materia) {
@@ -277,6 +293,16 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede editar al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
 
+
+        $validar['primer_name'] = Str::title(ucwords($validar['primer_name']));
+        $validar['segundo_name'] = $validar['segundo_name'] ? Str::title(ucwords($validar['segundo_name'])) : null;
+        $validar['primer_apellido'] = Str::title(ucwords($validar['primer_apellido']));
+        $validar['segundo_apellido'] = $validar['segundo_apellido'] ? Str::title(ucwords($validar['segundo_apellido'])) : null;
+        $validar['genero'] = Str::lower($validar['genero']);
+        $validar['nacionalidad'] = Str::upper($validar['nacionalidad']);
+        $validar['email'] = $validar['email'] ? Str::lower($validar['email']) : null;
+        $validar['direccion'] = Str::title(ucwords($validar['direccion']));
+        $validar['city'] = Str::title(ucwords($validar['city']));
         $student->update($validar);
 
         foreach ($materiasPensum as $materia) {
@@ -724,7 +750,6 @@ class RegisteredAdminController extends Controller
 
     public function cargosave(Request $request)
     {
-        // dd($request);
         $tipo = Tipos::find($request->tipo_id);
         if ($tipo && $tipo->tipo == 'superadmin') {
             return redirect()->back()->withErrors(['error' => 'El tipo de cargo no es valido.']);
@@ -741,6 +766,7 @@ class RegisteredAdminController extends Controller
                 'tipo_id.integer' => 'No debe contener carácteres especiales',
                 'tipo_id.exists' => 'El tipo de cargo que está intentando usar no existe.',
             ]);
+            $atributos['cargo'] = Str::title(ucwords($atributos['cargo']));
             Cargos::create($atributos);
             return redirect()->route('cargo.index')->with('alert', 'Cargo creado exitosamente!');
         }
