@@ -171,7 +171,7 @@
     </div>
     <div class="carrera" style="">
         <div>
-            <p class="carrera1"> {{ $titulosacademicos->titulo . ' ' . $carreras->carrera }}</p>
+            <p class="carrera1"> {{ $titulosacademicos->titulo . ' En ' . $carreras->carrera }}</p>
         </div>
     </div>
     <div class="cuerpo_constancia" style="text-indent: 0;">
