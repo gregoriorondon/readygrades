@@ -24,12 +24,12 @@
 <!-- ============ VENTANA MODAL PARA NUEVA SECCION ======= -->
 <!-- ===================================================== -->
 
-<x-dialog-modal class="transition-all" form="carreraform">
+<x-dialog-modal class="transition-all" form="seccionform">
     <x-slot:title>
         Registro De La Nueva Sección
     </x-slot:title>
     <x-slot:content>
-        <form action="/seccionadd" method="POST">
+        <form action="/seccionadd" method="POST" id="seccionform">
             @csrf
             <x-span>Inserte La Letra De La Nueva Sección</x-span>
             <br>
