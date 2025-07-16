@@ -61,7 +61,7 @@
                                 <td>{{ $titulo->titulo }}</td>
                                 <td>{{ $titulo->carreras->carrera }}</td>
                                 <td>{{ $titulo->tramoTrayecto->tramos->tramos }}</td>
-                                <td><a href="" title="Editar Título"
+                                <td><a href="/editar-titulo-academico/{{ $titulo->id }}" title="Editar Título"
                                         class="p-2 text-xl hover:bg-gray-400/20 rounded-md"><i
                                             class="fa-solid fa-edit m-0"></i></a></td>
                             </tr>

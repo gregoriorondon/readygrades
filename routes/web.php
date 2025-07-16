@@ -93,6 +93,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // titulos académicos de los estudiantes
     Route::get('/students-academic-tittle', 'tituloAcademicoUniversitario');
     Route::post('/save-titulo-academic', 'tituloAcademicoSave');
+    Route::get('/editar-titulo-academico/{titulo_id}', 'editartituloacademico');
+    Route::post('/save-edit-titulo-academic', 'saveeditartituloacademico');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');

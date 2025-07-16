@@ -1263,4 +1263,34 @@ class RegisteredAdminController extends Controller
         ]);
         return redirect()->back()->with('alert', 'El título académico para los estudiantes se creó correctamente');
     }
+    public function editartituloacademico($titulo_id) {
+        $buscar = TituloAcademico::findOrFail($titulo_id);
+        $carreras = Carreras::orderBy('carrera', 'desc')->get();
+        $tramos = Trayectos::with('tramos')->get();
+        return view('auth.superadmin.titulos-academicos-edit', compact('buscar', 'carreras', 'tramos'));
+    }
+    public function saveeditartituloacademico(Request $request) {
+        // dd($request);
+        $validar = $request->validate([
+            'titulo'=>'required|string',
+            'descripcion'=>'nullable|string',
+            'carrera_id'=>'required|numeric|exists:carreras,id',
+            'tramo_trayecto_id'=>'required|numeric|exists:tramo_trayecto,id',
+        ],[
+            'titulo.required'=>'Debes de introducir el nombre del título.',
+            'descripcion.string'=>'Debes de usar texto y no carácteres númericos',
+            'carrera_id.required'=>'El identificador de la carrera debe tener un valor válido',
+            'tramo_trayecto_id'=>'El identificar del tramo debe ser válido',
+        ]);
+        if (strlen($request->titulo) <= 4) {
+            $normalizar = Str::upper($request->titulo);
+        } else {
+            $normalizar = Str::title(ucwords($request->titulo));
+        }
+        $normalizardos = Str::title(ucwords($request->descripcion));
+        $validar['titulo'] = $normalizar;
+        $validar['descripcion'] = $normalizardos;
+        TituloAcademico::where('id', $request->titulo_id)->update($validar);
+        return redirect('/students-academic-tittle');
+    }
 }
