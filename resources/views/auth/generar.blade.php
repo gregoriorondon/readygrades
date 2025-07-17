@@ -8,8 +8,8 @@
             <x-select-form name="solicitud" id="seleccionar">
                 <option value="ninguno">{{ ucwords('seleccione lo que desea generar') }}</option>
                 <option value="constancia">Constancia De Estudios</option>
-                <option value="record">Récord Académico</option>
-                <option value="acta">{{ ucwords('acta de calificación') }}</option>
+                {{-- <option value="record">Récord Académico</option> --}}
+                {{-- <option value="acta">{{ ucwords('acta de calificación') }}</option> --}}
             </x-select-form>
 
             <form action="/submit-student-cedula" method="POST" class="hidden" id="formulario">
