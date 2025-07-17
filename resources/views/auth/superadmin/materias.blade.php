@@ -45,8 +45,8 @@
                                         {{ mb_strtoupper(trim($materia->codigo)), 'UTF-8' }}</td>
                                     <td class="text-center py-2 px-8">
                                         <a href="/editar-materia/{{ $materia->id }}"
-                                            class="hover:bg-gray-400/20 p-1 transition-all rounded-lg"><i
-                                                class="fa fa-edit mr-2"></i>Editar Materia</a>
+                                            title="Editar La Materia"><i
+                                                class="fa fa-edit m-0 hover:bg-gray-400/20 p-4 transition-all rounded-lg text-xl"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

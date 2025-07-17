@@ -32,9 +32,7 @@
                         </optgroup>
                     @endforeach
                 </x-select-form>
-                <div class="flex justify-between mt-4">
-                    <x-button type="button" class="bg-[#f00] hover:bg-[#b00]"
-                        onclick="history.back()">Cancelar</x-button>
+                <div class="flex justify-end mt-4">
                     <x-button type="submit">Agregar Título</x-button>
                 </div>
             </form>
@@ -55,9 +53,9 @@
                             <th class="py-3">Acción</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y">
                         @foreach ($titulos as $titulo)
-                            <tr class="odd:bg-gray-400/20 divide-y text-center">
+                            <tr class="odd:bg-gray-400/20 text-center">
                                 <td>{{ $titulo->titulo }}</td>
                                 <td>{{ $titulo->carreras->carrera }}</td>
                                 <td>{{ $titulo->tramoTrayecto->tramos->tramos }}</td>
