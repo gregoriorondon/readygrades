@@ -71,6 +71,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
+    Route::post('/config-save-basic', 'saveconfigbasic');
     //Materias
     Route::get('/materias', 'materias');
     Route::get('/editar-materia/{materia}', 'materiaedit');

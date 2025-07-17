@@ -620,9 +620,36 @@ class RegisteredAdminController extends Controller
 
     public function config()
     {
-        $datos = User::all();
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        // dd($datos);
         $sesiones = Sessions::where('user_id', Auth::id())->get();
         return view('auth.config', compact('sesiones', 'datos'));
+    }
+    public function saveconfigbasic(Request $request) {
+        $validar = $request->validate([
+            'primer-name' => ['required', 'string'],
+            'segundo-name' => ['nullable', 'string'],
+            'primer-apellido' => ['required'],
+            'segundo-apellido' => ['nullable'],
+            'genero' => ['required'],
+            'nacionalidad' => ['required'],
+            'cedula' => ['required', 'min:7'],
+        ],[
+            'primer-name.required' => 'Es necesario por lo menos el primer nombre.',
+            'primer-apellido.required' => 'Es necesario por lo menos el primer apellido.',
+            'cedula.min' => 'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
+            'cedula.unique' => 'La persona que está tratando de registrar ya su cédula fue registrada en este sistema.',
+        ]);
+        $usuario = Auth::user();
+        $validar['primer-name'] = Str::title(ucwords($validar['primer-name']));
+        $validar['primer-apellido'] = Str::title(ucwords($validar['primer-apellido']));
+        $validar['genero'] = Str::lower($validar['genero']);
+        $validar['nacionalidad'] = Str::upper($validar['nacionalidad']);
+        $validar['segundo-name'] = $validar['segundo-name'] ? Str::title(ucwords($validar['segundo-name'])) : null;
+        $validar['segundo-apellido'] = $validar['segundo-apellido'] ? Str::title(ucwords($validar['segundo-apellido'])) : null;
+        User::where('id', $usuario->id)->update($validar);
+        return redirect()->back()->with('alert','Se guardaron los cambios de la configuración con exito');
     }
 
     public function eliminarSesion($id)
