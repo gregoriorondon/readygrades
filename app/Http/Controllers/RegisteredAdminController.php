@@ -657,9 +657,15 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
         $activo = Periodos::where('activo', true)->first();
+        if (!$activo) {
+            return redirect()->back()->withErrors(['error'=>'No hay un periodo activo para proceder']);
+        }
         $estudiantes = Students::where('cedula', $datosgenerar)
             ->where('periodo_id', $activo->id)
             ->get();
+        if ($estudiantes->isEmpty()) {
+            return redirect()->back()->withErrors(['error'=>'El estudiante no está registrado en un periodo activo']);
+        }
         return view('auth.busqueda-generar', compact('cedula', 'estudiantes'));
     }
 
@@ -715,7 +721,6 @@ class RegisteredAdminController extends Controller
             ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
             ->orderBy('tramo_trayecto_id', 'desc')
             ->first();
-        // dd($carreras);
         $pdf = Pdf::loadView('pdf.constanciaestudios',
             compact([
                 'informacion',
@@ -731,6 +736,32 @@ class RegisteredAdminController extends Controller
         $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
         return $pdf->download($filename);
         return view('auth.generar');
+    }
+    public function generarrecord(Request $request) {
+        $validar = $request->validate([
+            'cedula' => ['required', 'numeric', 'min_digits:7'],
+        ], [
+            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+        ]);
+        $cedula = Students::where('cedula', $validar)->first();
+        if (!$cedula) {
+            return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
+        }
+        $activo = Periodos::where('activo', true)->first();
+        $estudiantes = Students::where('cedula', $validar)
+            ->where('periodo_id', $activo->id)
+            ->get();
+        return view('auth.generar-record', compact('cedula', 'estudiantes'));
+    }
+    public function generarrecordpdf(Request $request) {
+        $fecha = Carbon::now();
+
+        $dia = $fecha->day;
+        $mes = $fecha->month;
+        $anio = $fecha->year;
+        return view('pdf.record', compact('dia', 'mes', 'anio'));
     }
 
     public function generarrecarga()
@@ -1205,6 +1236,37 @@ class RegisteredAdminController extends Controller
         Estudios::create(['estudio' => $normalisarTitulo, 'abrev' => $normalisarAbrev]);
         return redirect()->back()->with('alert', 'El título profesional se registro con exito');
     }
+    public function edittitulo($titulo_id) {
+        $titulo = Estudios::where('id', $titulo_id)->firstOrFail();
+        if (!$titulo) {
+            return redirect()->back()->withErrors(['error'=>'El identificador del título no existe en el sistema']);
+        }
+        return view('auth.superadmin.editar-titulo-user', compact('titulo'));
+    }
+    public function saveedittitulo(Request $request) {
+        $validar = $request->validate([
+            'estudio' => 'required|string|unique:estudios,estudio',
+            'abrev' => 'required|string|unique:estudios,abrev',
+            'titulo_id'=>'required|numeric|exists:estudios,id',
+        ], [
+            'estudio.required' => 'No debe dejar la casilla del título vacío',
+            'estudio.string' => 'El título debe ser un texto',
+            'estudio.unique' => 'El título que intenta crear ya existe',
+            'abrev.required' => 'No debe dejar la casilla del la abreviatura vacía',
+            'abrev.string' => 'La abreviatura debe ser un texto',
+            'abrev.unique' => 'La abreviatura que intenta crear ya existe',
+            'titulo_id.required' => 'No debes omitir el identificador del titulo',
+            'titulo_id.numeric' => 'El identificar debe ser numerico',
+            'titulo_id.exists'=>'El titulo no existe en la base de datos',
+        ]);
+        $normalisarTitulo = Str::lower($validar['estudio']);
+        $normalisarAbrev = Str::lower($validar['abrev']);
+        Estudios::where('id', $validar['titulo_id'])->update([
+            'estudio'=>$normalisarTitulo,
+            'abrev'=>$normalisarAbrev,
+        ]);
+        return redirect('/agregar-titulo')->with('alert','Se guardó con exito los cambios');
+    }
 
     public function cargarnotas()
     {
@@ -1270,7 +1332,6 @@ class RegisteredAdminController extends Controller
         return view('auth.superadmin.titulos-academicos-edit', compact('buscar', 'carreras', 'tramos'));
     }
     public function saveeditartituloacademico(Request $request) {
-        // dd($request);
         $validar = $request->validate([
             'titulo'=>'required|string',
             'descripcion'=>'nullable|string',

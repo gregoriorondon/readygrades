@@ -53,6 +53,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     //Generar
     Route::get('/generar-documentos', 'generar');
     Route::post('/submit-student-cedula', 'busquedagenerar');
+    Route::post('/submit-student-cedula-record', 'generarrecord');
+    Route::post('/generar-pdf-record', 'generarrecordpdf');
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
     //Cargo
@@ -63,6 +65,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // Título
     Route::get('/agregar-titulo', 'titulos');
     Route::post('/crear-titulo', 'savetitulo');
+    Route::get('/editar-titulo/{titulo_id}', 'edittitulo');
+    Route::post('/save-edit-titulo', 'saveedittitulo');
+    //config
     //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');

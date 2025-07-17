@@ -11,9 +11,7 @@
                     <x-label class="mt-5">{{ ucwords('agregar abreviatura del título obtenido:') }}<x-input-form
                             type="text" name="abrev" placeholder="Agregar abreviatura del título"
                             autocomplete="off" /></x-label>
-                    <div class="flex justify-between mt-4">
-                        <x-button type="button" class="bg-[#f00] hover:bg-[#b00]"
-                            onclick="history.back()">Cancelar</x-button>
+                    <div class="flex justify-end mt-4">
                         <x-button>Agregar</x-button>
                     </div>
                 </form>
@@ -24,7 +22,7 @@
                 @if ($estudios->isEmpty())
                     <p>{{ ucwords('aún no hay estudios registrados en el sistema') }}</p>
                 @else
-                    <div class="border rounded-lg">
+                    <div class="border rounded-lg overflow-x-auto">
                         <table class="w-full">
                             <thead>
                                 <tr class="border-b">
@@ -42,8 +40,8 @@
                                             {{ mb_strtoupper(trim($estudio->abrev)), 'UTF-8' }}</td>
                                         <td class="text-center py-2 px-8">
                                             <a href="/editar-titulo/{{ $estudio->id }}"
-                                                class="hover:bg-gray-400/20 p-1 transition-all rounded-lg"><i
-                                                    class="fa fa-edit mr-2"></i>Editar Título</a>
+                                                title="Editar El Título"><i
+                                                    class="fa fa-edit m-0 hover:bg-gray-400/20 p-4 transition-all rounded-lg text-xl"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
