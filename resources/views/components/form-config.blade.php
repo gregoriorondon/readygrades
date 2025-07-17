@@ -25,6 +25,7 @@
             <div class="sm:col-span-2 sm:col-start-1">
                 <x-label>Genero / Sexo</x-label>
                 <x-select-form class="sm:max-w-full" name="genero">
+                    <option value="{{ $datos->genero }}">{{ ucwords($datos->genero) }} (Registrado)</option>
                     <option value="masculino">Masculino</option>
                     <option value="femenino">Femenino</option>
                 </x-select-form>
@@ -32,6 +33,11 @@
             <div class="sm:col-span-2">
                 <x-label>Nacionalidad</x-label>
                 <x-select-form class="sm:max-w-full" id="nacionalidad" name="nacionalidad">
+                    @if($datos->nacionalidad === 'VE')
+                        <option value="{{ $datos->nacionalidad }}">{{ ucwords('venezolano(a)') }} (Registrado)</option>
+                    @else
+                        <option value="{{ $datos->nacionalidad }}">{{ ucwords('extranjero(a)') }} (Registrado)</option>
+                    @endif
                     <option value="VE">Venezolano(a)</option>
                     <option value="EX">Extranjero(a)</option>
                 </x-select-form>
