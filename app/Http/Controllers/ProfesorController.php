@@ -8,7 +8,9 @@ use App\Models\Materias;
 use App\Models\Notas;
 use App\Models\Nucleos;
 use App\Models\Periodos;
+use App\Models\Sessions;
 use App\Models\Students;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -312,5 +314,12 @@ class ProfesorController extends Controller
         $pdf = Pdf::loadView('pdf.teachers.solicitud-de-correccion', compact('user', 'estudiante', 'periodo', 'notaTexto', 'notas', 'materias', 'day', 'mes', 'anio', 'motivo'));
         $filename = 'Solicitud_de_correccion_de_notas_' . $estudiante->primer_name . '_' . $estudiante->primer_apellido . '_' . $estudiante->cedula . '_' . $materias . '_' . $estudiante->carreras->carrera . '.pdf';
         return $pdf->download($filename);
+    }
+    public function config() {
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        // dd($datos);
+        $sesiones = Sessions::where('user_id', Auth::id())->get();
+        return view('auth.config', compact('sesiones', 'datos'));
     }
 }

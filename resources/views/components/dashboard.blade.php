@@ -76,7 +76,9 @@
                     </div>
                     <!-- FIN VERSION MOVIL -->
                     <div class="flex items-center pr-4 space-x-4">
-                        <a href="/config" id="conf" class="cursor-pointer flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Ir A Las Configuraciones"><i class="fa-solid fa-gear m-0"></i></a>
+                        @cannot('profesor')
+                            <a href="/config" id="conf" class="cursor-pointer flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Ir A Las Configuraciones"><i class="fa-solid fa-gear m-0"></i></a>
+                        @endcannot
                         <button id="dark" class="flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Cambiar A Modo Oscuro"><i class="fa-solid fa-moon m-0"></i></button>
                         <button id="light" class="hidden items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Cambiar A Modo Claro"><i class="fa-solid fa-sun m-0"></i></button>
                         <form method="POST" action="/logout">

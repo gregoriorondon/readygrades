@@ -313,7 +313,6 @@
                         <td class="notas borde">{{ $notas->nota_tres }}</td>
                         <td class="notas borde">{{ $notas->nota_cuatro }}</td>
                         <td class="notas borde">{{ $notas->nota_extra }}</td>
-                        <td class="nota borde"></td>
                         @php
                             $notasuma =
                                 $notas->nota_uno +
@@ -322,7 +321,9 @@
                                 $notas->nota_cuatro +
                                 $notas->nota_extra;
                             $notaDefinitiva = round($notasuma / 4);
+                            $notaDefinitivaTotal = $notasuma / 4;
                         @endphp
+                        <td class="nota borde">{{ $notaDefinitivaTotal }}</td>
                         <td class="nota borde">{{ $notaDefinitiva }}</td>
                     </tr>
                 @endforeach

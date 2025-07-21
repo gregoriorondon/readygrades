@@ -119,4 +119,8 @@ Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->gro
     Route::post('/editar-nota-pdf', 'solicitudedicion');
     // descargar calificaciones
     Route::post('/pdfcalificacion', 'descargarcalificacion');
+    //config
+    Route::get('/config-teacher', 'config');
+    // Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
+    // Route::post('/config-save-basic', 'saveconfigbasic');
 });
