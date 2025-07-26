@@ -27,6 +27,7 @@ module.exports = {
     content: [
         './resources/**/*.blade.php',
         './resources/**/*.js',
+        './resources/views/errors/**/*.blade.php',
     ],
     theme: {
         extend: {
