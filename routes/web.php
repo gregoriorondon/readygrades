@@ -14,7 +14,7 @@ Route::controller(UniversityController::class)->group( function (){
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
     // Carreras
-    Route::get('/carreras', 'courses');
+    Route::get('/carreras', 'courses')->can('root');
     Route::get('/autocomplete', 'autocourses');
     Route::post('/carreras-add-post', 'carreraprocess');
     Route::get('/edit-courses/{carrera}', 'carreraedit');
