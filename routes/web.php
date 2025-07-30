@@ -15,19 +15,19 @@ Route::controller(UniversityController::class)->group( function (){
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
     // Carreras
     Route::get('/carreras', 'courses')->can('root');
-    Route::get('/autocomplete', 'autocourses');
-    Route::post('/carreras-add-post', 'carreraprocess');
-    Route::get('/edit-courses/{carrera}', 'carreraedit');
-    Route::post('/savecarrera/{carrera}', 'cambiarcarrera');
+    Route::get('/autocomplete', 'autocourses')->can('root');
+    Route::post('/carreras-add-post', 'carreraprocess')->can('root');
+    Route::get('/edit-courses/{carrera}', 'carreraedit')->can('root');
+    Route::post('/savecarrera/{carrera}', 'cambiarcarrera')->can('root');
     // Nucleos
-    Route::get('/autocomplete/nucleos', 'autonucleos');
-    Route::get('/nucleos', 'nucleo');
-    Route::get('/edit-nucleo/{nucleo}', 'nucleoedit');
-    Route::post('/save-nucleo/{nucleo}', 'editnucleosave');
-    Route::post('/crear-nucleo', 'nucleoadd');
+    Route::get('/autocomplete/nucleos', 'autonucleos')->can('root');
+    Route::get('/nucleos', 'nucleo')->can('root');
+    Route::get('/edit-nucleo/{nucleo}', 'nucleoedit')->can('root');
+    Route::post('/save-nucleo/{nucleo}', 'editnucleosave')->can('root');
+    Route::post('/crear-nucleo', 'nucleoadd')->can('root');
     // Tramos-Trayectos
-    Route::get('/tramos-y-trayectos', 'trayectosview');
-    Route::post('/crear-trayecto-y-tramos', 'trayectosadd');
+    Route::get('/tramos-y-trayectos', 'trayectosview')->can('root');
+    Route::post('/crear-trayecto-y-tramos', 'trayectosadd')->can('root');
     //
     Route::get('/nomina-profesores', 'profesornomina');
     Route::get('/registro-profesor', 'teacheradd');
@@ -58,30 +58,30 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
     //Cargo
-    Route::get('/agregar-cargo', 'cargoadd')->name('cargo.index');
-    Route::post('/agregar-create', 'cargosave')->name('crearcargo');
-    Route::get('/edit-cargo/{cargo}', 'cargoedit');
-    Route::post('/save-cargo/{cargo}', 'cargoeditsave')->name('savecargoedit');
+    Route::get('/agregar-cargo', 'cargoadd')->name('cargo.index')->can('root');
+    Route::post('/agregar-create', 'cargosave')->name('crearcargo')->can('root');
+    Route::get('/edit-cargo/{cargo}', 'cargoedit')->can('root');
+    Route::post('/save-cargo/{cargo}', 'cargoeditsave')->name('savecargoedit')->can('root');
     // Título
-    Route::get('/agregar-titulo', 'titulos');
-    Route::post('/crear-titulo', 'savetitulo');
-    Route::get('/editar-titulo/{titulo_id}', 'edittitulo');
-    Route::post('/save-edit-titulo', 'saveedittitulo');
+    Route::get('/agregar-titulo', 'titulos')->can('root');
+    Route::post('/crear-titulo', 'savetitulo')->can('root');
+    Route::get('/editar-titulo/{titulo_id}', 'edittitulo')->can('root');
+    Route::post('/save-edit-titulo', 'saveedittitulo')->can('root');
     //config
     //config
     Route::get('/config', 'config');
     Route::delete('/config/{id}', 'eliminarSesion')->name('auth.delete');
     Route::post('/config-save-basic', 'saveconfigbasic');
     //Materias
-    Route::get('/materias', 'materias');
-    Route::get('/editar-materia/{materia}', 'materiaedit');
-    Route::post('/save-edit/{materia}', 'cambiaredit');
-    Route::post('/materia', 'materiasadd');
+    Route::get('/materias', 'materias')->can('root');
+    Route::get('/editar-materia/{materia}', 'materiaedit')->can('root');
+    Route::post('/save-edit/{materia}', 'cambiaredit')->can('root');
+    Route::post('/materia', 'materiasadd')->can('root');
     //Pensum
-    Route::get('/pensum', 'pensum');
-    Route::get('/pensum-add', 'pensumadd');
-    Route::post('/pensums', 'pensumstore');
-    Route::get('/autocomplete/pensum', 'searchpensum');
+    Route::get('/pensum', 'pensum')->can('root');
+    Route::get('/pensum-add', 'pensumadd')->can('root');
+    Route::post('/pensums', 'pensumstore')->can('root');
+    Route::get('/autocomplete/pensum', 'searchpensum')->can('root');
     // Seccion:
     Route::post('/seccionadd', 'seccionadd');
     // Periodos
@@ -97,10 +97,10 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // cargar notas manualmente
     Route::get('/cargar-notas', 'cargarnotas');
     // titulos académicos de los estudiantes
-    Route::get('/students-academic-tittle', 'tituloAcademicoUniversitario');
-    Route::post('/save-titulo-academic', 'tituloAcademicoSave');
-    Route::get('/editar-titulo-academico/{titulo_id}', 'editartituloacademico');
-    Route::post('/save-edit-titulo-academic', 'saveeditartituloacademico');
+    Route::get('/students-academic-tittle', 'tituloAcademicoUniversitario')->can('root');
+    Route::post('/save-titulo-academic', 'tituloAcademicoSave')->can('root');
+    Route::get('/editar-titulo-academico/{titulo_id}', 'editartituloacademico')->can('root');
+    Route::post('/save-edit-titulo-academic', 'saveeditartituloacademico')->can('root');
 });
 
 Route::get('/login', [SesionController::class, 'create'])->name('login');
