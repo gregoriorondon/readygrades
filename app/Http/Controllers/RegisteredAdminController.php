@@ -108,6 +108,8 @@ class RegisteredAdminController extends Controller
     // =====================================================================================
     public function studentadd()
     {
+        $datos = Auth::user();
+        $user = User::where('id', $datos->id)->firstOrFail();
         $courses = Carreras::orderByRaw('carrera ASC')->get();
         $trayectos = Trayectos::with(['tramos' => function ($query) {
             $query->withPivot('id');
@@ -115,7 +117,7 @@ class RegisteredAdminController extends Controller
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
         $periodo = Periodos::where('activo', true)->first();
-        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo'));
+        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo', 'user'));
     }
 
     public function studentstore(Request $request)
@@ -154,8 +156,8 @@ class RegisteredAdminController extends Controller
             'city.required' => 'Es obligatorio colocar la ciudad/pueblo donde reside el estudiante.',
             'city.string' => 'Es obligatorio que no coloque caracteres especiales en la ciudad/pueblo.',
             'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
-            'nucleo.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
-            'nucleo.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
+            'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
+            'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
             'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
             'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
             'carrera_id.exists' => 'La carrera no es válida.',
@@ -164,6 +166,24 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.exists' => 'El tramo y trayecto no es válido.',
             'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
         ]);
+
+        $usuario = Auth::user();
+        $user = User::with('cargos.tipos')->find($usuario->id);
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
+            $q->where('tipo', 'superadmin');
+        })->exists();
+
+        if (!$esRoot) {
+            if ((int) $request->nucleo_id !== (int) $datos->nucleo_id) {
+                return redirect()->back()->withInput()->withErrors([
+                    'error' => 'No tiene permiso para cambiar el núcleo asignado.'
+                ]);
+            }
+            $datosEstudiante['nucleo_id'] = $datos->nucleo_id;
+        } else {
+            $datosEstudiante['nucleo_id'] = $request->nucleo_id;
+        }
 
         $periodo = Periodos::where('activo', true)->first();
 
@@ -292,7 +312,6 @@ class RegisteredAdminController extends Controller
         if ($materiasPensum->isEmpty()) {
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede editar al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
-
 
         $validar['primer_name'] = Str::title(ucwords($validar['primer_name']));
         $validar['segundo_name'] = $validar['segundo_name'] ? Str::title(ucwords($validar['segundo_name'])) : null;
@@ -626,7 +645,9 @@ class RegisteredAdminController extends Controller
         $sesiones = Sessions::where('user_id', Auth::id())->get();
         return view('auth.config', compact('sesiones', 'datos'));
     }
-    public function saveconfigbasic(Request $request) {
+
+    public function saveconfigbasic(Request $request)
+    {
         $validar = $request->validate([
             'primer-name' => ['required', 'string'],
             'segundo-name' => ['nullable', 'string'],
@@ -635,7 +656,7 @@ class RegisteredAdminController extends Controller
             'genero' => ['required'],
             'nacionalidad' => ['required'],
             'cedula' => ['required', 'min:7'],
-        ],[
+        ], [
             'primer-name.required' => 'Es necesario por lo menos el primer nombre.',
             'primer-apellido.required' => 'Es necesario por lo menos el primer apellido.',
             'cedula.min' => 'Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.',
@@ -649,7 +670,7 @@ class RegisteredAdminController extends Controller
         $validar['segundo-name'] = $validar['segundo-name'] ? Str::title(ucwords($validar['segundo-name'])) : null;
         $validar['segundo-apellido'] = $validar['segundo-apellido'] ? Str::title(ucwords($validar['segundo-apellido'])) : null;
         User::where('id', $usuario->id)->update($validar);
-        return redirect()->back()->with('alert','Se guardaron los cambios de la configuración con exito');
+        return redirect()->back()->with('alert', 'Se guardaron los cambios de la configuración con exito');
     }
 
     public function eliminarSesion($id)
@@ -685,13 +706,13 @@ class RegisteredAdminController extends Controller
         }
         $activo = Periodos::where('activo', true)->first();
         if (!$activo) {
-            return redirect()->back()->withErrors(['error'=>'No hay un periodo activo para proceder']);
+            return redirect()->back()->withErrors(['error' => 'No hay un periodo activo para proceder']);
         }
         $estudiantes = Students::where('cedula', $datosgenerar)
             ->where('periodo_id', $activo->id)
             ->get();
         if ($estudiantes->isEmpty()) {
-            return redirect()->back()->withErrors(['error'=>'El estudiante no está registrado en un periodo activo']);
+            return redirect()->back()->withErrors(['error' => 'El estudiante no está registrado en un periodo activo']);
         }
         return view('auth.busqueda-generar', compact('cedula', 'estudiantes'));
     }
@@ -700,7 +721,7 @@ class RegisteredAdminController extends Controller
     {
         $datosgenerar = $request->validate([
             'cedula' => ['required', 'numeric', 'min_digits:7'],
-            'carrera_id'=>'required|numeric|exists:carreras,id',
+            'carrera_id' => 'required|numeric|exists:carreras,id',
         ], [
             'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
@@ -764,7 +785,9 @@ class RegisteredAdminController extends Controller
         return $pdf->download($filename);
         return view('auth.generar');
     }
-    public function generarrecord(Request $request) {
+
+    public function generarrecord(Request $request)
+    {
         $validar = $request->validate([
             'cedula' => ['required', 'numeric', 'min_digits:7'],
         ], [
@@ -782,7 +805,9 @@ class RegisteredAdminController extends Controller
             ->get();
         return view('auth.generar-record', compact('cedula', 'estudiantes'));
     }
-    public function generarrecordpdf(Request $request) {
+
+    public function generarrecordpdf(Request $request)
+    {
         $fecha = Carbon::now();
 
         $dia = $fecha->day;
@@ -1263,18 +1288,22 @@ class RegisteredAdminController extends Controller
         Estudios::create(['estudio' => $normalisarTitulo, 'abrev' => $normalisarAbrev]);
         return redirect()->back()->with('alert', 'El título profesional se registro con exito');
     }
-    public function edittitulo($titulo_id) {
+
+    public function edittitulo($titulo_id)
+    {
         $titulo = Estudios::where('id', $titulo_id)->firstOrFail();
         if (!$titulo) {
-            return redirect()->back()->withErrors(['error'=>'El identificador del título no existe en el sistema']);
+            return redirect()->back()->withErrors(['error' => 'El identificador del título no existe en el sistema']);
         }
         return view('auth.superadmin.editar-titulo-user', compact('titulo'));
     }
-    public function saveedittitulo(Request $request) {
+
+    public function saveedittitulo(Request $request)
+    {
         $validar = $request->validate([
             'estudio' => 'required|string|unique:estudios,estudio',
             'abrev' => 'required|string|unique:estudios,abrev',
-            'titulo_id'=>'required|numeric|exists:estudios,id',
+            'titulo_id' => 'required|numeric|exists:estudios,id',
         ], [
             'estudio.required' => 'No debe dejar la casilla del título vacío',
             'estudio.string' => 'El título debe ser un texto',
@@ -1284,15 +1313,15 @@ class RegisteredAdminController extends Controller
             'abrev.unique' => 'La abreviatura que intenta crear ya existe',
             'titulo_id.required' => 'No debes omitir el identificador del titulo',
             'titulo_id.numeric' => 'El identificar debe ser numerico',
-            'titulo_id.exists'=>'El titulo no existe en la base de datos',
+            'titulo_id.exists' => 'El titulo no existe en la base de datos',
         ]);
         $normalisarTitulo = Str::lower($validar['estudio']);
         $normalisarAbrev = Str::lower($validar['abrev']);
         Estudios::where('id', $validar['titulo_id'])->update([
-            'estudio'=>$normalisarTitulo,
-            'abrev'=>$normalisarAbrev,
+            'estudio' => $normalisarTitulo,
+            'abrev' => $normalisarAbrev,
         ]);
-        return redirect('/agregar-titulo')->with('alert','Se guardó con exito los cambios');
+        return redirect('/agregar-titulo')->with('alert', 'Se guardó con exito los cambios');
     }
 
     public function cargarnotas()
@@ -1352,23 +1381,27 @@ class RegisteredAdminController extends Controller
         ]);
         return redirect()->back()->with('alert', 'El título académico para los estudiantes se creó correctamente');
     }
-    public function editartituloacademico($titulo_id) {
+
+    public function editartituloacademico($titulo_id)
+    {
         $buscar = TituloAcademico::findOrFail($titulo_id);
         $carreras = Carreras::orderBy('carrera', 'desc')->get();
         $tramos = Trayectos::with('tramos')->get();
         return view('auth.superadmin.titulos-academicos-edit', compact('buscar', 'carreras', 'tramos'));
     }
-    public function saveeditartituloacademico(Request $request) {
+
+    public function saveeditartituloacademico(Request $request)
+    {
         $validar = $request->validate([
-            'titulo'=>'required|string',
-            'descripcion'=>'nullable|string',
-            'carrera_id'=>'required|numeric|exists:carreras,id',
-            'tramo_trayecto_id'=>'required|numeric|exists:tramo_trayecto,id',
-        ],[
-            'titulo.required'=>'Debes de introducir el nombre del título.',
-            'descripcion.string'=>'Debes de usar texto y no carácteres númericos',
-            'carrera_id.required'=>'El identificador de la carrera debe tener un valor válido',
-            'tramo_trayecto_id'=>'El identificar del tramo debe ser válido',
+            'titulo' => 'required|string',
+            'descripcion' => 'nullable|string',
+            'carrera_id' => 'required|numeric|exists:carreras,id',
+            'tramo_trayecto_id' => 'required|numeric|exists:tramo_trayecto,id',
+        ], [
+            'titulo.required' => 'Debes de introducir el nombre del título.',
+            'descripcion.string' => 'Debes de usar texto y no carácteres númericos',
+            'carrera_id.required' => 'El identificador de la carrera debe tener un valor válido',
+            'tramo_trayecto_id' => 'El identificar del tramo debe ser válido',
         ]);
         if (strlen($request->titulo) <= 4) {
             $normalizar = Str::upper($request->titulo);

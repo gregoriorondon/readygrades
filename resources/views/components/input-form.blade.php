@@ -1,1 +1,21 @@
-<input {{ $attributes->merge(['class'=>'font-inter mt-2 block w-full bg-transparent rounded-md border-0 px-2 py-1.5 ring-1 ring-inset ring-gray-400 outline outline-1 outline-transparent placeholder:text-gray-400 focus:ring-ready focus:outline-ready sm:text-sm/6']) }}>
+<input
+    {{ $attributes->merge(['class' => '
+    font-inter
+    mt-2 block
+    w-full
+    bg-transparent
+    rounded-md
+    border-0
+    px-2
+    py-1.5
+    ring-1
+    ring-inset
+    ring-gray-400
+    outline
+    outline-1
+    outline-transparent
+    placeholder:text-gray-400
+    focus:ring-ready
+    focus:outline-ready
+    sm:text-sm/6
+']) }}>

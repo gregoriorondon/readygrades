@@ -14,7 +14,7 @@
                                 placeholder="Primer Nombre (Obligatorio)" :value="old('primer_name')" required
                                 autocomplete="off" />
                             <x-input-form type="text" name="segundo_name" id="first-name"
-                                placeholder="Segundo Nombre" value="{{old('segundo_name')}}" autocomplete="off" />
+                                placeholder="Segundo Nombre" value="{{ old('segundo_name') }}" autocomplete="off" />
                         </div>
                     </div>
 
@@ -106,7 +106,7 @@
                             <div class="mt-2">
 
                                 <x-label class="after:content-['*'] after:text-red-400">Carrera a Estudiar</x-label>
-                                @props(['courses', 'trayectos', 'nucleos', 'secciones'])
+                                @props(['courses', 'trayectos', 'nucleos', 'secciones', 'user'])
                                 <x-select-form class="sm:max-w-full" name="carrera_id" id="carreras_id">
                                     @foreach ($courses as $carrera)
                                         <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
@@ -131,11 +131,19 @@
                         <div class="carreratramonucleo">
                             <div class="mt-2">
                                 <x-label class="after:content-['*'] after:text-red-400">Núcleos</x-label>
-                                <x-select-form class="sm:max-w-full" name="nucleo_id">
-                                    @foreach ($nucleos as $nucleo)
-                                        <option value="{{ $nucleo->id }}">{{ $nucleo->nucleo }}</option>
-                                    @endforeach
-                                </x-select-form>
+                                @cannot('root')
+                                    <x-select-form class="sm:max-w-full text-gray-400 cursor-not-allowed"                                        name="nucleo_id"
+                                        title="{{ ucwords('sólo puedes asignar el núcleo en donde estas registrado(a)') }}">
+                                        <option type="numeric" value="{{ $user->nucleos->id }}">{{ $user->nucleos->nucleo }}</option>
+                                    </x-select-form>
+                                @endcannot
+                                @can('root')
+                                    <x-select-form class="sm:max-w-full" name="nucleo_id">
+                                        @foreach ($nucleos as $nucleo)
+                                            <option value="{{ $nucleo->id }}">{{ $nucleo->nucleo }}</option>
+                                        @endforeach
+                                    </x-select-form>
+                                @endcan
                             </div>
                         </div>
                         <div class="carreratramonucleo">
@@ -143,7 +151,7 @@
                                 <x-label class="after:content-['*'] after:text-red-400">Sección</x-label>
                                 <x-select-form class="sm:max-w-full" name="seccion_id">
                                     @foreach ($secciones as $seccion)
-                                            <option value="{{ $seccion->id }}">{{ $seccion->seccion }}</option>
+                                        <option value="{{ $seccion->id }}">{{ $seccion->seccion }}</option>
                                     @endforeach
                                 </x-select-form>
                             </div>
@@ -151,7 +159,8 @@
                         <div class="carreratramonucleo">
                             <div class="mt-2">
                                 <x-label class="after:content-['*'] after:text-red-400">Agregar Código</x-label>
-                                <x-input-form name="codigo" autocomplete="off" placeholder="Agregar código al estudiante" :value="old('codigo')" />
+                                <x-input-form name="codigo" autocomplete="off"
+                                    placeholder="Agregar código al estudiante" :value="old('codigo')" />
                             </div>
                         </div>
                     </div>
