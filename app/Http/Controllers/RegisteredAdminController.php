@@ -351,7 +351,17 @@ class RegisteredAdminController extends Controller
 
     public function studentsadmin()
     {
-        $estudiantes = Students::orderByRaw('created_at DESC')->paginate(20);
+        $usuario = Auth::user();
+        $user = User::with('cargos.tipos')->find($usuario->id);
+        $nucleo = User::where('id', $usuario->id)->firstOrFail();
+        $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
+            $q->where('tipo', 'superadmin');
+        })->exists();
+        if (!$esRoot) {
+            $estudiantes = Students::where('nucleo_id', $nucleo->nucleo_id)->orderByRaw('created_at DESC')->paginate(20);
+        } else {
+            $estudiantes = Students::orderByRaw('created_at DESC')->paginate(20);
+        }
         return view('auth.students', compact('estudiantes'));
     }
 
