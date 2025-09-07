@@ -4,6 +4,7 @@
 <div class="mt-7">
 
 <form class="flex items-center max-w-lg mx-auto mb-7" method="POST" action="/estudiantes-panel-administrativo/search/">
+    @csrf
     <div class="relative w-full">
         <div class="absolute inset-y-0 flex items-center mb-1 ps-[3px] start-0">
             <x-select-form class="w-28">
