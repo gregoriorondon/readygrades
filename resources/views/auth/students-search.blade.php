@@ -3,18 +3,17 @@
 <x-button-a class="btn-new-student"  link="registro-estudiante" icon="fa-solid fa-plus-large">Registrar Nuevo Estudiante</x-button-a>
 <div class="mt-7">
 
-<form class="flex items-center max-w-lg mx-auto mb-7" method="POST" action="/estudiantes-panel-administrativo/search">
-    @csrf
+<form class="flex items-center max-w-lg mx-auto mb-7" method="POST" action="/estudiantes-panel-administrativo/search/">
     <div class="relative w-full">
         <div class="absolute inset-y-0 flex items-center mb-1 ps-[3px] start-0">
-            <x-select-form name="carreras" class="w-28">
+            <x-select-form class="w-28">
                 <option value="0">Cualquiera</option>
                 @foreach($carreras as $courses)
                     <option value="{{ $courses->id }}">{{ $courses->carrera }}</option>
                 @endforeach
             </x-select-form>
         </div>
-        <x-input type="text" name="search" class="block w-full p-3 text-sm border border-gray-300 rounded-lg bg-gray-50/10 ps-32" placeholder="{{ ucwords('escribe para buscar') }}" required autocomplete="off" />
+        <x-input type="text" class="block w-full p-3 text-sm border border-gray-300 rounded-lg bg-gray-50/10 ps-32" placeholder="{{ ucwords('escribe para buscar') }}" required autocomplete="off" value="{{ $search }}" />
     </div>
     <x-button type="submit" class="inline-flex items-center mt-1 text-sm font-medium py-3.5 ms-2" icon="fa-solid fa-magnifying-glass">
         Buscar
@@ -82,5 +81,4 @@
 <div>
     {{ $estudiantes->links() }}
 </div>
-<x-error-and-correct-dialog />
 </x-dashboard>
