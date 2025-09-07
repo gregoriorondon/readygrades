@@ -359,10 +359,12 @@ class RegisteredAdminController extends Controller
         })->exists();
         if (!$esRoot) {
             $estudiantes = Students::where('nucleo_id', $nucleo->nucleo_id)->orderByRaw('created_at DESC')->paginate(20);
+            $carreras = Carreras::all();
         } else {
             $estudiantes = Students::orderByRaw('created_at DESC')->paginate(20);
+            $carreras = Carreras::all();
         }
-        return view('auth.students', compact('estudiantes'));
+        return view('auth.students', compact('estudiantes', 'carreras'));
     }
 
     public function studentsadmincalification($id)
