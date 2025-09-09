@@ -36,7 +36,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/registro-administrador', 'adminadd');
     // Estudiantes
     Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
-    Route::post('/estudiantes-panel-administrativo/search', 'studentsadminsearch');
+    Route::post('/estudiantes-panel-administrativo', 'studentsadminsearch');
     Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
     Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
     Route::get('/registro-estudiante', 'studentadd');
