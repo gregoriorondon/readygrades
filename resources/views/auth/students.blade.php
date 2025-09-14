@@ -14,7 +14,15 @@
                 @endforeach
             </x-select-form>
         </div>
-        <x-input type="text" name="search" class="block w-full p-3 text-sm border border-gray-300 rounded-lg bg-gray-50/10 ps-32" value="{{ old('search') }}" placeholder="{{ ucwords('escribe para buscar') }}" required autocomplete="off" />
+        <x-input
+            type="text"
+            name="search"
+            class="block w-full p-3 text-sm border border-gray-300 rounded-lg bg-gray-50/10 ps-32"
+            placeholder="{{ ucwords('escribe para buscar') }}"
+            required
+            autocomplete="off"
+            value="{{ $search ?? old('search') }}"
+        />
     </div>
     <x-button type="submit" class="inline-flex items-center mt-1 text-sm font-medium py-3.5 ms-2" icon="fa-solid fa-magnifying-glass">
         Buscar

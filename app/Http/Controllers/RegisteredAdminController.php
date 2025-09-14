@@ -390,25 +390,23 @@ class RegisteredAdminController extends Controller
                 'carreras' => ['required', 'numeric'],
                 'search' => ['required', 'string', 'min:4']
             ], [
-                'carreras.required' => 'Introduzca Una Carrera Real',
-                'carreras.string' => 'Introduzca Un Valor',
-                'carreras.min' => 'Introduzca Minimo 4 Dígitos',
-                'search.required' => 'Introduzca Un Valor Para Buscar',
-                'search.string' => 'Introduzca Un Valor',
-                'search.min' => 'Introduzca Minimo 4 Dígitos en la busqueda',
+                'carreras.required' => 'Introduzca Una Opción Para Buscar',
+                'carreras.numeric' => 'Introduzca Un Valor Númerico',
+                'search.required' => ucwords('Por favor, ingresa un término de búsqueda'),
+                'search.string' => 'Debes Colocar Carácteres De Texto',
+                'search.min' => 'Introduzca Minimo 4 Dígitos En La Busqueda',
             ]);
         } else {
             $validar = $request->validate([
                 'carreras' => ['required', 'numeric', 'exists:carreras,id'],
                 'search' => ['required', 'string', 'min:4']
             ], [
-                'carreras.required' => 'Introduzca Una Carrera Real',
-                'carreras.string' => 'Introduzca Un Valor',
-                'carreras.min' => 'Introduzca Minimo 4 Dígitos',
-                'carreras.exists' => 'Introduzca una Carrera Registrada',
-                'search.required' => 'Introduzca Un Valor Para Buscar',
-                'search.string' => 'Introduzca Un Valor',
-                'search.min' => 'Introduzca Minimo 4 Dígitos en la busqueda',
+                'carreras.required' => 'Introduzca Una Opción Para Buscar',
+                'carreras.numeric' => 'Introduzca Un Valor Númerico',
+                'carreras.exists' => 'Introduzca Una Carrera Registrada',
+                'search.required' => ucwords('Por favor, ingresa un término de búsqueda'),
+                'search.string' => 'Debes Colocar Carácteres De Texto',
+                'search.min' => 'Introduzca Minimo 4 Dígitos En La Busqueda',
             ]);
         }
 
@@ -433,6 +431,8 @@ class RegisteredAdminController extends Controller
                     ->orWhere('telefono', 'LIKE', "%{$search}%")
                     ->orWhere('direccion', 'LIKE', "%{$search}%")
                     ->orWhere('city', 'LIKE', "%{$search}%");
+            })->when($carrera !== '0', function ($query) use ($carrera) {
+                $query->where('carrera_id', $carrera);
             })->orderByRaw('created_at DESC')->paginate(20);
             $carreras = Carreras::all();
         } else {
