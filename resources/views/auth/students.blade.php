@@ -1,7 +1,8 @@
 <x-dashboard>
     <x-slot:titulo>Estidiantes</x-slot:titulo>
     <x-button-a class="btn-new-student" link="registro-estudiante" icon="fa-solid fa-plus-large">Registrar Nuevo
-        Estudiante</x-button-a>
+        Estudiante
+    </x-button-a>
     <div class="mt-7">
 
         <form class="flex items-center max-w-lg mx-auto mb-7" method="POST" action="/estudiantes-panel-administrativo">
@@ -93,7 +94,9 @@
                 </div>
             @else
                 <div>
-                    <center class="mt-9">
+                    <center class="select-none mt-9">
+                        <i class="text-4xl far fa-telescope"></i>
+                        <br>
                         <x-span class="text-2xl">
                             {{ ucwords('oooops!!...') }}
                         </x-span>
