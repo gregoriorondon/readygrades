@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Carreras;
+use App\Models\Nucleos;
 use App\Models\Students;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class Loadingstudents extends Component
 
     public $search = '';
     public $carrera = 0;
+    public $nucleo = 0;
 
     protected $updatesQueryString = ['search', 'carrera'];
 
@@ -64,6 +66,10 @@ class Loadingstudents extends Component
 
         if (!$esRoot) {
             $query->where('nucleo_id', $nucleo->nucleo_id);
+        } else {
+            if ($this->nucleo != 0) {
+                $query->where('nucleo_id', $this->nucleo);
+            };
         }
 
         if (strlen($this->search) >= 4) {
@@ -85,7 +91,8 @@ class Loadingstudents extends Component
 
         $estudiantes = $query->orderBy('created_at', 'desc')->paginate(20);
         $carreras = Carreras::all();
+        $nucleos = Nucleos::all();
 
-        return view('livewire.loadingstudents', compact('estudiantes', 'carreras'));
+        return view('livewire.loadingstudents', compact('estudiantes', 'carreras', 'nucleos'));
     }
 }
