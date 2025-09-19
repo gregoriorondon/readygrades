@@ -127,6 +127,9 @@
                     </div>
                 </div>
             </div>
+            <div>
+                {{ $estudiantes->links() }}
+            </div>
         @else
             <div>
                 <center class="select-none mt-9">
@@ -143,8 +146,5 @@
             </div>
         @endif
     </div>
-</div>
-<div>
-    {{ $estudiantes->links() }}
 </div>
 <x-error-and-correct-dialog />

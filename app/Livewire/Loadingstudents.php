@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 class Loadingstudents extends Component
 {
     use WithPagination;
+    protected string $paginationTheme = 'tailwind';
 
     public $search = '';
     public $carrera = 0;
@@ -89,7 +90,7 @@ class Loadingstudents extends Component
             $query->where('carrera_id', $this->carrera);
         }
 
-        $estudiantes = $query->orderBy('created_at', 'desc')->paginate(20);
+        $estudiantes = $query->orderBy('created_at', 'desc')->paginate(3)->onEachSide(0);
         $carreras = Carreras::all();
         $nucleos = Nucleos::all();
 
