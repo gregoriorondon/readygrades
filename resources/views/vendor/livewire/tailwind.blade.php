@@ -17,18 +17,21 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                 <span>
                     @if ($paginator->onFirstPage())
                         <span class="relative
+                                    select-none
                                     inline-flex
                                     items-center
                                     px-4 py-2
                                     text-sm
                                     font-medium
-                                    text-gray-500
-                                    border border-gray-300
+                                    font-inter
+                                    text-gray-500/70
+                                    border border-gray-300/30
                                     cursor-default
                                     leading-5
                                     rounded-md"
                         >
-                            {!! __('pagination.previous') !!}
+                            <i class="fa-regular fa-arrow-left"></i>
+                            {!! ucwords('anterior') !!}
                         </span>
                     @else
                         <button
@@ -49,14 +52,16 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                                     px-4 py-2
                                     text-sm
                                     font-medium
-                                    text-gray-700
+                                    font-inter
                                     border border-gray-300
                                     leading-5 rounded-md
-                                    hover:text-gray-500
+                                    hover:bg-ready
+                                    hover:text-white
                                     focus:outline-none
                                     transition ease-in-out duration-150"
                             >
-                            {!! __('pagination.previous') !!}
+                            <i class="fa-regular fa-arrow-left"></i>
+                            {!! ucwords('anterior') !!}
                         </button>
                     @endif
                 </span>
@@ -80,31 +85,37 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                                 px-4 py-2
                                 ml-3 text-sm
                                 font-medium
-                                text-gray-700
+                                font-inter
+                                {{-- text-gray-700 --}}
                                 border border-gray-300
                                 leading-5
                                 rounded-md
-                                hover:text-gray-500
+                                hover:bg-ready
+                                hover:text-white
                                 focus:outline-none
                                 transition ease-in-out duration-150"
                         >
-                            {!! __('pagination.next') !!}
+                            {!! ucwords('siguiente') !!}
+                            <i class="fa-regular fa-arrow-right mr-0 ml-2"></i>
                         </button>
                     @else
                         <span class="
+                            select-none
                             relative
                             inline-flex
                             items-center
                             px-4 py-2
                             ml-3 text-sm
                             font-medium
-                            text-gray-500
-                            border border-gray-300
+                            font-inter
+                            text-gray-500/70
+                            border border-gray-300/30
                             cursor-default
                             leading-5
                             rounded-md"
                         >
-                            {!! __('pagination.next') !!}
+                            {!! ucwords('siguiente') !!}
+                            <i class="fa-regular fa-arrow-right mr-0 ml-2"></i>
                         </span>
                     @endif
                 </span>
