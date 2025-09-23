@@ -661,9 +661,9 @@
 
 /* Start Iconbox Area
 ==================================================*/
-.icon-box-img-1 {background-image: url(../img/iconbox_01.jpg);}
-.icon-box-img-2 {background-image: url(../img/iconbox_02.jpg);}
-.icon-box-img-3 {background-image: url(../img/iconbox_03.jpg);}
+.icon-box-img-1 {background-image: url(../img/iconbox_01.webp);}
+.icon-box-img-2 {background-image: url(../img/iconbox_02.webp);}
+.icon-box-img-3 {background-image: url(../img/iconbox_03.webp);}
 
 .single-icon-box {
     height: 280px;
@@ -681,9 +681,10 @@
     top: 210px;
     width: 100%;
     height: 100%;
-    background: #4272d7;
-    opacity: .9;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    background: #4272d7d9;
+    backdrop-filter: blur(5px);
+    /* opacity: .9; */
+    /* -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"; */
     color: #fff;
     z-index: -1;
     padding: 20px 30px 30px 30px;
@@ -715,6 +716,7 @@
     font-size: 14px;
     text-align: justify;
     margin-bottom: 25px;
+    line-height: 140%;
 }
 .read-more-btn {
     text-transform: capitalize;

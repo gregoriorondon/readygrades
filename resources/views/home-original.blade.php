@@ -186,14 +186,15 @@ setTimeout(function() {
             <div class="row">
                 <div class="col-lg-4">
                     <div class="single-icon-box icon-box-img-1">
-                        <div class="icon-box-content">
+                        <div class="icon-box-content" href="nucleos.html">
                             <h6 class="iconbox-content-heading"><i class="fas fa-university"></i> Núcleos
                                 Territoriales</h6>
                             <div class="iconbox-content-body">
                                 <p>Espacios Educativos abiertos al aprendizaje colaborativo del estudiantado Trujillano.
                                     Ubicados en 5 Municipios del Estado Trujillo.</p>
-                                <a class="btn btn-inline read-more-btn" href="nucleos.html"><i
-                                        class="fas fa-plus-square"></i> Ver más</a>
+                                <x-button-a class="border-2 w-[100%]" link="nucleos.html" icon="fas fa-plus-square">
+                                    Ver más
+                                </x-button-a>
                             </div>
                         </div>
                     </div>
@@ -201,14 +202,17 @@ setTimeout(function() {
                 <div class="col-lg-4">
                     <div class="single-icon-box icon-box-img-2">
                         <div class="icon-box-content">
+                            <div class="iconbox-content-body">
                             <h6 class="iconbox-content-heading"><i class="fas fa-book-reader"></i> Programas
                                 Nacionales de Formación</h6>
                             <p>Conjunto de estudios en áreas estratégicas para la Patria, conducentes a títulos o grados
                                 de estudios universitarios, creados por iniciativa del Ejecutivo Nacional, a través del
                                 Ministerio del Poder Popular para la Educación Universitaria (MPPEU)</p>
                             <div class="iconbox-content-body">
-                                <a class="btn btn-inline read-more-btn" href="pnf/index.html"><i
-                                        class="fas fa-plus-square"></i> Ver más</a>
+                                <x-button-a class="border-2 w-[100%]" link="pnf/index.html" icon="fas fa-plus-square">
+                                    Ver más
+                                </x-button-a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,14 +220,15 @@ setTimeout(function() {
                 <div class="col-lg-4">
                     <div class="single-icon-box icon-box-img-3">
                         <div class="icon-box-content">
-                            <h6 class="iconbox-content-heading"><i class="fas fa-user-graduate"></i> DRSCE</h6>
                             <div class="iconbox-content-body">
+                            <h6 class="iconbox-content-heading"><i class="fas fa-user-graduate"></i> DRSCE</h6>
                                 <p>Departamento de Registo, Seguimiento y Control de Estudios. Instancia encargada de
                                     organizar, programar, ejecutar y supervisar el proceso de admisión, prosecución y
                                     egreso, asesoramiento estudiantil y profesoral, control de estudios y evaluación en
                                     la Universidad.</p>
-                                <a class="btn btn-inline read-more-btn" href="drsce/drsce.html"><i
-                                        class="fas fa-plus-square"></i> Ver más</a>
+                                <x-button-a class="border-2 w-[100%]" link="drsce/drsce.html" icon="fas fa-plus-square">
+                                    Ver más
+                                </x-button-a>
                             </div>
                         </div>
                     </div>
