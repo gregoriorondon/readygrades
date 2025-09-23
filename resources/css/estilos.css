@@ -100,8 +100,9 @@
     text-align: center;
     font-size: 48px;
     color: var(--botones);
-    font-family: 'staatliches';
-    font-weight: 500;
+    font-family: 'inter' !important;
+    letter-spacing: normal;
+    /* font-weight: 500; */
 }
 .sec-readygrades{
     display: flex;
