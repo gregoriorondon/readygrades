@@ -371,8 +371,8 @@ setTimeout(function() {
     <!-- Start Barra Download -->
     <div class="hire-us-area theme-bg js--sticky-menu">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-7 col-md-9 col-12">
+            <div class="flex items-center justify-center">
+                <div class="max-w-[55%]">
                     <center>
                         <div class="hire-us-content">
                             <h6><b>Estudiante Nuevo Ingreso <br>Ingresa, descarga, llena e imprime tu planilla de
@@ -380,9 +380,10 @@ setTimeout(function() {
                         </div>
                     </center>
                 </div>
-                <div class="col-lg-3 col-md-3  offset-lg-2 col-12 text-right">
-                    <a class="btn hire-us-button" href="drsce/drsce.html" target="_blank"><i
-                            class="fa fa-download fa-lg"></i>&nbsp;ADMISION 2025-3</a>
+                <div class="ml-5">
+                    <x-button-a class="border-2 text-xl" link="drsce/drsce.html" target="_blank" icon="fa fa-download fa-lg">
+                        ADMISION 2025-3
+                    </x-button-a>
                 </div>
             </div>
         </div>
