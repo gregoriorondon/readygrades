@@ -1,0 +1,12 @@
+/* .filtro { */
+/*     filter: brightness(50%); */
+/* } */
+.carousel-caption {
+    bottom: auto !important;
+    top: 50%;
+    transform: translateY(-50%);
+    backdrop-filter: blur(20px) brightness(50%);
+    padding: 7px;
+    border-radius: 21px;
+    user-select: none;
+}
