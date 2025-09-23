@@ -292,7 +292,7 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/AulaVirtual.jpg" width="400px" height="100px"></img>
+                            <img src="/img/AulaVirtual.webp" width="400px" height="100px"></img>
                         </div>
                         <div class="item-content">
                             <h6><a href="http://www.moodle2.iutetvirtual.org.ve/" target="_blank">MOODLE UPTTMBI</a>
@@ -305,7 +305,7 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/censoiuptt.png" width="200px" height="100px">
+                            <img src="/img/censoiuptt.webp" width="200px" height="100px">
                         </div>
                         <div class="item-content">
                             <h6><a href="https://docs.google.com/forms/d/e/1FAIpQLScvXQKh0b1QaoXAtrvXCCEBajD-RjkvJQl98vMiMyiArvQkvw/viewform"
@@ -317,7 +317,7 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/sismeu.jpg" width="200px" height="100px">
+                            <img src="/img/sismeu.webp" width="200px" height="100px">
                         </div>
                         <div class="item-content">
                             <h6><a href="https://hcmupttmbi.blogspot.com/" target="_blank">SISMEU</a></h6>
@@ -328,7 +328,7 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/turadio1079.jpg" width="100px" height="100px">
+                            <img src="/img/turadio1079.webp" width="100px" height="100px">
                         </div>
                         <div class="item-content">
                             <h6><a href="#">TU RADIO 107.9FM</a></h6>
@@ -339,7 +339,7 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/recibospagos.jpg" width="200px" height="100px">
+                            <img src="/img/recibospagos.webp" width="200px" height="100px">
                         </div>
                         <div class="item-content">
                             <h6><a href="http://www.upttmbi.edu.ve/constancias/constancia.php"
@@ -351,10 +351,10 @@ setTimeout(function() {
                 <div class="col-lg-4 col-md-6">
                     <div class="single-bemax-item d-flex">
                         <div class="item-icon">
-                            <img src="assets/img/logouptt.png" width="200px" height="100px">
+                            <img src="/img/logouptt.webp" width="200px" height="100px">
                         </div>
                         <div class="item-content">
-                            <h6><a href="assets/img/cintilloUPTT.jpg" target="_blank">Encabezado de Publicaciones</a>
+                            <h6><a href="/img/cintilloUPTT.jpg" target="_blank">Encabezado de Publicaciones</a>
                             </h6>
                             <p>Cintillo Institucional, diseñado para su uso en papelería y trabajos de la Universidad
                             </p>
