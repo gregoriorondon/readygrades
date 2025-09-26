@@ -91,6 +91,21 @@
 .text-right {
     text-align: right !important
 }
+.nav{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 .show-mobile-menu .slicknav_menu .slicknav_menutxt {
     display: none;
@@ -161,7 +176,7 @@
 }
 
 .main-menu li {
-    /* display: inline-block; */
+    display: inline-block;
     /* margin-left: 20px; */
     text-decoration: none !important;
 }

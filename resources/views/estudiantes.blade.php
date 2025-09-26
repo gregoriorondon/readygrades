@@ -1,5 +1,6 @@
     <title>Estudiantes</title>
     <x-import />
+    <link rel="stylesheet" href="/css/menu.css">
     <script>
         console.warn("Cuidado Usuario");
         console.warn("Si eres un usuario normal POR FAVOR NO USES ESTA CONSOLA")
@@ -7,13 +8,13 @@
         console.log("%c%s","font-size: 18px;","No utilices esta consola, no escribas ni pegues ning\u00fan c\u00f3digo o script.");
     </script>
 <body class="cuerpo">
-    <x-nav />
+    <x-menuuptt />
     <div>
         <x-authentication-card>
             <x-slot name="logo">
                 <x-authentication-card-logo />
             </x-slot>
-            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">Ver sus Datos Académicos</h1>
+            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-inter uppercase">Ver sus Datos Académicos</h1>
             <p class="font-inter mb-7">Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.</p>
             <form method="POST" action="/detalles-estudiante">
                 @csrf
@@ -34,5 +35,5 @@
         </x-authentication-card>
     </div>
 <x-minifoot />
-<x-footer />
+<x-footer-original />
 </body>

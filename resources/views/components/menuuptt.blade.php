@@ -1,4 +1,4 @@
- <div class="menu">
+<div class="menu block">
      <div class="menus justify-between items-center">
          <div class="w-[15%]">
              <a href="/">
@@ -6,8 +6,8 @@
              </a>
          </div>
          <div class="text-center">
-             <nav class="menu-wrapper">
-                 <ul class="main-menu" id="mobile-menu">
+             <nav class="menu-wrapper nav">
+                 <ul class="main-menu nav" id="mobile-menu">
                      <li class="!ml-0"><a href="/">INICIO</a></li>
                      <li><a href="autoridades.html">AUTORIDADES</a></li>
                      <li><a href="nucleos/index.html">NÚCLEOS</a></li>
@@ -15,8 +15,6 @@
                      <li><a href="drsce/drsce.html">DRSCE</a></li>
                      <li><a href="#contact-us">CONTACTO</a></li>
                      <li><a href="/login">LOGIN</a></li>
-                     {{-- <li> <img src="/200.png" class="h-[40px]"></i> --}}
-                     </li>
                  </ul>
              </nav>
          </div>
