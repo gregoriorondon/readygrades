@@ -33,6 +33,7 @@ module.exports = {
         extend: {
             colors: {
             'ready': '#4272d8',
+            'footer': '#171a21'
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
