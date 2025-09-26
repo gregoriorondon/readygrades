@@ -7,14 +7,14 @@
          </div>
          <div class="text-center">
              <nav class="menu-wrapper nav">
-                 <ul class="main-menu nav" id="mobile-menu">
+                 <ul class="main-menu nav uppercase" id="mobile-menu">
                      <li class="!ml-0"><a href="/">INICIO</a></li>
                      <li><a href="autoridades.html">AUTORIDADES</a></li>
                      <li><a href="nucleos/index.html">NÚCLEOS</a></li>
                      <li><a href="pnf/index.html">PNF</a></li>
                      <li><a href="drsce/drsce.html">DRSCE</a></li>
                      <li><a href="#contact-us">CONTACTO</a></li>
-                     <li><a href="/login">LOGIN</a></li>
+                     <li><a href="/login">iniciar sesión</a></li>
                  </ul>
              </nav>
          </div>

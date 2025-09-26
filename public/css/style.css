@@ -639,7 +639,7 @@
 }
 
 .hire-us-button2 {
-    border-color: #fff; !important;
+    border-color: #fff !important;
     padding: 15px 40px;
     background: transparent !important;
 	color: #fff;
@@ -1145,6 +1145,7 @@
 .social-links li a {
     color: #fff;
     display: block;
+    margin-top: 10px;
 }
 
 .social-links li:hover {
@@ -1889,12 +1890,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 html { overflow-y: scroll; }
 body {
   background: #fcfcfc url('bg.png'); /* https://subtlepatterns.com/crossword/ */
-  font-size: 62.5%;
-  line-height: 1;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  padding: 45px 25px;
-  padding-bottom: 100px;
-}
+/*   font-size: 62.5%; */
+/*   line-height: 1; */
+/*   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; */
+/*   padding: 45px 25px; */
+/*   padding-bottom: 100px; */
+/* } */
 
 br { display: block; line-height: 1.6em; }
 
