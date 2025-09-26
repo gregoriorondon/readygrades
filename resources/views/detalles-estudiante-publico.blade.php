@@ -174,7 +174,7 @@
             no se muestran todos los datos personales requeridos en la inscripción</p>
     </div>
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
-    <x-footer />
+    <x-footer-original />
 </body>
 
 </html>
