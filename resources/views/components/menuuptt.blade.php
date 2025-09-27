@@ -13,7 +13,7 @@
                      <li><a href="nucleos/index.html">NÚCLEOS</a></li>
                      <li><a href="pnf/index.html">PNF</a></li>
                      <li><a href="drsce/drsce.html">DRSCE</a></li>
-                     <li><a href="#contact-us">CONTACTO</a></li>
+                     <li><a href="/student">estudiante</a></li>
                      <li><a href="/login">iniciar sesión</a></li>
                  </ul>
              </nav>
