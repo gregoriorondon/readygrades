@@ -5,6 +5,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                "public/css/style.css",
                 "resources/css/app.css",
                 "resources/css/app.scss",
                 "resources/css/estilos.css",

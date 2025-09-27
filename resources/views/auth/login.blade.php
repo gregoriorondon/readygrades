@@ -1,6 +1,7 @@
 <x-guest>
  <x-slot:titulo>Iniciar sesión</x-slot:titulo>
- <x-nav />
+ <x-menuuptt />
+     @vite(['public/css/menu.css', 'public/css/style.css'])
     <x-authentication-card>
         <x-slot name="logo">
            <x-authentication-card-logo />
@@ -40,4 +41,5 @@
         <span class="font-inter">Si no esta registrado, diríjase al A.R.S.C.E</span>
     </div>
     </x-authentication-card>
+    <x-footer-original />
 </x-guest>
