@@ -17,7 +17,7 @@
                 <x-authentication-card-logo />
             </x-slot>
             <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;"
-                class="font-inter uppercase !text-left leading-none">Ver sus Datos Académicos
+                class="font-staat uppercase leading-none tracking-normal">Ver sus Datos Académicos
             </h1>
             <p class="font-inter mb-7">Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.</p>
             <form method="POST" action="/detalles-estudiante">
