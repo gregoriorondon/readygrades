@@ -122,6 +122,7 @@ class RegisteredAdminController extends Controller
 
     public function studentstore(Request $request)
     {
+        // dd($request);
         $datosEstudiante = $request->validate([
             'cedula' => ['required', 'numeric', 'min_digits:7'],
             'primer_name' => ['required', 'string'],
@@ -139,7 +140,7 @@ class RegisteredAdminController extends Controller
             'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
             'tramo_trayecto_id' => ['required', 'numeric', 'exists:tramo_trayecto,id'],
             'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
-            'codigo' => 'required|string',
+            // 'codigo' => 'required|string',
         ], [
             'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
@@ -164,7 +165,7 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.required' => 'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
             'tramo_trayecto_id.numeric' => 'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
             'tramo_trayecto_id.exists' => 'El tramo y trayecto no es válido.',
-            'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
+            // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
         ]);
 
         $usuario = Auth::user();
@@ -209,6 +210,32 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
 
+        $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
+        if ($tramo->id !== 1) {
+            if (empty($request->codigo)) {
+                $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
+                if (is_null($existeCodigo)) {
+                    return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
+                }
+                $datosEstudiante['codigo'] = $existeCodigo;
+            }
+        } else {
+            $existeStudent = Students::where('cedula', $request->cedula)->value('codigo');
+            if (is_null($existeStudent)) {
+                $studentInicial = Students::where('tramo_trayecto_id', $request->tramo_trayecto_id)
+                    ->where('nucleo_id', $request->nucleo_id)
+                    ->latest()
+                    ->first();
+                if (empty($studentInicial)) {
+                    return redirect()->back()->withInput()->withErrors(['error' => 'Estas registrando al primer estudiante en éste núcleo, por favor ingresa su código manualmente']);
+                }
+                $studentInicialIncrement = $studentInicial->codigo + 1;
+                $datosEstudiante['codigo'] = $studentInicialIncrement;
+            } else {
+                $datosEstudiante['codigo'] = $existeStudent;
+            }
+        }
+
         $datosEstudiante['periodo_id'] = $periodo->id;
         $datosEstudiante['primer_name'] = Str::title(ucwords($datosEstudiante['primer_name']));
         $datosEstudiante['segundo_name'] = $datosEstudiante['segundo_name'] ? Str::title(ucwords($datosEstudiante['segundo_name'])) : null;
@@ -229,7 +256,7 @@ class RegisteredAdminController extends Controller
                 'nota' => null
             ]);
         }
-        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente.');
+        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $datosEstudiante['codigo']);
     }
 
     public function studentedit($estudiante)
@@ -810,13 +837,37 @@ class RegisteredAdminController extends Controller
         $fecha = Carbon::now();
 
         $diasEnLetras = [
-            1 => 'uno', 2 => 'dos', 3 => 'tres', 4 => 'cuatro', 5 => 'cinco',
-            6 => 'seis', 7 => 'siete', 8 => 'ocho', 9 => 'nueve', 10 => 'diez',
-            11 => 'once', 12 => 'doce', 13 => 'trece', 14 => 'catorce', 15 => 'quince',
-            16 => 'dieciséis', 17 => 'diecisiete', 18 => 'dieciocho', 19 => 'diecinueve',
-            20 => 'veinte', 21 => 'veintiuno', 22 => 'veintidós', 23 => 'veintitrés',
-            24 => 'veinticuatro', 25 => 'veinticinco', 26 => 'veintiséis', 27 => 'veintisiete',
-            28 => 'veintiocho', 29 => 'veintinueve', 30 => 'treinta', 31 => 'treinta y uno'
+            1 => 'uno',
+            2 => 'dos',
+            3 => 'tres',
+            4 => 'cuatro',
+            5 => 'cinco',
+            6 => 'seis',
+            7 => 'siete',
+            8 => 'ocho',
+            9 => 'nueve',
+            10 => 'diez',
+            11 => 'once',
+            12 => 'doce',
+            13 => 'trece',
+            14 => 'catorce',
+            15 => 'quince',
+            16 => 'dieciséis',
+            17 => 'diecisiete',
+            18 => 'dieciocho',
+            19 => 'diecinueve',
+            20 => 'veinte',
+            21 => 'veintiuno',
+            22 => 'veintidós',
+            23 => 'veintitrés',
+            24 => 'veinticuatro',
+            25 => 'veinticinco',
+            26 => 'veintiséis',
+            27 => 'veintisiete',
+            28 => 'veintiocho',
+            29 => 'veintinueve',
+            30 => 'treinta',
+            31 => 'treinta y uno'
         ];
 
         $dia = $fecha->day;
@@ -842,7 +893,8 @@ class RegisteredAdminController extends Controller
             ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
             ->orderBy('tramo_trayecto_id', 'desc')
             ->first();
-        $pdf = Pdf::loadView('pdf.constanciaestudios',
+        $pdf = Pdf::loadView(
+            'pdf.constanciaestudios',
             compact([
                 'informacion',
                 'usuario',
@@ -853,7 +905,8 @@ class RegisteredAdminController extends Controller
                 'anio',
                 'titulosacademicos',
                 'carreras'
-            ]))->setOption($opciones);
+            ])
+        )->setOption($opciones);
         $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
         return $pdf->download($filename);
         return view('auth.generar');
