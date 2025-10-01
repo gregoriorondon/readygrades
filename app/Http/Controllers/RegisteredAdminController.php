@@ -912,6 +912,9 @@ class RegisteredAdminController extends Controller
         return view('auth.generar');
     }
 
+    // ============================================
+    //  RECORD DE Notas
+    // ============================================
     public function generarrecord(Request $request)
     {
         $validar = $request->validate([
@@ -934,12 +937,49 @@ class RegisteredAdminController extends Controller
 
     public function generarrecordpdf(Request $request)
     {
+        $validar = $request->validate([
+            'cedula' => ['required', 'numeric', 'min_digits:7'],
+        ], [
+            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+        ]);
+        $cedula = Students::where('cedula', $validar)->first();
+        if (!$cedula) {
+            return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
+        }
+
+        $estudiante = Students::where('cedula', $request->cedula)
+            ->where('carrera_id', $request->carrera_id)
+            ->first();
+        $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
+        $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
+            ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
+            ->orderBy('tramo_trayecto_id', 'desc')
+            ->first();
         $fecha = Carbon::now();
 
         $dia = $fecha->day;
         $mes = $fecha->month;
         $anio = $fecha->year;
-        return view('pdf.record', compact('dia', 'mes', 'anio'));
+        $opciones = [
+            'fontDir' => resource_path('fonts/Courierpdf/'),
+        ];
+        $pdf = Pdf::loadView(
+            'pdf.record',
+            compact([
+                'estudiante',
+                'dia',
+                'mes',
+                'anio',
+                'titulosacademicos',
+                'carreras'
+            ])
+        )->setOption($opciones);
+        $filename = 'record.pdf';
+        // return $pdf->stream($filename);
+        // return view('auth.generar');
+        return view('pdf.record', compact('dia', 'mes', 'anio', 'estudiante', 'titulosacademicos', 'carreras'));
     }
 
     public function generarrecarga()
