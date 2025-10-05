@@ -7,9 +7,9 @@
             <x-label>Seleccione La Consulta Que Desea Generar</x-label>
             <x-select-form name="solicitud" id="seleccionar">
                 <option value="ninguno">{{ ucwords('seleccione lo que desea generar') }}</option>
-                {{-- <option value="constancia">Constancia De Estudios</option> --}}
+                <option value="constancia">Constancia De Estudios</option>
                 <option value="record">Récord Académico</option>
-                <option value="acta">{{ ucwords('acta de calificación final') }}</option>
+                {{-- <option value="acta">{{ ucwords('acta de calificación final') }}</option> --}}
             </x-select-form>
 
             <form action="/submit-student-cedula" method="POST" class="hidden" id="formulario">

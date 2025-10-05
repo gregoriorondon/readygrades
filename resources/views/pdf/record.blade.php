@@ -39,6 +39,8 @@
 
         * {
             font-family: "CourierPrime";
+            line-height: 70%;
+            font-size: 14px;
             {{-- margin-top: -20px; --}}
         }
 
@@ -87,7 +89,7 @@
         }
 
         .underline-custom {
-            font-family: "CourierItalic";
+            font-family: "Courier";
             display: inline-block;
             border-bottom: 1px solid;
             padding-bottom: 3px;
@@ -95,7 +97,7 @@
             transform: translateY(5px);
             line-height: 20px;
             position: relative;
-            padding: 0px 21px;
+            padding: 0px 10px;
             text-indent: 0px;
         }
 
@@ -108,13 +110,12 @@
             transform: translateY(5px);
             line-height: 20px;
             position: relative;
-            padding: 0px 15px;
+            padding: 0px;
             text-indent: 0px;
         }
 
         .firma_derecha {
             text-align: right;
-            margin: 100px 22px 0px 22px;
         }
 
         .firma1 {
@@ -137,52 +138,106 @@
         }
 
         .titulo {
-            min-width: 100%;
+            width: auto;
+            vertical-align: top;
         }
 
         .fecha {
-            min-width: max-content;
-            float: left;
+            width: 20%;
+            vertical-align: top;
+            margin-top: 0;
+            text-align: right;
+        }
+
+        .tabla {
+            width: 100%;
+            border-collapse: collapse;
         }
 
         .border {
             border: 1px solid #000;
             border-radius: 14px;
         }
-        .text-center{
+
+        .text-center {
             text-align: center;
         }
-        .min-w-full{
+
+        .text-left {
+            text-align: left;
+        }
+
+        .min-w-full {
             min-width: 100%;
         }
-        .my-0{
+
+        .my-0 {
             margin-top: 0;
             margin-bottom: 0;
+        }
+
+        .ml-8 {
+            margin-left: 32px;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-courier-bold {
+            font-family: "CourierBold";
+        }
+
+        .w-300 {
+            width: 150px;
+        }
+
+        .line-height {
+            line-height: 20%;
+        }
+
+        .line-height1 {
+            line-height: 0;
+            margin: 0;
+        }
+
+        .text-xl {
+            font-size: 21px;
+        }
+        .mt-2{
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
-    <table>
+    <table class="tabla">
         <tr>
-            <td class="titulo">
-                <p>{{ mb_strtoupper(trim('universidad politécnica territorial'), 'UTF-8') }}</p>
-                <p>{{ mb_strtoupper(trim('del estado trujillo'), 'UTF-8') }}</p>
-                <p>{{ mb_strtoupper(trim('área de registro, seguimiento y control de estudios'), 'UTF-8') }}</p>
-                <p>{{ mb_strtoupper(trim('núcleo'), 'UTF-8') . ' ' . $estudiante->nucleos->nucleo }}</p>
+            <td class="titulo line-height">
+                <p class="line-height font-courier-bold">
+                    {{ mb_strtoupper(trim('universidad politécnica territorial'), 'UTF-8') }}</p>
+                <p class="line-height font-courier-bold">{{ mb_strtoupper(trim('del estado trujillo'), 'UTF-8') }}</p>
+                <p class="line-height">
+                    {{ mb_strtoupper(trim('área de registro, seguimiento y control de estudios'), 'UTF-8') }}</p>
+                <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiante->nucleos->nucleo), 'UTF-8') }}
+                </p>
             </td>
             <td class="fecha">
-                <p>{{ $dia . ' / ' . $mes . ' / ' . $anio }}</p>
+                <p style="margin: 0;">{{ $dia . ' / ' . $mes . ' / ' . $anio }}</p>
             </td>
         </tr>
     </table>
     <center>
-        <p>{{ ucwords('récord académico') }}</p>
+        <p class="font-courier-bold text-xl">{{ mb_strtoupper(trim('récord académico'), 'UTF-8') }}</p>
     </center>
-    <p>
+    <p class="line-height1">
         {{ mb_strtoupper(trim('código:'), 'UTF-8') }}
-        <span>{{ $estudiante->codigo }}</span>
-        {{ mb_strtoupper(trim('cédula:'), 'UTF-8') }}
-        <span>
+        <span class="underline-custom">{{ $estudiante->codigo }}</span>
+        cédula:
+        <span class="underline-custom1">
             @if ($estudiante['nacionalidad'] === 'VE')
                 V{{ $estudiante['cedula'] }}
             @else
@@ -190,41 +245,85 @@
             @endif
         </span>
         {{ mb_strtoupper(trim('nombre:'), 'UTF-8') }}
-        <span class="underline-custom">
+        <span class="underline-custom1">
             @if ($estudiante['segundo_apellido'] === null)
-                {{ $estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name'] }}
+                {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
             @else
-                {{ $estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name'] }}
+                {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
             @endif
         </span>
-        {{ mb_strtoupper(trim('carr.:'), 'UTF-8') }}
-        <span class="carrera1"> {{ $titulosacademicos->titulo . ' En ' . $carreras->carrera }}</span>
     </p>
-    <div class="border">
+    <p class="line-height1">
+        {{ mb_strtoupper(trim('carr.:'), 'UTF-8') }}
+        <span class="underline-custom">
+            {{ mb_strtoupper(trim($titulosacademicos->titulo . ' En ' . $carreras->carrera), 'UTF-8') }}</span>
+    </p>
+    <div class="border mt-2">
         <table class="min-w-full">
             <tbody>
                 <tr>
                     <td colspan="5">
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('asignaturas cursadas'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">
+                            {{ mb_strtoupper(trim('asignaturas cursadas'), 'UTF-8') }}</p>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('sección'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">{{ mb_strtoupper(trim('sección'), 'UTF-8') }}</p>
                     </td>
                     <td>
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('nombre de la asignatura'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">
+                            {{ mb_strtoupper(trim('nombre de la asignatura'), 'UTF-8') }}</p>
                     </td>
                     <td>
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('uc'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">{{ mb_strtoupper(trim('uc'), 'UTF-8') }}</p>
                     </td>
                     <td>
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('regimen'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">{{ mb_strtoupper(trim('regimen'), 'UTF-8') }}</p>
                     </td>
                     <td>
-                        <p class="text-center my-0">{{ mb_strtoupper(trim('nota'), 'UTF-8') }}</p>
+                        <p class="text-center my-0 font-courier-bold">{{ mb_strtoupper(trim('nota'), 'UTF-8') }}</p>
                     </td>
                 </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="min-w-full">
+            <tbody>
+                @foreach ($notas->groupBy('periodo_id') as $periodoId => $nota)
+                    <tr>
+                        <td colspan="5" class="font-courier">
+                            <p class="text-left my-0 font-courier-bold">
+                                {{ mb_strtoupper(trim('lapso:'), 'UTF-8') . ' ' . $nota->first()->periodos->nombre }}
+                            </p>
+                        </td>
+                    </tr>
+                    @foreach ($nota as $note)
+                        <tr>
+                            <td class="ml-8 block">
+                                <p class="text-left my-0">{{ $note->pensums->materias->codigo }}</p>
+                            </td>
+                            <td>
+                                <p class="text-left my-0">
+                                    {{ mb_strtoupper(trim($note->pensums->materias->materia), 'UTF-8') }}</p>
+                            </td>
+                            <td>
+                                <p class="text-left my-0">{{ $note->pensums->materias->unidadcurricular }}</p>
+                            </td>
+                            <td class="w-300">
+                                {{-- <p class="text-left my-0">{{ ' ' }}</p> --}}
+                            </td>
+                            <td>
+                                @php
+                                    $suma = $note->nota_uno + $note->nota_dos + $note->nota_tres + $note->nota_cuatro + $note->nota_extra;
+                                    $definitiva = round($suma / 4);
+                                @endphp
+                                <p class="text-left my-0">{{ $definitiva }}</p>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endforeach
             </tbody>
         </table>
     </div>

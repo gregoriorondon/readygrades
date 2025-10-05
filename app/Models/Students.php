@@ -48,7 +48,13 @@ class Students extends Model
     public function notas() {
         return $this->hasMany(Notas::class);
     }
+    public function nota() {
+        return $this->hasMany(Notas::class, 'student_id');
+    }
     public function periodos() {
         return $this->belongsTo(Periodos::class);
+    }
+    public function periodo() {
+        return $this->belongsTo(Periodos::class, 'periodo_id');
     }
 }

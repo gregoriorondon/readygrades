@@ -912,9 +912,7 @@ class RegisteredAdminController extends Controller
         return view('auth.generar');
     }
 
-    // ============================================
-    //  RECORD DE Notas
-    // ============================================
+    // *************** RECORD DE Notas ***************
     public function generarrecord(Request $request)
     {
         $validar = $request->validate([
@@ -957,6 +955,13 @@ class RegisteredAdminController extends Controller
             ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
             ->orderBy('tramo_trayecto_id', 'desc')
             ->first();
+        $student = Students::where('cedula', $request->cedula)
+            ->where('carrera_id', $request->carrera_id)
+            ->get();
+        $student_ids = $student->pluck('id');
+        $notas = Notas::whereIn('student_id', $student_ids)
+            ->with(['pensums', 'periodos', 'students'])
+            ->get();
         $fecha = Carbon::now();
 
         $dia = $fecha->day;
@@ -973,13 +978,16 @@ class RegisteredAdminController extends Controller
                 'mes',
                 'anio',
                 'titulosacademicos',
-                'carreras'
+                'carreras',
+                'student',
+                'notas',
             ])
         )->setOption($opciones);
         $filename = 'record.pdf';
-        // return $pdf->stream($filename);
-        // return view('auth.generar');
-        return view('pdf.record', compact('dia', 'mes', 'anio', 'estudiante', 'titulosacademicos', 'carreras'));
+        $filename = 'Record_Academico_' . $estudiante['primer_name'] . '_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+        return $pdf->download($filename);
+        return view('auth.generar');
+        // return view('pdf.record', compact('dia', 'mes', 'anio', 'estudiante', 'titulosacademicos', 'carreras', 'student', 'notas',));
     }
 
     public function generarrecarga()
