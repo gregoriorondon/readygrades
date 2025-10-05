@@ -327,6 +327,9 @@
             </tbody>
         </table>
     </div>
+    <div>
+        <p>{{ ucwords('emitido por:') . ' ' . mb_strtoupper(trim($admin->estudios->abrev . ' ' . $admin['primer-name'] . ' ' . $admin['primer-apellido']), 'UTF-8') }}</p>
+    </div>
 
 </body>
 </html>
