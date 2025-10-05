@@ -962,6 +962,7 @@ class RegisteredAdminController extends Controller
         $notas = Notas::whereIn('student_id', $student_ids)
             ->with(['pensums', 'periodos', 'students'])
             ->get();
+        $admin = Auth::user();
         $fecha = Carbon::now();
 
         $dia = $fecha->day;
@@ -981,6 +982,7 @@ class RegisteredAdminController extends Controller
                 'carreras',
                 'student',
                 'notas',
+                'admin',
             ])
         )->setOption($opciones);
         $filename = 'record.pdf';
