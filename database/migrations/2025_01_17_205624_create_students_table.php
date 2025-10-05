@@ -189,7 +189,11 @@ return new class extends Migration
             $table->string('nota_tres')->nullable();
             $table->string('nota_cuatro')->nullable();
             $table->string('nota_extra')->nullable();
-            $table->string('nota_definitiva')->nullable();
+            // // ========== Datos manualmente desde informacion fisica ============
+            // $table->string('seccion')->nullable();
+            // $table->string('lapso')->nullable();
+            // $table->string('nota_definitiva')->nullable();
+            // // ========== Datos manualmente desde informacion fisica ============
             $table->string('nota_recuperacion')->nullable();
             $table->boolean('editado')->default(false);
             $table->string('nota_editar')->nullable();
