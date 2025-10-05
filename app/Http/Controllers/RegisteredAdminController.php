@@ -140,7 +140,7 @@ class RegisteredAdminController extends Controller
             'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
             'tramo_trayecto_id' => ['required', 'numeric', 'exists:tramo_trayecto,id'],
             'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
-            // 'codigo' => 'required|string',
+            // 'codigo' => 'nullable|string',
         ], [
             'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
@@ -221,7 +221,11 @@ class RegisteredAdminController extends Controller
             }
         } else {
             $existeStudent = Students::where('cedula', $request->cedula)->value('codigo');
-            if (is_null($existeStudent)) {
+            if (!empty($request->codigo)) {
+                $datosEstudiante['codigo'] = $request->codigo;
+            } elseif (!is_null($existeStudent)) {
+                $datosEstudiante['codigo'] = $existeStudent;
+            } else {
                 $studentInicial = Students::where('tramo_trayecto_id', $request->tramo_trayecto_id)
                     ->where('nucleo_id', $request->nucleo_id)
                     ->latest()
@@ -231,8 +235,6 @@ class RegisteredAdminController extends Controller
                 }
                 $studentInicialIncrement = $studentInicial->codigo + 1;
                 $datosEstudiante['codigo'] = $studentInicialIncrement;
-            } else {
-                $datosEstudiante['codigo'] = $existeStudent;
             }
         }
 
