@@ -33,8 +33,8 @@ return new class extends Migration
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
-            $table->unsignedBigInteger('tramo_trayecto_id');
-            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
+            // $table->unsignedBigInteger('tramo_trayecto_id');
+            // $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
             $table->unsignedbiginteger('seccion_id');
             $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeonupdate();
             $table->string('periodo_name');

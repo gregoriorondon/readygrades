@@ -18,16 +18,14 @@
                 <x-sidebar-section link="tramos-y-trayectos" icon="fa-solid fa-list-timeline">Trayectos y Tramos</x-sidebar-section>
                 <x-sidebar-section link="pensum" icon="fa-solid fa-scroll">Pensum</x-sidebar-section>
                 <x-sidebar-section link="students-academic-tittle" icon="fas fa-file-certificate">Títulos Académicos</x-sidebar-section>
+                <x-sidebar-section link="nucleos" icon="fa-solid fa-signs-post">Núcleos</x-sidebar-section>
         </details>
     @endcan
     <x-sidebar-section link="estudiantes-panel-administrativo" icon="fa-duotone fa-solid fa-user-graduate">Estudiantes</x-sidebar-section>
     <x-sidebar-section link="nomina-profesores" icon="fa-duotone fa-regular fa-chalkboard-user">Profesores</x-sidebar-section>
     <x-sidebar-section link="nomina-administradores" icon="fa-solid fa-user-tie">Administradores</x-sidebar-section>
-    @can('root')
-        <x-sidebar-section link="nucleos" icon="fa-solid fa-signs-post">Núcleos</x-sidebar-section>
-    @endcan
     <x-sidebar-section link="periodos" icon="fas fa-calendar-alt">Periodos Académicos</x-sidebar-section>
-    {{-- <x-sidebar-section link="cargar-notas" icon="fas fa-file-edit">Cargar Notas</x-sidebar-section> --}}
+    <x-sidebar-section link="cargar-notas" icon="fas fa-file-edit">Cargar Notas</x-sidebar-section>
     <x-sidebar-section link="asignar" icon="fas fa-plus">Asignar Docente</x-sidebar-section>
     <x-sidebar-section link="generar-documentos" icon="fas fa-file-plus">Generar</x-sidebar-section>
 @endcannot

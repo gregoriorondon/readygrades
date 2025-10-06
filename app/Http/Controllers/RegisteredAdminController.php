@@ -6,6 +6,7 @@ use App\Models\Asignar;
 use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
+use App\Models\Datospresistema;
 use App\Models\Estudios;
 use App\Models\Materias;
 use App\Models\Notas;
@@ -1504,8 +1505,104 @@ class RegisteredAdminController extends Controller
 
     public function cargarnotas()
     {
-        return view('auth.carga-manual');
+        $datos = Auth::user();
+        $user = User::where('id', $datos->id)->firstOrFail();
+        $courses = Carreras::orderByRaw('carrera ASC')->get();
+        $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
+        $secciones = Secciones::orderByRaw('seccion ASC')->get();
+        $periodo = Periodos::where('activo', true)->first();
+        $materias = Materias::all();
+        return view('auth.carga-manual', compact('courses', 'nucleos', 'secciones', 'periodo', 'user', 'materias'));
     }
+
+    public function cargarnotasstore(Request $request)
+    {
+        // dd($request);
+        $datosEstudiante = $request->validate([
+            'cedula' => ['required', 'numeric', 'min_digits:7'],
+            'primer_name' => ['required', 'string'],
+            'segundo_name' => ['nullable', 'string'],
+            'primer_apellido' => ['required', 'string'],
+            'segundo_apellido' => ['nullable', 'string'],
+            'genero' => ['required', 'string'],
+            'nacionalidad' => ['required'],
+            'fecha_nacimiento' => ['required'],
+            'nucleo_id' => ['required', 'numeric'],
+            'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
+            'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
+            'definitiva' => ['required', 'numeric', 'max_digits:2'],
+            'materia_id' => ['required', 'numeric'],
+            'fecha_periodo' => ['required'],
+            'periodo_name' => ['required', 'string'],
+            // 'codigo' => 'nullable|string',
+        ], [
+            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+            'primer_name.required' => 'Es obligatorio que el estudiante tenga su primer nombre.',
+            'primer_name.string' => 'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
+            'primer_apellido.required' => 'Es obligatorio que el estudiante tenga su primer apellido.',
+            'genero.required' => 'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
+            'fecha_nacimiento.required' => 'Es obligatorio colocar la fecha de nacimiento del estudiante.',
+            'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
+            'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
+            'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
+            'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
+            'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
+            'carrera_id.exists' => 'La carrera no es válida.',
+            // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
+        ]);
+
+        $usuario = Auth::user();
+        $user = User::with('cargos.tipos')->find($usuario->id);
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
+            $q->where('tipo', 'superadmin');
+        })->exists();
+
+        if (!$esRoot) {
+            if ((int) $request->nucleo_id !== (int) $datos->nucleo_id) {
+                return redirect()->back()->withInput()->withErrors([
+                    'error' => 'No tiene permiso para cambiar el núcleo asignado.'
+                ]);
+            }
+            $datosEstudiante['nucleo_id'] = $datos->nucleo_id;
+        } else {
+            $datosEstudiante['nucleo_id'] = $request->nucleo_id;
+        }
+
+        $periodo = Periodos::where('activo', true)->first();
+
+        if (!$periodo) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'El periodo que está tratando de usar está cerrado.']);
+        }
+
+        $existeInscripcion = Datospresistema::where('cedula', $request->cedula)
+            ->where('carrera_id', $request->carrera_id)
+            // ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
+            ->where('periodo_name', $request->periodo_name)
+            ->where('fecha_periodo', $request->fecha_periodo)
+            ->exists();
+
+        if ($existeInscripcion) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
+        }
+
+        $datosEstudiante['periodo_id'] = $periodo->id;
+        $datosEstudiante['primer_name'] = Str::title(ucwords($datosEstudiante['primer_name']));
+        $datosEstudiante['segundo_name'] = $datosEstudiante['segundo_name'] ? Str::title(ucwords($datosEstudiante['segundo_name'])) : null;
+        $datosEstudiante['primer_apellido'] = Str::title(ucwords($datosEstudiante['primer_apellido']));
+        $datosEstudiante['segundo_apellido'] = $datosEstudiante['segundo_apellido'] ? Str::title(ucwords($datosEstudiante['segundo_apellido'])) : null;
+        $datosEstudiante['genero'] = Str::lower($datosEstudiante['genero']);
+        $datosEstudiante['nacionalidad'] = Str::upper($datosEstudiante['nacionalidad']);
+        $datosEstudiante['email'] = $datosEstudiante['email'] ? Str::lower($datosEstudiante['email']) : null;
+        $datosEstudiante['direccion'] = Str::title(ucwords($datosEstudiante['direccion']));
+        $datosEstudiante['city'] = Str::title(ucwords($datosEstudiante['city']));
+        Datospresistema::create($datosEstudiante);
+
+        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $datosEstudiante['codigo']);
+    }
+
 
     // ======================================================
     //      TITULO ACADEMICO PARA LOS ESTUDIANTES
