@@ -21,11 +21,14 @@ return new class extends Migration
             $table->string('segundo_apellido')->nullable();
             $table->string('genero');
             $table->string('nacionalidad');
-            $table->string('telefono')->nullable();
+            // $table->string('telefono')->nullable();
             $table->date('fecha_nacimiento');
-            $table->string('email')->nullable();
-            $table->string('direccion');
-            $table->string('city');
+            // $table->string('email')->nullable();
+            // $table->string('direccion');
+            // $table->string('city');
+            $table->unsignedInteger('definitiva');
+            $table->unsignedBigInteger('materia_id');
+            $table->foreign('materia_id')->references('id')->on('materias')->cascadeOnUpdate();
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->unsignedBigInteger('carrera_id');
