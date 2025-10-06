@@ -5,3 +5,19 @@
 [x-cloak] {
     display: none;
 }
+
+/* diseño de la barra de proceso */
+#nprogress .bar {
+  background: #4272d8 !important;
+  height: 3px !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1031;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #4272d8;
+}
+

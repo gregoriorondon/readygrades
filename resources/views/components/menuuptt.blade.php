@@ -1,4 +1,4 @@
-<div class="menu block">
+<nav class="navbar menu block">
      <div class="menus justify-between items-center">
          <div class="w-[15%]">
              <a href="/">
@@ -24,7 +24,7 @@
              </a>
          </div>
      </div>
- </div>
+ </nav>
  <script>
      // Espera a que el DOM (Document Object Model) esté cargado
      document.addEventListener('DOMContentLoaded', function() {
