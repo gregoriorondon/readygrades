@@ -2,7 +2,8 @@
     @csrf
     <div class="space-y-12 p-[21px]">
         <div class="border-gray-900/10 pb-12">
-            <p class="mt-7 text-xl font-inter text-gray-400">{{ ('Rellene todas las casillas para registrar al estudiente pre-sistema') }}</p>
+            <p class="mt-7 text-xl font-inter text-gray-400">
+                {{ 'Rellene todas las casillas para registrar al estudiente pre-sistema' }}</p>
 
             <div class="border-gray-900/10 pb-12">
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -69,13 +70,28 @@
                     @props(['courses', 'nucleos', 'secciones', 'user', 'materias'])
                     <div class="sm:col-span-2">
                         <div class="mt-2">
-                                <x-label class="after:content-['*'] after:text-red-400">Materia</x-label>
-                                <x-select-form class="sm:max-w-full" name="materia_id">
-                                    @foreach ($materias as $materia)
-                                            <option value="{{ $materia->id }}">{{ mb_strtoupper(trim($materia->codigo . ' | ' . $materia->materia), 'UTF-8') }}</option>
-                                        </optgroup>
-                                    @endforeach
-                                </x-select-form>
+                            <x-label class="after:content-['*'] after:text-red-400">Materia</x-label>
+                            <x-select-form class="sm:max-w-full" name="materia_id">
+                                @foreach ($materias as $materia)
+                                    <option value="{{ $materia->id }}">
+                                        {{ mb_strtoupper(trim($materia->codigo . ' | ' . $materia->materia), 'UTF-8') }}
+                                    </option>
+                                    </optgroup>
+                                @endforeach
+                            </x-select-form>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-1">
+                        <div class="mt-2">
+                            <x-label class="after:content-['*'] after:text-red-400">Definitiva</x-label>
+                            <x-select-form name="definitiva" class="sm:max-w-full" id="definitiva">
+                                <option value="">{{ ucwords('seleccione') }}</option>
+                                @for ($j = 1; $j <= 20; $j++)
+                                    <option value="{{ $j }}">
+                                        {{ $j . ' pts ' }}</option>
+                                @endfor
+                            </x-select-form>
                         </div>
                     </div>
 
@@ -87,7 +103,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div class="sm:col-span-1">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Fecha Periodo</x-label>
                             <x-input-form class="sm:max-w-full" type="date" name="fecha_periodo"
@@ -113,7 +129,8 @@
                                 @cannot('root')
                                     <x-select-form class="sm:max-w-full text-gray-400 cursor-not-allowed" name="nucleo_id"
                                         title="{{ ucwords('sólo puedes asignar el núcleo en donde estas registrado(a)') }}">
-                                        <option type="numeric" value="{{ $user->nucleos->id }}">{{ $user->nucleos->nucleo }}</option>
+                                        <option type="numeric" value="{{ $user->nucleos->id }}">
+                                            {{ $user->nucleos->nucleo }}</option>
                                     </x-select-form>
                                 @endcannot
                                 @can('root')

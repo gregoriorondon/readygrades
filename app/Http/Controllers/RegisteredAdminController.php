@@ -1503,6 +1503,9 @@ class RegisteredAdminController extends Controller
         return redirect('/agregar-titulo')->with('alert', 'Se guardó con exito los cambios');
     }
 
+    // ======================================================
+    //      ESTUDIANTES PRE-SISTEMA
+    // ======================================================
     public function cargarnotas()
     {
         $datos = Auth::user();
@@ -1517,7 +1520,6 @@ class RegisteredAdminController extends Controller
 
     public function cargarnotasstore(Request $request)
     {
-        // dd($request);
         $datosEstudiante = $request->validate([
             'cedula' => ['required', 'numeric', 'min_digits:7'],
             'primer_name' => ['required', 'string'],
@@ -1534,7 +1536,7 @@ class RegisteredAdminController extends Controller
             'materia_id' => ['required', 'numeric'],
             'fecha_periodo' => ['required'],
             'periodo_name' => ['required', 'string'],
-            // 'codigo' => 'nullable|string',
+            // 'codigo' => 'required|string',
         ], [
             'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
@@ -1579,13 +1581,30 @@ class RegisteredAdminController extends Controller
 
         $existeInscripcion = Datospresistema::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
-            // ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
             ->where('periodo_name', $request->periodo_name)
             ->where('fecha_periodo', $request->fecha_periodo)
             ->exists();
 
         if ($existeInscripcion) {
             return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
+        }
+
+        $existeCodigo = Datospresistema::where('cedula', $request->cedula)->value('codigo');
+        if (empty($request->codigo)) {
+            $codigoVerifi =  Datospresistema::where('cedula', $request->cedula)->first();
+            if (!is_null($codigoVerifi)) {
+                if (empty($request->codigo)) {
+                    $datosEstudiante['codigo'] = $existeCodigo;
+                }
+            } else {
+                return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
+            }
+        } else {
+            if ($request->codigo !== $existeCodigo) {
+                $datosEstudiante['codigo'] = $existeCodigo;
+            } else {
+                $datosEstudiante['codigo'] = $request->codigo;
+            }
         }
 
         $datosEstudiante['periodo_id'] = $periodo->id;
@@ -1595,9 +1614,6 @@ class RegisteredAdminController extends Controller
         $datosEstudiante['segundo_apellido'] = $datosEstudiante['segundo_apellido'] ? Str::title(ucwords($datosEstudiante['segundo_apellido'])) : null;
         $datosEstudiante['genero'] = Str::lower($datosEstudiante['genero']);
         $datosEstudiante['nacionalidad'] = Str::upper($datosEstudiante['nacionalidad']);
-        $datosEstudiante['email'] = $datosEstudiante['email'] ? Str::lower($datosEstudiante['email']) : null;
-        $datosEstudiante['direccion'] = Str::title(ucwords($datosEstudiante['direccion']));
-        $datosEstudiante['city'] = Str::title(ucwords($datosEstudiante['city']));
         Datospresistema::create($datosEstudiante);
 
         return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $datosEstudiante['codigo']);
