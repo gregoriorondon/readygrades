@@ -3,10 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Carreras;
+use App\Models\Datospresistema;
 use App\Models\Nucleos;
 use App\Models\Students;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,10 +33,10 @@ class Loadingstudents extends Component
     public function buscar()
     {
         $this->validate([
-            'search'=>'required|min:4',
+            'search' => 'required|min:3',
         ], [
-            'search.required'=> ucwords('Por favor, ingresa un término de búsqueda'),
-            'search.min'=>'Introduzca Minimo 4 Dígitos En La Busqueda'
+            'search.required' => ucwords('Por favor, ingresa un término de búsqueda'),
+            'search.min' => 'Introduzca Minimo 3 Dígitos En La Busqueda'
         ]);
         $this->resetPage();  // reinicia paginación
     }
@@ -60,16 +64,19 @@ class Loadingstudents extends Component
         $usuario = Auth::user();
         $user = User::with('cargos.tipos')->find($usuario->id);
         $nucleo = $user;
-        $esRoot = $user && $user->cargos()->whereHas('tipos', fn($q) =>
-            $q->where('tipo', 'superadmin'))->exists();
+        $esRoot = $user && $user->cargos()->whereHas('tipos', fn ($q) =>
+        $q->where('tipo', 'superadmin'))->exists();
 
         $query = Students::query();
+        $queryPre = Datospresistema::query();
 
         if (!$esRoot) {
             $query->where('nucleo_id', $nucleo->nucleo_id);
+            $queryPre->where('nucleo_id', $nucleo->nucleo_id);
         } else {
             if ($this->nucleo != 0) {
                 $query->where('nucleo_id', $this->nucleo);
+                $queryPre->where('nucleo_id', $this->nucleo);
             };
         }
 
@@ -88,9 +95,55 @@ class Loadingstudents extends Component
 
         if ($this->carrera != 0) {
             $query->where('carrera_id', $this->carrera);
+            $queryPre->where('carrera_id', $this->carrera);
         }
 
-        $estudiantes = $query->orderBy('created_at', 'desc')->paginate(3)->onEachSide(0);
+        $estudiantesSistema = $query->select(
+            'id',
+            'cedula',
+            'codigo',
+            'primer_name',
+            'primer_apellido',
+            'carrera_id',
+            'tramo_trayecto_id',
+            'nucleo_id'
+        )->get();
+
+        $preSistema = $queryPre->select(
+            'id',
+            'cedula',
+            'codigo',
+            'primer_name',
+            'primer_apellido',
+            'carrera_id',
+            'nucleo_id',
+            DB::raw('NULL as tramo_trayecto_id')
+        )->when(strlen($this->search) >= 4, function ($q) {
+            $q->where(function ($q) {
+                $q->where('cedula', 'LIKE', "%{$this->search}%")
+                    ->orWhere('codigo', 'LIKE', "%{$this->search}%")
+                    ->orWhere('primer_name', 'LIKE', "%{$this->search}%")
+                    ->orWhere('primer_apellido', 'LIKE', "%{$this->search}%");
+            });
+        })->get();
+
+
+        $estudiantes = $estudiantesSistema->concat($preSistema)->sortByDesc('id');
+
+        $perPage = 3;
+        $page = Paginator::resolveCurrentPage('page');
+        $items = $estudiantes->forPage($page, $perPage);
+
+        $estudiantes = new LengthAwarePaginator(
+            $items,
+            $estudiantes->count(),
+            $perPage,
+            $page,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
+
+
+        // $estudiantes = $estudiantesSistema->concat($preSistema)->sortByDesc('id')->paginate(3)->onEachSide(0);
         $carreras = Carreras::all();
         $nucleos = Nucleos::all();
 

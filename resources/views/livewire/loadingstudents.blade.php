@@ -114,7 +114,11 @@
                                             {{ $estudiante->carreras->carrera }}
                                         </x-table-td-students>
                                         <x-table-td-students>
-                                            {{ $estudiante->tramos->tramos }}
+                                            @if (empty($estudiante->tramos->tramos))
+                                                {{ ucwords('null') }}
+                                            @else
+                                                {{ $estudiante->tramos->tramos }}
+                                            @endif
                                         </x-table-td-students>
                                         <x-table-td-students class="text-xl text-center">
                                             <a href="/estudiantes-panel-administrativo/{{ $estudiante->id }}"><i
