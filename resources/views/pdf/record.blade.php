@@ -291,35 +291,31 @@
     <div>
         <table class="min-w-full">
             <tbody>
-                @foreach ($notas->groupBy('periodo_id') as $periodoId => $nota)
+                @foreach ($notasCombinadas->groupBy('periodo_nombre') as $periodo => $nota)
                     <tr>
                         <td colspan="5" class="font-courier">
                             <p class="text-left my-0 font-courier-bold">
-                                {{ mb_strtoupper(trim('lapso:'), 'UTF-8') . ' ' . $nota->first()->periodos->nombre }}
+                                {{ mb_strtoupper(trim('lapso:'), 'UTF-8') . ' ' . $periodo }}
                             </p>
                         </td>
                     </tr>
                     @foreach ($nota as $note)
                         <tr>
                             <td class="ml-8 block">
-                                <p class="text-left my-0">{{ $note->pensums->materias->codigo }}</p>
+                                <p class="text-left my-0">{{ $note->codigo }}</p>
                             </td>
                             <td>
                                 <p class="text-left my-0">
-                                    {{ mb_strtoupper(trim($note->pensums->materias->materia), 'UTF-8') }}</p>
+                                    {{ mb_strtoupper(trim($note->materia), 'UTF-8') }}</p>
                             </td>
                             <td>
-                                <p class="text-left my-0">{{ $note->pensums->materias->unidadcurricular }}</p>
+                                <p class="text-left my-0">{{ $note->uc }}</p>
                             </td>
                             <td class="w-300">
                                 {{-- <p class="text-left my-0">{{ ' ' }}</p> --}}
                             </td>
                             <td>
-                                @php
-                                    $suma = $note->nota_uno + $note->nota_dos + $note->nota_tres + $note->nota_cuatro + $note->nota_extra;
-                                    $definitiva = round($suma / 4);
-                                @endphp
-                                <p class="text-left my-0">{{ $definitiva }}</p>
+                                <p class="text-left my-0">{{ $note->definitiva }}</p>
                             </td>
                         </tr>
                     @endforeach

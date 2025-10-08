@@ -946,7 +946,10 @@ class RegisteredAdminController extends Controller
             'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
         ]);
         $cedula = Students::where('cedula', $validar)->first();
+        $cedulaPre = Datospresistema::where('cedula', $validar)->first();
         if (!$cedula) {
+            return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
+        } elseif (!$cedulaPre) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
 
@@ -963,8 +966,36 @@ class RegisteredAdminController extends Controller
             ->get();
         $student_ids = $student->pluck('id');
         $notas = Notas::whereIn('student_id', $student_ids)
-            ->with(['pensums', 'periodos', 'students'])
-            ->get();
+            ->with(['pensums.materias', 'periodos'])
+            ->get()
+            ->map(function ($item) {
+                return (object)[
+                    'periodo_nombre' => isset($item->periodos) ? $item->periodos->nombre : 'SIN PERIODO',
+                    'codigo' => optional($item->pensums->materias)->codigo ?? '—',
+                    'materia' => optional($item->pensums->materias)->materia ?? 'SIN REGISTRO',
+                    'uc' => optional($item->pensums->materias)->unidadcurricular ?? 0,
+                    'definitiva' => round(($item->nota_uno + $item->nota_dos + $item->nota_tres + $item->nota_cuatro + $item->nota_extra) / 5),
+                ];
+            });
+
+        $preSistema = DatosPreSistema::where('cedula', $request->cedula)
+            ->where('carrera_id', $request->carrera_id)
+            ->with(['materia'])
+            ->get()
+            ->map(function ($item) {
+                return (object)[
+                    'periodo_nombre' => $item->periodo_name ?? 'SIN PERIODO',
+                    'codigo' => $item->materia->codigo ?? '—',
+                    'materia' => $item->materia->materia ?? 'SIN REGISTRO',
+                    'uc' => $item->materia->unidadcurricular ?? 0,
+                    'definitiva' => $item->definitiva ?? 0,
+                ];
+            });
+
+        $notasCombinadas = $notas->concat($preSistema)
+            ->sortBy('periodo_nombre', SORT_NATURAL | SORT_FLAG_CASE)
+            ->values();
+
         $admin = Auth::user();
         $fecha = Carbon::now();
 
@@ -984,7 +1015,7 @@ class RegisteredAdminController extends Controller
                 'titulosacademicos',
                 'carreras',
                 'student',
-                'notas',
+                'notasCombinadas',
                 'admin',
             ])
         )->setOption($opciones);
