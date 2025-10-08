@@ -974,7 +974,7 @@ class RegisteredAdminController extends Controller
                     'codigo' => optional($item->pensums->materias)->codigo ?? '—',
                     'materia' => optional($item->pensums->materias)->materia ?? 'SIN REGISTRO',
                     'uc' => optional($item->pensums->materias)->unidadcurricular ?? 0,
-                    'definitiva' => round(($item->nota_uno + $item->nota_dos + $item->nota_tres + $item->nota_cuatro + $item->nota_extra) / 5),
+                    'definitiva' => round(($item->nota_uno + $item->nota_dos + $item->nota_tres + $item->nota_cuatro + $item->nota_extra) / 4),
                 ];
             });
 
