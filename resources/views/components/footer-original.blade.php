@@ -245,7 +245,7 @@ div, a, li {
 <!-- End Footer Area -->
 <!-- End Copyright Area -->
 <div class="copyright-area bg-footer">
-    <div class="row ">
+    <div class="">
         <div class="text-center">
             <div class="">
                 <p>{{ ucwords('UPTTMBI © 2025. RIF G-20005902-8 NIT 04865655101.') }}</p>
@@ -256,29 +256,29 @@ div, a, li {
 <!-- End Copyright Area -->
 <!-- JS -->
 <!-- Popper.js -->
-<script src="assets/js/popper.min.js"></script>
+{{-- <script src="assets/js/popper.min.js"></script> --}}
 <!-- Bootstrap.js -->
-<script src="assets/js/bootstrap-4.3.1.min.js"></script>
+{{-- <script src="assets/js/bootstrap-4.3.1.min.js"></script> --}}
 <!-- Modernizr.js -->
-<script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
+{{-- <script src="assets/js/vendor/modernizr-3.5.0.min.js"></script> --}}
 <!-- Owl.Carousel.js -->
-<script src="assets/js/vendor/owl.carousel-2.3.4.min.js"></script>
-<script src="assets/js/vendor/owl.carousel2.thumbs.min.js"></script>
+{{-- <script src="assets/js/vendor/owl.carousel-2.3.4.min.js"></script> --}}
+{{-- <script src="assets/js/vendor/owl.carousel2.thumbs.min.js"></script> --}}
 <!-- Waypoints.js -->
-<script src="assets/js/vendor/waypoints-4.0.1.min.js"></script>
+{{-- <script src="assets/js/vendor/waypoints-4.0.1.min.js"></script> --}}
 <!-- ColorNip.js -->
-<script src="assets/js/vendor/colornip.min.js"></script>
+{{-- <script src="assets/js/vendor/colornip.min.js"></script> --}}
 <!-- SlickNav.js -->
-<script src="assets/js/vendor/slicknav.min.js"></script>
+{{-- <script src="assets/js/vendor/slicknav.min.js"></script> --}}
 <!-- ScrollUp.js -->
-<script src="assets/js/vendor/jquery.scrollUp.min.js"></script>
+{{-- <script src="assets/js/vendor/jquery.scrollUp.min.js"></script> --}}
 <!-- MagnificPopup.js -->
-<script src="assets/js/vendor/magnific-popup.min.js"></script>
+{{-- <script src="assets/js/vendor/magnific-popup.min.js"></script> --}}
 
 <!-- Main.js -->
-<script src="assets/js/main.js"></script>
+{{-- <script src="assets/js/main.js"></script> --}}
 
-<script src="../../cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+{{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> --}}
 
 <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
