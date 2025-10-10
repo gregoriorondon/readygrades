@@ -97,6 +97,8 @@ setTimeout(function() {
         });
     </script>
 </head>
+@viteReactRefresh
+@vite('resources/js/app.jsx')
 <body class="cuerpo">
     <!-- Start Header Area -->
     <x-menuuptt />
@@ -274,9 +276,10 @@ setTimeout(function() {
                     </center>
                 </div>
                 <div class="ml-5">
-                    <x-button-a class="border-2 text-xl"
+                    <x-button-a class="text-xl"
                         link="https://www.upttmbi.edu.ve/constancias/arc_upttmbi2023.php" target="_blank"
-                        icon="fa fa-download fa-lg">Sistema ARC UPTTMBI</x-button-a>
+                        icon="fa fa-download fa-lg"
+                        style="border: 2px solid #fff;">Sistema ARC UPTTMBI</x-button-a>
                 </div>
             </div>
         </div>
@@ -405,8 +408,8 @@ setTimeout(function() {
                     </center>
                 </div>
                 <div class="ml-5">
-                    <x-button-a class="border-2 text-xl" link="drsce/drsce.html" target="_blank"
-                        icon="fa fa-download fa-lg">
+                    <x-button-a class="text-xl" link="drsce/drsce.html" target="_blank"
+                        icon="fa fa-download fa-lg" style="border: 2px solid #fff;">
                         ADMISION 2025-3
                     </x-button-a>
                 </div>
@@ -428,19 +431,7 @@ setTimeout(function() {
                 </div>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="ocultar-elementos-ig col-md-8 text-center">
-                    <iframe
-                        src="https://www.instagram.com/p/DOuda_XkbZx/embed/?hidecaption=true"
-                        width="auto"
-                        height="480"
-                        frameborder="0"
-                        scrolling="no"
-                        allowtransparency="true"
-                        allowfullscreen="true">
-                    </iframe>
-                </div>
-            </div>
+            <div id="insta-post-1" data-instagram-url='https://www.instagram.com/p/DOuda_XkbZx/'></div>
         </div>
 
         <div
@@ -462,19 +453,7 @@ setTimeout(function() {
                 </div>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="ocultar-elementos-ig col-md-8 text-center">
-                    <iframe
-                        src="https://www.instagram.com/p/DOlzfkckeGy/embed/?hidecaption=true"
-                        width="auto"
-                        height="480"
-                        frameborder="0"
-                        scrolling="no"
-                        allowtransparency="true"
-                        allowfullscreen="true">
-                    </iframe>
-                </div>
-            </div>
+            <div id="insta-post-2" data-instagram-url='https://www.instagram.com/p/DOlzfkckeGy/'></div>
         </div>
     </div>
 
@@ -640,32 +619,11 @@ setTimeout(function() {
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <iframe
-                        src="https://www.instagram.com/p/DEx2BE9RL8L/embed/?hidecaption=true"
-                        width="auto"
-                        height="480"
-                        frameborder="0"
-                        scrolling="no"
-                        allowtransparency="true"
-                        allowfullscreen="true">
-                    </iframe>
+                    <div id="insta-post-2" data-instagram-url='https://www.instagram.com/p/DEx2BE9RL8L/'></div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-    </styledocument.addEventListener('DOMContentLoaded', function() {
-    const footer = document.querySelector('.Footer');
-    const caption = document.querySelector('.Caption');
-    const socialProof = document.querySelector('.SocialProof');
-    const feedback = document.querySelector('.Feedback');
-
-    if (footer) footer.style.display = 'none';
-    if (caption) caption.style.display = 'none';
-    if (socialProof) socialProof.style.display = 'none';
-    if (feedback) feedback.style.display = 'none';
-});
-</script>
     <!-- End Working With Us Area -->
 
     <!-- Start Footer Area -->

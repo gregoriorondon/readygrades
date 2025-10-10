@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     plugins: [
@@ -20,8 +21,10 @@ export default defineConfig({
                 "resources/js/modales",
                 "resources/js/autocompletado-carrera",
                 "resources/js/autocompletado-nucleos",
+                "resources/js/app.jsx",
             ],
             refresh: true,
         }),
     ],
+    assetsInclude: ['**/*.ufm'],
 });

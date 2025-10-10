@@ -18,6 +18,10 @@
         "vite": "^6.0"
     },
     "dependencies": {
-        "nprogress": "^0.2.0"
+        "@vitejs/plugin-react": "^5.0.4",
+        "nprogress": "^0.2.0",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "react-social-media-embed": "^2.5.18"
     }
 }
