@@ -170,9 +170,10 @@
     color: #00000010;
 }
 .s-about h1{
-    font-family: 'staatliches';
+    font-family: 'inter';
     font-size: 48px;
-    font-weight: 500;
+    font-weight: 700;
+    letter-spacing: normal;
 }
 .s-about summary{
     font-family: 'staatliches';
@@ -202,7 +203,7 @@
     background-color: #fff;
     box-shadow: 0px 0px 14px #eeeeee;
 }
-.s-about p{
+.s-about div{
     /* font-family: 'quicksand'; */
     font-family: 'inter';
     padding: 0px 21px 21px 21px;

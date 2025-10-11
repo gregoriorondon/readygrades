@@ -12,23 +12,6 @@
     <link rel="stylesheet" href="{{ asset('node_modules/nprogress/nprogress.css') }}">
     @vite(['resources/css/app.scss'])
     <x-import />
-    {{-- <style> --}}
-    {{--     .ocultar-elementos-ig .Footer{ --}}
-    {{--         display: none !important; --}}
-    {{--     } --}}
-    {{----}}
-    {{--     .ocultar-elementos-ig .Caption{ --}}
-    {{--         display: none !important; --}}
-    {{--     } --}}
-    {{----}}
-    {{--     .ocultar-elementos-ig .SocialProof{ --}}
-    {{--         display: none !important; --}}
-    {{--     } --}}
-    {{----}}
-    {{--     .ocultar-elementos-ig .Feedback{ --}}
-    {{--         display: none !important; --}}
-    {{--     } --}}
-    {{-- </style> --}}
     <!-- CSS Here -->
     <!-- MagnificPopup.css -->
     <link rel="stylesheet" href="/css/magnific-popup.css">
@@ -48,114 +31,111 @@
 
     <!-- ColorNip.css -->
     <link rel="stylesheet" href="/css/colornip.min.css">
-    <link id="theme" rel="stylesheet" href="resources/css/theme-colors/theme-default.css">
-
     <!-- Jquery -->
     <script src="resources/js/jquery-3.4.1.min.js"></script>
 
-    {{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> --}}
+    <style>
+        .banner {
+            background-image: url('/img/banner.webp');
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100dvh;
+            user-select: none;
+        }
 
-    <link rel="stylesheet" href="/css/shadowbox.css">
+        .slide-left-1 {
+            font-size: 350%;
+            -webkit-animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 2s both;
+            animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 2s both;
+        }
 
-    <script src="resources/shadow/js/shadowbox.js"></script>
-    <!--script type="text/javascript">
-Shadowbox.init({ language: "es", players:  ['img', 'html', 'iframe', 'qt', 'wmp', 'swf', 'flv'] });
+        .slide-left-2 {
+            font-size: 350%;
+            -webkit-animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 2.5s both;
+            animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 2.5s both;
+        }
 
-setTimeout(function() {
-    Shadowbox.open({
-        content: '<div class="example"><img src="imagen/2023-2/1.jpg" rel="shadowbox"></div>',
-    player:     "html",
-    title:      "UPTTMBI WEB",
-    height:     878, //655 //375
-   width:		655 //870 //345
-    });
-}, 50);
+        .slide-left-3 {
+            font-size: 250%;
+            -webkit-animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
+            animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
+        }
 
-</script-->
+        @-webkit-keyframes slide-left {
+            0% {
+                -webkit-transform: translateX(100px);
+                transform: translateX(100px);
+                opacity: 0%;
+            }
 
-    <link rel="stylesheet" type="text/css" href="shadowbox.css">
-    <script type="text/javascript" src="shadowbox.js"></script>
-    <script type="text/javascript">
-        Shadowbox.init();
-    </script>
+            100% {
+                -webkit-transform: translateX(0px);
+                transform: translateX(0px);
+                opacity: 100%;
+            }
+        }
 
-    <script type="text/javascript">
-        $(function() {
-            $('#portfolio').magnificPopup({
-                delegate: 'z',
-                type: 'image',
-                image: {
-                    cursor: null,
-                    titleSrc: 'title'
-                },
-                gallery: {
-                    enabled: true,
-                    preload: [0, 1], // Will preload 0 - before current, and 1 after the current image
-                    navigateByImgClick: true
-                }
-            });
-        });
-    </script>
+        @keyframes slide-left {
+            0% {
+                -webkit-transform: translateX(100px);
+                transform: translateX(100px);
+                opacity: 0%;
+            }
+
+            100% {
+                -webkit-transform: translateX(0px);
+                transform: translateX(0px);
+                opacity: 100%;
+            }
+        }
+    </style>
+
 </head>
 @viteReactRefresh
 @vite('resources/js/app.jsx')
 <body class="cuerpo">
-    <!-- Start Header Area -->
     <x-menuuptt />
-    <!-- End Header Area -->
-    <!-- Start Slider Area -->
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true"
-        data-bs-pause="false">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
+
+    <div class="banner">
+        <div>
+            <h2 class="slide-left-1 text-white text-center">UNIVERSIDAD POLITÉCNICA TERRITORIAL</h2>
+            <h2 class="slide-left-2 text-white text-center">DEL ESTADO TRUJILLO</h2>
+            <h3 class="slide-left-3 text-white text-center">"MARIO BRICEÑO IRAGORRY"</h1>
         </div>
-        <div class="carousel-inner font-inter">
-            <div class="carousel-item active" data-bs-interval="7000">
-                <img src="/img/slide_01.webp" class="d-block w-100 filtro" alt="...">
-                <div class="carousel-caption">
-                    <h5 class="text-6xl font-bold">
-                        {{ ucwords('universidad politécnica territorial del estado trujillo') }}</h5>
-                    <p class="text-4xl"><b>"{{ ucwords('mario briceño iragorry') }}"</b></p>
-                </div>
-            </div>
-            <div class="carousel-item carousel-custom" data-bs-interval="7000">
-                <img src="/img/slide_02.webp" class="d-block w-100 filtro" alt="...">
-                <div class="carousel-caption">
-                    <h3 style="color: yellow">
-                        <b>OBJETIVO</b>
-                    </h3>
-                    <h5 class="text-lg">
-                        <b>La Universidad Politécnica Territorial de estado Trujillo “Mario Briceño Iragorry"
+    </div>
+    <section class="sec-about">
+        <div class="s-about">
+            <h1>Sobre Nosotros</h1>
+            <div class="d-about">
+                <details open>
+                    <summary>Objetivo</summary>
+                    <div>
+                        <p>La Universidad Politécnica Territorial de estado Trujillo “Mario Briceño Iragorry"
                             desarrollará proyectos y programas académicos de formación, creación intelectual,
                             desarrollo tecnológico, innovación, asesoría y vinculación social en todo el estado
                             Trujillo, en estrecha relación con la Misión Sucre y, a través de alianzas con otras
                             instituciones de educación universitaria.
-                            <br><br>La creación de programas y proyectos
+                            La creación de programas y proyectos
                             responderá a los requerimientos de desarrollo territorial Integral y estará en
                             correspondencia con las necesidades planteadas por del Poder Popular, previa aprobación del
                             Ministerio del Poder Popular para la Educación Universitaria y de cumplimiento de los
                             trámites legales respectivos.
-                        </b>
-                    </h5>
-                    <x-button-a class="text-lg mt-4 mb-2" link="docs/GacetaCreacionUPTTMBI.pdf">
-                        Gaceta de Creación UPTTMBI</x-button-a>
-                    <x-button-a class="text-lg mt-4 mb-2" link="docs/NORMATIVA-UPTTMBI2017.pdf">
-                        Normativa UPTTMBI</x-button-a>
-                </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="7000">
-                <img src="/img/slide_03.webp" class="d-block w-100 filtro" alt="...">
-                <div class="carousel-caption">
-                    <h3 style= "color: yellow">
-                        <b>ENCARGO SOCIAL</b>
-                    </h3>
-                    <h5 class="text-lg">
-                        <b>La Universidad Politécnica Territorial del estado Trujillo “Mario Briceño Iragorry", tiene
+                        </p>
+                        <div class="flex justify-center">
+                            <x-button-a class="text-lg mt-4 mb-2 mr-2" link="docs/GacetaCreacionUPTTMBI.pdf">
+                                Gaceta de Creación UPTTMBI</x-button-a>
+                            <x-button-a class="text-lg mt-4 mb-2" link="docs/NORMATIVA-UPTTMBI2017.pdf">
+                                Normativa UPTTMBI</x-button-a>
+                        </div>
+                    </div>
+                </details>
+                <details>
+                    <summary>Encargo Social</summary>
+                    <div>
+                        <p>La Universidad Politécnica Territorial del estado Trujillo “Mario Briceño Iragorry", tiene
                             como encargo social contribuir activamente al desarrollo endógeno integral y
                             sustentable en su área de influencia territorial, con la participación activa y
                             permanente del Poder Popular, abarcando múltiples campos de conocimiento, bajo
@@ -163,25 +143,19 @@ setTimeout(function() {
                             territorial, de acuerdo con las necesidades y potencialidades del pueblo, a
                             partir de las realidades geohistóricas, culturales, sociales y productivas,
                             ayudando a conformar una nueva geopolítica nacional.
-                        </b>
-                    </h5>
-                    <x-button-a class="text-lg mt-4 mb-2" link="docs/AutoridadesUPTTMBI.pdf">
-                        Gaceta Oficial - Autoridades Universitarias</x-button-a>
-                </div>
+                        </p>
+                        <div class="flex justify-center">
+                            <x-button-a class="text-lg mt-4 mb-2" link="docs/AutoridadesUPTTMBI.pdf">
+                                Gaceta Oficial - Autoridades Universitarias</x-button-a>
+                        </div>
+                    </div>
+                </details>
+
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    <!-- End Slider Area -->
+    </section>
+
+
     <!-- Star ReadyGrades Area -->
     <div class="readygrades-all">
         <h1>Ver Tus Notas Académicas</h1>
@@ -250,8 +224,7 @@ setTimeout(function() {
                                     organizar, programar, ejecutar y supervisar el proceso de admisión, prosecución y
                                     egreso, asesoramiento estudiantil y profesoral, control de estudios y evaluación en
                                     la Universidad.</p>
-                                <x-button-a class="border-2 w-[100%]" link="drsce/drsce.html"
-                                    icon="fas fa-plus-square">
+                                <x-button-a class="border-2 w-[100%]" link="drsce/drsce.html" icon="fas fa-plus-square">
                                     Ver más
                                 </x-button-a>
                             </div>
@@ -276,10 +249,9 @@ setTimeout(function() {
                     </center>
                 </div>
                 <div class="ml-5">
-                    <x-button-a class="text-xl"
-                        link="https://www.upttmbi.edu.ve/constancias/arc_upttmbi2023.php" target="_blank"
-                        icon="fa fa-download fa-lg"
-                        style="border: 2px solid #fff;">Sistema ARC UPTTMBI</x-button-a>
+                    <x-button-a class="text-xl" link="https://www.upttmbi.edu.ve/constancias/arc_upttmbi2023.php"
+                        target="_blank" icon="fa fa-download fa-lg" style="border: 2px solid #fff;">Sistema ARC
+                        UPTTMBI</x-button-a>
                 </div>
             </div>
         </div>
@@ -408,8 +380,8 @@ setTimeout(function() {
                     </center>
                 </div>
                 <div class="ml-5">
-                    <x-button-a class="text-xl" link="drsce/drsce.html" target="_blank"
-                        icon="fa fa-download fa-lg" style="border: 2px solid #fff;">
+                    <x-button-a class="text-xl" link="drsce/drsce.html" target="_blank" icon="fa fa-download fa-lg"
+                        style="border: 2px solid #fff;">
                         ADMISION 2025-3
                     </x-button-a>
                 </div>
