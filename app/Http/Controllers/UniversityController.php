@@ -17,6 +17,10 @@ class UniversityController extends Controller
         return view('home-original');
     }
 
+    public function autoridades() {
+        return view('autoridades');
+    }
+
     public function organigrama()
     {
         return view('organigrama');

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/menu.css">
+<link rel="stylesheet" href="/css/style.css">
 <nav class="navbar menu block">
      <div class="menus justify-between items-center">
          <div class="w-[15%]">
@@ -8,13 +10,13 @@
          <div class="text-center">
              <nav class="menu-wrapper nav">
                  <ul class="main-menu nav uppercase" id="mobile-menu">
-                     <li class="!ml-0"><a href="/">INICIO</a></li>
-                     <li><a href="autoridades.html">AUTORIDADES</a></li>
+                     <li><a href="/" class="{{ request()->is('/') ? 'text-ready' : '' }}">INICIO</a></li>
+                     <li><a href="/autoridades" class="{{ request()->is('autoridades') ? 'text-ready' : '' }}">AUTORIDADES</a></li>
                      <li><a href="nucleos/index.html">NÚCLEOS</a></li>
                      <li><a href="pnf/index.html">PNF</a></li>
                      <li><a href="drsce/drsce.html">DRSCE</a></li>
-                     <li><a href="/student">estudiante</a></li>
-                     <li><a href="/login">iniciar sesión</a></li>
+                     <li><a href="/student" class="{{ request()->is('students') ? 'text-ready' : '' }}">estudiante</a></li>
+                     <li><a href="/login" class="{{ request()->is('login') ? 'text-ready' : '' }}">iniciar sesión</a></li>
                  </ul>
              </nav>
          </div>
