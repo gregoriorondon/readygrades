@@ -174,7 +174,7 @@ div, a, li {
 }
 
 </style>
-<footer class="py-16 bg-footer font-inter font-normal" id="contact-us">
+<footer class="py-16 bg-footer font-inter font-normal info" id="contact-us">
     <div class="container !pr-0 !pl-0 !mr-0 !ml-0">
         <div class="flex mx-20">
             <div class="min-w-[35%] mr-7">
