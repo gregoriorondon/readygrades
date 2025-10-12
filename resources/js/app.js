@@ -10,6 +10,20 @@ import.meta.glob([
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+
+NProgress.configure({
+    showSpinner: false, // quita el spinner
+    speed: 500, trickleSpeed: 200,
+});
+
+window.addEventListener('beforeunload', () => {
+    NProgress.start();
+});
+
+window.addEventListener('load', () => {
+    NProgress.done();
+});
+
 // Seccion para ponerlo en la parte inferior del menu
 const nav = document.querySelector('nav.navbar');
 if (nav) {
