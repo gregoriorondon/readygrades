@@ -945,14 +945,11 @@ class RegisteredAdminController extends Controller
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
             'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
         ]);
-        $cedula = Students::where('cedula', $validar)->first();
-        $cedulaPre = Datospresistema::where('cedula', $validar)->first();
+        $cedula = Students::where('cedula', $validar['cedula'])->first();
+        $cedulaPre = Datospresistema::where('cedula', $validar['cedula'])->first();
         if (!$cedula) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
-        } elseif (!$cedulaPre) {
-            return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
-
         $estudiante = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
             ->first();
@@ -992,10 +989,11 @@ class RegisteredAdminController extends Controller
                 ];
             });
 
-        $notasCombinadas = $notas->concat($preSistema)
+        $notasCombinadas = collect()
+            ->merge($notas)
+            ->merge($preSistema)
             ->sortBy('periodo_nombre', SORT_NATURAL | SORT_FLAG_CASE)
             ->values();
-
         $admin = Auth::user();
         $fecha = Carbon::now();
 
@@ -1607,7 +1605,7 @@ class RegisteredAdminController extends Controller
         $periodo = Periodos::where('activo', true)->first();
 
         if (!$periodo) {
-            return redirect()->back()->withInput()->withErrors(['error' => 'El periodo que está tratando de usar está cerrado.']);
+            return redirect()->back()->withInput()->withErrors(['error' => 'El periodo está cerrado.']);
         }
 
         $existeInscripcion = Datospresistema::where('cedula', $request->cedula)
@@ -1620,19 +1618,20 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
         }
 
-        $existeCodigo = Datospresistema::where('cedula', $request->cedula)->value('codigo');
+        $codigoVerifi =  Datospresistema::where('cedula', $request->cedula)->first();
         if (empty($request->codigo)) {
-            $codigoVerifi =  Datospresistema::where('cedula', $request->cedula)->first();
             if (!is_null($codigoVerifi)) {
                 if (empty($request->codigo)) {
-                    $datosEstudiante['codigo'] = $existeCodigo;
+                    $datosEstudiante['codigo'] = $codigoVerifi->codigo;
                 }
             } else {
                 return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
             }
+        } elseif (empty($codigoVerifi)) {
+            $datosEstudiante['codigo'] = $request->codigo;
         } else {
-            if ($request->codigo !== $existeCodigo) {
-                $datosEstudiante['codigo'] = $existeCodigo;
+            if ($request->codigo !== $codigoVerifi->codigo) {
+                $datosEstudiante['codigo'] = $codigoVerifi->codigo;
             } else {
                 $datosEstudiante['codigo'] = $request->codigo;
             }
