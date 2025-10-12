@@ -22,7 +22,7 @@
          </div>
          <div class="w-[5%]">
              <a href="/">
-                 <img src="/200.png">
+                 <img src="/img/200.webp">
              </a>
          </div>
      </div>
