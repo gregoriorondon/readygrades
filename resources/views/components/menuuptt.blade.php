@@ -12,9 +12,9 @@
                  <ul class="main-menu nav uppercase" id="mobile-menu">
                      <li><a href="/" class="{{ request()->is('/') ? 'text-ready' : '' }}">INICIO</a></li>
                      <li><a href="/autoridades" class="{{ request()->is('autoridades') ? 'text-ready' : '' }}">AUTORIDADES</a></li>
-                     <li><a href="nucleos/index.html">NÚCLEOS</a></li>
-                     <li><a href="pnf/index.html">PNF</a></li>
-                     <li><a href="drsce/drsce.html">DRSCE</a></li>
+                     <li><a href="/nucleo" class="{{ request()->is('nucleo') ? 'text-ready' : '' }}">NÚCLEOS</a></li>
+                     {{-- <li><a href="pnf/index.html">PNF</a></li> --}}
+                     {{-- <li><a href="drsce/drsce.html">DRSCE</a></li> --}}
                      <li><a href="/student" class="{{ request()->is('student') ? 'text-ready' : '' }}">estudiante</a></li>
                      <li><a href="/login" class="{{ request()->is('login') ? 'text-ready' : '' }}">iniciar sesión</a></li>
                  </ul>
