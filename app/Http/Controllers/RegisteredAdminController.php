@@ -930,9 +930,14 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
         $activo = Periodos::where('activo', true)->first();
-        $estudiantes = Students::where('cedula', $validar)
+        $student = Students::where('cedula', $validar)
             ->where('periodo_id', $activo->id)
             ->get();
+        $studentPreSis = Datospresistema::where('cedula', $validar)
+            ->select('carrera_id')
+            ->distinct()
+            ->get();
+        $estudiantes = collect()->merge($student)->merge($studentPreSis)->values();
         return view('auth.generar-record', compact('cedula', 'estudiantes'));
     }
 
@@ -953,11 +958,21 @@ class RegisteredAdminController extends Controller
         $estudiante = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
             ->first();
-        $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
-        $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
-            ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
-            ->orderBy('tramo_trayecto_id', 'desc')
-            ->first();
+        $estudiantePreSistema = Datospresistema::where('cedula', $request->cedula)->where('carrera_id', $request->carrera_id)->first();
+        if ($estudiante !== null) {
+            $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
+            $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
+                ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
+                ->orderBy('tramo_trayecto_id', 'desc')
+                ->first();
+        } elseif ($estudiantePreSistema !== null) {
+            $carreras = Carreras::with('titulos')->find($estudiantePreSistema->carrera_id);
+            $titulosacademicos = TituloAcademico::where('carrera_id', $estudiantePreSistema->carrera_id)
+                ->first();
+        } else {
+            return back()->with('error', 'No se encontró registro del estudiante en el sistema ni en pre-sistema.');
+        }
+
         $student = Students::where('cedula', $request->cedula)
             ->where('carrera_id', $request->carrera_id)
             ->get();
@@ -1007,6 +1022,7 @@ class RegisteredAdminController extends Controller
             'pdf.record',
             compact([
                 'estudiante',
+                'estudiantePreSistema',
                 'dia',
                 'mes',
                 'anio',
@@ -1018,7 +1034,13 @@ class RegisteredAdminController extends Controller
             ])
         )->setOption($opciones);
         $filename = 'record.pdf';
-        $filename = 'Record_Academico_' . $estudiante['primer_name'] . '_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+        if ($estudiante !== null) {
+            $filename = 'Record_Academico_' . $estudiante['primer_name'] . '_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+        } elseif ($estudiantePreSistema !== null) {
+            $filename = 'Record_Academico_' . $estudiantePreSistema['primer_name'] . '_' . $estudiantePreSistema['primer_name'] . '_' . $estudiantePreSistema['primer_apellido'] . '_' . $estudiantePreSistema['cedula'] . '.pdf';
+        } else {
+            return back()->with('error', 'No se encontró registro del estudiante en el sistema ni en pre-sistema.');
+        }
         return $pdf->download($filename);
         return view('auth.generar');
         // return view('pdf.record', compact('dia', 'mes', 'anio', 'estudiante', 'titulosacademicos', 'carreras', 'student', 'notas',));

@@ -21,6 +21,11 @@ class UniversityController extends Controller
         return view('autoridades');
     }
 
+    public function nucleos()
+    {
+        return view('nucleos');
+    }
+
     public function organigrama()
     {
         return view('organigrama');

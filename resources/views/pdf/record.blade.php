@@ -222,8 +222,11 @@
                 <p class="line-height font-courier-bold">{{ mb_strtoupper(trim('del estado trujillo'), 'UTF-8') }}</p>
                 <p class="line-height">
                     {{ mb_strtoupper(trim('área de registro, seguimiento y control de estudios'), 'UTF-8') }}</p>
-                <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiante->nucleos->nucleo), 'UTF-8') }}
-                </p>
+                @if($estudiante && $estudiante->nucleos && $estudiante->nucleos->nucleo)
+                    <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiante->nucleos->nucleo), 'UTF-8') }}</p>
+                @elseif($estudiantePreSistema && $estudiantePreSistema->nucleos && $estudiantePreSistema->nucleos->nucleo)
+                    <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiantePreSistema->nucleos->nucleo), 'UTF-8') }}</p>
+                @endif
             </td>
             <td class="fecha">
                 <p style="margin: 0;">{{ $dia . ' / ' . $mes . ' / ' . $anio }}</p>
@@ -235,21 +238,41 @@
     </center>
     <p class="line-height1">
         {{ mb_strtoupper(trim('código:'), 'UTF-8') }}
-        <span class="underline-custom">{{ $estudiante->codigo }}</span>
+        @if($estudiante && $estudiante->codigo)
+            <span class="underline-custom">{{ $estudiante->codigo }}</span>
+        @elseif($estudiantePreSistema && $estudiantePreSistema->codigo)
+            <span class="underline-custom">{{ $estudiantePreSistema->codigo }}</span>
+        @endif
         cédula:
         <span class="underline-custom1">
+        @if($estudiante && $estudiante->nacionalidad)
             @if ($estudiante['nacionalidad'] === 'VE')
                 V{{ $estudiante['cedula'] }}
             @else
                 E{{ $estudiante['cedula'] }}
             @endif
+        @elseif($estudiantePreSistema && $estudiantePreSistema->nacionalidad)
+            @if ($estudiantePreSistema['nacionalidad'] === 'VE')
+                V{{ $estudiantePreSistema['cedula'] }}
+            @else
+                E{{ $estudiantePreSistema['cedula'] }}
+            @endif
+        @endif
         </span>
         {{ mb_strtoupper(trim('nombre:'), 'UTF-8') }}
         <span class="underline-custom1">
-            @if ($estudiante['segundo_apellido'] === null)
-                {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
-            @else
-                {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
+            @if($estudiante && $estudiante->segundo_apellido && $estudiante->primer_apellido && $estudiante->primer_name && $estudiante->segundo_name)
+                @if ($estudiante['segundo_apellido'] === null)
+                    {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
+                @else
+                    {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
+                @endif
+            @elseif($estudiantePreSistema && $estudiantePreSistema->segundo_apellido && $estudiantePreSistema->primer_apellido && $estudiantePreSistema->primer_name && $estudiantePreSistema->segundo_name)
+                @if ($estudiantePreSistema['segundo_apellido'] === null)
+                    {{ mb_strtoupper(trim($estudiantePreSistema['primer_apellido'] . ', ' . $estudiantePreSistema['primer_name'] . ' ' . $estudiantePreSistema['segundo_name']), 'UTF-8') }}
+                @else
+                    {{ mb_strtoupper(trim($estudiantePreSistema['primer_apellido'] . ' ' . $estudiantePreSistema['segundo_apellido'] . ', ' . $estudiantePreSistema['primer_name'] . ' ' . $estudiantePreSistema['segundo_name']), 'UTF-8') }}
+                @endif
             @endif
         </span>
     </p>
