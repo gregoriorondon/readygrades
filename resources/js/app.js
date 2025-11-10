@@ -1,4 +1,5 @@
 import './bootstrap';
+import './chart.js';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 import.meta.glob([

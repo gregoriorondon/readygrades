@@ -58,7 +58,7 @@
                             {{ mb_strtoupper(trim('¿está seguro de terminar el periodo actual?'), 'UTF-8') }}
                         </x-slot:title>
                         <x-slot:content>
-                            <form action="/inactive-periodo" method="POST" id="carreraform" class="accion">
+                            <form action="/inactive-periodo" method="POST" id="accion" class="accion">
                                 @csrf
                                 <x-span>{{ mb_strtoupper(trim('recuerde que es una acción permanente y esta culminará el periodo académico actual de todos los núcleos.')) }}</x-span>
                                 <br>
@@ -69,7 +69,7 @@
                                 <div id="suggestions" class="pl-2 mt-2"></div>
                             </form>
                         </x-slot:content>
-                        <x-slot:botones>
+                        <x-slot:botones form="accion">
                             {{ ucwords('aceptar') }}
                         </x-slot:botones>
                     </x-dialog-modal>
