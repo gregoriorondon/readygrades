@@ -9,7 +9,7 @@
       </div>
       <div class="flex justify-center">
           <div>
-                <x-barchat />
+                <x-barchat :graficoGeneros="$graficoGeneros" />
           </div>
           <div class="w-min flex flex-col gap-12 justify-center ml-24">
               <x-button-a class="w-max" link="estudiantes-panel-administrativo" icon="fas fa-user-graduate" >

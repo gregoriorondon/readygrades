@@ -373,11 +373,17 @@ class RegisteredAdminController extends Controller
             return redirect('/login');
         }
         $activo = Periodos::where('activo', true)->first();
+        $mujeres = Students::where('genero', 'femenino')->count();
+        $hombres = Students::where('genero', 'masculino')->count();
+        $graficoGeneros = [
+            'hombres' => $hombres,
+            'mujeres' => $mujeres,
+        ];
         $carreras = Carreras::count();
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
 
-        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos', 'activo'));
+        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos', 'activo', 'graficoGeneros'));
     }
 
     public function studentsadmin()

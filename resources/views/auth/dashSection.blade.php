@@ -23,7 +23,7 @@
             @if ($activo->activo !== null && $activo->activo !== false)
                     @cannot('profesor')
                         <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
-                            <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" />
+                            <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" :graficoGeneros="$graficoGeneros" />
                         </div>
                             <center>
                                 <x-button-a class="mt-7" link="#" icon="fa-solid fa-filter-list">
