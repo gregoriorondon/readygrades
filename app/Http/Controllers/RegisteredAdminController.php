@@ -372,11 +372,12 @@ class RegisteredAdminController extends Controller
         if (!$user) {
             return redirect('/login');
         }
+        $activo = Periodos::where('activo', true)->first();
         $carreras = Carreras::count();
         $estudiantes = Students::count();
         $nucleos = Nucleos::count();
 
-        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos'));
+        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos', 'activo'));
     }
 
     public function studentsadmin()

@@ -19,7 +19,7 @@
     </x-title-section-admin>
     <div class="py-4">
         <div class="mx-auto">
-            @isset($activo)
+        @isset($activo)
             @if ($activo->activo !== null && $activo->activo !== false)
                     @cannot('profesor')
                         <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
@@ -39,7 +39,7 @@
             @else
                 <h1>{{ ucwords('no existe periodo anterior o existente en el sistema') }}</h1>
             @endif
-            @else
+        @else
                 <center>
                     <h1 class="mt-20 select-none font-inter text-5xl text-gray-500/40">{{ ucwords('No existe periodo activo dentro del sistema para generar un resumen de datos') }}</h1>
                 </center>
