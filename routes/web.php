@@ -48,6 +48,8 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     //Dashboard and Chart
     Route::get('/administracion', 'admindashboard');
     Route::get ('/datos-estudiantes', 'datadetails');
+    //Descargar Excel
+    Route::get('/download-student-list', 'exportStudentData');
     Route::get('/registro', 'create');
     Route::post('/registro', 'store');
     Route::get('/nomina-administradores', 'admininfo');

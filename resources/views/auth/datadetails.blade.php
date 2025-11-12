@@ -86,4 +86,8 @@
 
         </div>
     </div>
+
+    <center>
+        <x-button-a link="download-student-list" icon="fas fa-file-download">Descargar Resumen</x-button-a>
+    </center>
 </x-dashboard>

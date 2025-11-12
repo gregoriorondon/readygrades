@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentsList;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Asignar;
 use App\Models\Cargos;
 use App\Models\Carreras;
@@ -469,6 +471,10 @@ class RegisteredAdminController extends Controller
         }
 
         return view('auth.datadetails', compact('graficoPorCarrera'));
+    }
+
+    public function exportStudentData(){
+        return Excel::download(new StudentsList, 'EstadisticasGeneroEstudiantes.xlsx');
     }
 
     public function studentsadmin()
