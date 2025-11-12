@@ -26,7 +26,7 @@
                             <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" :graficoGeneros="$graficoGeneros" />
                         </div>
                             <center>
-                                <x-button-a class="mt-7" link="#" icon="fa-solid fa-filter-list">
+                                <x-button-a class="mt-7" link="datos-estudiantes" icon="fa-solid fa-filter-list">
                                     Ver mas detalles
                                 </x-button-a>
                             </center>

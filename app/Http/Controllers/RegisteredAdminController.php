@@ -372,9 +372,15 @@ class RegisteredAdminController extends Controller
         if (!$user) {
             return redirect('/login');
         }
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $mujeres = Students::where('genero', 'femenino')
+            ->where('nucleo_id', $datos->nucleo_id)
+            ->count();
+        $hombres = Students::where('genero', 'masculino')
+            ->where('nucleo_id', $datos->nucleo_id)
+            ->count();
         $activo = Periodos::where('activo', true)->first();
-        $mujeres = Students::where('genero', 'femenino')->count();
-        $hombres = Students::where('genero', 'masculino')->count();
         $graficoGeneros = [
             'hombres' => $hombres,
             'mujeres' => $mujeres,
@@ -384,6 +390,85 @@ class RegisteredAdminController extends Controller
         $nucleos = Nucleos::count();
 
         return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos', 'activo', 'graficoGeneros'));
+    }
+
+    public function datadetails()
+    {
+        $usuario = Auth::user();
+        $user = User::with('cargos.tipos')->find($usuario->id);
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
+            $q->where('tipo', 'superadmin');
+        })->exists();
+
+        $graficoPorCarrera = [];
+
+        if (!$esRoot) {
+            $conteoPorCarrera = Students::selectRaw('carrera_id, genero, count(*) as total')
+                ->where('nucleo_id', $datos->nucleo_id)
+                ->groupBy('carrera_id', 'genero')
+                ->get();
+
+            $carreraIds = $conteoPorCarrera->pluck('carrera_id')->unique()->toArray();
+
+            $carreras = Carreras::whereIn('id', $carreraIds)->pluck('carrera', 'id');
+
+            $carrerasLabels = $carreras->values()->toArray(); // Nombres de las carreras
+            $hombresData = array_fill(0, count($carrerasLabels), 0); // Inicializar a 0
+            $mujeresData = array_fill(0, count($carrerasLabels), 0); // Inicializar a 0
+
+            foreach ($conteoPorCarrera as $conteo) {
+                $carreraNombre = $carreras[$conteo->carrera_id] ?? 'Desconocida';
+                $index = array_search($carreraNombre, $carrerasLabels);
+
+                if ($index !== false) {
+                    if ($conteo->genero === 'masculino') {
+                        $hombresData[$index] = $conteo->total;
+                    } elseif ($conteo->genero === 'femenino') {
+                        $mujeresData[$index] = $conteo->total;
+                    }
+                }
+            }
+
+            $graficoPorCarrera = [
+                'labels' => $carrerasLabels,
+                'hombres' => $hombresData,
+                'mujeres' => $mujeresData,
+            ];
+        } else {
+            $conteoPorCarrera = Students::selectRaw('carrera_id, genero, count(*) as total')
+                ->groupBy('carrera_id', 'genero')
+                ->get();
+
+            $carreraIds = $conteoPorCarrera->pluck('carrera_id')->unique()->toArray();
+
+            $carreras = Carreras::whereIn('id', $carreraIds)->pluck('carrera', 'id');
+
+            $carrerasLabels = $carreras->values()->toArray(); // Nombres de las carreras
+            $hombresData = array_fill(0, count($carrerasLabels), 0); // Inicializar a 0
+            $mujeresData = array_fill(0, count($carrerasLabels), 0); // Inicializar a 0
+
+            foreach ($conteoPorCarrera as $conteo) {
+                $carreraNombre = $carreras[$conteo->carrera_id] ?? 'Desconocida';
+                $index = array_search($carreraNombre, $carrerasLabels);
+
+                if ($index !== false) {
+                    if ($conteo->genero === 'masculino') {
+                        $hombresData[$index] = $conteo->total;
+                    } elseif ($conteo->genero === 'femenino') {
+                        $mujeresData[$index] = $conteo->total;
+                    }
+                }
+            }
+
+            $graficoPorCarrera = [
+                'labels' => $carrerasLabels,
+                'hombres' => $hombresData,
+                'mujeres' => $mujeresData,
+            ];
+        }
+
+        return view('auth.datadetails', compact('graficoPorCarrera'));
     }
 
     public function studentsadmin()
