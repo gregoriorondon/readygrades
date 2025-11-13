@@ -44,6 +44,10 @@
                 <x-name-title-student-public>Núcleo de Estudios</x-name-title-student-public>
                 <x-date-student-public>{{ $estudiante->nucleos->nucleo }}</x-date-student-public>
             </div>
+            <div>
+                <x-name-title-student-public>Código de Estudiante</x-name-title-student-public>
+                <x-date-student-public>{{ $estudiante->codigo}}</x-date-student-public>
+            </div>
             @foreach ($tramosActuales as $carreraId => $tramos)
                 @php
                     $carrera = $notasAgrupadas[$carreraId]['carrera'] ?? null;
