@@ -213,31 +213,36 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
 
-        $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
-        if ($tramo->id !== 1) {
-            if (empty($request->codigo)) {
-                $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
-                if (is_null($existeCodigo)) {
-                    return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
-                }
-                $datosEstudiante['codigo'] = $existeCodigo;
-            }
+        $existeStudentCedula = Students::where('cedula', $request->cedula)->first();
+        if ($existeStudentCedula){
+            $datosEstudiante['codigo'] = $existeStudentCedula->codigo;
         } else {
-            $existeStudent = Students::where('cedula', $request->cedula)->value('codigo');
-            if (!empty($request->codigo)) {
-                $datosEstudiante['codigo'] = $request->codigo;
-            } elseif (!is_null($existeStudent)) {
-                $datosEstudiante['codigo'] = $existeStudent;
-            } else {
-                $studentInicial = Students::where('tramo_trayecto_id', $request->tramo_trayecto_id)
-                    ->where('nucleo_id', $request->nucleo_id)
-                    ->latest()
-                    ->first();
-                if (empty($studentInicial)) {
-                    return redirect()->back()->withInput()->withErrors(['error' => 'Estas registrando al primer estudiante en éste núcleo, por favor ingresa su código manualmente']);
+            $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
+            if ($tramo->id !== 1) {
+                if (empty($request->codigo)) {
+                    $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
+                    if (is_null($existeCodigo)) {
+                        return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
+                    }
+                    $datosEstudiante['codigo'] = $existeCodigo;
                 }
-                $studentInicialIncrement = $studentInicial->codigo + 1;
-                $datosEstudiante['codigo'] = $studentInicialIncrement;
+            } else {
+                $existeStudent = Students::where('cedula', $request->cedula)->value('codigo');
+                if (!empty($request->codigo)) {
+                    $datosEstudiante['codigo'] = $request->codigo;
+                } elseif (!is_null($existeStudent)) {
+                    $datosEstudiante['codigo'] = $existeStudent;
+                } else {
+                    $studentInicial = Students::where('tramo_trayecto_id', $request->tramo_trayecto_id)
+                        ->where('nucleo_id', $request->nucleo_id)
+                        ->selectRaw('MAX(CAST(codigo AS SIGNED INTEGER)) as max_codigo')
+                        ->max('codigo');
+                    if (empty($studentInicial)) {
+                        return redirect()->back()->withInput()->withErrors(['error' => 'Estas registrando al primer estudiante en éste núcleo, por favor ingresa su código manualmente']);
+                    }
+                    $studentInicialIncrement = (int) $studentInicial + 1;
+                    $datosEstudiante['codigo'] = $studentInicialIncrement;
+                }
             }
         }
 
