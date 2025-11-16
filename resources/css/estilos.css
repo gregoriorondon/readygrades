@@ -821,14 +821,14 @@ details[open] summary ~ * {
     color: var(--texto1);
     background-color: var(--botones-hover);
 }
-.overview, .score{
+.student-nav{
     font-family: 'Inter';
     font-size: 18px;
     padding: 7px;
     margin-right: 7px;
     color: var(--texto1);
 }
-.overview:hover, .score:hover{
+.student-nav:hover, .student-nav:hover{
     border-bottom: 2px solid;
     border-color: var(--texto1);
 }
@@ -881,18 +881,18 @@ details[open] summary ~ * {
         display: none;
     }
 }
-.calificacion-publica, .datos-publico{
-    padding: 7px 14px;
-    font-family: 'Inter';
-    background-color: var(--botones);
-    color: var(--texto1);
-    border-radius: 7px;
-    margin-top: 21px;
-    transition: ease-in-out .2s;
-}
-.calificacion-publica:hover, .datos-publico:hover{
-    background-color: var(--botones-hover);
-}
+/* .calificacion-publica, .datos-publico{ */
+/*     padding: 7px 14px; */
+/*     font-family: 'Inter'; */
+/*     background-color: var(--botones); */
+/*     color: var(--texto1); */
+/*     border-radius: 7px; */
+/*     margin-top: 21px; */
+/*     transition: ease-in-out .2s; */
+/* } */
+/* .calificacion-publica:hover, .datos-publico:hover{ */
+/*     background-color: var(--botones-hover); */
+/* } */
 .divcarreratramonucleo{
     display: flex;
     grid-column: 1 / -1;

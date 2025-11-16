@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,8 @@
     <x-nav-student-public>
         <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-slot:usuario>
     </x-nav-student-public>
+    <form method="post" action="{{ route('generarpdf') }}">
+    @csrf
     <div class="data-public-student-details items-center">
         <section class="personal-data">
             <div>
@@ -66,7 +68,7 @@
                 </x-date-student-public>
             </div>
             <div>
-                <button class="calificacion-publica"><i class="fas fa-award"></i>Ver Tus Notas Académicas</button>
+                <x-simple-button type="button" class="calificacion-publica" icon="fas fa-award">Ver Tus Notas Académicas</x-simple-button>
             </div>
         </section>
         <section class="card-logo-public">
@@ -160,7 +162,7 @@
                 </details>
             @endforeach
             <div class="flex justify-center text-xl">
-                <button class="datos-publico"><i class="fas fa-user-graduate"></i>Ver Tus Datos Personales</button>
+                <x-simple-button type="button" class="datos-publico" icon="fas fa-user-graduate">Ver Tus Datos Personales</x-simple-button>
             </div>
             <div class="warni">
                 <span class="war1 font-inter">Tenga en cuenta que si intenta copiar o tomar alguna foto de las notas que
@@ -173,10 +175,53 @@
             <x-authentication-card-logo />
         </section>
     </div>
+    <div class="hidden generar-constancia-student-details flex justify-center items-center">
+        <section class="notas w-full lg:w-[50%] mx-6">
+            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">
+                {{ ucwords('Generar Constancia de Estudios') }}
+            </h1>
+            <p class="font-inter mb-7">
+                {{ ucwords('Al descargar la constancia de estudios debe
+                    llevarla al departamento del area de registro y control
+                    de estudios de su núcleo donde estas estudiante. En su
+                    caso es en ') }} "{{ $estudiante->nucleos->nucleo }}".
+            </p>
+            <div>
+                @if ($usuario === null)
+                <p class="text-red-600">
+                    {{ ucwords('no se puede generar su constancia de estudio porque no hay un administrador de ARSCE en su núcleo universitario para poderlo firmar y sellar.') }}
+                </p>
+                <x-select-form disabled class="opacity-50 cursor-not-allowed">
+                    <option>Seleccione La Carrera Para La Constancia</option>
+                </x-select-form>
+                @else
+                <x-select-form name="carrera_id">
+                    <option>Seleccione La Carrera Para La Constancia</option>
+                    @foreach ($registrosAcademicos as $estudiantes)
+                        <option value="{{ $estudiantes->carreras->id }}">{{ $estudiantes->carreras->carrera }}</option>
+                    @endforeach
+                </x-select-form>
+                <input type="hidden" name="cedula" value="{{ $estudiante->cedula }}">
+                @endif
+            </div>
+            <div class="flex justify-between mt-7">
+                <x-simple-button type="button" class="datos-publico" icon="fas fa-user-graduate">Ver Tus Datos Personales</x-simple-button>
+                @if ($usuario === null)
+                    <x-simple-button disabled icon="fas fa-download">Generar y Descargar</x-simple-button>
+                @else
+                    <x-button icon="fas fa-download">Generar y Descargar</x-button>
+                @endif
+            </div>
+        </section>
+        <section class="card-logo-public">
+            <x-authentication-card-logo />
+        </section>
+    </div>
     <div class="m-7">
         <p class="text-center font-inter mb-4 text-black/50">Por temas de seguridad y privacidad del y de la estudiante
             no se muestran todos los datos personales requeridos en la inscripción</p>
     </div>
+    </form>
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
     <x-footer-original />
 </body>

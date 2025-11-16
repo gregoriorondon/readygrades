@@ -10,6 +10,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::post('/detalles-estudiante', 'studentspublicdetails');
+    Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
@@ -59,7 +60,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/submit-student-cedula', 'busquedagenerar');
     Route::post('/submit-student-cedula-record', 'generarrecord');
     Route::post('/generar-pdf-record', 'generarrecordpdf');
-    Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
+    // Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
     Route::get('/generarpdf', 'generarrecarga')->name('generarpdf');
     //Cargo
     Route::get('/agregar-cargo', 'cargoadd')->name('cargo.index')->can('root');

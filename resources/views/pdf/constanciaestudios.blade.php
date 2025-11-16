@@ -186,7 +186,10 @@
         </p>
     </div>
     <div class="cuerpo_constancia" style="text-indent: 0;">
-        <p>{{ $informacion['nota_validez'] }}</p>
+        <p>Esta constancia es valida a partir del
+        {{ $diaPeriodoInicio . ' ' . $mesPeriodoInicio . ' del ' . $anioPeriodoInicio }}
+        hasta el
+        {{ $diaPeriodoFin . ' ' . $mesPeriodoFin . ' del ' . $anioPeriodoFin }}</p>
     </div>
     <div class="firma_derecha">
         <div class="firma1" id="cuerpo_constancia" style="text-transform: uppercase;">
@@ -203,7 +206,8 @@
         </p>
     </div>
     <div class="cuerpo_constancia">
-        <p style="margin-top: -10px; text-indent: 0; text-align: center;">{{ $informacion['nota_validez_pie'] }}
+        <p style="margin-top: -10px; text-indent: 0; text-align: center;">
+        Valida desde el {{  $diaPeriodoInicio . ' ' . $mesPeriodoInicio . ' del ' . $anioPeriodoInicio }} hasta el {{ $diaPeriodoFin . ' ' . $mesPeriodoFin . ' del ' . $anioPeriodoFin }}.
         </p>
     </div>
 </div>
