@@ -1173,6 +1173,7 @@ class RegisteredAdminController extends Controller
             $atributos = $request->validate([
                 'cargo' => 'required|unique:cargos,cargo|string|max:100',
                 'tipo_id' => 'required|exists:tipos,id|integer',
+                'encargado' => 'required|string',
             ], [
                 'cargo.required' => 'Es necesario que coloque un cargo real. Ejemplo Jefe Administrador',
                 'cargo.string' => 'Es necesario que contenga valores alfabeticos y no númericos',
@@ -1181,7 +1182,15 @@ class RegisteredAdminController extends Controller
                 'tipo_id.required' => 'Debe colocar un tipo de cargo real',
                 'tipo_id.integer' => 'No debe contener carácteres especiales',
                 'tipo_id.exists' => 'El tipo de cargo que está intentando usar no existe.',
+                'encargado.required' => 'Es necesario que seleccione si es encargado o no en su tipo de cargo',
+                'encargado.string' => 'Es necesario que tenga valores alfabeticos',
             ]);
+            if ($request->encargado !== 'si') {
+                $atributos['encargado'] = false;
+            } else {
+                $atributos['encargado'] = true;
+            }
+
             $atributos['cargo'] = Str::title(ucwords($atributos['cargo']));
             Cargos::create($atributos);
             return redirect()->route('cargo.index')->with('alert', 'Cargo creado exitosamente!');

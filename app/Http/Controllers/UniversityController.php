@@ -152,7 +152,10 @@ class UniversityController extends Controller
         }
         $studentNucleo = StudentPublic::where('cedula', $request->cedula)
             ->first();
-        $usuario = User::where('nucleo_id', $studentNucleo->nucleo_id)->first();
+        $usuario = User::with(['cargos' => function($q){
+            $q->where('encargado', true);
+        }])
+            ->where('nucleo_id', $studentNucleo->nucleo_id)->first();
 
         $fecha = Carbon::now();
 

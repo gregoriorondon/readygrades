@@ -18,7 +18,8 @@ class CargosFactory extends Factory
     {
         return [
             'cargo'=>'jefe de administracion',
-            'tipo_id'=>'1'
+            'tipo_id'=>'1',
+            'encargado'=>true
         ];
     }
 }

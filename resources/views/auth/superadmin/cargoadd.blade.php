@@ -14,6 +14,14 @@
                         <option value="{{ $tipos->id }}">{{ strtoupper($tipos->tipo) }}</option>
                     @endforeach
                 </x-select-form>
+                <div class="mt-4">
+                    <x-input-check type="radio" id="encargado" name="encargado" value="si" />
+                    <label for="encargado">{{ ucwords('es encargado') }}</label>
+                </div>
+                <div>
+                    <x-input-check type="radio" id="noencargado" name="encargado" value="no" />
+                    <label for="noencargado">{{ ucwords('no es encargado') }}</label>
+                </div>
             </div>
             <x-button type="submit" class="float-right mt-4" id="nombre">Crear <i
                     class="fa-solid fa-plus mr-0 ml-2"></i></x-button>

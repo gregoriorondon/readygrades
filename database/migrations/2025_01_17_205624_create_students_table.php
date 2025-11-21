@@ -40,6 +40,7 @@ return new class extends Migration
             $table->string('cargo')->unique();
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipos')->cascadeOnUpdate();
+            $table->boolean('encargado');
             $table->timestamps();
         });
         Schema::create('estudios', function (Blueprint $table) {
@@ -106,7 +107,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('cedula');
-            $table->string('codigo');
+            $table->integer('codigo');
             $table->string('primer_name');
             $table->string('segundo_name')->nullable();
             $table->string('primer_apellido');
