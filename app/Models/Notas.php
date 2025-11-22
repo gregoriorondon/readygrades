@@ -15,14 +15,14 @@ class Notas extends Model
         'nota_recuperacion',
         'editado',
         'pensum_id',
-        'student_id',
+        'students_data_id',
         'periodo_id'
     ];
     public function pensums() {
         return $this->belongsTo(Pensum::class, 'pensum_id');
     }
     public function students() {
-        return $this->belongsTo(Students::class, 'student_id');
+        return $this->belongsTo(Students::class, 'students_data_id');
     }
     public function periodos() {
         return $this->belongsTo(Periodos::class, 'periodo_id');

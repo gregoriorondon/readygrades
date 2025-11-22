@@ -4,31 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Students extends Model
+class StudentsInscripciones extends Model
 {
-    protected $table = "students_data";
+    protected $table = 'students_inscripcion';
     protected $fillable = [
-        'primer_name',
-        'segundo_name',
-        'primer_apellido',
-        'segundo_apellido',
-        'genero',
-        'nacionalidad',
-        'cedula',
-        'codigo',
-        'telefono',
-        'fecha_nacimiento',
-        'email',
-        'direccion',
-        'city',
+        'nucleo_id',
+        'carrera_id',
+        'tramo_trayecto_id',
+        'seccion_id',
+        'periodo_id',
     ];
     public function studentsDataInscripcion(){
         return $this->hasMany(StudentDatoInscripciones::class, 'students_data_id');
-    }
-
-
-    public function inscripciones(){
-        return $this->hasMany(Inscripciones::class);
     }
     public function nucleos(){
         return $this->belongsTo(Nucleos::class, 'nucleo_id');
@@ -44,15 +31,6 @@ class Students extends Model
     }
     public function secciones(){
         return $this->belongsTo(Secciones::class, 'seccion_id');
-    }
-    public function notas() {
-        return $this->hasMany(Notas::class);
-    }
-    public function nota() {
-        return $this->hasMany(Notas::class, 'student_id');
-    }
-    public function periodos() {
-        return $this->belongsTo(Periodos::class);
     }
     public function periodo() {
         return $this->belongsTo(Periodos::class, 'periodo_id');

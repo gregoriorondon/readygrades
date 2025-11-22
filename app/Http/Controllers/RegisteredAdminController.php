@@ -18,7 +18,9 @@ use App\Models\Periodos;
 use App\Models\Profesores;
 use App\Models\Secciones;
 use App\Models\Sessions;
+use App\Models\StudentDatoInscripciones;
 use App\Models\Students;
+use App\Models\StudentsInscripciones;
 use App\Models\Tipos;
 use App\Models\TituloAcademico;
 use App\Models\Tramos;
@@ -143,7 +145,7 @@ class RegisteredAdminController extends Controller
             'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
             'tramo_trayecto_id' => ['required', 'numeric', 'exists:tramo_trayecto,id'],
             'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
-            // 'codigo' => 'nullable|string',
+            'codigo' => 'nullable|integer',
         ], [
             'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
             'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
@@ -168,7 +170,7 @@ class RegisteredAdminController extends Controller
             'tramo_trayecto_id.required' => 'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
             'tramo_trayecto_id.numeric' => 'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
             'tramo_trayecto_id.exists' => 'El tramo y trayecto no es válido.',
-            // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
+            'codigo.integer' => 'Es obligatorio que coloque un código al estudiante con valor numéricos',
         ]);
 
         $usuario = Auth::user();
@@ -178,15 +180,15 @@ class RegisteredAdminController extends Controller
             $q->where('tipo', 'superadmin');
         })->exists();
 
-        if (!$esRoot) {
+        $nucleo_id = $datos->nucleo_id;
+        if ($esRoot) {
+            $nucleo_id = $request->nucleo_id;
+        } else {
             if ((int) $request->nucleo_id !== (int) $datos->nucleo_id) {
                 return redirect()->back()->withInput()->withErrors([
                     'error' => 'No tiene permiso para cambiar el núcleo asignado.'
                 ]);
             }
-            $datosEstudiante['nucleo_id'] = $datos->nucleo_id;
-        } else {
-            $datosEstudiante['nucleo_id'] = $request->nucleo_id;
         }
 
         $periodo = Periodos::where('activo', true)->first();
@@ -196,11 +198,11 @@ class RegisteredAdminController extends Controller
         }
 
         $existeInscripcion = Students::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            // ->where('tramo_trayecto_id', $request->tramo_trayecto_id)
-            ->where('periodo_id', $periodo->id)
+            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($query) use ($request, $periodo) {
+                $query->where('carrera_id', $request->carrera_id)
+                    ->where('periodo_id', $periodo->id);
+            })
             ->exists();
-
         if ($existeInscripcion) {
             return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
         }
@@ -215,53 +217,76 @@ class RegisteredAdminController extends Controller
 
         $existeStudentCedula = Students::where('cedula', $request->cedula)->first();
         if ($existeStudentCedula){
-            $datosEstudiante['codigo'] = $existeStudentCedula->codigo;
+            $codigo = $existeStudentCedula->codigo;
         } else {
             $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
             if ($tramo->id !== 1) {
-                if (empty($request->codigo)) {
+                if (!empty($request->codigo)) {
+                    $codigo = (int)$request->codigo;
+                } else {
                     $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
-                    if (is_null($existeCodigo)) {
+                    if (!is_null($existeCodigo)) {
+                        $codigo = (int)$existeCodigo;
+                    } else {
                         return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
                     }
-                    $datosEstudiante['codigo'] = $existeCodigo;
                 }
             } else {
-                $existeStudent = Students::where('cedula', $request->cedula)->value('codigo');
                 if (!empty($request->codigo)) {
-                    $datosEstudiante['codigo'] = $request->codigo;
-                } elseif (!is_null($existeStudent)) {
-                    $datosEstudiante['codigo'] = $existeStudent;
+                    $codigo = (int)$request->codigo;
                 } else {
-                    $studentInicial = Students::where('tramo_trayecto_id', $request->tramo_trayecto_id)
-                        ->where('nucleo_id', $request->nucleo_id)
-                        ->selectRaw('MAX(CAST(codigo AS SIGNED INTEGER)) as max_codigo')
-                        ->max('codigo');
-                    if (empty($studentInicial)) {
-                        return redirect()->back()->withInput()->withErrors(['error' => 'Estas registrando al primer estudiante en éste núcleo, por favor ingresa su código manualmente']);
+                    $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
+                    if (!is_null($existeCodigo)) {
+                        $codigo = (int)$existeCodigo;
+                    } else {
+                        $ultimoCodigo = Students::selectRaw('MAX(CAST(codigo AS SIGNED INTEGER)) as max_codigo')
+                            ->value('max_codigo');
+                        if (empty($ultimoCodigo)) {
+                            return redirect()->back()->withInput()->withErrors([
+                                'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente'
+                            ]);
+                        } else {
+                            $codigo = (int) $ultimoCodigo + 1;
+                        }
                     }
-                    $studentInicialIncrement = (int) $studentInicial + 1;
-                    $datosEstudiante['codigo'] = $studentInicialIncrement;
                 }
             }
         }
 
-        $datosEstudiante['periodo_id'] = $periodo->id;
-        $datosEstudiante['primer_name'] = Str::title(ucwords($datosEstudiante['primer_name']));
-        $datosEstudiante['segundo_name'] = $datosEstudiante['segundo_name'] ? Str::title(ucwords($datosEstudiante['segundo_name'])) : null;
-        $datosEstudiante['primer_apellido'] = Str::title(ucwords($datosEstudiante['primer_apellido']));
-        $datosEstudiante['segundo_apellido'] = $datosEstudiante['segundo_apellido'] ? Str::title(ucwords($datosEstudiante['segundo_apellido'])) : null;
-        $datosEstudiante['genero'] = Str::lower($datosEstudiante['genero']);
-        $datosEstudiante['nacionalidad'] = Str::upper($datosEstudiante['nacionalidad']);
-        $datosEstudiante['email'] = $datosEstudiante['email'] ? Str::lower($datosEstudiante['email']) : null;
-        $datosEstudiante['direccion'] = Str::title(ucwords($datosEstudiante['direccion']));
-        $datosEstudiante['city'] = Str::title(ucwords($datosEstudiante['city']));
-        $student = Students::create($datosEstudiante);
+        $datosStudent = [
+            'primer_name' => Str::title(ucwords($request->primer_name)),
+            'segundo_name' => $request->segundo_name ? Str::title(ucwords($request->segundo_name)) : null,
+            'primer_apellido' => Str::title(ucwords($request->primer_apellido)),
+            'segundo_apellido' => $request->segundo_apellido ? Str::title(ucwords($request->segundo_apellido)) : null,
+            'genero' => Str::lower($request->genero),
+            'nacionalidad' => Str::upper($request->nacionalidad),
+            'cedula' => $request->cedula,
+            'codigo' => $codigo,
+            'telefono' => $request->telefono,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'email' => $request->email ? Str::lower($request->email) : null,
+            'direccion' => Str::title(ucwords($request->direccion)),
+            'city' => Str::title(ucwords($request->city)),
+        ];
+        $student = Students::create($datosStudent);
+
+        $inscripcion = StudentsInscripciones::create([
+            'nucleo_id' => $nucleo_id,
+            'carrera_id' => $request->carrera_id,
+            'tramo_trayecto_id' => $request->tramo_trayecto_id,
+            'seccion_id' => $request->seccion_id,
+            'periodo_id' => $periodo->id,
+        ]);
+
+        StudentDatoInscripciones::create([
+            'students_data_id' => $student->id,
+            'students_inscripcion_id' => $inscripcion->id,
+        ]);
 
         foreach ($materiasPensum as $materia) {
             Notas::create([
                 'pensum_id' => $materia->id,
-                'student_id' => $student->id,
+                'students_data_id' => $student->id,
                 'periodo_id' => $periodo->id,
                 'nota' => null
             ]);
@@ -382,10 +407,14 @@ class RegisteredAdminController extends Controller
         $usuario = Auth::user();
         $datos = User::where('id', $usuario->id)->firstOrFail();
         $mujeres = Students::where('genero', 'femenino')
-            ->where('nucleo_id', $datos->nucleo_id)
+            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($n) use ($datos) {
+                $n->where('nucleo_id', $datos->nucleo_id);
+            })
             ->count();
         $hombres = Students::where('genero', 'masculino')
-            ->where('nucleo_id', $datos->nucleo_id)
+            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($u) use ($datos) {
+                $u->where('nucleo_id', $datos->nucleo_id);
+            })
             ->count();
         $activo = Periodos::where('activo', true)->first();
         $graficoGeneros = [
