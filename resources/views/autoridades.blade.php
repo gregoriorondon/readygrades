@@ -69,8 +69,8 @@
    ================================================== -->
                 <div id="owl-speakers" class="owl-carousel">
 
-                    <div class="item wow fadeInUp col-md-3 col-sm-3" data-wow-delay="0.9s">
-                        <div class="speakers-wrapper">
+                    <div class="tarjeta wow fadeInUp" data-wow-delay="0.9s">
+                        <div class="speakers-wrapper subtarjeta">
                             <img src="/img/rectora.webp" class="img-responsive">
                             <div class="speakers-thumb">
                                 <h3>Dra. Ninoska Ortiz</h3>
@@ -79,8 +79,8 @@
                         </div>
                     </div>
 
-                    <div class="item wow fadeInUp col-md-3 col-sm-3" data-wow-delay="0.6s">
-                        <div class="speakers-wrapper">
+                    <div class="tarjeta wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="speakers-wrapper subtarjeta">
                             <img src="img/viceacad1.webp" class="img-responsive">
                             <div class="speakers-thumb">
                                 <h3>Dr. Alexis Peña</h3>
@@ -89,8 +89,8 @@
                         </div>
                     </div>
 
-                    <div class="item wow fadeInUp col-md-3 col-sm-3" data-wow-delay="0.9s">
-                        <div class="speakers-wrapper">
+                    <div class="tarjeta wow fadeInUp" data-wow-delay="0.9s">
+                        <div class="speakers-wrapper subtarjeta">
                             <img src="img/viceterritorial.webp" class="img-responsive">
                             <div class="speakers-thumb">
                                 <h3>Dr. José Gonzalez</h3>
@@ -99,8 +99,8 @@
                         </div>
                     </div>
 
-                    <div class="item wow fadeInUp col-md-3 col-sm-3" data-wow-delay="0.6s">
-                        <div class="speakers-wrapper">
+                    <div class="tarjeta wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="speakers-wrapper subtarjeta">
                             <img src="img/secretariageneral.webp" class="img-responsive">
                             <div class="speakers-thumb">
                                 <h3>MSc. Lisdreliz Godoy</h3>

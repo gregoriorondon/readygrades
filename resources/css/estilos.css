@@ -739,6 +739,24 @@ details[open] summary ~ * {
 
 
 /*========================================*/
+/*=============Autoridades================*/
+/*========================================*/
+.tarjeta{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100%);
+    column-gap: 2em;
+    row-gap: 3em;
+}
+.subtarjeta{
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    gap: 0;
+    background-color: #fff;
+}
+
+
+/*========================================*/
 /*=============Estudiantes================*/
 /*========================================*/
 .stud{
