@@ -291,7 +291,7 @@ class RegisteredAdminController extends Controller
                 'nota' => null
             ]);
         }
-        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $datosEstudiante['codigo']);
+        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $codigo);
     }
 
     public function studentedit($estudiante)
