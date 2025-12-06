@@ -23,6 +23,8 @@ return new class extends Migration
             $table->date('inicio');
             $table->date('fin');
             $table->boolean('activo')->default(true);
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('tipos', function (Blueprint $table) {
@@ -107,7 +109,6 @@ return new class extends Migration
         Schema::create('students_data', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('cedula')->unique();
-            $table->integer('codigo')->unique();
             $table->string('primer_name');
             $table->string('segundo_name')->nullable();
             $table->string('primer_apellido');
@@ -121,10 +122,18 @@ return new class extends Migration
             $table->string('city');
             $table->timestamps();
         });
-        Schema::create('students_inscripcion', function (Blueprint $table) {
+        Schema::create('students_codigo_nucleo', function (Blueprint $table) {
             $table->id()->unique();
+            $table->unsignedBigInteger('students_data_id');
+            $table->foreign('students_data_id')->references('id')->on('students_data')->cascadeOnUpdate();
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->integer('codigo')->unique();
+        });
+        Schema::create('students_inscripcion', function (Blueprint $table) {
+            $table->id()->unique();
+            $table->unsignedBigInteger('students_codigo_nucleo_id');
+            $table->foreign('students_codigo_nucleo_id')->references('id')->on('students_codigo_nucleo')->cascadeOnUpdate();
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
             $table->unsignedBigInteger('tramo_trayecto_id');
@@ -133,14 +142,6 @@ return new class extends Migration
             $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeonupdate();
             $table->unsignedbiginteger('periodo_id');
             $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeonupdate();
-            $table->timestamps();
-        });
-        Schema::create('students_data_inscripcion', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->unsignedBigInteger('students_data_id');
-            $table->foreign('students_data_id')->references('id')->on('students_data')->cascadeOnUpdate();
-            $table->unsignedBigInteger('students_inscripcion_id');
-            $table->foreign('students_inscripcion_id')->references('id')->on('students_inscripcion')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('users', function (Blueprint $table) {
@@ -243,8 +244,8 @@ return new class extends Migration
         Schema::dropIfExists('tramos');
         Schema::dropIfExists('tramo_trayecto');
         Schema::dropIfExists('students_data');
+        Schema::dropIfExists('students_codigo_nucleo');
         Schema::dropIfExists('students_inscripcion');
-        Schema::dropIfExists('students_data_inscripcion');
         Schema::dropIfExists('nucleos');
         Schema::dropIfExists('tipos');
         Schema::dropIfExists('notas');
