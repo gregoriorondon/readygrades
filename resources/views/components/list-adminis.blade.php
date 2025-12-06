@@ -1,26 +1,63 @@
 <div class="py-10 sm:py-10">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:max-w-none">
+    <div class="mx-auto max-w-5xl lg:max-w-7xl">
       <div class="text-center">
-        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl font-inter">Metricas de la institución</h2>
-        <p class="mt-4 text-lg leading-8 font-inter">
-            Un resmuen general de la actividad del periodo actual de la institución
-        </p>
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl font-inter">Accesos rápidos del sistema</h2>
       </div>
-      <div class="flex justify-center">
-          <div>
-                <x-barchat :graficoGeneros="$graficoGeneros" />
-          </div>
-          <div class="w-min flex flex-col gap-12 justify-center ml-24">
-              <x-button-a class="w-max" link="estudiantes-panel-administrativo" icon="fas fa-user-graduate" >
-                  Gestionar Estudiantes
-              </x-button-a>
-                <x-button-a class="w-max" link="registro-estudiante" icon="fa-solid fa-square-plus">
-                    Inscribir Estudiantes
-                </x-button-a>
-                <x-button-a class="w-max" link="generar-documentos" icon="fa-solid fa-file-plus">
-                    Generar Documentos
-                </x-button-a>
+      <div class="flex justify-center mt-7">
+          <div class="flex flex-wrap justify-center gap-6">
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
+                  <div class="">
+                        <i class="mr-4 fa-light fa-graduation-cap text-4xl"></i>
+                  </div>
+                  <div class="">
+                        <p class="mb-4">
+                            Gestiona eficazmente la información de los estudiantes de tu núcleo universitario.
+                        </p>
+                        <a class="mr-1 hover:mr-2 underline" href="/estudiantes-panel-administrativo">
+                            Gestionar Estudiantes
+                        </a><i class="fal fa-arrow-right"></i>
+                  </div>
+              </div>
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
+                  <div class="">
+                        <i class="mr-4 fa-light fa-file-circle-plus text-4xl"></i>
+                  </div>
+                  <div class="">
+                        <p class="mb-4">
+                            Registro rápido de estudiantes con datos e historial académico existentes.
+                        </p>
+                        <a class="mr-1 hover:mr-2 underline" href="/cargar-notas">
+                            Cargar Notas
+                        </a><i class="fal fa-arrow-right"></i>
+                  </div>
+              </div>
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
+                  <div class="">
+                        <i class="mr-4 fa-light fa-square-plus text-4xl"></i>
+                  </div>
+                  <div class="">
+                        <p class="mb-4">
+                            Registra facilmente los nuevos estudiantes en tu núcleo universitario.
+                        </p>
+                        <a class="mr-1 hover:mr-2 underline" href="/registro-estudiante">
+                            Inscribir Estudiantes
+                        </a><i class="fal fa-arrow-right"></i>
+                  </div>
+              </div>
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
+                  <div class="">
+                        <i class="mr-4 fa-light fa-file-plus text-4xl"></i>
+                  </div>
+                  <div class="">
+                        <p class="mb-4">
+                            Crea documentos oficiales, certificados y reportes de calificaciones con formatos institucionales predefinidos.
+                        </p>
+                        <a class="mr-1 hover:mr-2 underline" href="/generar-documentos">
+                            Generar Documentos
+                        </a><i class="fal fa-arrow-right"></i>
+                  </div>
+              </div>
           </div>
       </div>
     </div>

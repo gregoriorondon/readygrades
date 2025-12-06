@@ -406,26 +406,35 @@ class RegisteredAdminController extends Controller
         }
         $usuario = Auth::user();
         $datos = User::where('id', $usuario->id)->firstOrFail();
-        $mujeres = Students::where('genero', 'femenino')
-            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($n) use ($datos) {
-                $n->where('nucleo_id', $datos->nucleo_id);
-            })
-            ->count();
-        $hombres = Students::where('genero', 'masculino')
-            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($u) use ($datos) {
-                $u->where('nucleo_id', $datos->nucleo_id);
-            })
-            ->count();
-        $activo = Periodos::where('activo', true)->first();
-        $graficoGeneros = [
-            'hombres' => $hombres,
-            'mujeres' => $mujeres,
-        ];
-        $carreras = Carreras::count();
-        $estudiantes = Students::count();
-        $nucleos = Nucleos::count();
-
-        return view('auth.dashSection', compact('user', 'carreras', 'estudiantes', 'nucleos', 'activo', 'graficoGeneros'));
+        // $mujeres = Students::where('genero', 'femenino')
+        //     ->whereHas('studentsDataInscripcion.studentsInscripcion', function($n) use ($datos) {
+        //         $n->where('nucleo_id', $datos->nucleo_id);
+        //     })
+        //     ->count();
+        // $hombres = Students::where('genero', 'masculino')
+        //     ->whereHas('studentsDataInscripcion.studentsInscripcion', function($u) use ($datos) {
+        //         $u->where('nucleo_id', $datos->nucleo_id);
+        //     })
+        //     ->count();
+        $activo = Periodos::where('activo', true)->where('nucleo_id', $datos->nucleo_id)->first();
+        // $graficoGeneros = [
+        //     'hombres' => $hombres,
+        //     'mujeres' => $mujeres,
+        // ];
+        // $carreras = Carreras::count();
+        // $estudiantes = Students::count();
+        // $nucleos = Nucleos::count();
+        //
+        return view('auth.dashSection',
+            compact(
+                'user',
+                // 'carreras',
+                // 'estudiantes',
+                // 'nucleos',
+                'activo',
+                // 'graficoGeneros'
+            )
+        );
     }
 
     public function datadetails()
@@ -1401,7 +1410,9 @@ class RegisteredAdminController extends Controller
     // =========================================================
     public function periodos()
     {
-        $periodo = Periodos::orderBy('created_at', 'desc')->paginate(20);
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $periodo = Periodos::where('nucleo_id', $datos->nucleo_id)->orderBy('created_at', 'desc')->paginate(20);
         return view('auth.periodo-academico', compact('periodo'));
     }
 
@@ -1421,11 +1432,15 @@ class RegisteredAdminController extends Controller
             'nombre.required' => 'No debe dejar el nombre del periodo académico en blanco.',
             'nombre.string' => 'No debe colocar carácteres especiales en el nombre del periodo académico.',
         ]);
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+
         $activo = Periodos::where('activo', true)->first();
         if ($activo) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Actualmente ya existe un periodo activo']);
         }
         $atributos['activo'] = true;
+        $atributos['nucleo_id'] = $datos->nucleo_id;
         Periodos::create($atributos);
         return redirect()->back()->with('alert', 'Se creó e inició un nuevo periodo académico.');
     }

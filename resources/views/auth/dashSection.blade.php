@@ -19,31 +19,29 @@
     </x-title-section-admin>
     <div class="py-4">
         <div class="mx-auto">
-        @isset($activo)
-            @if ($activo->activo !== null && $activo->activo !== false)
-                    @cannot('profesor')
-                        <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
-                            <x-list-adminis :carreras="$carreras" :estudiantes="$estudiantes" :nucleos="$nucleos" :graficoGeneros="$graficoGeneros" />
-                        </div>
-                            <center>
-                                <x-button-a class="mt-7" link="datos-estudiantes" icon="fa-solid fa-filter-list">
-                                    Ver mas detalles
-                                </x-button-a>
-                            </center>
-                    @endcannot
-                    @can('profesor')
-                        <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
-                            <x-docente.welcome />
-                        </div>
-                    @endcan
-            @else
-                <h1>{{ ucwords('no existe periodo anterior o existente en el sistema') }}</h1>
-            @endif
-        @else
+            @cannot('profesor')
+                @if (!$activo)
+                    <div class="py-12 px-7 bg-footer text-white mb-4 rounded-lg font-inter">
+                        <p class="text-3xl mb-3">
+                            {{ ucwords('hemos visto que no hay un periodo activo en su núcleo académico') }}
+                        </p>
+                        <a href="/periodos" class="mr-1 hover:mr-2 underline">{{ ucwords('ir a crear un nuevo periódo') }}</a><i class="fal fa-arrow-right"></i>
+                    </div>
+                @endif
+                <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
+                    <x-list-adminis />
+                </div>
                 <center>
-                    <h1 class="mt-20 select-none font-inter text-5xl text-gray-500/40">{{ ucwords('No existe periodo activo dentro del sistema para generar un resumen de datos') }}</h1>
+                    <x-button-a class="mt-7" link="datos-estudiantes" icon="fa-solid fa-filter-list">
+                        Ver y descargar datos
+                    </x-button-a>
                 </center>
-        @endisset
+            @endcannot
+            @can('profesor')
+                <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
+                    <x-docente.welcome />
+                </div>
+            @endcan
         </div>
     </div>
 </x-dashboard>

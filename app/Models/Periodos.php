@@ -12,5 +12,6 @@ class Periodos extends Model
         'fin',
         'nombre',
         'activo',
+        'nucleo_id',
     ];
 }
