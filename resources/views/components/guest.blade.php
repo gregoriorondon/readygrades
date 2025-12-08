@@ -6,9 +6,7 @@
         <title>{{ $titulo }}</title>
         <x-import/>
     </head>
-    <body>
-        <div class="m-0">
+    <body class="cuerpo">
             {{ $slot }}
-        </div>
     </body>
 </html>
