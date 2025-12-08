@@ -129,6 +129,7 @@ return new class extends Migration
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
             $table->integer('codigo')->unique();
+            $table->timestamps();
         });
         Schema::create('students_inscripcion', function (Blueprint $table) {
             $table->id()->unique();

@@ -8,17 +8,20 @@ class StudentsInscripciones extends Model
 {
     protected $table = 'students_inscripcion';
     protected $fillable = [
-        'nucleo_id',
+        'students_codigo_nucleo_id',
         'carrera_id',
         'tramo_trayecto_id',
         'seccion_id',
         'periodo_id',
     ];
     public function studentsDataInscripcion(){
-        return $this->hasMany(StudentDatoInscripciones::class, 'students_data_id');
+        return $this->hasMany(StudentDatoInscripciones::class, 'students_inscripcion_id');
     }
-    public function nucleos(){
-        return $this->belongsTo(Nucleos::class, 'nucleo_id');
+    public function studentcodigonucleo(){
+        return $this->belongsTo(StudentsCodigoNucleo::class, 'students_codigo_nucleo_id');
+    }
+    public function datosestudiante() {
+        return $this->studentcodigonucleo()->datosestudiante();
     }
     public function carreras(){
         return $this->belongsTo(Carreras::class, 'carrera_id');

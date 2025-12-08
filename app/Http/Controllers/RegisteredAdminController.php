@@ -20,6 +20,7 @@ use App\Models\Secciones;
 use App\Models\Sessions;
 use App\Models\StudentDatoInscripciones;
 use App\Models\Students;
+use App\Models\StudentsCodigoNucleo;
 use App\Models\StudentsInscripciones;
 use App\Models\Tipos;
 use App\Models\TituloAcademico;
@@ -190,21 +191,77 @@ class RegisteredAdminController extends Controller
                 ]);
             }
         }
-
         $periodo = Periodos::where('activo', true)->first();
 
         if (!$periodo) {
             return redirect()->back()->withInput()->withErrors(['error' => 'El periodo que está tratando de usar está cerrado.']);
         }
 
-        $existeInscripcion = Students::where('cedula', $request->cedula)
-            ->whereHas('studentsDataInscripcion.studentsInscripcion', function($query) use ($request, $periodo) {
-                $query->where('carrera_id', $request->carrera_id)
-                    ->where('periodo_id', $periodo->id);
-            })
-            ->exists();
-        if ($existeInscripcion) {
-            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
+        $studentsExist = Students::where('cedula', $request->cedula)->first();
+        $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
+        $ultimoCodigo = StudentsCodigoNucleo::where('nucleo_id', $nucleo_id)->max('codigo');
+
+        if ($tramo->id === 1) {
+            if (is_null($studentsExist)) {
+                if (empty($ultimoCodigo)) {
+                    if (is_null($request->codigo)) {
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente del último estudiante inscripto en el trayecto inicial (el valor mas alto para seguir con la secuencia en tú núcleo)'
+                        ]);
+                    } else {
+                        $codigo = $request->codigo;
+                    }
+
+                } else {
+                    $codigo = (int) $ultimoCodigo + 1;
+                }
+            } else {
+                $codigoStudent = StudentsCodigoNucleo::where('students_data_id', $studentsExist->id)
+                    ->where('nucleo_id', $nucleo_id)
+                    ->first();
+                if ($codigoStudent) {
+                    $inscripcionExistente = StudentsInscripciones::where('students_codigo_nucleo_id', $codigoStudent->id)
+                    ->where('carrera_id', $request->carrera_id)
+                    ->where('periodo_id', $periodo->id)
+                    ->first();
+                    if ($inscripcionExistente) {
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => 'El estudiante ya está inscrito en esta carrera y periodo.'
+                        ]);
+                    }
+                     $codigo = $codigoStudent->codigo;
+                }
+            }
+        } else {
+            $codigoStudent = StudentsCodigoNucleo::where('students_data_id', $studentsExist->id)
+                ->where('nucleo_id', $nucleo_id)
+                ->first();
+            if (is_null($codigoStudent)) {
+                if (empty($ultimoCodigo)) {
+                    return redirect()->back()->withInput()->withErrors([
+                        'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente del último estudiante inscripto en el trayecto inicial (el valor mas alto para seguir con la secuencia en tú núcleo)'
+                    ]);
+                } else {
+                    $codigo = (int) $ultimoCodigo + 1;
+                }
+            } else {
+                $inscripcionExistente = StudentsInscripciones::where('students_codigo_nucleo_id', $codigoStudent->id)
+                    ->where('carrera_id', $request->carrera_id)
+                    ->where('periodo_id', $periodo->id)
+                    ->first();
+                if ($inscripcionExistente) {
+                    return redirect()->back()->withInput()->withErrors([
+                        'error' => 'El estudiante ya está inscrito en esta carrera y periodo.'
+                    ]);
+                }
+                if (is_null($request->codigo)) {
+                    $codigo = $codigoStudent->codigo;
+                } elseif ($request->codigo !== $codigoStudent->codigo) {
+                    return redirect()->back()->withInput()->withErrors(['error' => 'El código que le estas asignado a este estudiante no corresponde con una inscripción anterior en este núcleo, si no recuerda su código dejalo en blanco para que el sistema lo haga automáticamente.']);
+                } else {
+                    $codigo = $request->codigo;
+                }
+            }
         }
 
         $materiasPensum = Pensum::where('carrera_id', $request->carrera_id)
@@ -215,44 +272,6 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
 
-        $existeStudentCedula = Students::where('cedula', $request->cedula)->first();
-        if ($existeStudentCedula){
-            $codigo = $existeStudentCedula->codigo;
-        } else {
-            $tramo = TramoTrayecto::with('tramos')->find($request->tramo_trayecto_id);
-            if ($tramo->id !== 1) {
-                if (!empty($request->codigo)) {
-                    $codigo = (int)$request->codigo;
-                } else {
-                    $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
-                    if (!is_null($existeCodigo)) {
-                        $codigo = (int)$existeCodigo;
-                    } else {
-                        return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
-                    }
-                }
-            } else {
-                if (!empty($request->codigo)) {
-                    $codigo = (int)$request->codigo;
-                } else {
-                    $existeCodigo = Students::where('cedula', $request->cedula)->value('codigo');
-                    if (!is_null($existeCodigo)) {
-                        $codigo = (int)$existeCodigo;
-                    } else {
-                        $ultimoCodigo = Students::selectRaw('MAX(CAST(codigo AS SIGNED INTEGER)) as max_codigo')
-                            ->value('max_codigo');
-                        if (empty($ultimoCodigo)) {
-                            return redirect()->back()->withInput()->withErrors([
-                                'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente'
-                            ]);
-                        } else {
-                            $codigo = (int) $ultimoCodigo + 1;
-                        }
-                    }
-                }
-            }
-        }
-
         $datosStudent = [
             'primer_name' => Str::title(ucwords($request->primer_name)),
             'segundo_name' => $request->segundo_name ? Str::title(ucwords($request->segundo_name)) : null,
@@ -261,7 +280,6 @@ class RegisteredAdminController extends Controller
             'genero' => Str::lower($request->genero),
             'nacionalidad' => Str::upper($request->nacionalidad),
             'cedula' => $request->cedula,
-            'codigo' => $codigo,
             'telefono' => $request->telefono,
             'fecha_nacimiento' => $request->fecha_nacimiento,
             'email' => $request->email ? Str::lower($request->email) : null,
@@ -270,17 +288,19 @@ class RegisteredAdminController extends Controller
         ];
         $student = Students::create($datosStudent);
 
-        $inscripcion = StudentsInscripciones::create([
+        $studentCodigoNucleo = [
+            'students_data_id' => $student->id,
             'nucleo_id' => $nucleo_id,
+            'codigo' => $codigo,
+        ];
+        $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
+
+        $inscripcion = StudentsInscripciones::create([
+            'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
             'carrera_id' => $request->carrera_id,
             'tramo_trayecto_id' => $request->tramo_trayecto_id,
             'seccion_id' => $request->seccion_id,
             'periodo_id' => $periodo->id,
-        ]);
-
-        StudentDatoInscripciones::create([
-            'students_data_id' => $student->id,
-            'students_inscripcion_id' => $inscripcion->id,
         ]);
 
         foreach ($materiasPensum as $materia) {
