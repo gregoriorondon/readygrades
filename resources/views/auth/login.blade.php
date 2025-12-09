@@ -20,7 +20,7 @@
         <form method="POST" action="/login">
             @csrf
             <div>
-                <x-input i="email" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Usuario o Correo" />
+                <x-input type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Usuario o Correo" />
                 <x-input-error name="email" />
             </div>
             <div class="mt-4">

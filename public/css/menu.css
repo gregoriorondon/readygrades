@@ -11,7 +11,9 @@
     background-color: #fff;
     transition: padding 0.3s ease-in-out, border-top 0.3s ease-in-out;
 }
-
+.movilmenu {
+    display: none;
+}
 .menu-encogido {
     padding: 5px 5%;
     /* Menor padding */
@@ -213,4 +215,39 @@ ul {
 
 a {
     text-decoration: none !important;
+}
+
+@media (max-width: 977px) {
+    .menu{
+        display: none;
+    }
+    .mobile-divider li:not(:last-child) {
+        border-bottom: 1px solid #c4c4c4; /* Esto es el color gray-200 de Tailwind */
+    }
+    .menusidebar{
+        background-color: #ffffffb8;
+        backdrop-filter: blur(15px);
+        font-size: 22px;
+        padding-left: 22px;
+        padding-top: 22px;
+    }
+    .movilmenu {
+        display: block;
+        position: sticky;
+        top: 0;
+        overflow: hidden;
+        z-index: 2;
+        border-top: 5px solid #4271d7;
+        width: 100%;
+        padding: 15px 10%;
+        margin-top: 0;
+        background-color: #fff;
+        background-color: #ffffffb8;
+        backdrop-filter: blur(15px);
+        transition: padding 0.3s ease-in-out, border-top 0.3s ease-in-out;
+    }
+    #mobile-menu li {
+        margin-bottom: 25px;
+    }
+
 }

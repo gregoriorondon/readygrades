@@ -174,10 +174,10 @@ div, a, li {
 }
 
 </style>
-<footer class="py-16 bg-footer font-inter font-normal info" id="contact-us">
-    <div class="container !pr-0 !pl-0 !mr-0 !ml-0">
-        <div class="flex mx-20">
-            <div class="min-w-[35%] mr-7">
+<footer class="min-[746px]:py-16 bg-footer font-inter font-normal info" id="contact-us">
+    <div class="!pr-0 !pl-0 !mr-0 !ml-0">
+        <div class="min-[746px]:flex min-[746px]:mx-20">
+            <div class="min-[746px]:min-w-[35%] !max-[746px]:max-w-[80%] mr-7">
                 <div class="footer-widget">
                     <div class="footer-logo">
                         <a href="/">UPTTMBI</a>
@@ -215,7 +215,7 @@ div, a, li {
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-15">
+            <div class="col-lg-9 col-md-15 !min-[746px]:max-w-[60%] !max-[746px]:max-w-[80%] max-[746px]:mt-12">
                 <div class="footer-widget">
                     <div class="widget-title">
                         <h6>Ubicanos:</h6>
@@ -253,32 +253,6 @@ div, a, li {
         </div>
     </div>
 </div>
-<!-- End Copyright Area -->
-<!-- JS -->
-<!-- Popper.js -->
-{{-- <script src="assets/js/popper.min.js"></script> --}}
-<!-- Bootstrap.js -->
-{{-- <script src="assets/js/bootstrap-4.3.1.min.js"></script> --}}
-<!-- Modernizr.js -->
-{{-- <script src="assets/js/vendor/modernizr-3.5.0.min.js"></script> --}}
-<!-- Owl.Carousel.js -->
-{{-- <script src="assets/js/vendor/owl.carousel-2.3.4.min.js"></script> --}}
-{{-- <script src="assets/js/vendor/owl.carousel2.thumbs.min.js"></script> --}}
-<!-- Waypoints.js -->
-{{-- <script src="assets/js/vendor/waypoints-4.0.1.min.js"></script> --}}
-<!-- ColorNip.js -->
-{{-- <script src="assets/js/vendor/colornip.min.js"></script> --}}
-<!-- SlickNav.js -->
-{{-- <script src="assets/js/vendor/slicknav.min.js"></script> --}}
-<!-- ScrollUp.js -->
-{{-- <script src="assets/js/vendor/jquery.scrollUp.min.js"></script> --}}
-<!-- MagnificPopup.js -->
-{{-- <script src="assets/js/vendor/magnific-popup.min.js"></script> --}}
-
-<!-- Main.js -->
-{{-- <script src="assets/js/main.js"></script> --}}
-
-{{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> --}}
 
 <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
