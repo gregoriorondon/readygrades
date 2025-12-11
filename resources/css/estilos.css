@@ -1149,14 +1149,14 @@ input[type="number"]::-webkit-inner-spin-button {
         /* margin: 10% 10% 77% 10%; */
     }
 }
-@media (max-width: 452px){
-    .info{
-        display: unset;
-    }
-    .f-social{
-        margin-top: 35px;
-    }
-}
+/* @media (max-width: 452px){ */
+/*     .info{ */
+/*         display: unset; */
+/*     } */
+/*     .f-social{ */
+/*         margin-top: 35px; */
+/*     } */
+/* } */
 @media (max-width: 507px){
     .stud{
         width: 290px;
@@ -1192,9 +1192,81 @@ input[type="number"]::-webkit-inner-spin-button {
     }
 }
 @media (max-width: 700px){
-    .sec-readygrades, .sec-about, .map{
-        display: none;
+    .sec-about, .map{
+        display: flex;
+        justify-content: center;
     }
+    .s-about summary{
+        font-family: 'staatliches';
+        padding: 21px;
+        cursor: pointer;
+        font-size: 22px;
+    }
+    .s-about div{
+        font-family: 'inter';
+        padding: 0px 7px 7px 7px;
+        margin: 0px;
+        font-size: 15px;
+    }
+    .s-about{
+        width: 99%;
+        margin: 0;
+    }
+    .sec-about h1 {
+        font-size: 30px;
+    }
+    .s-about details{
+        margin: 2px;
+        border: 1px solid;
+        border-color: #eeeeee;
+        border-radius: 7px;
+        background-color: #fff;
+        box-shadow: 0px 0px 14px #eeeeee;
+    }
+    .readygrades-all h1{
+        text-align: center;
+        font-size: 30px;
+        color: var(--botones);
+        font-family: 'inter' !important;
+        letter-spacing: normal;
+    }
+    .sec-readygrades{
+        display: block;
+        justify-content: center;
+        align-items: center;
+    }
+    .readygrades p{
+        font-family: 'inter';
+        font-size: 15px;
+        line-height: 1.7;
+        margin-top: 20px;
+    }
+    .readygrades_img{
+        margin-bottom: 3px;
+    }
+    .readygrades a {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        text-align: center;
+    }
+    .readylink{
+        padding: 14px 55px 14px 55px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        background-color: var(--botones);
+        color: var(--textofondooscuro);
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        font-family: 'inter';
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+
+
     .sec-readygrades-movile, .sec-about-movile, .map-movile{
         display: block;
     }
@@ -1225,10 +1297,10 @@ input[type="number"]::-webkit-inner-spin-button {
         color: var(--botones);
         text-align: center;
         font-family: 'staatliches';
-        font-size: 48px;
+        font-size: 28px;
     }
-    .s-about{
-        max-width: 87%;
+    .sec-about{
+        max-width: 97%;
     }
     .map-movile{
         margin: 35px 10% 10% 10%;

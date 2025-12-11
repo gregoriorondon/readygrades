@@ -108,6 +108,12 @@ h3{
     font-size: 13px;
 }
 
+@media (max-width: 746px){
+    .address-line{
+        margin-right: 20px;
+    }
+}
+
 .address-line p a {
     color: #cccccc;
     -webkit-transition: .3s;
@@ -215,7 +221,7 @@ div, a, li {
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-15 !min-[746px]:max-w-[60%] !max-[746px]:max-w-[80%] max-[746px]:mt-12">
+            <div class="!max-[746px]:max-w-[60%] max-[746px]:mt-12">
                 <div class="footer-widget">
                     <div class="widget-title">
                         <h6>Ubicanos:</h6>
