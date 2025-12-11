@@ -37,6 +37,14 @@
             -webkit-animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
             animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
         }
+        @media (max-width: 700px){
+            .slide-left-1, .slide-left-2 {
+                font-size: 150%;
+            }
+            .slide-left-3 {
+                font-size: 120%;
+            }
+        }
 
         @-webkit-keyframes slide-left {
             0% {
@@ -75,17 +83,17 @@
             <h2 class="slide-left-1 text-white text-center">UNIVERSIDAD POLITÉCNICA TERRITORIAL</h2>
             <h2 class="slide-left-2 text-white text-center">DEL ESTADO TRUJILLO</h2>
             <h3 class="slide-left-3 text-white text-center">"MARIO BRICEÑO IRAGORRY"</h1>
-                <div class="text-center mt-5">
-                    <x-button class="!text-xl" icon="fa fa-download">Reseña Histórica</x-button>
-                    <x-button class="!text-xl" icon="fa fa-download">Epónimo</x-button>
-                    <x-button class="!text-xl" icon="fa fa-download">Logotipo</x-button>
+                <div class="text-center mt-5 md:block flex flex-col items-center">
+                    <x-button class="md:!text-xl !text-sm max-w-fit" icon="fa fa-download">Reseña Histórica</x-button>
+                    <x-button class="md:!text-xl !text-sm md:mt-0 mt-4 max-w-fit" icon="fa fa-download">Epónimo</x-button>
+                    <x-button class="md:!text-xl !text-sm md:mt-0 mt-4 max-w-fit" icon="fa fa-download">Logotipo</x-button>
                 </div>
         </div>
     </div>
-    <h2 class="text-center my-24">Núcleos Territoriales</h2>
-    <div class="mx-64">
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-[40%] mr-32">
+    <h2 class="text-center md:my-24 my-12">Núcleos Territoriales</h2>
+    <div class="md:mx-64 md:max-w-[1280px] !mx-4 md:px-4 md:block mx-auto flex items-center flex-col">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="w-[40%] mr-32 md:block hidden">
                 <h3>Núcleo "Fabricio Ojeda" - Boconó</h3>
                 <p>Fundado el 5 de marzo del año 1988.
                 <br>
@@ -99,15 +107,54 @@
                     <u>Sede CUSAM:</u> Troncal 07 Sector El Saman, diagonal al Estadium.</p>
                 <x-button-a icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
             </div>
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-01.webp" alt="">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-01.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo "Fabricio Ojeda" - Boconó</h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundado el 5 de marzo del año 1988.
+                            <br>
+                            <b>Ubicado en:</b>
+                            <br>
+                            <u>Sede Principal:</u>
+                                Calle Colón con Av. Independencia (Antigo Hospital "Rafael Rangel")
+                            <br>
+                            <u>Teléfono:</u> 0272-652.31.11.
+                            <br>
+                            <u>Sede CUSAM:</u> Troncal 07 Sector El Saman, diagonal al Estadium.</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-02.webp" alt="">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200 md:mt-0 mt-8">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-02.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo "Francisco de Miranda" - El Dividive</h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundado el 16 de Noviembre de 1988.
+                            <br>
+                            <b>Ubicado en:</b>
+                                <br>
+                                Autopista Panamericana, El Dividive
+                                <br>
+                                <u>Teléfono:</u> 0272-666.01.14.</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
-            <div class="w-[40%] ml-32">
+            <div class="w-[40%] ml-32 md:block hidden">
                 <h3>Núcleo "Francisco de Miranda" - El Dividive</h3>
                 <p>Fundado el 16 de Noviembre de 1988.
                 <br>
@@ -119,8 +166,8 @@
                 <x-button-a icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
             </div>
         </div>
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-[40%] mr-32">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="w-[40%] mr-32 md:block hidden">
                 <h3>Núcleo "Dr. Pablo Viloria" - La Beatriz</h3>
                 <p>Fundado el 18 de agosto de 1992.
                 <br>
@@ -131,15 +178,54 @@
                     <u>Teléfono:</u> 0271-231.11.10.</p>
                 <x-button-a icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
             </div>
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-03.webp" alt="">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200 md:mt-0 mt-8">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-03.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo "Dr. Pablo Viloria" - La Beatriz</h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundado el 18 de agosto de 1992.
+                            <br>
+                            <b>Ubicado en:</b>
+                            <br>
+                                Urb. La Beatriz Parte Alta al lado del Parque Botanico, Valera.
+                                <br>
+                                <u>Teléfono:</u> 0271-231.11.10.</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-04.webp" alt="">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200 md:mt-0 mt-8">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-04.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo "Hugo Chávez" - San Luis
+                                <br>
+                                <u>Sede Rectoral</u>
+                            </h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundado el 01 de Agosto de 1978.
+                            <br>
+                            <b>Ubicado en:</b>
+                                <br>
+                                Av. La Feria Sector San Luis. Frente al Gimnasio Ricardo Salas, Valera.
+                                <br>
+                                <u>Teléfono:</u> 0271-221.29.27.</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
-            <div class="w-[40%] ml-32">
+            <div class="w-[40%] ml-32 md:block hidden">
                 <h3>Núcleo "Hugo Chávez" - San Luis
                     <br>
                     <u>Sede Rectoral</u></h3>
@@ -153,8 +239,8 @@
                 <x-button-a icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
             </div>
         </div>
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-[40%] mr-32">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="w-[40%] mr-32 md:block hidden">
                 <h3>Núcleo "Barbarita de la Torre" - Trujillo</h3>
                 <p>Fundado el 18 de agosto de 1992.
                 <br>
@@ -165,15 +251,55 @@
                     <u>Teléfono:</u> 0272-236.31.61.</p>
                 <x-button-a icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
             </div>
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-05.webp" alt="">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200 md:mt-0 mt-8">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-05.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo "Barbarita de la Torre" - Trujillo</h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundado el 18 de agosto de 1992.
+                            <br>
+                            <b>Ubicado en:</b>
+                                <br>
+                                Av. Cristobal Mendoza detrás del Mercado Municipal Sector Santa Rosa, Trujillo.
+                                <br>
+                                <u>Teléfono:</u> 0272-236.31.61.</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
-        <div class="my-24 flex justify-center items-center">
-            <div class="w-96">
-                <img class="rounded-md" src="/img/tabs-image-06.webp" alt="">
+        <div class="md:my-24 md:flex justify-center items-center block">
+            <div class="md:w-96 max-w-[500px] md:bg-transparent bg-gray-200 md:mt-0 my-8">
+                <img class="md:rounded-md rounded-none" src="/img/tabs-image-06.webp" alt="">
+                <div class="md:hidden block mx-4 select-none mt-4">
+                    <details>
+                        <summary class="cursor-pointer leading-8" style="list-style: none;">
+                            <h3>Núcleo Carache</h3>
+				            <p>Leer Más<i class="ml-2 fas fa-arrow-circle-right"></i></p>
+                        </summary>
+                        <div>
+                            <p>Fundada el 14 de Febrero de 2019.
+                                Inicia como Extensión Académica y
+                                Administrativa del Núcleo "Barbarita
+                                de la Torre" - Trujillo.
+                                Convertido a Núcleo en Diciembre del 2024
+                            <br>
+                            <b>Ubicado en:</b>
+                            <br>
+                            Calle Vargas entre Av.2 y Av.3, al lado Alcaldía del Municipio Carache.
+                            <br>
+                            <u>Teléfono:</u> 0272-999.16.05</p>
+                            <x-button-a class="mb-4" icon="fa fa-eye">{{ ucwords('ver en google maps') }}</x-button-a>
+                        </div>
+                    </details>
+                </div>
             </div>
-            <div class="w-[40%] ml-32">
+            <div class="w-[40%] ml-32 md:block hidden">
                 <h3>Núcleo Carache</h3>
                 <p>Fundada el 14 de Febrero de 2019.
                    Inicia como Extensión Académica y

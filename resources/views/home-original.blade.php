@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <meta name="keywords"
         content="UPTTMBI, excelencia academica, estudios, estudiar, carreras, pregrado, postgrado, pnf, trujillo" />
     <meta name="description"
@@ -62,6 +62,14 @@
             font-size: 250%;
             -webkit-animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
             animation: slide-left 1s cubic-bezier(0.075, 0.820, 0.165, 1.000) 3s both;
+        }
+        @media (max-width: 700px){
+            .slide-left-1, .slide-left-2 {
+                font-size: 150%;
+            }
+            .slide-left-3 {
+                font-size: 120%;
+            }
         }
 
         @-webkit-keyframes slide-left {
@@ -150,7 +158,6 @@
                         </div>
                     </div>
                 </details>
-
             </div>
         </div>
     </section>
@@ -175,7 +182,7 @@
     </div>
     <!-- End ReadyGrades Area -->
 
-    <!-- Start Icon Box Area -->
+     <!-- Start Icon Box Area -->
     <div class="icon-box-area pt-70 pb-70" id="feature">
         <div class="container">
             <div class="row">
@@ -238,8 +245,8 @@
     <!-- ARC -->
     <div class="hire-us-area theme-bg js--sticky-menu">
         <div class="container">
-            <div class="flex items-center justify-center">
-                <div class="max-w-[55%]">
+            <div class="md:flex md:items-center md:justify-center">
+                <div class="md:max-w-[55%]">
                     <center>
                         <div class="hire-us-content">
                             <h6><b>Trabajador UPETISTA, OTIC y OGH activan el sistema de descarga de la Planilla ARC
@@ -248,10 +255,12 @@
                         </div>
                     </center>
                 </div>
-                <div class="ml-5">
-                    <x-button-a class="text-xl" link="https://www.upttmbi.edu.ve/constancias/arc_upttmbi2023.php"
-                        target="_blank" icon="fa fa-download fa-lg" style="border: 2px solid #fff;">Sistema ARC
-                        UPTTMBI</x-button-a>
+                <div class="ml-5 mt-3 mb:mt-0">
+                    <center>
+                        <x-button-a class="text-xl" link="https://www.upttmbi.edu.ve/constancias/arc_upttmbi2023.php"
+                            target="_blank" icon="fa fa-download fa-lg" style="border: 2px solid #fff;">Sistema ARC
+                            UPTTMBI</x-button-a>
+                    </center>
                 </div>
             </div>
         </div>
@@ -370,8 +379,8 @@
     <!-- Start Barra Download -->
     <div class="hire-us-area theme-bg js--sticky-menu">
         <div class="container">
-            <div class="flex items-center justify-center">
-                <div class="max-w-[55%]">
+            <div class="sm:flex sm:items-center sm:justify-center">
+                <div class="sm:max-w-[55%]">
                     <center>
                         <div class="hire-us-content">
                             <h6><b>Estudiante Nuevo Ingreso <br>Ingresa, descarga, llena e imprime tu planilla de
@@ -379,11 +388,13 @@
                         </div>
                     </center>
                 </div>
-                <div class="ml-5">
+                <div class="ml-5 sm:mt-0 mt-3">
+                    <center>
                     <x-button-a class="text-xl" link="drsce/drsce.html" target="_blank" icon="fa fa-download fa-lg"
                         style="border: 2px solid #fff;">
                         ADMISION 2025-3
                     </x-button-a>
+                    </center>
                 </div>
             </div>
         </div>
@@ -393,7 +404,7 @@
 
 
     <!-- Start Oferta Académica Area -->
-    <div class="bemax-area gray-bg pt-65 pb-25 flex">
+    <div class="bemax-area gray-bg pt-65 pb-25 min-[920px]:flex">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-70">
@@ -408,15 +419,23 @@
 
         <div
             class="
-                after:block
-                after:bg-gray-500
-                after:w-[1px]
-                after:h-[100%]
-                after:mx-auto
-                after:my-2">
+                min-[920px]:after:block
+                min-[920px]:after:bg-gray-500
+                min-[920px]:after:w-[1px]
+                min-[920px]:after:h-[100%]
+                min-[920px]:after:mx-auto
+                min-[920px]:after:my-2
+
+                max-[920px]:after:block
+                max-[920px]:after:bg-gray-500
+                max-[920px]:after:h-[1px]
+                max-[920px]:after:w-[80%]
+                max-[920px]:after:mx-auto
+                max-[920px]:after:my-8
+                ">
         </div>
 
-        <div class="container">
+        <div class="container max-[920px]:mt-2">
             <div class="row">
                 <div class="col-lg-12 text-center mb-70">
                     <div class="section-title">
@@ -451,7 +470,7 @@
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 max-[992px]:mt-6">
                     <div class="single-choose-item">
                         <h6><a href="#"><i class="fas fa-cogs"></i> Trabajo Colaborativo</a></h6>
                         <p>Esta forma de estudio no se basa simplemente en la estructura lineal docente – estudiante,
