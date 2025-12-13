@@ -79,9 +79,6 @@ class UniversityController extends Controller
         if (!$estudianteDataVa) {
             return redirect()->back()->withInput()->withErrors(['nucleo_id' => 'El núcleo seleccionado no coincide con el del estudiante.']);
         }
-        // $estudianteData = StudentDatoInscripciones::with([
-        //     'studentsInscripcion',
-        // ])->where('students_data_id', $estudiante->id)->orderBy('created_at', 'desc')->first();
         $carreraParaLaConstancia = StudentsInscripciones::with('carreras', 'secciones')
             ->where('students_codigo_nucleo_id', $estudianteData->id)
             ->get();
@@ -100,16 +97,6 @@ class UniversityController extends Controller
             ->unique('id');
         $estudianteSec = $seccion->secciones;
 
-        // $carreraParaLaConstancia = StudentDatoInscripciones::with('studentsInscripcion.carreras')
-        //     ->where('students_data_id', $estudiante->id)
-        //     ->whereHas('studentsInscripcion', function($query) {
-        //         $query->whereHas('carreras');
-        //     })->get();
-        // $registrosAcademicos = $carreraParaLaConstancia->carreras;
-        // $registrosAcademicos = $carreraParaLaConstancia
-        //     ->pluck('carreras')
-        //     ->filter()
-        //     ->unique('id');
         $usuario = User::where('nucleo_id', $estudianteData->nucleo->id)->first();
 
         $fechaPeriodo = Periodos::where('activo', true)->first();
@@ -260,7 +247,7 @@ class UniversityController extends Controller
         $estudiantes = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteData->students_codigo_nucleo_id)
             ->where('periodo_id', $activo->id)
             ->get();
-        $carreras = Carreras::with('titulos')->find($estudianteInscr->carrera_id);
+        $carreras = Carreras::with('titulos')->find($request->carrera_id);
         $titulosacademicos = TituloAcademico::where('carrera_id', $estudianteInscr->carrera_id)
             ->where('tramo_trayecto_id', '<=', $estudianteInscr->tramo_trayecto_id)
             ->orderBy('tramo_trayecto_id', 'desc')
@@ -298,41 +285,41 @@ class UniversityController extends Controller
         $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
         return $pdf->download($filename);
     }
-
-
-
-
-
-
-    public function admin()
-    {
-        return view('auth.login');
-    }
-
-    public function courses()
-    {
-        $carrera = Carreras::all();
-        return view('auth.courses', ['courses' => $carrera]);
-    }
-
-    public function studentsadmin()
-    {
-        $students = Students::paginate(20);
-        return view('auth.students', ['estudiantes' => $students]);
-    }
-
-    public function studentsadmindetails(Students $student)
-    {
-        return view('auth.students-details', ['estudiantes' => $student]);
-    }
-
-    public function adminadd()
-    {
-        return view('auth.registro-admin');
-    }
-
-    public function profesornomina()
-    {
-        return view('auth.profesores-nomina');
-    }
+    //
+    //
+    //
+    //
+    //
+    //
+    // public function admin()
+    // {
+    //     return view('auth.login');
+    // }
+    //
+    // public function courses()
+    // {
+    //     $carrera = Carreras::all();
+    //     return view('auth.courses', ['courses' => $carrera]);
+    // }
+    //
+    // public function studentsadmin()
+    // {
+    //     $students = Students::paginate(20);
+    //     return view('auth.students', ['estudiantes' => $students]);
+    // }
+    //
+    // public function studentsadmindetails(Students $student)
+    // {
+    //     return view('auth.students-details', ['estudiantes' => $student]);
+    // }
+    //
+    // public function adminadd()
+    // {
+    //     return view('auth.registro-admin');
+    // }
+    //
+    // public function profesornomina()
+    // {
+    //     return view('auth.profesores-nomina');
+    // }
 }
