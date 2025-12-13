@@ -13,9 +13,9 @@
         console.log("%c%s","color:red;background-color:yellow;font-size:25px;border-radius:10px;padding:0px 7px 0px 7px;","Cuidado!!!");
         console.log("%c%s","font-size: 18px;","No utilices esta consola, no escribas ni pegues ning\u00fan c\u00f3digo o script.");
     </script>
-<body class="">
+<body class="cuerpo">
     <x-menuuptt />
-    <div class="cuerpo">
+    <div class="">
     <div>
         <x-authentication-card>
             <x-slot name="logo">
@@ -28,8 +28,23 @@
             <form method="POST" action="/detalles-estudiante">
                 @csrf
                 <div>
-                    <x-input type="number" name="cedula" placeholder="Ingrese su Cédula" autocomplete="off" value="{{ old('cedula') }}" />
+                    <x-input class="bg-transparent" type="number" name="cedula" placeholder="Ingrese su Cédula" autocomplete="off" autofocus required value="{{ old('cedula') }}" />
                     <x-input-error name="cedula" />
+                </div>
+                <div>
+                    @if ($nucleos->isEmpty())
+                        <x-select-form disabled class="text-black/30">
+                            <option value="none">{{ ucwords('aún no existe ningún núcleo académico') }}</option>
+                        </x-select-form>
+                    @else
+                        <x-select-form name="nucleo_id">
+                            <option value="none" selected disabled hidden>{{ ucwords('seleccione el núcleo académico') }}</option>
+                            @foreach ($nucleos as $nucleo)
+                                <option value="{{ $nucleo->id }}">{{ ucwords($nucleo->nucleo) }}</option>
+                            @endforeach
+                        </x-select-form>
+                        <x-input-error name="nucleo_id" />
+                    @endif
                 </div>
                 <div class="flex items-center justify-end mt-4">
                 <x-button-login class="mt-7">

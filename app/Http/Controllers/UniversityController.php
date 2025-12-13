@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
 use App\Models\Notas;
+use App\Models\Nucleos;
 use App\Models\Pensum;
 use App\Models\Periodos;
+use App\Models\StudentDatoInscripciones;
 use App\Models\StudentPublic;
 use App\Models\Students;
+use App\Models\StudentsCodigoNucleo;
+use App\Models\StudentsInscripciones;
 use App\Models\TituloAcademico;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -39,65 +43,94 @@ class UniversityController extends Controller
 
     public function students()
     {
-        return view('estudiantes');
+        $nucleos = Nucleos::all();
+        return view('estudiantes', compact('nucleos'));
     }
 
     public function studentspublicdetails(Request $request)
     {
         $request->validate([
-            'cedula' => 'required|numeric|exists:students,cedula',
+            'cedula' => 'required|numeric|exists:students_data,cedula',
+            'nucleo_id' => 'required|numeric|exists:nucleos,id',
         ], [
-            'cedula.exists' => 'La cédula ingresada no se encuentra registrada.',
             'cedula.required' => 'El campo cédula es obligatorio.',
+            'nucleo_id.required' => 'Es obligatorio seleccionar el núcleo académico.',
+            'cedula.exists' => 'La cédula ingresada no se encuentra registrada.',
+            'nucleo_id.exists' => 'El núcleo académico que seleccionó no se encuentra registrada.',
             'cedula.numeric' => 'El campo cédula debe contener solo números.',
+            'nucleo_id.numeric' => 'El valor del núcleo debe contener solo números.',
         ]);
-        $estudiante = StudentPublic::with(['tramos.trayectos', 'carreras', 'secciones'])
-            ->where('cedula', $request->cedula)
+        // ***********************************************************
+        // *************Datos Basicos Del Estudiante******************
+        // ***********************************************************
+        $estudiante = StudentPublic::where('cedula', $request->cedula)->first();
+        $estudianteData = StudentsCodigoNucleo::with([
+            'inscripciones', 'nucleo'
+        ])->where('students_data_id', $estudiante->id)->orderBy('created_at', 'desc')->first();
+
+        // ******* Validar Si El Estudiante Existe *******
+        if (!$estudiante) {
+            return redirect()->back()->withInput()->withErrors(['cedula' => 'No se encuentra registrado en nuestra institución como un estudiante.']);
+        }
+        $estudianteDataVa = StudentsCodigoNucleo::with(['nucleo'])->where('students_data_id', $estudiante->id)
+            ->where('nucleo_id', $request->nucleo_id)
             ->orderBy('created_at', 'desc')
             ->first();
-        if (!$estudiante) {
-            return redirect()->back()->withErros(['cedula' => 'No se encuentra registrado en nuestra institución como un estudiante.']);
+        if (!$estudianteDataVa) {
+            return redirect()->back()->withInput()->withErrors(['nucleo_id' => 'El núcleo seleccionado no coincide con el del estudiante.']);
         }
-        $registrosAcademicos = StudentPublic::with('carreras')
-            ->where('cedula', $request->cedula)
+        // $estudianteData = StudentDatoInscripciones::with([
+        //     'studentsInscripcion',
+        // ])->where('students_data_id', $estudiante->id)->orderBy('created_at', 'desc')->first();
+        $carreraParaLaConstancia = StudentsInscripciones::with('carreras', 'secciones')
+            ->where('students_codigo_nucleo_id', $estudianteData->id)
             ->get();
-
-        $studentNucleo = StudentPublic::where('cedula', $request->cedula)
+        $seccion = StudentsInscripciones::with('secciones')
+            ->where('students_codigo_nucleo_id', $estudianteData->id)
             ->first();
-        $usuario = User::where('nucleo_id', $studentNucleo->nucleo_id)->first();
-        $idsEstudiante = $registrosAcademicos->pluck('id');
 
+
+        $estudianteIns = $estudianteData->studentsInscripcion;
+        $estudianteNu = $estudianteData->nucleo;
+        $registrosAcademicos = $carreraParaLaConstancia
+            ->map(function ($inscripcion) {
+                return $inscripcion->carreras;
+            })
+            ->filter()
+            ->unique('id');
+        $estudianteSec = $seccion->secciones;
+
+        // $carreraParaLaConstancia = StudentDatoInscripciones::with('studentsInscripcion.carreras')
+        //     ->where('students_data_id', $estudiante->id)
+        //     ->whereHas('studentsInscripcion', function($query) {
+        //         $query->whereHas('carreras');
+        //     })->get();
+        // $registrosAcademicos = $carreraParaLaConstancia->carreras;
+        // $registrosAcademicos = $carreraParaLaConstancia
+        //     ->pluck('carreras')
+        //     ->filter()
+        //     ->unique('id');
+        $usuario = User::where('nucleo_id', $estudianteData->nucleo->id)->first();
+
+        $fechaPeriodo = Periodos::where('activo', true)->first();
         $notas = Notas::with([
             'pensums.materias',
             'pensums.carreras',
             'pensums.tramoTrayecto.tramos',
-            'pensums.tramoTrayecto.trayectos'
+            'pensums.tramoTrayecto.trayectos',
+            'periodos'
         ])
-            ->whereIn('student_id', $idsEstudiante)
+            ->where('students_data_id', $estudiante->id)
             ->get();
 
         $notasAgrupadas = [];
-
-        foreach ($registrosAcademicos as $registro) {
-            $carreraId = $registro->carrera_id;
-
-            if (!isset($notasAgrupadas[$carreraId])) {
-                $notasAgrupadas[$carreraId] = [
-                    'carrera' => $registro->carreras,
-                    'tramos' => []
-                ];
-            }
-        }
+        $tramosActuales = [];
 
         foreach ($notas as $nota) {
-            if (!$nota->pensums || !$nota->pensums->carreras) {
-                continue;
-            }
-
             $carreraId = $nota->pensums->carreras->id;
             $tramoId = $nota->pensums->tramoTrayecto->id;
-            $materiaId = $nota->pensums->materias->id;
 
+            // Inicializar estructura de carrera si no existe
             if (!isset($notasAgrupadas[$carreraId])) {
                 $notasAgrupadas[$carreraId] = [
                     'carrera' => $nota->pensums->carreras,
@@ -105,32 +138,39 @@ class UniversityController extends Controller
                 ];
             }
 
+            // Inicializar estructura de tramo si no existe
             if (!isset($notasAgrupadas[$carreraId]['tramos'][$tramoId])) {
                 $notasAgrupadas[$carreraId]['tramos'][$tramoId] = [
                     'tramo' => $nota->pensums->tramoTrayecto,
                     'materias' => []
                 ];
+
+                // También llenar tramosActuales para la sección de datos personales
+                $tramosActuales[$carreraId] = [
+                    'tramo_nombre' => $nota->pensums->tramoTrayecto->tramos->tramos ?? 'Tramo no especificado',
+                    'trayecto_nombre' => $nota->pensums->tramoTrayecto->trayectos->trayectos ?? 'Trayecto no especificado',
+                    'carrera' => $nota->pensums->carreras
+                ];
             }
 
-            $notasAgrupadas[$carreraId]['tramos'][$tramoId]['materias'][$materiaId] = [
+            // Agregar la materia con su nota
+            $notasAgrupadas[$carreraId]['tramos'][$tramoId]['materias'][$nota->pensums->materias->id] = [
                 'materia' => $nota->pensums->materias,
                 'nota' => $nota
             ];
         }
-
-        $tramosActuales = [];
-        foreach ($registrosAcademicos as $registro) {
-            $carreraId = $registro->carrera_id;
-
-            if (!isset($tramosActuales[$carreraId]) ||
-                    $registro->created_at > $tramosActuales[$carreraId]['fecha']) {
-                $tramosActuales[$carreraId] = [
-                    'tramo' => $registro->tramos,
-                    'fecha' => $registro->created_at
-                ];
-            }
-        }
-        return view('detalles-estudiante-publico', compact('estudiante', 'notasAgrupadas', 'tramosActuales', 'registrosAcademicos', 'usuario'));
+        return view('detalles-estudiante-publico', compact(
+            'estudiante',
+            'notasAgrupadas',
+            'tramosActuales',
+            'registrosAcademicos',
+            'usuario',
+            'estudianteIns',
+            'estudianteNu',
+            'estudianteSec',
+            'estudianteData',
+            'fechaPeriodo',
+        ));
     }
 
     public function generarprocess(Request $request)
@@ -150,12 +190,6 @@ class UniversityController extends Controller
         if (!$existe) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
-        $studentNucleo = StudentPublic::where('cedula', $request->cedula)
-            ->first();
-        $usuario = User::with(['cargos' => function($q){
-            $q->where('encargado', true);
-        }])
-            ->where('nucleo_id', $studentNucleo->nucleo_id)->first();
 
         $fecha = Carbon::now();
 
@@ -199,6 +233,9 @@ class UniversityController extends Controller
         $diaTexto = $diasEnLetras[$dia] ?? $dia;
 
         $fechaPeriodo = Periodos::where('activo', true)->first();
+        if ($fechaPeriodo === null) {
+            return redirect()->back()->withErrors(['error', 'No hay un periodo a académico activo en su núcleo universitario']);
+        }
         $fechaPeriodoInicio = Carbon::parse($fechaPeriodo->inicio);
         $fechaPeriodoFin = Carbon::parse($fechaPeriodo->fin);
         $anioPeriodoInicio = $fechaPeriodoInicio->year;
@@ -212,17 +249,26 @@ class UniversityController extends Controller
         ];
         $informacion = ConstanciaEstudios::first();
         $activo = Periodos::where('activo', true)->first();
-        $estudiante = StudentPublic::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            ->where('periodo_id', $activo->id)
+        $estudiante = StudentPublic::where('cedula', $request->cedula)->first();
+        $estudianteData = StudentsCodigoNucleo::with([
+            'inscripciones', 'nucleo'
+        ])->where('students_data_id', $estudiante->id)->orderBy('created_at', 'desc')->first();
+        $estudianteNu = $estudianteData->nucleo;
+        $estudianteInscr = StudentsInscripciones::with('secciones', 'carreras')
+            ->where('students_codigo_nucleo_id', $estudianteData->id)
             ->first();
-        $estudiantes = StudentPublic::where('cedula', $datosgenerar)
+        $estudiantes = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteData->students_codigo_nucleo_id)
             ->where('periodo_id', $activo->id)
             ->get();
-        $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
-        $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
-            ->where('tramo_trayecto_id', '<=', $estudiante->tramo_trayecto_id)
+        $carreras = Carreras::with('titulos')->find($estudianteInscr->carrera_id);
+        $titulosacademicos = TituloAcademico::where('carrera_id', $estudianteInscr->carrera_id)
+            ->where('tramo_trayecto_id', '<=', $estudianteInscr->tramo_trayecto_id)
             ->orderBy('tramo_trayecto_id', 'desc')
+            ->first();
+        $usuario = User::with(['cargos' => function($q){
+            $q->where('encargado', true);
+        }, 'estudios'])
+            ->where('nucleo_id', $estudianteData->nucleo_id)
             ->first();
         $pdf = Pdf::loadView(
             'pdf.constanciaestudios',
@@ -242,7 +288,11 @@ class UniversityController extends Controller
                 'diaPeriodoInicio',
                 'anioPeriodoFin',
                 'mesPeriodoFin',
-                'diaPeriodoFin'
+                'diaPeriodoFin',
+                'fechaPeriodo',
+                'estudianteInscr',
+                'estudianteData',
+                'estudianteNu',
             ])
         )->setOption($opciones);
         $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';

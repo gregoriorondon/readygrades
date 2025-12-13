@@ -12,8 +12,10 @@
     <x-nav-student-public>
         <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-slot:usuario>
     </x-nav-student-public>
-    <form method="post" action="{{ route('generarpdf') }}">
-    @csrf
+    @unless (is_null($usuario) || is_null($fechaPeriodo))
+        <form method="post" action="{{ route('generarpdf') }}">
+        @csrf
+    @endunless
     <div class="data-public-student-details items-center">
         <section class="personal-data">
             <div>
@@ -44,11 +46,11 @@
             </div>
             <div>
                 <x-name-title-student-public>Núcleo de Estudios</x-name-title-student-public>
-                <x-date-student-public>{{ $estudiante->nucleos->nucleo }}</x-date-student-public>
+                <x-date-student-public>{{ $estudianteNu->nucleo }}</x-date-student-public>
             </div>
             <div>
                 <x-name-title-student-public>Código de Estudiante</x-name-title-student-public>
-                <x-date-student-public>{{ $estudiante->codigo}}</x-date-student-public>
+                <x-date-student-public>{{ $estudianteData->codigo }}</x-date-student-public>
             </div>
             @foreach ($tramosActuales as $carreraId => $tramos)
                 @php
@@ -57,14 +59,14 @@
                 @if ($carrera)
                     <div>
                         <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
-                        <x-date-student-public>{{ $carrera->carrera . ' - ' . $tramos['tramo']->tramos }}</x-date-student-public>
+                        <x-date-student-public>{{ $carrera->carrera . ' - ' . $tramos['tramo_nombre'] }}</x-date-student-public>
                     </div>
                 @endif
             @endforeach
             <div>
                 <x-name-title-student-public>Sección Actual</x-name-title-student-public>
                 <x-date-student-public>
-                    {{ $estudiante->secciones->seccion }}
+                    {{ $estudianteSec->seccion }}
                 </x-date-student-public>
             </div>
             <div>
@@ -184,7 +186,7 @@
                 {{ ucwords('Al descargar la constancia de estudios debe
                     llevarla al departamento del area de registro y control
                     de estudios de su núcleo donde estas estudiante. En su
-                    caso es en ') }} "{{ $estudiante->nucleos->nucleo }}".
+                    caso es en ') }} "{{ $estudianteNu->nucleo }}".
             </p>
             <div>
                 @if ($usuario === null)
@@ -194,26 +196,37 @@
                 <x-select-form disabled class="opacity-50 cursor-not-allowed">
                     <option>Seleccione La Carrera Para La Constancia</option>
                 </x-select-form>
+                @elseif($fechaPeriodo === null)
+                <p class="text-red-600">
+                    {{ ucwords('no se puede generar su constancia de estudio porque no hay un nuevo perido académico en su núcleo universitario.') }}
+                </p>
+                <x-select-form disabled class="opacity-50 cursor-not-allowed">
+                    <option>Seleccione La Carrera Para La Constancia</option>
+                </x-select-form>
                 @else
                 <x-select-form name="carrera_id">
-                    <option>Seleccione La Carrera Para La Constancia</option>
+                    <option selected disabled hidden>Seleccione La Carrera Para La Constancia</option>
                     @foreach ($registrosAcademicos as $estudiantes)
-                        <option value="{{ $estudiantes->carreras->id }}">{{ $estudiantes->carreras->carrera }}</option>
+                            <option value="{{ $estudiantes->id }}">
+                                {{ $estudiantes->carrera }}
+                            </option>
                     @endforeach
                 </x-select-form>
                 <input type="hidden" name="cedula" value="{{ $estudiante->cedula }}">
                 @endif
             </div>
-            <div class="flex justify-between mt-7">
-                <x-simple-button type="button" class="datos-publico" icon="fas fa-user-graduate">Ver Tus Datos Personales</x-simple-button>
+            <div class="flex justify-between mt-7 max-[534px]:flex-col-reverse">
+                <x-simple-button type="button" class="datos-publico max-[534px]:mt-6" icon="fas fa-user-graduate">Ver Tus Datos Personales</x-simple-button>
                 @if ($usuario === null)
+                    <x-simple-button disabled icon="fas fa-download">Generar y Descargar</x-simple-button>
+                @elseif($fechaPeriodo === null)
                     <x-simple-button disabled icon="fas fa-download">Generar y Descargar</x-simple-button>
                 @else
                     <x-button icon="fas fa-download">Generar y Descargar</x-button>
                 @endif
             </div>
         </section>
-        <section class="card-logo-public">
+        <section class="card-logo-public mr-6 max-[842px]:hidden">
             <x-authentication-card-logo />
         </section>
     </div>
@@ -221,7 +234,9 @@
         <p class="text-center font-inter mb-4 text-black/50">Por temas de seguridad y privacidad del y de la estudiante
             no se muestran todos los datos personales requeridos en la inscripción</p>
     </div>
-    </form>
+    @if (!is_null($usuario) || !is_null($fechaPeriodo))
+        </form>
+    @endif
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
     <x-footer-original />
 </body>

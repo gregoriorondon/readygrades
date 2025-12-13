@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class StudentPublic extends Model
 {
     use HasFactory;
-    protected $table = "students";
+    protected $table = "students_data";
+    public function studentsDataInscripcion(){
+        return $this->hasMany(StudentDatoInscripciones::class, 'students_data_id');
+    }
     public function carreras() {
         return $this->belongsTo(Carreras::class, 'carrera_id');
     }

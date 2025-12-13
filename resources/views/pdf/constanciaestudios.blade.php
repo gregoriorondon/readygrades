@@ -144,7 +144,7 @@
         <p>{{ $informacion['departamento'] }}</p>
     </div>
     <div id="cuerpo_constancia">
-        <p>{{ $informacion['nucleo'] . ' ' . $usuario->nucleos->nucleo }}</p>
+        <p>{{ $informacion['nucleo'] . ' ' . $estudianteNu->nucleo }}</p>
     </div>
     <div class="titulo_constancia">
         <p>{{ $informacion['titulo_documento'] }}</p>
@@ -171,12 +171,12 @@
     </div>
     <div class="carrera" style="">
         <div>
-            <p class="carrera1"> {{ $titulosacademicos->titulo . ' En ' . $carreras->carrera }}</p>
+            <p class="carrera1"> {{ $titulosacademicos->titulo . ' En ' . $estudianteInscr->carreras->carrera }}</p>
         </div>
     </div>
     <div class="cuerpo_constancia" style="text-indent: 0;">
         <p>{{ $informacion['texto_inicio_fecha'] }}
-            <span class="underline-custom1">{{ $usuario->nucleos->nucleo }},</span>
+            <span class="underline-custom1">{{ $estudianteNu->nucleo }},</span>
             {{ $informacion['texto_dia'] }}
             <span class="underline-custom1">{{ $diaTexto }}</span>
             {{ $informacion['texto_mes'] }}
