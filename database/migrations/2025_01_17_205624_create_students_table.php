@@ -214,8 +214,8 @@ return new class extends Migration
             $table->string('nota_editar')->nullable();
             $table->unsignedBigInteger('pensum_id');
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
-            $table->unsignedBigInteger('students_data_id');
-            $table->foreign('students_data_id')->references('id')->on('students_data')->cascadeOnUpdate();
+            $table->unsignedBigInteger('students_codigo_nucleo_id');
+            $table->foreign('students_codigo_nucleo_id')->references('id')->on('students_codigo_nucleo')->cascadeOnUpdate();
             $table->unsignedBigInteger('periodo_id');
             $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeOnUpdate();
             $table->timestamps();

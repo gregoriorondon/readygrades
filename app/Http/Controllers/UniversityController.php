@@ -80,15 +80,15 @@ class UniversityController extends Controller
             return redirect()->back()->withInput()->withErrors(['nucleo_id' => 'El núcleo seleccionado no coincide con el del estudiante.']);
         }
         $carreraParaLaConstancia = StudentsInscripciones::with('carreras', 'secciones')
-            ->where('students_codigo_nucleo_id', $estudianteData->id)
+            ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
             ->get();
         $seccion = StudentsInscripciones::with('secciones')
-            ->where('students_codigo_nucleo_id', $estudianteData->id)
+            ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
             ->first();
 
 
         $estudianteIns = $estudianteData->studentsInscripcion;
-        $estudianteNu = $estudianteData->nucleo;
+        $estudianteNu = $estudianteDataVa->nucleo;
         $registrosAcademicos = $carreraParaLaConstancia
             ->map(function ($inscripcion) {
                 return $inscripcion->carreras;
@@ -97,8 +97,10 @@ class UniversityController extends Controller
             ->unique('id');
         $estudianteSec = $seccion->secciones;
 
-        $usuario = User::where('nucleo_id', $estudianteData->nucleo->id)->first();
+        $usuario = User::where('nucleo_id', $estudianteDataVa->nucleo->id)->first();
 
+        $carrerasIds = $carreraParaLaConstancia->pluck('carrera_id')->unique()->toArray();
+        $tramoTrayectoIds = $carreraParaLaConstancia->pluck('tramo_trayecto_id')->unique()->toArray();
         $fechaPeriodo = Periodos::where('activo', true)->first();
         $notas = Notas::with([
             'pensums.materias',
@@ -107,8 +109,11 @@ class UniversityController extends Controller
             'pensums.tramoTrayecto.trayectos',
             'periodos'
         ])
-            ->where('students_data_id', $estudiante->id)
-            ->get();
+        ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
+        ->whereHas('pensums', function($q) use ($carrerasIds, $tramoTrayectoIds) {
+            $q->whereIn('carrera_id', $carrerasIds)
+                  ->whereIn('tramo_trayecto_id', $tramoTrayectoIds);
+        })->get();
 
         $notasAgrupadas = [];
         $tramosActuales = [];
@@ -156,6 +161,7 @@ class UniversityController extends Controller
             'estudianteNu',
             'estudianteSec',
             'estudianteData',
+            'estudianteDataVa',
             'fechaPeriodo',
         ));
     }

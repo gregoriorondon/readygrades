@@ -15,7 +15,7 @@ class Notas extends Model
         'nota_recuperacion',
         'editado',
         'pensum_id',
-        'students_data_id',
+        'students_codigo_nucleo_id',
         'periodo_id'
     ];
     public function pensums() {
