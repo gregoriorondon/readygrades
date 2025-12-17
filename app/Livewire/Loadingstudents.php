@@ -56,10 +56,18 @@ class Loadingstudents extends Component
         $esRoot = $user && $user->cargos()->whereHas('tipos', fn ($q) =>
             $q->where('tipo', 'superadmin'))->exists();
 
-        $busquedaModelo = Students::query()->with('codigonucleo.nucleo');
+        $busquedaModelo = Students::query();
 
+        if ($esRoot) {
+            $busquedaModelo->with(['codigonucleo' => function ($subBusqueda) {
+                $subBusqueda->orderBy('created_at', 'desc')->take(1);
+            }, 'codigonucleo.nucleo']);
+        } else {
+            $busquedaModelo->with('codigonucleo.nucleo');
+        }
+
+        $nucleo = $user->nucleo_id;
         if (!$esRoot) {
-            $nucleo = $user->nucleo_id;
             $busquedaModelo->with('codigonucleo', function ($q) use ($nucleo) {
                 $q->where('nucleo_id', $nucleo);
             });
@@ -85,9 +93,6 @@ class Loadingstudents extends Component
             });
         }
 
-        // if ($busquedaModelo === null) {
-        //     $busquedaModelo => return '<p>Cargando, Por Favor Espere...</p>';
-        // }
         return view('livewire.loadingstudents', [
             'estudiantes' => $busquedaModelo->paginate(10, ['*'], 'registroEstudiante')
         ]);
