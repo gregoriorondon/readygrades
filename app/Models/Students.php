@@ -25,6 +25,9 @@ class Students extends Model
         return $this->hasMany(StudentDatoInscripciones::class, 'students_data_id');
     }
     public function codigonucleo() {
-        return $this->hasMany(StudentsCodigoNucleo::class);
+        return $this->hasMany(StudentsCodigoNucleo::class, 'students_data_id');
+    }
+    public function nucleo() {
+        return $this->hasMany(Nucleos::class, 'nucleo_id');
     }
 }
