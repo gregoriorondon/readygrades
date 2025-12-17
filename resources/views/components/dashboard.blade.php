@@ -31,7 +31,8 @@
                 </div>
             </div>
             <!-- sidebar Movil -->
-            <div class="menu-admin-dashboard sidebar-movil -translate-x-96 flex md:hidden flex-col w-64 fixed z-[3] h-screen">
+            <div class="sidebar-overlay fixed inset-0 z-[4] bg-black opacity-0 transition-opacity duration-300 pointer-events-none md:hidden"></div>
+            <div class="menu-admin-dashboard sidebar-movil z-[5] -translate-x-96 flex md:hidden flex-col w-64 fixed z-[3] h-screen">
                 <div class="flex items-center justify-center h-16">
                     @can('admins')
                         <span class="font-bold font-inter uppercase"><i class="fa-solid fa-user-tie"></i>Administrador</span>
@@ -68,14 +69,14 @@
                     <div class="md:hidden flex items-center px-4 space-x-7">
                         <button class="menu-hiden-button-movil hover:bg-blue-400/50 rounded-lg py-1 px-2 text-xl"><i class="fa-regular fa-sidebar m-0"></i></button>
                         @cannot('profesor')
-                            <p class="mx-4 w-full ">Panel Administrativo</p>
+                            <p class="mx-4 w-full max-[433px]:hidden">Panel Administrativo</p>
                         @endcannot
                         @can('profesor')
-                            <p class="mx-4 w-full ">Gestión Académica</p>
+                            <p class="mx-4 w-full max-[433px]:hidden">Gestión Académica</p>
                         @endcannot
                     </div>
                     <!-- FIN VERSION MOVIL -->
-                    <div class="flex items-center pr-4 space-x-4">
+                    <div class="flex items-center mr-4 space-x-4">
                         @cannot('profesor')
                             <a href="/config" id="conf" class="cursor-pointer flex items-center hover:bg-blue-400/50 px-3 py-2 rounded-xl font-inter text-xl" title="Ir A Las Configuraciones"><i class="fa-solid fa-gear m-0"></i></a>
                         @endcannot
@@ -88,6 +89,7 @@
                     </div>
                 </div>
                 <div class="p-4 rounded-lg">
+                    <livewire:offline />
                     <main>
                         {{ $slot }}
                     </main>

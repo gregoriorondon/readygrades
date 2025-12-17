@@ -6,6 +6,7 @@ let btnOpen = document.querySelector('.menu-button-hiden');
 let movilBtn = document.querySelector('.menu-hiden-button-movil');
 let sidebar = document.querySelector('.sidebar-movil');
 let closeBar = document.querySelector('.close-sidebar-movil');
+let overlay = document.querySelector('.sidebar-overlay');
 
 btn.addEventListener('click', ()=> {
     menu.classList.remove('menu-hiden', 'hidden', 'md:flex');
@@ -19,9 +20,13 @@ btn.addEventListener('click', ()=> {
 });
 movilBtn.addEventListener('click', ()=> {
     sidebar.classList.remove('-translate-x-96');
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-50');
 });
 closeBar.addEventListener('click', ()=> {
     sidebar.classList.add('-translate-x-96');
+    overlay.classList.remove('opacity-50');
+    overlay.classList.add('opacity-0', 'pointer-events-none');
 });
 btnOpen.addEventListener('click', ()=> {
     menu.classList.add('menu-hiden', 'hidden', 'md:flex');
@@ -33,6 +38,10 @@ btnOpen.addEventListener('click', ()=> {
     btnOpen.classList.remove('menu-open-button');
     localStorage.setItem('estadoMenu', 'open');
 });
+overlay.addEventListener('click', () => {
+    closeBar.click();
+});
+
 if (estadoGuardado === 'close') {
     menu.classList.remove('menu-hiden', 'hidden', 'md:flex');
     menuRound.classList.remove('md:rounded-l-xl');
