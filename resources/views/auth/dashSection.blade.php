@@ -28,7 +28,7 @@
                         <a href="/periodos" class="mr-1 hover:mr-2 underline">{{ ucwords('ir a crear un nuevo periódo') }}</a><i class="fal fa-arrow-right"></i>
                     </div>
                 @endif
-                <div class="overflow-hidden border border-gray-400 sm:rounded-lg">
+                <div class="overflow-hidden border border-gray-400 rounded-lg">
                     <x-list-adminis />
                 </div>
                 <center>

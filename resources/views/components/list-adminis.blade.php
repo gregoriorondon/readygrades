@@ -4,10 +4,10 @@
       <div class="text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl font-inter">Accesos rápidos del sistema</h2>
       </div>
-      <div class="flex justify-center mt-7">
+      <div class="min-[490px]:flex justify-center mt-7">
           <div class="flex flex-wrap justify-center gap-6">
-              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
-                  <div class="">
+              <div class="px-4 py-4 border border-gray-400 rounded-lg max-w-[27rem] min-[385px]:flex items-center justify-center">
+                  <div class="max-[385px]:mb-4 max-[385px]:text-center max-[385px]:mx-auto">
                         <i class="mr-4 fa-light fa-graduation-cap text-4xl"></i>
                   </div>
                   <div class="">
@@ -19,8 +19,8 @@
                         </a><i class="fal fa-arrow-right"></i>
                   </div>
               </div>
-              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
-                  <div class="">
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] min-[385px]:flex items-center justify-center">
+                  <div class="max-[385px]:mb-4 max-[385px]:text-center max-[385px]:mx-auto">
                         <i class="mr-4 fa-light fa-file-circle-plus text-4xl"></i>
                   </div>
                   <div class="">
@@ -32,8 +32,8 @@
                         </a><i class="fal fa-arrow-right"></i>
                   </div>
               </div>
-              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
-                  <div class="">
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] min-[385px]:flex items-center justify-center">
+                  <div class="max-[385px]:mb-4 max-[385px]:text-center max-[385px]:mx-auto">
                         <i class="mr-4 fa-light fa-square-plus text-4xl"></i>
                   </div>
                   <div class="">
@@ -45,8 +45,8 @@
                         </a><i class="fal fa-arrow-right"></i>
                   </div>
               </div>
-              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] flex items-center justify-center">
-                  <div class="">
+              <div class="px-4 py-4 border border-gray-400 rounded-lg w-[27rem] min-[385px]:flex items-center justify-center">
+                  <div class="max-[385px]:mb-4 max-[385px]:text-center max-[385px]:mx-auto">
                         <i class="mr-4 fa-light fa-file-plus text-4xl"></i>
                   </div>
                   <div class="">
