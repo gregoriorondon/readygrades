@@ -1,45 +1,43 @@
 <form method="POST" action="/registro-estudiante">
     @csrf
     <div class="space-y-12 p-[21px]">
-        <div class="border-gray-900/10 pb-12">
+        <div class="border-gray-900/10 pb-12 mx-auto max-w-[700px]">
             <p class="mt-7 text-xl font-inter text-gray-400">Rellene todas las casillas para registrar al nuevo
                 estudiante en la institución</p>
 
             <div class="border-gray-900/10 pb-12">
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
                     <div class="sm:col-span-3">
                         <div class="mt-2">
                             <x-label>Nombre Completo</x-label>
-                            <x-input-form type="text" name="primer_name" id="first-name"
-                                placeholder="Primer Nombre (Obligatorio)" :value="old('primer_name')" required
-                                autocomplete="off" />
-                            <x-input-form type="text" name="segundo_name" id="first-name"
-                                placeholder="Segundo Nombre" value="{{ old('segundo_name') }}" autocomplete="off" />
+                            <div class="sm:flex rounded-lg">
+                                <x-input-form type="text" name="primer_name" id="first-name"
+                                    placeholder="Primer Nombre (Obligatorio)" :value="old('primer_name')" required
+                                    class="sm:rounded-r-none"
+                                    autocomplete="off" />
+                                <x-input-form type="text" name="segundo_name" id="first-name"
+                                    class="sm:rounded-l-none"
+                                    placeholder="Segundo Nombre" value="{{ old('segundo_name') }}" autocomplete="off" />
+                            </div>
                         </div>
                     </div>
 
                     <div class="sm:col-span-3">
                         <div class="mt-2">
                             <x-label>Apellido Completo</x-label>
-                            <x-input-form type="text" name="primer_apellido" id="last-name"
-                                placeholder="Primer Apellido (Obligatorio)" :value="old('primer_apellido')" required
-                                autocomplete="off" />
-                            <x-input-form type="text" name="segundo_apellido" id="last-name"
-                                placeholder="Segundo Apellido" :value="old('segundo_apellido')" autocomplete="off" />
+                            <div class="sm:flex rounded-lg">
+                                <x-input-form type="text" name="primer_apellido" id="last-name"
+                                    placeholder="Primer Apellido (Obligatorio)" :value="old('primer_apellido')" required
+                                    class="sm:rounded-r-none"
+                                    autocomplete="off" />
+                                <x-input-form type="text" name="segundo_apellido" id="last-name"
+                                    class="sm:rounded-l-none"
+                                    placeholder="Segundo Apellido" :value="old('segundo_apellido')" autocomplete="off" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="sm:col-span-1 mt-2 sm:col-start-1">
-                        <x-label class="after:content-['*'] after:text-red-400">Genero / Sexo</x-label>
-                        <div class="flex items-center">
-                            <x-select-form class="sm:max-w-full" name="genero" :value="old('genero')">
-                                <option value="masculino">Masculino</option>
-                                <option value="femenino">Femenino</option>
-                            </x-select-form>
-                        </div>
-                    </div>
-
-                    <div class="sm:col-span-1">
+                    <div class="sm:col-span-1 sm:col-start-1">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Nacionalidad</x-label>
                             <x-select-form class="sm:max-w-full" id="nacionalidad" name="nacionalidad">
@@ -56,6 +54,16 @@
                                 placeholder="Número de Cedula del Estudiante" :value="old('cedula')" required
                                 autocomplete="off" />
                             <x-input-error name="cedula" />
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-1 mt-2">
+                        <x-label class="after:content-['*'] after:text-red-400">Genero / Sexo</x-label>
+                        <div class="flex items-center">
+                            <x-select-form class="sm:max-w-full" name="genero" :value="old('genero')">
+                                <option value="masculino">Masculino</option>
+                                <option value="femenino">Femenino</option>
+                            </x-select-form>
                         </div>
                     </div>
 
@@ -101,10 +109,8 @@
                         </div>
                     </div>
 
-                    <div class="gap-x-6 gap-y-8 sm:grid-cols-6 divcarreratramonucleo">
                         <div class="carreratramonucleo">
                             <div class="mt-2">
-
                                 <x-label class="after:content-['*'] after:text-red-400">Carrera a Estudiar</x-label>
                                 @props(['courses', 'trayectos', 'nucleos', 'secciones', 'user'])
                                 <x-select-form class="sm:max-w-full" name="carrera_id" id="carreras_id">
@@ -132,7 +138,7 @@
                             <div class="mt-2">
                                 <x-label class="after:content-['*'] after:text-red-400">Núcleos</x-label>
                                 @cannot('root')
-                                    <x-select-form class="sm:max-w-full text-gray-400 cursor-not-allowed"                                        name="nucleo_id"
+                                    <x-select-form class="sm:max-w-full text-gray-400 cursor-not-allowed" name="nucleo_id"
                                         title="{{ ucwords('sólo puedes asignar el núcleo en donde estas registrado(a)') }}">
                                         <option type="numeric" value="{{ $user->nucleos->id }}">{{ $user->nucleos->nucleo }}</option>
                                     </x-select-form>
@@ -163,7 +169,6 @@
                                     placeholder="Agregar código al estudiante" :value="old('codigo')" />
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="mt-6 flex items-center justify-end gap-x-6">

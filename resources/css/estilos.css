@@ -911,13 +911,11 @@ details[open] summary ~ * {
 /* .calificacion-publica:hover, .datos-publico:hover{ */
 /*     background-color: var(--botones-hover); */
 /* } */
-.divcarreratramonucleo{
-    display: flex;
-    grid-column: 1 / -1;
-}
 .carreratramonucleo{
-    flex: 1;
+    min-width: max-conten;
+    max-width: 100%;
 }
+
 /*===========================================*/
 /*==========Dashboard administrativo=========*/
 /*===========================================*/

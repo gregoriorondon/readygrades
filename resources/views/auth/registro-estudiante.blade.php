@@ -1,6 +1,6 @@
 <x-dashboard>
     <x-slot:titulo>Registrar Nuevo Estudiante</x-slot:titulo>
-    <x-button type="button" id="abrirmodal" icon="fa-solid fa-plus-large">Agregar Una Nueva Sección</x-button>
+    <x-button class="mb-7" type="button" id="abrirmodal" icon="fa-solid fa-plus-large">Agregar Una Nueva Sección</x-button>
     <x-title-section-admin>Registro de Nuevo Estudiante</x-title-section-admin>
     @if($periodo !== null)
         @if((bool)$periodo->activo !== false)
