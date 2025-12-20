@@ -7,7 +7,7 @@
 
             <div class="border-gray-900/10 pb-12">
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
-                    <div class="sm:col-span-3">
+                    <div class="md:col-span-3">
                         <div class="mt-2">
                             <x-label>Nombre Completo</x-label>
                             <div class="sm:flex rounded-lg">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-3">
+                    <div class="md:col-span-3">
                         <div class="mt-2">
                             <x-label>Apellido Completo</x-label>
                             <div class="sm:flex rounded-lg">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-1 sm:col-start-1">
+                    <div class="md:col-span-1 md:col-start-1">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Nacionalidad</x-label>
                             <x-select-form class="sm:max-w-full" id="nacionalidad" name="nacionalidad">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div class="md:col-span-2">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Cédula de Identidad</x-label>
                             <x-input-form class="sm:max-w-full" type="number" name="cedula" id="cedula"
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-1 mt-2">
+                    <div class="md:col-span-1 mt-2">
                         <x-label class="after:content-['*'] after:text-red-400">Genero / Sexo</x-label>
                         <div class="flex items-center">
                             <x-select-form class="sm:max-w-full" name="genero" :value="old('genero')">
@@ -67,7 +67,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div class="md:col-span-2">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Fecha de Nacimiento</x-label>
                             <x-input-form class="sm:max-w-full" type="date" name="fecha_nacimiento"
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2 sm:col-start-1">
+                    <div class="md:col-span-2 md:col-start-1">
                         <div class="mt-2">
                             <x-label>Correo / Email</x-label>
                             <x-input-form type="email" name="email" id="email"
@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-1">
+                    <div class="md:col-span-1">
                         <div class="mt-2">
                             <x-label>Teléfono</x-label>
                             <x-input-form type="tel" name="telefono" id="telefono"
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2">
+                    <div class="md:col-span-2">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Dirección</x-label>
                             <x-input-form type="text" name="direccion" id="direccion"
@@ -100,7 +100,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-1">
+                    <div class="md:col-span-1">
                         <div class="mt-2">
                             <x-label class="after:content-['*'] after:text-red-400">Ciudad</x-label>
                             <x-input-form type="text" name="city" id="city"
