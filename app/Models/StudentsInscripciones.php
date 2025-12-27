@@ -32,6 +32,10 @@ class StudentsInscripciones extends Model
     public function tramos(){
         return $this->belongsTo(Tramos::class, 'tramo_trayecto_id');
     }
+    public function tramoTrayecto()
+    {
+        return $this->belongsTo(TramoTrayecto::class, 'tramo_trayecto_id')->with('tramos');
+    }
     public function secciones(){
         return $this->belongsTo(Secciones::class, 'seccion_id');
     }

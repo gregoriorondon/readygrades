@@ -64,10 +64,16 @@ class ProfesorController extends Controller
                     'asignaciones' => []
                 ];
             }
-            $asignacion->students = Students::where('carrera_id', $carreraId)
-                ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                ->where('seccion_id', $asignacion->seccion_id)
-                ->get();
+            $asignacion->students = Students::whereHas('codigonucleo.inscripciones', function($query) use ($carreraId, $asignacion) {
+                $query->where('carrera_id', $carreraId)
+                      ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
+                      ->where('seccion_id', $asignacion->seccion_id);
+            })
+            ->with(['codigonucleo.inscripciones' => function($query) use ($carreraId, $asignacion) {
+                $query->where('carrera_id', $carreraId)
+                      ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
+                      ->where('seccion_id', $asignacion->seccion_id);
+            }])->get();
 
             $agrupadas[$carreraId]['tramos'][$tramoId]['asignaciones'][] = $asignacion;
         }

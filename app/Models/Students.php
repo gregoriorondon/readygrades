@@ -30,4 +30,7 @@ class Students extends Model
     public function nucleo() {
         return $this->hasMany(Nucleos::class, 'nucleo_id');
     }
+    public function studentcodigonucleo(){
+        return $this->hasMany(StudentsCodigoNucleo::class, 'students_codigo_nucleo_id');
+    }
 }
