@@ -33,19 +33,17 @@
                         <x-details-div class="flex items-center">
                             <x-details-dt>{{ ucwords(trim('primera nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
-                                @if (empty($notas->nota_uno))
-                                    <x-select-form name="nota_uno" class="!mt-0 !w-[120px] nota-select" id="nota1">
+                                <x-select-form name="nota_uno" class="!mt-0 !w-[120px] nota-select" id="nota1">
+                                    @if (empty($notas->nota_uno))
                                         <option value="">{{ ucwords('seleccione') }}</option>
+                                    @else
+                                        <option value="{{ $notas->nota_uno }}">{{ $notas->nota_uno . ' pts guardado' }}</option>
+                                    @endif
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
                                                 {{ $j . ' pts ' }}</option>
                                         @endfor
-                                    </x-select-form>
-                                @else
-                                    <x-span id="nota1-display" class="mr-4">{{ $notas->nota_uno . ' pts' }}</x-span>
-                                    <input type="hidden" id="nota1" value="{{ $notas->nota_uno }}">
-
-                                @endif
+                                </x-select-form>
                             </x-details-dd>
                         </x-details-div>
 
@@ -53,19 +51,17 @@
                         <x-details-div class="flex items-center">
                             <x-details-dt>{{ ucwords(trim('segunda nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
-                                @if (empty($notas->nota_dos))
-                                    <x-select-form name="nota_dos" class="!mt-0 !w-[120px] nota-select" id="nota2">
+                                <x-select-form name="nota_dos" class="!mt-0 !w-[120px] nota-select" id="nota2">
+                                    @if (empty($notas->nota_dos))
                                         <option value="">{{ ucwords('seleccione') }}</option>
+                                    @else
+                                        <option value="{{ $notas->nota_dos }}">{{ $notas->nota_dos . ' pts guardado' }}</option>
+                                    @endif
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
                                                 {{ $j . ' pts ' }}</option>
                                         @endfor
-                                    </x-select-form>
-                                @else
-                                    <x-span id="nota2-display" class="mr-4">{{ $notas->nota_dos . ' pts' }}</x-span>
-                                    <input type="hidden" id="nota2" value="{{ $notas->nota_dos }}">
-
-                                @endif
+                                </x-select-form>
                             </x-details-dd>
                         </x-details-div>
 
@@ -73,19 +69,17 @@
                         <x-details-div class="flex items-center">
                             <x-details-dt>{{ ucwords(trim('tercera nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
-                                @if (empty($notas->nota_tres))
-                                    <x-select-form name="nota_tres" class="!mt-0 !w-[120px] nota-select" id="nota3">
+                                <x-select-form name="nota_tres" class="!mt-0 !w-[120px] nota-select" id="nota3">
+                                    @if (empty($notas->nota_tres))
                                         <option value="">{{ ucwords('seleccione') }}</option>
+                                    @else
+                                        <option value="{{ $notas->nota_tres }}">{{ $notas->nota_tres . ' pts guardado' }}</option>
+                                    @endif
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
                                                 {{ $j . ' pts ' }}</option>
                                         @endfor
-                                    </x-select-form>
-                                @else
-                                    <x-span id="nota3-display" class="mr-4">{{ $notas->nota_tres . ' pts' }}</x-span>
-                                    <input type="hidden" id="nota3" value="{{ $notas->nota_tres }}">
-
-                                @endif
+                                </x-select-form>
                             </x-details-dd>
                         </x-details-div>
 
@@ -93,21 +87,17 @@
                         <x-details-div class="flex items-center">
                             <x-details-dt>{{ ucwords(trim('cuarta nota (25%):')) }}</x-details-dt>
                             <x-details-dd>
-                                @if (empty($notas->nota_cuatro))
-                                    <x-select-form name="nota_cuatro" class="!mt-0 !w-[120px] nota-select"
-                                        id="nota4">
+                                <x-select-form name="nota_cuatro" class="!mt-0 !w-[120px] nota-select" id="nota4">
+                                    @if (empty($notas->nota_cuatro))
                                         <option value="">{{ ucwords('seleccione') }}</option>
+                                    @else
+                                        <option value="{{ $notas->nota_cuatro }}">{{ $notas->nota_cuatro . ' pts guardado' }}</option>
+                                    @endif
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
                                                 {{ $j . ' pts ' }}</option>
                                         @endfor
-                                    </x-select-form>
-                                @else
-                                    <x-span id="nota4-display"
-                                        class="mr-4">{{ $notas->nota_cuatro . ' pts' }}</x-span>
-                                    <input type="hidden" id="nota4" value="{{ $notas->nota_cuatro }}">
-
-                                @endif
+                                </x-select-form>
                             </x-details-dd>
                         </x-details-div>
 
@@ -115,19 +105,17 @@
                         <x-details-div class="flex items-center">
                             <x-details-dt>{{ ucwords(trim('nota extra:')) }}</x-details-dt>
                             <x-details-dd>
-                                @if (empty($notas->nota_extra))
-                                    <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select"
-                                        id="nota_extra">
+                                <x-select-form name="nota_extra" class="!mt-0 !w-[120px] nota-select" id="nota_extra">
+                                    @if (empty($notas->nota_extra))
                                         <option value="">{{ ucwords('seleccione') }}</option>
+                                    @else
+                                        <option value="{{ $notas->nota_extra }}">{{ $notas->nota_extra . ' pts guardado' }}</option>
+                                    @endif
                                         @for ($j = 1; $j <= 20; $j++)
                                             <option value="{{ $j }}">
                                                 {{ $j . ' pts ' }}</option>
                                         @endfor
-                                    </x-select-form>
-                                @else
-                                    <x-span class="mr-4">{{ $notas->nota_extra . ' pts' }}</x-span>
-
-                                @endif
+                                </x-select-form>
                             </x-details-dd>
                         </x-details-div>
 

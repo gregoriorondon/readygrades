@@ -44,10 +44,10 @@
                                                                         {{ $asignacion->secciones->seccion }}
                                                                     </td>
                                                                     <td class="px-9 py-3 text-center">
-                                                                        {{ $estudiante->primer_name . ' ' . $estudiante->primer_apellido }}
+                                                                        {{ $estudiante->student->primer_name . ' ' . $estudiante->student->primer_apellido }}
                                                                     </td>
                                                                     <td class="px-9 py-3 text-center">
-                                                                        {{ $estudiante->cedula }}
+                                                                        {{ $estudiante->student->cedula }}
                                                                     </td>
                                                                     <td
                                                                         class="px-9 py-3 text-center flex justify-center items-center">
@@ -85,15 +85,15 @@
                                                         value="{{ $asignacion->pensums->materias->codigo }}">
                                                     @foreach ($asignacion->students as $estudiante)
                                                         <input type="text" hidden name="primernombre[]"
-                                                            value="{{ $estudiante->primer_name }}">
+                                                            value="{{ $estudiante->student->primer_name }}">
                                                         <input type="text" hidden name="segundonombre[]"
-                                                            value="{{ $estudiante->segundo_name }}">
+                                                            value="{{ $estudiante->student->segundo_name }}">
                                                         <input type="text" hidden name="primerapellido[]"
-                                                            value="{{ $estudiante->primer_apellido }}">
+                                                            value="{{ $estudiante->student->primer_apellido }}">
                                                         <input type="text" hidden name="segundoapellido[]"
-                                                            value="{{ $estudiante->segundo_apellido }}">
+                                                            value="{{ $estudiante->student->segundo_apellido }}">
                                                         <input type="text" hidden name="cedula[]"
-                                                            value="{{ $estudiante->cedula }}">
+                                                            value="{{ $estudiante->student->cedula }}">
                                                     @endforeach
                                                     <div class="flex justify-end mt-8">
                                                         <x-button type="button" id="abrirmodal-{{ $asignacion->id }}"

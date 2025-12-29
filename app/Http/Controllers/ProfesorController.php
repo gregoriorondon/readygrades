@@ -10,6 +10,7 @@ use App\Models\Nucleos;
 use App\Models\Periodos;
 use App\Models\Sessions;
 use App\Models\Students;
+use App\Models\StudentsCodigoNucleo;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -64,15 +65,15 @@ class ProfesorController extends Controller
                     'asignaciones' => []
                 ];
             }
-            $asignacion->students = Students::whereHas('codigonucleo.inscripciones', function($query) use ($carreraId, $asignacion) {
+            $asignacion->students = StudentsCodigoNucleo::whereHas('inscripciones', function($query) use ($carreraId, $asignacion) {
                 $query->where('carrera_id', $carreraId)
-                      ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                      ->where('seccion_id', $asignacion->seccion_id);
+                    ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
+                    ->where('seccion_id', $asignacion->seccion_id);
             })
-            ->with(['codigonucleo.inscripciones' => function($query) use ($carreraId, $asignacion) {
+            ->with(['student', 'inscripciones' => function($query) use ($carreraId, $asignacion) {
                 $query->where('carrera_id', $carreraId)
-                      ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                      ->where('seccion_id', $asignacion->seccion_id);
+                    ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
+                    ->where('seccion_id', $asignacion->seccion_id);
             }])->get();
 
             $agrupadas[$carreraId]['tramos'][$tramoId]['asignaciones'][] = $asignacion;
@@ -86,13 +87,25 @@ class ProfesorController extends Controller
     public function calificaciones($asignacion_id, $estudiante_id)
     {
         $asignacion = Asignar::with('pensums.materias')->findOrFail($asignacion_id);
-        $estudiante = Students::findOrFail($estudiante_id);
+        $studentCodigoNucleo = StudentsCodigoNucleo::with([
+            'student',
+            'inscripciones' => function($query) use ($asignacion) {
+                $query->where('carrera_id', $asignacion->pensums->carrera_id)
+                    ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
+                    ->where('seccion_id', $asignacion->seccion_id);
+                }
+            ])->findOrFail($estudiante_id);
+        $estudiante = $studentCodigoNucleo->student;
+        if ($studentCodigoNucleo->inscripciones->isEmpty()) {
+            return redirect()->back()->withErrors([
+                'error' => 'El estudiante no está inscrito en esta asignatura/sección'
+            ]);
+        }
         $lapso = Periodos::all()->first();
-        $pensumId = $asignacion->pensum_id;  // O usa pluck() si hay múltiples
 
-        $notas = Notas::where('pensum_id', $pensumId)
+        $notas = Notas::where('pensum_id', $asignacion->pensum_id)
             ->where('periodo_id', $lapso->id)
-            ->where('student_id', $estudiante_id)  // Filtra por estudiante
+            ->where('students_codigo_nucleo_id', $estudiante_id)
             ->first();
 
         if (!$notas) {
@@ -105,7 +118,7 @@ class ProfesorController extends Controller
     {
         $request->validate([
             'asignacion_id' => 'required|exists:profesor_asignar,id',
-            'estudiante_id' => 'required|exists:students,id',
+            'estudiante_id' => 'required|exists:students_codigo_nucleo,id',
             'pensum_id' => 'required|exists:pensum,id',
             'nota_uno' => 'nullable|numeric|min:0|max:20',
             'nota_dos' => 'nullable|numeric|min:0|max:20',
@@ -132,14 +145,14 @@ class ProfesorController extends Controller
 
         $notas = Notas::where([
             'pensum_id' => $request->pensum_id,
-            'student_id' => $request->estudiante_id,
+            'students_codigo_nucleo_id' => $request->estudiante_id,
             'periodo_id' => $periodo->id,
         ])->first();
 
         if (!$notas) {
             Notas::create([
                 'pensum_id' => $request->pensum_id,
-                'student_id' => $request->estudiante_id,
+                'students_codigo_nucleo_id' => $request->estudiante_id,
                 'periodo_id' => $periodo->id,
                 'nota_uno' => $request->nota_uno,
                 'nota_dos' => $request->nota_dos,
@@ -226,21 +239,29 @@ class ProfesorController extends Controller
 
         $cedulas = $request->cedula;
         $studentIds = Students::whereIn('cedula', $cedulas)->pluck('id')->toArray();
-        $estudiantes = Students::whereIn('id', $studentIds)->get();
+        $students = Students::whereIn('cedula', $cedulas)->with('codigonucleo')->get();
+        $estudiantes = StudentsCodigoNucleo::with(['inscripciones.secciones', 'student'])
+            ->whereIn('students_data_id', $studentIds)
+            ->get();
+        $codigoNucleoIds = $estudiantes->pluck('id')->toArray();
         $fecha = Carbon::now();
         $dia = $fecha->day;
         $mes = $fecha->month;
         $anio = $fecha->year;
-        $lapso = Periodos::find($request->periodo_id ?? $estudiantes->first()->periodo_id);
+        $estudiante = $estudiantes->first();
+        $inscripcion = $estudiante->inscripciones->first();
+        $lapso = Periodos::find($request->periodo_id ?? $inscripcion->periodo_id);
         $materia = $request->asignatura;
         $codigo = $request->codigoasig;
-        $seccion = $estudiantes->first()->secciones;
+        $seccion = $inscripcion->secciones ?? null;
         $unidad = Materias::where('materia', $materia)->value('unidadcurricular');
         $user = Auth::guard('teachers')->user();
         $notasPorEstudiante = Notas::where('pensum_id', $request->pensum_id)
-            ->whereIn('student_id', $studentIds)
+            ->whereIn('students_codigo_nucleo_id', $codigoNucleoIds)
+            ->with(['studentcodigonucleo.student'])
             ->get()
-            ->keyBy('student_id');
+            ->keyBy('students_codigo_nucleo_id');
+        // dd($notasPorEstudiante);
         $carrera = $request->carrera;
         $aula = $request->aula;
         $pdf = Pdf::loadView('pdf.teachers.acta-calification',

@@ -298,15 +298,15 @@
                 @foreach ($notasPorEstudiante as $notas)
                     <tr>
                         <td class="numero borde">{{ $loop->iteration }}</td>
-                        <td class="cedula borde">{{ $notas->students->cedula }}</td>
+                        <td class="cedula borde">{{ $notas->studentcodigonucleo->student->cedula }}</td>
                         <td class="nombre borde">
-                            {{ $notas->students->primer_apellido .
+                            {{ $notas->studentcodigonucleo->student->primer_apellido .
                                 ' ' .
-                                $notas->students->segundo_apellido .
+                                $notas->studentcodigonucleo->student->segundo_apellido .
                                 ' ' .
-                                $notas->students->primer_name .
+                                $notas->studentcodigonucleo->student->primer_name .
                                 ' ' .
-                                $notas->students->segundo_name }}
+                                $notas->studentcodigonucleo->student->segundo_name }}
                         </td>
                         <td class="notas borde">{{ $notas->nota_uno }}</td>
                         <td class="notas borde">{{ $notas->nota_dos }}</td>

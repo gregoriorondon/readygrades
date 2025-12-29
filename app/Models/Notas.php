@@ -21,8 +21,8 @@ class Notas extends Model
     public function pensums() {
         return $this->belongsTo(Pensum::class, 'pensum_id');
     }
-    public function students() {
-        return $this->belongsTo(Students::class, 'students_data_id');
+    public function studentcodigonucleo() {
+        return $this->belongsTo(StudentsCodigoNucleo::class, 'students_codigo_nucleo_id', 'id');
     }
     public function periodos() {
         return $this->belongsTo(Periodos::class, 'periodo_id');
