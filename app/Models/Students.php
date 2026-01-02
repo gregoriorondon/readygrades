@@ -33,4 +33,7 @@ class Students extends Model
     public function studentcodigonucleo(){
         return $this->hasMany(StudentsCodigoNucleo::class, 'students_codigo_nucleo_id');
     }
+    public function notas() {
+        return $this->hasMany(Notas::class, 'students_codigo_nucleo_id', 'student_id', 'id');
+    }
 }

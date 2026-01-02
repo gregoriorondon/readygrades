@@ -22,6 +22,7 @@
         </details>
     @endcan
     <x-sidebar-section link="estudiantes-panel-administrativo" icon="fa-duotone fa-solid fa-user-graduate">Estudiantes</x-sidebar-section>
+    <x-sidebar-section link="estudiantes-per" icon="fad fa-sync-alt">PER</x-sidebar-section>
     <x-sidebar-section link="nomina-profesores" icon="fa-duotone fa-regular fa-chalkboard-user">Profesores</x-sidebar-section>
     <x-sidebar-section link="nomina-administradores" icon="fa-solid fa-user-tie">Administradores</x-sidebar-section>
     <x-sidebar-section link="periodos" icon="fas fa-calendar-alt">Periodos Académicos</x-sidebar-section>

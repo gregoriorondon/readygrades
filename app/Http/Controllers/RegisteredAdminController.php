@@ -41,7 +41,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RegisteredAdminController extends Controller
 {
-    //
     public function create()
     {
         return view('auth.registro-admin');
@@ -481,6 +480,11 @@ class RegisteredAdminController extends Controller
             ]);
         }
         return redirect('/estudiantes-panel-administrativo/' . $student->id)->with('alert', 'El estudiante fue actualizado correctamente.');
+    }
+
+    public function per()
+    {
+        return view('auth.per');
     }
 
     public function admindashboard()
