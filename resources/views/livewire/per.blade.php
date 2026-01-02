@@ -62,7 +62,7 @@
                                         $definitivaDivicion = round($definitiva / 4);
                                         $materiaPer = $estudiante->pensums->materias->per;
                                     @endphp
-                                    @if (($materiaPer && $definitivaDivicion < 16) || (!$materiaPer && $definitivaDivicion <= 12))
+                                    @if (($materiaPer && $definitivaDivicion <= 12) || (!$materiaPer && $definitivaDivicion <= 16))
                                         <tr class="odd:bg-gray-100/20 event:bg-transparent">
                                             <x-table-td-students>
                                                 {{ $estudiante->studentcodigonucleo->student->cedula }}
