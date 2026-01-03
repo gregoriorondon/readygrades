@@ -24,6 +24,7 @@ export default defineConfig({
                 "resources/js/autocompletado-nucleos",
                 "resources/js/app.jsx",
                 "resources/js/chart.js",
+                "resources/js/modalesmultiples.js",
             ],
             refresh: true,
         }),
