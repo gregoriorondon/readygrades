@@ -2,7 +2,7 @@
 
 @section('title', ucwords('no esta autorizado'))
 @section('code', '403')
-@section('message', ucwords('usted no está autorizado'))
+@section('message', $exception->getMessage() ?: ucwords('usted no está autorizado'))
 @section('image')
     <img src="{{ Vite::asset('resources/images/403.webp') }}" class="image">
 @endsection

@@ -25,9 +25,11 @@
             <div class="mt-7 border rounded-lg">
                 <form action="/guardar-calificacion" method="post" id="guardarcalifi">
                     @csrf
-                    <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
-                    <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
-                    <input type="hidden" name="pensum_id" value="{{ $asignacion->pensums->id }}">
+                    <input type="hidden" name="data" value="{{ encrypt([
+                        'asignacion_id' => $asignacion->id,
+                        'estudiante_id' => $estudiante->id,
+                        'asignacion_pensum_id' => $asignacion->pensums->id,
+                    ]) }}">
                     <input type="hidden" name="nota_definitiva" id="inputNotaDefinitiva">
                     <dl class="divide-y">
                         <x-details-div class="flex items-center">

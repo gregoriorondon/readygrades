@@ -14,6 +14,7 @@ use App\Models\StudentsCodigoNucleo;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -117,73 +118,57 @@ class ProfesorController extends Controller
     public function guardarcalificacion(Request $request)
     {
         $request->validate([
-            'asignacion_id' => 'required|exists:profesor_asignar,id',
-            'estudiante_id' => 'required|exists:students_codigo_nucleo,id',
-            'pensum_id' => 'required|exists:pensum,id',
+            'data' => 'required|string',
             'nota_uno' => 'nullable|numeric|min:0|max:20',
             'nota_dos' => 'nullable|numeric|min:0|max:20',
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
             'nota_extra' => 'nullable|numeric|min:0|max:20',
-            // 'nota_definitiva' => 'required|numeric|min:0|max:20',
         ], [
-            'asignacion_id.required' => 'Debe usar el identificador de la asignación.',
-            'asignacion_id.exists' => 'La asignación que está tratando de usar no existe.',
-            'estudiante_id.required' => 'Debe usar el identificador de la asignación.',
-            'estudiante_id.exists' => 'La asignación que está tratando de usar no existe.',
-            'pensum_id.required' => 'Debe usar el identificador de la asignación.',
-            'pensum_id.exists' => 'La asignación que está tratando de usar no existe.',
+            'data.required' => 'Debe usar el identificador.',
+            'data.string' => 'La está tratando de valores inválidos.',
             'nota_uno' => 'nullable|numeric|min:0|max:20',
             'nota_dos' => 'nullable|numeric|min:0|max:20',
             'nota_tres' => 'nullable|numeric|min:0|max:20',
             'nota_cuatro' => 'nullable|numeric|min:0|max:20',
             'nota_extra' => 'nullable|numeric|min:0|max:20',
-            // 'nota_definitiva.required' => 'Es necesario que ingrese la nota definitiva',
-            // 'nota_definitiva.numeric' => 'La definitiva debe ser un valor numérico',
         ]);
+
         $periodo = Periodos::where('activo', true)->first();
 
+        try {
+            $data = decrypt($request->data);
+        } catch (DecryptException) {
+            abort(403, 'Datos inválidos o manipulados');
+        }
+
         $notas = Notas::where([
-            'pensum_id' => $request->pensum_id,
-            'students_codigo_nucleo_id' => $request->estudiante_id,
+            'pensum_id' => $data['asignacion_pensum_id'],
+            'students_codigo_nucleo_id' => $data['estudiante_id'],
             'periodo_id' => $periodo->id,
         ])->first();
 
-        if (!$notas) {
-            Notas::create([
-                'pensum_id' => $request->pensum_id,
-                'students_codigo_nucleo_id' => $request->estudiante_id,
-                'periodo_id' => $periodo->id,
-                'nota_uno' => $request->nota_uno,
-                'nota_dos' => $request->nota_dos,
-                'nota_tres' => $request->nota_tres,
-                'nota_cuatro' => $request->nota_cuatro,
-                'nota_extra' => $request->nota_extra,
-                // 'nota_recuperacion' => $request->notaExtra,
-                // 'nota_definitiva' => $request->nota_definitiva,
-            ]);
-        } else {
-            if (is_null($notas->nota_uno) && !is_null($request->nota_uno)) {
-                $notas->nota_uno = $request->nota_uno;
-            }
-            if (is_null($notas->nota_dos) && !is_null($request->nota_dos)) {
-                $notas->nota_dos = $request->nota_dos;
-            }
-            if (is_null($notas->nota_tres) && !is_null($request->nota_tres)) {
-                $notas->nota_tres = $request->nota_tres;
-            }
-            if (is_null($notas->nota_cuatro) && !is_null($request->nota_cuatro)) {
-                $notas->nota_cuatro = $request->nota_cuatro;
-            }
-            if (is_null($notas->nota_extra) && !is_null($request->nota_extra)) {
-                $notas->nota_extra = $request->nota_extra;
-            }
-            if (is_null($notas->nota_recuperacion) && !is_null($request->notaExtra)) {
-                $notas->nota_recuperacion = $request->notaExtra;
-            }
-
-            $notas->save();
+        if (
+            ($request->nota_uno == $notas->nota_uno) &&
+            ($request->nota_dos == $notas->nota_dos) &&
+            ($request->nota_tres == $notas->nota_tres) &&
+            ($request->nota_cuatro == $notas->nota_cuatro) &&
+            ($request->nota_extra == $notas->nota_extra)
+        ) {
+            return redirect()->back()->withErrors(['error' => 'Debes de colocar un nuevo valor para poder guardar los datos nuevos.']);
         }
+
+        $notas = Notas::updateOrCreate([
+            'pensum_id' => $data['asignacion_pensum_id'],
+            'students_codigo_nucleo_id' => $data['estudiante_id'],
+            'periodo_id' => $periodo->id,
+        ],[
+            'nota_uno' => $request->nota_uno,
+            'nota_dos' => $request->nota_dos,
+            'nota_tres' => $request->nota_tres,
+            'nota_cuatro' => $request->nota_cuatro,
+            'nota_extra' => $request->nota_extra,
+        ]);
 
         return redirect()->back()->with('alert', 'Notas guardadas correctamente');
     }
