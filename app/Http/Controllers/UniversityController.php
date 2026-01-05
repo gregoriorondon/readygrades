@@ -16,6 +16,7 @@ use App\Models\StudentsInscripciones;
 use App\Models\TituloAcademico;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -168,18 +169,25 @@ class UniversityController extends Controller
 
     public function generarprocess(Request $request)
     {
+        if ($request->cedula === null) {
+            abort(403, 'Datos eliminados o manipulados');
+        }
         $datosgenerar = $request->validate([
-            'cedula' => ['required', 'numeric', 'min_digits:7'],
+            'cedula' => 'required|string',
             'carrera_id' => 'required|numeric|exists:carreras,id',
         ], [
-            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
-            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
-            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+            'cedula.required' => 'Es necesario que mantenga el contenido original.',
+            'cedula.string' => 'La no debe alterar el valor del estudiante.',
             'carrera_id.required' => 'Es necesario que coloque la ccarrera del estudiante.',
             'carrera_id.numeric' => 'La carrera no debe contener carácteres no númericos.',
             'carrera_id.exists' => 'La ccarrera no coincide con las carreras del sistema.',
         ]);
-        $existe = StudentPublic::where('cedula', $datosgenerar['cedula'])->first();
+        try {
+            $encriptado = decrypt($request->cedula);
+        } catch (DecryptException) {
+            abort(403, 'Datos inválidos o manipulados');
+        }
+        $existe = StudentPublic::where('cedula', $encriptado['cedula'])->first();
         if (!$existe) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
@@ -242,7 +250,7 @@ class UniversityController extends Controller
         ];
         $informacion = ConstanciaEstudios::first();
         $activo = Periodos::where('activo', true)->first();
-        $estudiante = StudentPublic::where('cedula', $request->cedula)->first();
+        $estudiante = StudentPublic::where('cedula', $encriptado['cedula'])->first();
         $estudianteData = StudentsCodigoNucleo::with([
             'inscripciones', 'nucleo'
         ])->where('students_data_id', $estudiante->id)->orderBy('created_at', 'desc')->first();

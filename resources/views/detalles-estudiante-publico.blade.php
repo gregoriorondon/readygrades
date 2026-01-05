@@ -212,7 +212,7 @@
                             </option>
                     @endforeach
                 </x-select-form>
-                <input type="hidden" name="cedula" value="{{ $estudiante->cedula }}">
+                <input type="hidden" name="cedula" value="{{ encrypt(['cedula' => $estudiante->cedula]) }}">
                 @endif
             </div>
             <div class="flex justify-between mt-7 max-[534px]:flex-col-reverse">

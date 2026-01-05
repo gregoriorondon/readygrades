@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
-    Route::post('/detalles-estudiante', 'studentspublicdetails');
-    Route::post('/generarpdf', 'generarprocess')->name('generarpdf');
+    Route::match(['get', 'post'], '/detalles-estudiante', 'studentspublicdetails');
+    Route::match(['get', 'post'], '/generarpdf', 'generarprocess')->name('generarpdf');
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
