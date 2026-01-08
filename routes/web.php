@@ -14,6 +14,7 @@ Route::controller(UniversityController::class)->group( function (){
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
+    Route::get('/backup', 'downloadBackup')->name('backup.download');
     // Carreras
     Route::get('/carreras', 'courses')->can('root');
     Route::get('/autocomplete', 'autocourses')->can('root');

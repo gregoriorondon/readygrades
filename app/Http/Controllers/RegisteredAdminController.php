@@ -2002,4 +2002,15 @@ class RegisteredAdminController extends Controller
         TituloAcademico::where('id', $request->titulo_id)->update($validar);
         return redirect('/students-academic-tittle');
     }
+    public function downloadBackup() {
+        $db = config('database.connections.mysql.database');
+    $user = config('database.connections.mysql.username');
+    $pass = config('database.connections.mysql.password');
+
+    return response()->streamDownload(function () use ($user, $pass, $db) {
+        // El pipe (|) envía los datos de mysqldump directamente a gzip
+        $command = "mysqldump -u$user -p$pass $db | gzip";
+        passthru($command);
+    }, "respaldo-" . now()->format('d-m-Y') . ".sql.gz");
+    }
 }

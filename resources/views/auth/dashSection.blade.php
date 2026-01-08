@@ -31,6 +31,9 @@
                 <div class="overflow-hidden border border-gray-400 rounded-lg">
                     <x-list-adminis />
                 </div>
+                <a href="{{ route('backup.download') }}" class="btn btn-primary">
+    <i class="fas fa-download"></i> Descargar Respaldo (.sql.gz)
+</a>
                 <center>
                     <x-button-a class="mt-7" link="datos-estudiantes" icon="fa-solid fa-filter-list">
                         Ver y descargar datos
