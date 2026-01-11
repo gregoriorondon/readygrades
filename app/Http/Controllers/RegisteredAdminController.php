@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\DatabaseBackup;
 use App\Exports\StudentsList;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Asignar;
@@ -9,6 +10,7 @@ use App\Models\Cargos;
 use App\Models\Carreras;
 use App\Models\ConstanciaEstudios;
 use App\Models\Datospresistema;
+use App\Models\Emailbackup;
 use App\Models\Estudios;
 use App\Models\Materias;
 use App\Models\Notas;
@@ -33,6 +35,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyMail;
+use App\Models\Backupday;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -2004,13 +2009,68 @@ class RegisteredAdminController extends Controller
     }
     public function downloadBackup() {
         $db = config('database.connections.mysql.database');
-    $user = config('database.connections.mysql.username');
-    $pass = config('database.connections.mysql.password');
+        $user = config('database.connections.mysql.username');
+        $pass = config('database.connections.mysql.password');
 
-    return response()->streamDownload(function () use ($user, $pass, $db) {
-        // El pipe (|) envía los datos de mysqldump directamente a gzip
-        $command = "mysqldump -u$user -p$pass $db | gzip";
-        passthru($command);
-    }, "respaldo-" . now()->format('d-m-Y') . ".sql.gz");
+        return response()->streamDownload(function () use ($user, $pass, $db) {
+            $command = "mysqldump -u$user -p$pass $db | gzip";
+            passthru($command);
+        }, "respaldo-" . now()->format('d-m-Y') . ".sql.gz");
+    }
+
+    public function databaseBackup() {
+        $correos = Emailbackup::all();
+        $days = Backupday::first();
+        return view('auth.databaseBackup', compact('correos', 'days'));
+    }
+    public function backupadd(Request $request) {
+        $request->validate([
+            'email' => ['required', 'email', 'unique:correobackup,email']
+        ],[
+            'email.email' => 'Debes de colocar un correo real'
+        ]);
+        Emailbackup::create(['email' => $request->email]);
+        return redirect()->back()->with('alert', 'El correo se creó con exito.');
+    }
+    public function sendexample($email) {
+        Mail::to($email)->send(new VerifyMail);
+        return redirect()->back()->with('alert', 'El correo se envió con exito.');
+    }
+    public function backupedit($id) {
+        $email = Emailbackup::where('id', $id)->first();
+        return view('auth.backupedit', compact('email'));
+    }
+    public function backupeditsave(Request $request) {
+        $request->validate([
+            'email' => 'required|email|unique:correobackup,email',
+            'preedit' => 'required|string'
+        ],[
+            'email.required' => 'No debe dejar en blanco el formulario',
+            'email.email' => 'Debe colocar un email real',
+            'email.unique' => 'El correo electrónico que ingresaste ya está registrado',
+        ]);
+        Emailbackup::where('email', decrypt($request->preedit))->update(['email' => $request->email]);
+        return redirect('/database')->with('alert', 'El correo se envió con exito.');
+    }
+    public function backupdelete($email) {
+        Emailbackup::where('email', $email)->delete();
+        return redirect('/database')->with('alert', 'El correo se eliminó con exito.');
+    }
+    public function backupday(Request $request) {
+        $request->validate([
+            'day' => 'required|string',
+        ],[
+            'day.required' => 'No se enviaron los valores necesarios para el registro',
+            'day.string' => 'No se deben colocar valores especiales',
+            'predays.required' => 'No se enviaron los valores necesarios para el registro',
+            'predays.string' => 'No se deben colocar valores especiales'
+        ]);
+        $exist = Backupday::where('id', decrypt($request->predays))->first();
+        if (!$exist) {
+            Backupday::updateOrCreate(['day' => $request->day]);
+        } else {
+            Backupday::where('id', $exist->id)->update(['day' => $request->day]);
+        }
+        return redirect()->back()->with('alert', 'Se guardó con exito');
     }
 }

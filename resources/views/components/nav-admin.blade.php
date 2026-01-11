@@ -8,6 +8,7 @@
         @can('root')
             <x-sidebar-section link="agregar-cargo" icon="fa-solid fa-briefcase">Agregar Un Cargo</x-sidebar-section>
             <x-sidebar-section link="agregar-titulo" icon="fa fa-diploma">Agregar Un Título</x-sidebar-section>
+            <x-sidebar-section link="database" icon="fa fa-database">Copia De Seguridad</x-sidebar-section>
         @endcan
     </details>
     @can('root')

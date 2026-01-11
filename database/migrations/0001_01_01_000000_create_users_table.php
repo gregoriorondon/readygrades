@@ -50,6 +50,16 @@ return new class extends Migration
             $table->string('user_agent');
             $table->timestamps();
         });
+        Schema::create('correobackup', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->unique();
+            $table->timestamps();
+        });
+        Schema::create('backupday', function (Blueprint $table) {
+            $table->id();
+            $table->string('day')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -62,5 +72,7 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('sessionsroot');
         Schema::dropIfExists('sessionsteacher');
+        Schema::dropIfExists('correobackup');
+        Schema::dropIfExists('backupday');
     }
 };

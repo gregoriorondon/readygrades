@@ -15,6 +15,13 @@ Route::controller(UniversityController::class)->group( function (){
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
     Route::get('/backup', 'downloadBackup')->name('backup.download');
+    Route::get('/database', 'databaseBackup')->can('root');
+    Route::post('/backupadd', 'backupadd')->can('root');
+    Route::get('/sendexample/{email}','sendexample')->name('verifymail')->can('root');
+    Route::get('/backupdelete/{email}','backupdelete')->name('deletemail')->can('root');
+    Route::get('/backupedit/{id}','backupedit')->can('root');
+    Route::post('/backupeditsave/','backupeditsave')->can('root');
+    Route::post('/backupday','backupday')->can('root');
     // Carreras
     Route::get('/carreras', 'courses')->can('root');
     Route::get('/autocomplete', 'autocourses')->can('root');
