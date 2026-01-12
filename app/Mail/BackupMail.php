@@ -31,6 +31,7 @@ class BackupMail extends Mailable
     {
         return new Envelope(
             subject: 'Respaldo Del Sistema Universitario UPTT - ReadyGrades',
+            tags: ['Respaldo', 'Backup', 'Copia de Seguridad'],
         );
     }
 
@@ -52,7 +53,7 @@ class BackupMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => $this->compressedSql, 'backup.sql.gz')
+            Attachment::fromData(fn () => $this->compressedSql, "respaldo-UPTT-" . now()->format('d-m-Y') . ".gz")
                 ->withMime('application/x-gzip'),
         ];
     }
