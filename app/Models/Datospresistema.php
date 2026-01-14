@@ -8,24 +8,17 @@ class Datospresistema extends Model
 {
     protected $table = "datospresistema";
     protected $fillable = [
-        'primer_name',
-        'segundo_name',
-        'primer_apellido',
-        'segundo_apellido',
-        'genero',
-        'nacionalidad',
-        'cedula',
-        'codigo',
-        // 'telefono',
-        'fecha_nacimiento',
+        'students_codigo_nucleo_id',
         'definitiva',
         'materia_id',
-        'nucleo_id',
         'carrera_id',
         'seccion_id',
         'periodo_name',
         'fecha_periodo'
     ];
+    public function studentscodigonucleo() {
+        return $this->belongsTo(StudentsCodigoNucleo::class, 'students_codigo_nucleo_id');
+    }
     public function inscripciones()
     {
         return $this->hasMany(Inscripciones::class);

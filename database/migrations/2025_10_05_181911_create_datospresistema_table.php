@@ -13,32 +13,25 @@ return new class extends Migration
     {
         Schema::create('datospresistema', function (Blueprint $table) {
             $table->id();
-            $table->string('cedula');
-            $table->string('codigo');
-            $table->string('primer_name');
-            $table->string('segundo_name')->nullable();
-            $table->string('primer_apellido');
-            $table->string('segundo_apellido')->nullable();
-            $table->string('genero');
-            $table->string('nacionalidad');
-            // $table->string('telefono')->nullable();
-            $table->date('fecha_nacimiento');
-            // $table->string('email')->nullable();
-            // $table->string('direccion');
-            // $table->string('city');
+
+            $table->unsignedBigInteger('students_codigo_nucleo_id');
+            $table->foreign('students_codigo_nucleo_id')->references('id')->on('students_codigo_nucleo')->cascadeOnUpdate();
+
             $table->unsignedInteger('definitiva');
+
             $table->unsignedBigInteger('materia_id');
             $table->foreign('materia_id')->references('id')->on('materias')->cascadeOnUpdate();
-            $table->unsignedBigInteger('nucleo_id');
-            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
-            // $table->unsignedBigInteger('tramo_trayecto_id');
-            // $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
+
             $table->unsignedbiginteger('seccion_id');
             $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeonupdate();
+
             $table->string('periodo_name');
+
             $table->date('fecha_periodo')->nullable();
+
             $table->timestamps();
         });
     }

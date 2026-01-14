@@ -1821,40 +1821,81 @@ class RegisteredAdminController extends Controller
 
     public function cargarnotasstore(Request $request)
     {
-        $datosEstudiante = $request->validate([
-            'cedula' => ['required', 'numeric', 'min_digits:7'],
-            'primer_name' => ['required', 'string'],
-            'segundo_name' => ['nullable', 'string'],
-            'primer_apellido' => ['required', 'string'],
-            'segundo_apellido' => ['nullable', 'string'],
-            'genero' => ['required', 'string'],
-            'nacionalidad' => ['required'],
-            'fecha_nacimiento' => ['required'],
-            'nucleo_id' => ['required', 'numeric'],
-            'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
-            'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
-            'definitiva' => ['required', 'numeric', 'max_digits:2'],
-            'materia_id' => ['required', 'numeric'],
-            'fecha_periodo' => ['required'],
-            'periodo_name' => ['required', 'string'],
-            // 'codigo' => 'required|string',
-        ], [
-            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
-            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
-            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
-            'primer_name.required' => 'Es obligatorio que el estudiante tenga su primer nombre.',
-            'primer_name.string' => 'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
-            'primer_apellido.required' => 'Es obligatorio que el estudiante tenga su primer apellido.',
-            'genero.required' => 'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
-            'fecha_nacimiento.required' => 'Es obligatorio colocar la fecha de nacimiento del estudiante.',
-            'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
-            'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
-            'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
-            'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
-            'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
-            'carrera_id.exists' => 'La carrera no es válida.',
-            // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
-        ]);
+        if (empty($request->studentdata)) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Falatan componentes del formulario por cargar']);
+        }
+        if($request->studentdata !== 'on'){
+            $request->validate([
+                'cedula' => ['required', 'numeric', 'min_digits:7'],
+                'primer_name' => ['required', 'string'],
+                'segundo_name' => ['nullable', 'string'],
+                'primer_apellido' => ['required', 'string'],
+                'segundo_apellido' => ['nullable', 'string'],
+                'genero' => ['required', 'string'],
+                'nacionalidad' => ['required'],
+                'fecha_nacimiento' => ['required'],
+                'email' => ['email', 'nullable'],
+                'telefono' => ['numeric', 'nullable'],
+                'direccion' => ['required', 'string'],
+                'city' => ['required', 'string'],
+                'nucleo_id' => ['required', 'numeric'],
+                'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
+                'seccion_id' => ['required', 'numeric', 'exists:secciones,id'],
+                'definitiva' => ['required', 'numeric', 'max_digits:2'],
+                'materia_id' => ['required', 'numeric'],
+                'fecha_periodo' => ['required'],
+                'periodo_name' => ['required', 'string'],
+                // 'codigo' => 'required|string',
+            ], [
+                'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+                'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+                'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+                'primer_name.required' => 'Es obligatorio que el estudiante tenga su primer nombre.',
+                'primer_name.string' => 'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
+                'primer_apellido.required' => 'Es obligatorio que el estudiante tenga su primer apellido.',
+                'genero.required' => 'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
+                'telefono.numeric' => 'No se deben colocar carácteres especiales en el número de teléfono.',
+                'email.email' => 'Debe colocar un correo electrónico valido.',
+                'fecha_nacimiento.required' => 'Es obligatorio colocar la fecha de nacimiento del estudiante.',
+                'direccion.required' => 'Es obligatorio que coloque la dirección donde reside el estudiante',
+                'direccion.string' => 'Es obligatorio que no coloque caracteres especiales.',
+                'city.required' => 'Es obligatorio colocar la ciudad/pueblo donde reside el estudiante.',
+                'city.string' => 'Es obligatorio que no coloque caracteres especiales en la ciudad/pueblo.',
+                'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
+                'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
+                'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
+                'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
+                'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
+                'carrera_id.exists' => 'La carrera no es válida.',
+                // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
+            ]);
+        } else {
+            $request->validate([
+                'cedula' => ['required', 'numeric', 'min_digits:7'],
+                'nacionalidad' => ['required'],
+                'nucleo_id' => ['required', 'numeric'],
+                'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
+                'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
+                'definitiva' => ['required', 'numeric', 'max_digits:2'],
+                'materia_id' => ['required', 'numeric'],
+                'fecha_periodo' => ['required'],
+                'periodo_name' => ['required', 'string'],
+                'studentcareer' => 'required',
+                // 'codigo' => 'required|string',
+            ], [
+                'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
+                'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
+                'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
+                'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
+                'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
+                'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
+                'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
+                'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
+                'carrera_id.exists' => 'La carrera no es válida.',
+                'studentcareer.required' => 'Faltaron parámetros del formulario por cargar',
+                // 'codigo.required' => 'Es obligatorio que coloque un código al estudiante',
+            ]);
+        }
 
         $usuario = Auth::user();
         $user = User::with('cargos.tipos')->find($usuario->id);
@@ -1869,9 +1910,9 @@ class RegisteredAdminController extends Controller
                     'error' => 'No tiene permiso para cambiar el núcleo asignado.'
                 ]);
             }
-            $datosEstudiante['nucleo_id'] = $datos->nucleo_id;
+            $nucleo = $datos->nucleo_id;
         } else {
-            $datosEstudiante['nucleo_id'] = $request->nucleo_id;
+            $nucleo = $request->nucleo_id;
         }
 
         $periodo = Periodos::where('activo', true)->first();
@@ -1880,45 +1921,107 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'El periodo está cerrado.']);
         }
 
-        $existeInscripcion = Datospresistema::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            ->where('periodo_name', $request->periodo_name)
-            ->where('fecha_periodo', $request->fecha_periodo)
-            ->exists();
-
-        if ($existeInscripcion) {
-            return redirect()->back()->withInput()->withErrors(['error' => 'El estudiante ya está inscrito en esta carrera y periodo.']);
-        }
-
-        $codigoVerifi =  Datospresistema::where('cedula', $request->cedula)->first();
-        if (empty($request->codigo)) {
-            if (!is_null($codigoVerifi)) {
-                if (empty($request->codigo)) {
-                    $datosEstudiante['codigo'] = $codigoVerifi->codigo;
+        if ($request->studentdata == 'on') {
+            $existeStudent = StudentsCodigoNucleo::where('nucleo_id', $nucleo)
+                ->whereHas('student', function ($f) use ($request) {
+                    $f->where('cedula', $request->cedula);
+                })->first();
+            if ($request->studentcareer == 'on') {
+                if ($existeStudent !== null) {
+                    $verify = Datospresistema::where('students_codigo_nucleo_id', $existeStudent->id)
+                        ->where('carrera_id', $request->carrera_id)
+                        ->where('materia_id', $request->materia_id)
+                        ->where('periodo_name', $request->periodo_name)->first();
+                    if ($verify === null) {
+                        Datospresistema::create([
+                            'students_codigo_nucleo_id' => $existeStudent->id,
+                            'definitiva' => $request->definitiva,
+                            'materia_id' => $request->materia_id,
+                            'carrera_id' => $request->carrera_id,
+                            'seccion_id' => $request->seccion_id,
+                            'periodo_name' => $request->periodo_name,
+                            'fecha_periodo' => $request->fecha_periodo,
+                        ]);
+                    } else {
+                        return redirect()->back()->withInput()->withErrors(['error' => 'Existe estudiante registrado con ésa cédula, periodo, carrera y materia']);
+                    }
+                } else {
+                    return redirect()->back()->withInput()->withErrors(['error' => 'No existe estudiante registrado con ésa cédula, nucleo o carrera']);
                 }
             } else {
-                return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo encontrar el código del estudiante, probablemente aúno no fue registrado, por favor ingrese el código manualmente']);
+                if ($existeStudent === null) {
+                    $existeStudentBasic = StudentsCodigoNucleo::where('nucleo_id', $nucleo)
+                        ->whereHas('student', function ($f) use ($request) {
+                            $f->where('cedula', $request->cedula);
+                        })->first();
+                    if ($existeStudentBasic !== null) {
+                        $verify = Datospresistema::where('students_codigo_nucleo_id', $existeStudentBasic->id)
+                            ->where('carrera_id', $request->carrera_id)
+                            ->where('materia_id', $request->materia_id)
+                            ->where('periodo_name', $request->periodo_name)->first();
+                        if ($verify === null) {
+                            Datospresistema::create([
+                                'students_codigo_nucleo_id' => $existeStudentBasic->id,
+                                'definitiva' => $request->definitiva,
+                                'materia_id' => $request->materia_id,
+                                'carrera_id' => $request->carrera_id,
+                                'seccion_id' => $request->seccion_id,
+                                'periodo_name' => $request->periodo_name,
+                                'fecha_periodo' => $request->fecha_periodo,
+                            ]);
+                        } else {
+                            return redirect()->back()->withInput()->withErrors(['error' => 'Existe estudiante registrado con ésa cédula, periodo, carrera y materia']);
+                        }
+                    } else {
+                        return redirect()->back()->withInput()->withErrors(['error' => 'No existe estudiante registrado con ésa cédula']);
+                    }
+                } else {
+                    return redirect()->back()->withInput()->withErrors(['error' => 'Existe estudiante registrado con ésa cédula, nucleo o carrera']);
+                }
             }
-        } elseif (empty($codigoVerifi)) {
-            $datosEstudiante['codigo'] = $request->codigo;
         } else {
-            if ($request->codigo !== $codigoVerifi->codigo) {
-                $datosEstudiante['codigo'] = $codigoVerifi->codigo;
+            $verify = Datospresistema::with('studentscodigonucleo.student')
+                ->whereHas('studentscodigonucleo', function ($e) use ($nucleo, $request) {
+                    $e->where('nucleo_id', $nucleo)->whereHas('student', function ($f) use ($request) {
+                        $f->where('cedula', $request->cedula);
+                    });
+                })->first();
+            if ($verify !== null) {
+                return redirect()->back()->withInput()->withErrors(['error' => 'Ya existe un estudiante registrado con esos datos en el sistema']);
             } else {
-                $datosEstudiante['codigo'] = $request->codigo;
+                $ultimoCodigo = StudentsCodigoNucleo::where('nucleo_id', $nucleo)->max('codigo');
+                $codigo = (int) $ultimoCodigo + 1;
+                $datos = Students::create([
+                    'cedula' => $request->cedula,
+                    'primer_name' => Str::title(ucwords($request->primer_name)),
+                    'segundo_name' => $request->segundo_name ? Str::title(ucwords($request->segundo_name)) : null,
+                    'primer_apellido' => Str::title(ucwords($request->primer_apellido)),
+                    'segundo_apellido' => $request->segundo_apellido ? Str::title(ucwords($request->segundo_apellido)) : null,
+                    'genero' => Str::lower($request->genero),
+                    'nacionalidad' => Str::upper($request->nacionalidad),
+                    'telefono' => $request->telefono,
+                    'fecha_nacimiento' => $request->fecha_nacimiento,
+                    'email' => $request->email ? Str::lower($request->email) : null,
+                    'direccion' => Str::title(ucwords($request->direccion)),
+                    'city' => Str::title(ucwords($request->city)),
+                ]);
+                $codigoRegister = StudentsCodigoNucleo::create([
+                    'students_data_id' => $datos->id,
+                    'nucleo_id' => $nucleo,
+                    'codigo' => $codigo,
+                ]);
+                Datospresistema::create([
+                    'students_codigo_nucleo_id' => $codigoRegister->id,
+                    'definitiva' => $request->definitiva,
+                    'materia_id' => $request->materia_id,
+                    'carrera_id' => $request->carrera_id,
+                    'seccion_id' => $request->seccion_id,
+                    'periodo_name' => $request->periodo_name,
+                    'fecha_periodo' => $request->fecha_periodo,
+                ]);
             }
         }
-
-        $datosEstudiante['periodo_id'] = $periodo->id;
-        $datosEstudiante['primer_name'] = Str::title(ucwords($datosEstudiante['primer_name']));
-        $datosEstudiante['segundo_name'] = $datosEstudiante['segundo_name'] ? Str::title(ucwords($datosEstudiante['segundo_name'])) : null;
-        $datosEstudiante['primer_apellido'] = Str::title(ucwords($datosEstudiante['primer_apellido']));
-        $datosEstudiante['segundo_apellido'] = $datosEstudiante['segundo_apellido'] ? Str::title(ucwords($datosEstudiante['segundo_apellido'])) : null;
-        $datosEstudiante['genero'] = Str::lower($datosEstudiante['genero']);
-        $datosEstudiante['nacionalidad'] = Str::upper($datosEstudiante['nacionalidad']);
-        Datospresistema::create($datosEstudiante);
-
-        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $datosEstudiante['codigo']);
+        return redirect()->back()->with('alert', 'El estudiante fue registado correctamente.');
     }
 
 
