@@ -103,6 +103,7 @@ class UniversityController extends Controller
         $carrerasIds = $carreraParaLaConstancia->pluck('carrera_id')->unique()->toArray();
         $tramoTrayectoIds = $carreraParaLaConstancia->pluck('tramo_trayecto_id')->unique()->toArray();
         $fechaPeriodo = Periodos::where('activo', true)->first();
+        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->first();
         $notas = Notas::with([
             'pensums.materias',
             'pensums.carreras',
@@ -110,7 +111,7 @@ class UniversityController extends Controller
             'pensums.tramoTrayecto.trayectos',
             'periodos'
         ])
-        ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
+        ->where('students_inscripcion_id', $inscripcion->id)
         ->whereHas('pensums', function($q) use ($carrerasIds, $tramoTrayectoIds) {
             $q->whereIn('carrera_id', $carrerasIds)
                   ->whereIn('tramo_trayecto_id', $tramoTrayectoIds);

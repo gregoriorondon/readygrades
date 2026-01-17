@@ -11,6 +11,7 @@ use App\Models\Periodos;
 use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\StudentsCodigoNucleo;
+use App\Models\StudentsInscripciones;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -104,9 +105,11 @@ class ProfesorController extends Controller
         }
         $lapso = Periodos::all()->first();
 
+        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudiante_id)->first();
+
         $notas = Notas::where('pensum_id', $asignacion->pensum_id)
             ->where('periodo_id', $lapso->id)
-            ->where('students_codigo_nucleo_id', $estudiante_id)
+            ->where('students_inscripcion_id', $inscripcion->id)
             ->first();
 
         if (!$notas) {
@@ -142,9 +145,11 @@ class ProfesorController extends Controller
             abort(403, 'Datos inválidos o manipulados');
         }
 
+        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $data['estudiante_id'])->first();
+
         $notas = Notas::where([
             'pensum_id' => $data['asignacion_pensum_id'],
-            'students_codigo_nucleo_id' => $data['estudiante_id'],
+            'students_inscripcion_id' => $inscripcion->id,
             'periodo_id' => $periodo->id,
         ])->first();
 
@@ -160,7 +165,7 @@ class ProfesorController extends Controller
 
         $notas = Notas::updateOrCreate([
             'pensum_id' => $data['asignacion_pensum_id'],
-            'students_codigo_nucleo_id' => $data['estudiante_id'],
+            'students_inscripcion_id' => $inscripcion->id,
             'periodo_id' => $periodo->id,
         ],[
             'nota_uno' => $request->nota_uno,

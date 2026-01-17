@@ -1236,7 +1236,7 @@ class RegisteredAdminController extends Controller
             'pensums.tramoTrayecto.tramos',
             'pensums.tramoTrayecto.trayectos',
             'periodos'
-        ])->where('students_codigo_nucleo_id', $student->studentcodigonucleo->id)
+        ])->where('students_inscripcion_id', $student->id)
             ->whereHas('pensums', function($q) use ($carrera) {
                 $q->where('carrera_id', $carrera);
             })->get()
