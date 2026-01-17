@@ -303,7 +303,7 @@ class RegisteredAdminController extends Controller
                 'codigo' => $codigo,
             ];
             $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
-            StudentsInscripciones::create([
+            $inscrip = StudentsInscripciones::create([
                 'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
                 'carrera_id' => $request->carrera_id,
                 'tramo_trayecto_id' => $request->tramo_trayecto_id,
@@ -313,7 +313,7 @@ class RegisteredAdminController extends Controller
             foreach ($materiasPensum as $materia) {
                 Notas::create([
                     'pensum_id' => $materia->id,
-                    'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
+                    'students_inscripcion_id' => $inscrip->id,
                     'periodo_id' => $periodo->id,
                     'nota' => null
                 ]);
@@ -341,7 +341,7 @@ class RegisteredAdminController extends Controller
                 ];
                 $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
 
-                StudentsInscripciones::create([
+                $inscrip = StudentsInscripciones::create([
                     'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
                     'carrera_id' => $request->carrera_id,
                     'tramo_trayecto_id' => $request->tramo_trayecto_id,
@@ -351,13 +351,13 @@ class RegisteredAdminController extends Controller
                 foreach ($materiasPensum as $materia) {
                     Notas::create([
                         'pensum_id' => $materia->id,
-                        'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
+                        'students_inscripcion_id' => $inscrip->id,
                         'periodo_id' => $periodo->id,
                         'nota' => null
                     ]);
                 }
             } else {
-                StudentsInscripciones::create([
+                $inscrip = StudentsInscripciones::create([
                     'students_codigo_nucleo_id' => $idStudent->id,
                     'carrera_id' => $request->carrera_id,
                     'tramo_trayecto_id' => $request->tramo_trayecto_id,
@@ -367,7 +367,7 @@ class RegisteredAdminController extends Controller
                 foreach ($materiasPensum as $materia) {
                     Notas::create([
                         'pensum_id' => $materia->id,
-                        'students_codigo_nucleo_id' => $idStudent->id,
+                        'students_inscripcion_id' => $inscrip->id,
                         'periodo_id' => $periodo->id,
                         'nota' => null
                     ]);

@@ -199,23 +199,18 @@ return new class extends Migration
         });
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->string('nota_uno')->nullable();
-            $table->string('nota_dos')->nullable();
-            $table->string('nota_tres')->nullable();
-            $table->string('nota_cuatro')->nullable();
-            $table->string('nota_extra')->nullable();
-            // // ========== Datos manualmente desde informacion fisica ============
-            // $table->string('seccion')->nullable();
-            // $table->string('lapso')->nullable();
-            // $table->string('nota_definitiva')->nullable();
-            // // ========== Datos manualmente desde informacion fisica ============
-            $table->string('nota_recuperacion')->nullable();
+            $table->decimal('nota_uno')->nullable();
+            $table->decimal('nota_dos')->nullable();
+            $table->decimal('nota_tres')->nullable();
+            $table->decimal('nota_cuatro')->nullable();
+            $table->decimal('nota_extra')->nullable();
+            $table->decimal('nota_recuperacion')->nullable();
             $table->boolean('editado')->default(false);
             $table->string('nota_editar')->nullable();
             $table->unsignedBigInteger('pensum_id');
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
-            $table->unsignedBigInteger('students_codigo_nucleo_id');
-            $table->foreign('students_codigo_nucleo_id')->references('id')->on('students_codigo_nucleo')->cascadeOnUpdate();
+            $table->unsignedBigInteger('students_inscripcion_id');
+            $table->foreign('students_inscripcion_id')->references('id')->on('students_inscripcion')->cascadeOnUpdate();
             $table->unsignedBigInteger('periodo_id');
             $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeOnUpdate();
             $table->timestamps();
@@ -228,8 +223,6 @@ return new class extends Migration
             $table->foreign('pensum_id')->references('id')->on('pensum')->cascadeOnUpdate();
             $table->unsignedBigInteger('seccion_id');
             $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeOnUpdate();
-            // $table->unsignedBigInteger('periodo_id')
-            // $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeOnUpdate();
             $table->unique(['pensum_id', 'seccion_id', /*'periodo_id'*/], 'unique_sections');
             $table->timestamps();
         });
