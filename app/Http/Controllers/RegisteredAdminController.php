@@ -1046,9 +1046,13 @@ class RegisteredAdminController extends Controller
         if (!$activo) {
             return redirect()->back()->withErrors(['error' => 'No hay un periodo activo para proceder']);
         }
-        $estudiantes = Students::where('cedula', $datosgenerar)
-            ->where('periodo_id', $activo->id)
-            ->get();
+        $estudiantes = StudentsInscripciones::where('periodo_id', $activo->id)
+            ->whereHas('studentcodigonucleo', function ($a) use ($datosgenerar) {
+                $a->whereHas('student', function ($b) use ($datosgenerar) {
+                    $b->where('cedula', $datosgenerar);
+                });
+            })->get();
+        dd($estudiantes);
         if ($estudiantes->isEmpty()) {
             return redirect()->back()->withErrors(['error' => 'El estudiante no está registrado en un periodo activo']);
         }
@@ -1165,13 +1169,17 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
         $activo = Periodos::where('activo', true)->first();
-        $student = Students::where('cedula', $validar)
-            ->where('periodo_id', $activo->id)
-            ->get();
-        $studentPreSis = Datospresistema::where('cedula', $validar)
-            ->select('carrera_id')
-            ->distinct()
-            ->get();
+        $student = StudentsInscripciones::where('periodo_id', $activo->id)
+            ->whereHas('studentcodigonucleo', function ($a) use ($validar) {
+                $a->whereHas('student', function ($b) use ($validar) {
+                    $b->where('cedula', $validar);
+                });
+            })->get();
+        $studentPreSis = Datospresistema::whereHas('studentscodigonucleo', function ($a) use ($validar) {
+            $a->whereHas('student', function ($b) use ($validar) {
+                $b->where('cedula', $validar);
+            });
+        })->select('carrera_id')->distinct()->get();
         $estudiantes = collect()->merge($student)->merge($studentPreSis)->values();
         return view('auth.generar-record', compact('cedula', 'estudiantes'));
     }
@@ -1186,14 +1194,22 @@ class RegisteredAdminController extends Controller
             'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
         ]);
         $cedula = Students::where('cedula', $validar['cedula'])->first();
-        $cedulaPre = Datospresistema::where('cedula', $validar['cedula'])->first();
         if (!$cedula) {
             return redirect()->back()->withErrors(['cedula' => 'No se encuentra registrado el estudiante con ése número de cédula']);
         }
-        $estudiante = Students::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            ->first();
-        $estudiantePreSistema = Datospresistema::where('cedula', $request->cedula)->where('carrera_id', $request->carrera_id)->first();
+        $carrera = $request->carrera_id;
+        $estudiante = StudentsInscripciones::where('carrera_id', $carrera)
+            ->whereHas('studentcodigonucleo', function ($a) use ($request) {
+                $a->whereHas('student', function ($b) use ($request) {
+                    $b->where('cedula', $request->cedula);
+                });
+            })->first();
+        $estudiantePreSistema = Datospresistema::where('carrera_id', $request->carrera_id)
+            ->whereHas('studentscodigonucleo', function ($a) use ($request) {
+                $a->whereHas('student', function ($b) use ($request) {
+                    $b->where('cedula', $request->cedula);
+                });
+            })->first();
         if ($estudiante !== null) {
             $carreras = Carreras::with('titulos')->find($estudiante->carrera_id);
             $titulosacademicos = TituloAcademico::where('carrera_id', $estudiante->carrera_id)
@@ -1208,13 +1224,22 @@ class RegisteredAdminController extends Controller
             return back()->with('error', 'No se encontró registro del estudiante en el sistema ni en pre-sistema.');
         }
 
-        $student = Students::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            ->get();
-        $student_ids = $student->pluck('id');
-        $notas = Notas::whereIn('student_id', $student_ids)
-            ->with(['pensums.materias', 'periodos'])
-            ->get()
+        $student = StudentsInscripciones::where('carrera_id', $carrera)
+            ->whereHas('studentcodigonucleo', function ($a) use ($request) {
+                $a->whereHas('student', function ($b) use ($request) {
+                    $b->where('cedula', $request->cedula);
+                });
+            })->first();
+        $notas = Notas::with([
+            'pensums.materias',
+            'pensums.carreras',
+            'pensums.tramoTrayecto.tramos',
+            'pensums.tramoTrayecto.trayectos',
+            'periodos'
+        ])->where('students_codigo_nucleo_id', $student->studentcodigonucleo->id)
+            ->whereHas('pensums', function($q) use ($carrera) {
+                $q->where('carrera_id', $carrera);
+            })->get()
             ->map(function ($item) {
                 return (object)[
                     'periodo_nombre' => isset($item->periodos) ? $item->periodos->nombre : 'SIN PERIODO',
@@ -1224,12 +1249,12 @@ class RegisteredAdminController extends Controller
                     'definitiva' => round(($item->nota_uno + $item->nota_dos + $item->nota_tres + $item->nota_cuatro + $item->nota_extra) / 4),
                 ];
             });
-
-        $preSistema = DatosPreSistema::where('cedula', $request->cedula)
-            ->where('carrera_id', $request->carrera_id)
-            ->with(['materia'])
-            ->get()
-            ->map(function ($item) {
+        $preSistema = DatosPreSistema::where('carrera_id', $request->carrera_id)
+            ->whereHas('studentscodigonucleo',  function ($a) use ($request) {
+                $a->whereHas('student', function ($b) use ($request) {
+                    $b->where('cedula', $request->cedula);
+                });
+            })->with(['materia'])->get()->map(function ($item) {
                 return (object)[
                     'periodo_nombre' => $item->periodo_name ?? 'SIN PERIODO',
                     'codigo' => $item->materia->codigo ?? '—',

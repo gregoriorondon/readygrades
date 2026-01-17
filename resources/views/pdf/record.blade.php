@@ -222,8 +222,8 @@
                 <p class="line-height font-courier-bold">{{ mb_strtoupper(trim('del estado trujillo'), 'UTF-8') }}</p>
                 <p class="line-height">
                     {{ mb_strtoupper(trim('área de registro, seguimiento y control de estudios'), 'UTF-8') }}</p>
-                @if($estudiante && $estudiante->nucleos && $estudiante->nucleos->nucleo)
-                    <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiante->nucleos->nucleo), 'UTF-8') }}</p>
+                @if($estudiante && $estudiante->studentcodigonucleo->nucleo && $estudiante->studentcodigonucleo->nucleo)
+                    <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiante->studentcodigonucleo->nucleo->nucleo), 'UTF-8') }}</p>
                 @elseif($estudiantePreSistema && $estudiantePreSistema->nucleos && $estudiantePreSistema->nucleos->nucleo)
                     <p class="line-height">{{ mb_strtoupper(trim('núcleo' . ' ' . $estudiantePreSistema->nucleos->nucleo), 'UTF-8') }}</p>
                 @endif
@@ -238,16 +238,16 @@
     </center>
     <p class="line-height1">
         {{ mb_strtoupper(trim('código:'), 'UTF-8') }}
-        @if($estudiante && $estudiante->codigo)
-            <span class="underline-custom">{{ $estudiante->codigo }}</span>
+        @if($estudiante && $estudiante->studentcodigonucleo->codigo)
+            <span class="underline-custom">{{ $estudiante->studentcodigonucleo->codigo }}</span>
         @elseif($estudiantePreSistema && $estudiantePreSistema->codigo)
             <span class="underline-custom">{{ $estudiantePreSistema->codigo }}</span>
         @endif
         cédula:
         <span class="underline-custom1">
-        @if($estudiante && $estudiante->nacionalidad)
-            @if ($estudiante['nacionalidad'] === 'VE')
-                V{{ $estudiante['cedula'] }}
+        @if($estudiante && $estudiante->studentcodigonucleo->student->nacionalidad)
+            @if ($estudiante->studentcodigonucleo->student->nacionalidad === 'VE')
+                V{{ $estudiante->studentcodigonucleo->student->cedula }}
             @else
                 E{{ $estudiante['cedula'] }}
             @endif
@@ -261,11 +261,11 @@
         </span>
         {{ mb_strtoupper(trim('nombre:'), 'UTF-8') }}
         <span class="underline-custom1">
-            @if($estudiante && $estudiante->segundo_apellido && $estudiante->primer_apellido && $estudiante->primer_name && $estudiante->segundo_name)
-                @if ($estudiante['segundo_apellido'] === null)
-                    {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
+            @if($estudiante)
+                @if ($estudiante->studentcodigonucleo->student->segundo_apellido === null)
+                    {{ mb_strtoupper(trim($estudiante->studentcodigonucleo->student->primer_apellido . ', ' . $estudiante->studentcodigonucleo->student->primer_name . ' ' . $estudiante->studentcodigonucleo->student->segundo_name), 'UTF-8') }}
                 @else
-                    {{ mb_strtoupper(trim($estudiante['primer_apellido'] . ' ' . $estudiante['segundo_apellido'] . ', ' . $estudiante['primer_name'] . ' ' . $estudiante['segundo_name']), 'UTF-8') }}
+                    {{ mb_strtoupper(trim($estudiante->studentcodigonucleo->student->primer_apellido . ' ' . $estudiante->studentcodigonucleo->student->segundo_apellido . ', ' . $estudiante->studentcodigonucleo->student->primer_name . ' ' . $estudiante->studentcodigonucleo->student->segundo_name), 'UTF-8') }}
                 @endif
             @elseif($estudiantePreSistema && $estudiantePreSistema->segundo_apellido && $estudiantePreSistema->primer_apellido && $estudiantePreSistema->primer_name && $estudiantePreSistema->segundo_name)
                 @if ($estudiantePreSistema['segundo_apellido'] === null)

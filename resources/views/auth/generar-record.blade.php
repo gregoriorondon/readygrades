@@ -3,7 +3,7 @@
     <x-title-section-admin>{{ ucwords('confirmacion y selección de la carrera de ' . $cedula->primer_name) }}</x-title-section-admin>
     <div class="flex justify-center mt-9">
         <div class="max-w-[550px] w-full">
-            <form method="post" action="/generar-pdf-record">
+            <form method="POST" action="/generar-pdf-record">
                 @csrf
                 <p>Nombre Completo: <x-span>{{ $cedula->primer_name . ' ' . $cedula->segundo_name }}</x-span> </p>
                 <p>Apellido Completo: <x-span>{{ $cedula->primer_apellido . ' ' . $cedula->segundo_apellido }}</x-span>
