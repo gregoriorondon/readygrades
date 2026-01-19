@@ -1295,7 +1295,7 @@ class RegisteredAdminController extends Controller
         )->setOption($opciones);
         $filename = 'record.pdf';
         if ($estudiante !== null) {
-            $filename = 'Record_Academico_' . $estudiante['primer_name'] . '_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
+            $filename = 'Record_Academico_' . $estudiante->studentcodigonucleo->student->primer_name . '_' . $estudiante->studentcodigonucleo->student->primer_apellido . '_' . $estudiante->studentcodigonucleo->student->cedula . '.pdf';
         } elseif ($estudiantePreSistema !== null) {
             $filename = 'Record_Academico_' . $estudiantePreSistema['primer_name'] . '_' . $estudiantePreSistema['primer_name'] . '_' . $estudiantePreSistema['primer_apellido'] . '_' . $estudiantePreSistema['cedula'] . '.pdf';
         } else {
