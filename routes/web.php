@@ -10,6 +10,7 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::match(['get', 'post'], '/detalles-estudiante', 'studentspublicdetails');
+    Route::post('/matriculacion', 'studentinscripcion');
     Route::match(['get', 'post'], '/generarpdf', 'generarprocess')->name('generarpdf');
 });
 
