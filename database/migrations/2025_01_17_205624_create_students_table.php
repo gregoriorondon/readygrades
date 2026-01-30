@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->date('inicio');
             $table->date('fin');
+            $table->date('fin_inscripcion');
             $table->boolean('activo')->default(true);
             $table->unsignedBigInteger('nucleo_id');
             $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();

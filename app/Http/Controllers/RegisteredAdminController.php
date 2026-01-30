@@ -1540,6 +1540,7 @@ class RegisteredAdminController extends Controller
         $atributos = $request->validate([
             'inicio' => 'required|unique:periodos,inicio',
             'fin' => 'required|unique:periodos,fin',
+            'fin_inscripcion' => 'required',
             'nombre' => 'required|string',
         ], [
             'inicio.date' => 'Se necesita colocar el periodo de inicio como una fecha.',
@@ -1548,6 +1549,8 @@ class RegisteredAdminController extends Controller
             'fin.date' => 'Se necesita colocar el periodo de inicio como una fecha.',
             'fin.required' => 'Es obligatorio colocar la fecha final del periodo académico.',
             'fin.unique' => 'Ya existe esta fecha de inicio de periodo académico.',
+            'fin_inscripcion.date' => 'Se necesita colocar la fecha de inscripción como una fecha.',
+            'fin_inscripcion.required' => 'Es obligatorio colocar la fecha final de las inscripciones académicas.',
             'nombre.required' => 'No debe dejar el nombre del periodo académico en blanco.',
             'nombre.string' => 'No debe colocar carácteres especiales en el nombre del periodo académico.',
         ]);

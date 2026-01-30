@@ -6,6 +6,9 @@
             @csrf
             <x-label class="mt-3">Selecciona la fecha de inicio del período académico</x-label>
             <x-input-form type="date" name="inicio" :value="old('inicio')" />
+            <x-label class="mt-3">Selecciona el final de las inscripciones</x-label>
+            <x-input-form type="date" name="fin_inscripcion" :value="old('fin_inscripcion')" />
+            <br>
             <x-label class="mt-3">Selecciona la fecha de final del período académico</x-label>
             <x-input-form type="date" name="fin" :value="old('fin')" />
             <x-label class="mt-3">Coloca un nombre al período académico</x-label>
