@@ -47,8 +47,8 @@ class ProfesorController extends Controller
         ])
             ->where('profesor_id', $user->id)
             ->get();
+        $periodo = Periodos::where('activo', true)->where('nucleo_id', $user->nucleo_id)->first();
 
-        // Agrupar por carrera y tramo
         $agrupadas = [];
         foreach ($asignaciones as $asignacion) {
             $carreraId = $asignacion->pensums->carrera_id;
@@ -67,16 +67,11 @@ class ProfesorController extends Controller
                     'asignaciones' => []
                 ];
             }
-            $asignacion->students = StudentsCodigoNucleo::whereHas('inscripciones', function($query) use ($carreraId, $asignacion) {
-                $query->where('carrera_id', $carreraId)
+            $asignacion->students = StudentsInscripciones::where('carrera_id', $carreraId)
                     ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                    ->where('seccion_id', $asignacion->seccion_id);
-            })
-            ->with(['student', 'inscripciones' => function($query) use ($carreraId, $asignacion) {
-                $query->where('carrera_id', $carreraId)
-                    ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                    ->where('seccion_id', $asignacion->seccion_id);
-            }])->get();
+                    ->where('seccion_id', $asignacion->seccion_id)
+                    ->where('periodo_id', $periodo->id)
+                    ->get();
 
             $agrupadas[$carreraId]['tramos'][$tramoId]['asignaciones'][] = $asignacion;
         }
@@ -89,29 +84,23 @@ class ProfesorController extends Controller
     public function calificaciones($asignacion_id, $estudiante_id)
     {
         $asignacion = Asignar::with('pensums.materias')->findOrFail($asignacion_id);
-        $studentCodigoNucleo = StudentsCodigoNucleo::with([
-            'student',
-            'inscripciones' => function($query) use ($asignacion) {
-                $query->where('carrera_id', $asignacion->pensums->carrera_id)
+        $studentCodigoNucleo = StudentsInscripciones::where('carrera_id', $asignacion->pensums->carrera_id)
                     ->where('tramo_trayecto_id', $asignacion->pensums->tramo_trayecto_id)
-                    ->where('seccion_id', $asignacion->seccion_id);
-                }
-            ])->findOrFail($estudiante_id);
-        $estudiante = $studentCodigoNucleo->student;
-        if ($studentCodigoNucleo->inscripciones->isEmpty()) {
+                    ->where('seccion_id', $asignacion->seccion_id)
+                    ->where('id', $estudiante_id)
+                    ->first();
+        $estudiante = $studentCodigoNucleo->studentcodigonucleo->student;
+        if (!$studentCodigoNucleo) {
             return redirect()->back()->withErrors([
                 'error' => 'El estudiante no está inscrito en esta asignatura/sección'
             ]);
         }
-        $lapso = Periodos::all()->first();
-
-        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudiante_id)->first();
+        $lapso = Periodos::where('activo', true)->where('nucleo_id', $studentCodigoNucleo->studentcodigonucleo->nucleo->id)->first();
 
         $notas = Notas::where('pensum_id', $asignacion->pensum_id)
             ->where('periodo_id', $lapso->id)
-            ->where('students_inscripcion_id', $inscripcion->id)
+            ->where('students_inscripcion_id', $estudiante_id)
             ->first();
-
         if (!$notas) {
             return redirect()->back()->withErrors(['error' => 'El o la estudiante que fue asígnado a usted, su inscripción tuvo un error, porfavor informe este hecho para resolver el error']);
         }
