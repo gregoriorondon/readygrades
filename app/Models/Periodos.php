@@ -10,6 +10,7 @@ class Periodos extends Model
     protected $fillable = [
         'inicio',
         'fin',
+        'fin_inscripcion',
         'nombre',
         'activo',
         'nucleo_id',
