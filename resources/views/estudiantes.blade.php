@@ -25,6 +25,7 @@
                 class="font-staat uppercase leading-none tracking-normal">Ver sus Datos Académicos
             </h1>
             <p class="font-inter mb-7">Introduzca una cédula válida, compuesta únicamente por números, sin incluir caracteres especiales.</p>
+            <x-validation-errors class="my-4" />
             <form method="POST" action="/detalles-estudiante">
                 @csrf
                 <div>
