@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let basic = document.querySelector('.data-public-student-details');
     let notas = document.querySelector('.notas-students');
     let constanciaVista = document.querySelector('.generar-constancia-student-details');
+    let inscripcion = document.querySelector('.inscripcion-vista');
 
     const switchView = (viewName) => {
         // Remover clase active de TODOS los botones
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (basic) basic.classList.add('hidden');
         if (notas) notas.classList.add('hidden');
         if (constanciaVista) constanciaVista.classList.add('hidden');
+        if (inscripcion) inscripcion.classList.add('hidden');
 
         // Mostrar la vista seleccionada
         switch (viewName) {
@@ -66,9 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.classList.remove('hover:!border-b-0');
                 });
                 break;
-            case 'horario':
-                // Aquí deberías mostrar la vista de horario si existe
-                document.querySelectorAll('.student-nav.horario').forEach(btn => {
+            case 'inscripcion':
+                if (inscripcion) inscripcion.classList.remove('hidden');
+                document.querySelectorAll('.student-nav.inscripcion').forEach(btn => {
                     btn.classList.add('active-button');
                     btn.classList.remove('hover:!border-b-0');
                 });
@@ -100,9 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             switchView('constancia');
         }
-        if (e.target.closest('.student-nav.horario')) {
+        if (e.target.closest('.student-nav.inscripcion')) {
             e.preventDefault();
-            switchView('horario');
+            switchView('inscripcion');
         }
     });
 });

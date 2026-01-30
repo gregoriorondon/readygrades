@@ -14,12 +14,14 @@ use App\Models\Students;
 use App\Models\StudentsCodigoNucleo;
 use App\Models\StudentsInscripciones;
 use App\Models\TituloAcademico;
+use App\Models\TramoTrayecto;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UniversityController extends Controller
 {
@@ -82,9 +84,11 @@ class UniversityController extends Controller
         }
         $carreraParaLaConstancia = StudentsInscripciones::with('carreras', 'secciones')
             ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
+            ->orderBy('created_at', 'desc')
             ->get();
         $seccion = StudentsInscripciones::with('secciones')
             ->where('students_codigo_nucleo_id', $estudianteDataVa->id)
+            ->orderBy('created_at', 'desc')
             ->first();
 
 
@@ -102,8 +106,9 @@ class UniversityController extends Controller
 
         $carrerasIds = $carreraParaLaConstancia->pluck('carrera_id')->unique()->toArray();
         $tramoTrayectoIds = $carreraParaLaConstancia->pluck('tramo_trayecto_id')->unique()->toArray();
-        $fechaPeriodo = Periodos::where('activo', true)->first();
+        $fechaPeriodo = Periodos::where('activo', true)->where('nucleo_id', $request->nucleo_id)->first();
         $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->first();
+        $inscripciones = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->latest()->get()->unique('carrera_id');
         $notas = Notas::with([
             'pensums.materias',
             'pensums.carreras',
@@ -116,6 +121,13 @@ class UniversityController extends Controller
             $q->whereIn('carrera_id', $carrerasIds)
                   ->whereIn('tramo_trayecto_id', $tramoTrayectoIds);
         })->get();
+
+        if ($fechaPeriodo !== null) {
+            $fechaInscripcion = Carbon::parse($fechaPeriodo->fin_inscripcion);
+        } else {
+            $fechaInscripcion = null;
+        }
+
 
         $notasAgrupadas = [];
         $tramosActuales = [];
@@ -155,6 +167,7 @@ class UniversityController extends Controller
         }
         return view('detalles-estudiante-publico', compact(
             'estudiante',
+            'inscripciones',
             'notasAgrupadas',
             'tramosActuales',
             'registrosAcademicos',
@@ -165,6 +178,7 @@ class UniversityController extends Controller
             'estudianteData',
             'estudianteDataVa',
             'fechaPeriodo',
+            'fechaInscripcion',
         ));
     }
 
@@ -300,41 +314,80 @@ class UniversityController extends Controller
         $filename = 'Constancia_de_estudios_' . $estudiante['primer_name'] . '_' . $estudiante['primer_apellido'] . '_' . $estudiante['cedula'] . '.pdf';
         return $pdf->download($filename);
     }
-    //
-    //
-    //
-    //
-    //
-    //
-    // public function admin()
-    // {
-    //     return view('auth.login');
-    // }
-    //
-    // public function courses()
-    // {
-    //     $carrera = Carreras::all();
-    //     return view('auth.courses', ['courses' => $carrera]);
-    // }
-    //
-    // public function studentsadmin()
-    // {
-    //     $students = Students::paginate(20);
-    //     return view('auth.students', ['estudiantes' => $students]);
-    // }
-    //
-    // public function studentsadmindetails(Students $student)
-    // {
-    //     return view('auth.students-details', ['estudiantes' => $student]);
-    // }
-    //
-    // public function adminadd()
-    // {
-    //     return view('auth.registro-admin');
-    // }
-    //
-    // public function profesornomina()
-    // {
-    //     return view('auth.profesores-nomina');
-    // }
+
+    public function studentinscripcion(Request $request) {
+        if ($request->student === null || $request->cursar === null || $request->nucleo === null) {
+            abort(403, 'Datos eliminados o manipulados');
+        }
+        $request->validate([
+            'student' => 'required|string',
+            'nucleo' => 'required|string',
+            'carrera' => 'required|string',
+            'cursar' => 'required|string'
+        ],[
+            'student.required' => 'No deben de ser manipulados los datos que son necesario para ser enviados',
+            'student.string' => 'Los datos del estudiante fueron afectados, por lo que no se hará ningun registro, intentelo mas tarde',
+            'nucleo.required' => 'No deben de ser manipulados los datos que son necesario para ser enviados',
+            'nucleo.string' => 'Los datos del estudiante fueron afectados, por lo que no se hará ningun registro, intentelo mas tarde',
+            'carrera.required' => 'No deben de ser manipulados los datos que son necesario para ser enviados',
+            'carrera.string' => 'Los datos del estudiante fueron afectados, por lo que no se hará ningun registro, intentelo mas tarde',
+            'cursar.required' => 'No deben de ser manipulados los datos que son necesario para ser enviados',
+            'cursar.string' => 'Los datos de la carrera fueron afectados, por lo que no se hará ningun registro, intentelo mas tarde',
+        ]);
+        $cedula = decrypt($request->student);
+        $nucleo = decrypt($request->nucleo);
+        $carrera = decrypt($request->carrera);
+        $valor = decrypt($request->cursar);
+        if($valor !== 'true'){
+            return redirect()->back()->withErrors(['error' => 'No se pudo registrar el nuevo periodo académico']);
+        }
+        $codigo = StudentsInscripciones::where('carrera_id', (int)$carrera)->whereHas('studentcodigonucleo', function ($a) use ($nucleo, $cedula){
+            $a->where('nucleo_id', $nucleo)->whereHas('student', function ($b) use ($cedula){
+                $b->where('cedula', $cedula);
+            });
+        })->first();
+        $fechaPeriodo = Periodos::where('activo', true)->where('nucleo_id', $nucleo)->first();
+        if ($fechaPeriodo !== null) {
+            $fechaInscripcion = Carbon::parse($fechaPeriodo->fin_inscripcion);
+            if ($fechaInscripcion->isPast()) {
+                abort(404, 'Fecha De Inscripción Vencida');
+            } else {
+                $tramo = TramoTrayecto::where('id', '>', $codigo->tramo_trayecto_id)->first();
+                if ($tramo->id !== null) {
+                    $materiasPensum = Pensum::where('carrera_id', $carrera)
+                        ->where('tramo_trayecto_id', $tramo->id)
+                        ->get();
+                    if ($materiasPensum->isEmpty()) {
+                        return redirect('/student')->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
+                    }
+                    try {
+                        DB::transaction(function () use ($codigo, $carrera, $tramo, $fechaPeriodo, $materiasPensum) {
+                            $inscrip = StudentsInscripciones::create([
+                                'students_codigo_nucleo_id' => $codigo->studentcodigonucleo->id,
+                                'carrera_id' => $carrera,
+                                'tramo_trayecto_id' => $tramo->id,
+                                'seccion_id' => $codigo->seccion_id,
+                                'periodo_id' => $fechaPeriodo->id,
+                            ]);
+                            foreach ($materiasPensum as $materia) {
+                                Notas::create([
+                                    'pensum_id' => $materia->id,
+                                    'students_inscripcion_id' => $inscrip->id,
+                                    'periodo_id' => $fechaPeriodo->id,
+                                    'nota' => null
+                                ]);
+                            }
+                        });
+                        return redirect('/student')->with('alert', "Felicidades, inscripción completada con éxito.\nExitos en este nuevo periodo académico.");
+                    } catch (\Exception $e) {
+                        return redirect('/student')->withErrors(['error' => 'Error en el proceso: ' . $e->getMessage()]);
+                    }
+                } else {
+                    abort(404, 'no hay mas tramos registrados');
+                }
+            }
+        } else {
+            $fechaInscripcion = null;
+        }
+    }
 }

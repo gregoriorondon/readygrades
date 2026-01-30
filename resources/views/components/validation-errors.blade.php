@@ -1,11 +1,17 @@
-@if ($errors->any())
+@if (!$errors->all())
+    @if (session()->has('alert'))
+        <div {{ $attributes }}>
+            <p class="text-md text-green-500 bg-emerald-100 p-1 font-bold rounded-md font-inter">
+                {{ session('alert') }}
+            </p>
+        </div>
+    @endif
+@else
     <div {{ $attributes }}>
-        <div class="font-medium text-red-600">{{ __('¡Vaya! Algo salió mal.') }}</div>
-
-        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+        @foreach($errors->all() as $error)
+            <p class="text-md text-[#E30000] bg-[#FFFC9C] p-1 font-bold rounded-md font-inter">
+                {{ $error }}
+            </p>
+        @endforeach
     </div>
 @endif

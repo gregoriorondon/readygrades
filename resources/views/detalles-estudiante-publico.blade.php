@@ -9,7 +9,7 @@
 </head>
 
 <body class="cuerpo">
-    <x-nav-student-public>
+    <x-nav-student-public :fechaInscripcion="$fechaInscripcion" :fechaPeriodo="$fechaPeriodo">
         <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-slot:usuario>
     </x-nav-student-public>
     @unless (is_null($usuario) || is_null($fechaPeriodo))
@@ -52,16 +52,11 @@
                 <x-name-title-student-public>Código de Estudiante</x-name-title-student-public>
                 <x-date-student-public>{{ $estudianteDataVa->codigo }}</x-date-student-public>
             </div>
-            @foreach ($tramosActuales as $carreraId => $tramos)
-                @php
-                    $carrera = $notasAgrupadas[$carreraId]['carrera'] ?? null;
-                @endphp
-                @if ($carrera)
-                    <div>
-                        <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
-                        <x-date-student-public>{{ $carrera->carrera . ' - ' . $tramos['tramo_nombre'] }}</x-date-student-public>
-                    </div>
-                @endif
+            @foreach ($inscripciones as $inscripcion)
+                <div>
+                    <x-name-title-student-public>Carrera Cursando</x-name-title-student-public>
+                    <x-date-student-public>{{ $inscripcion->carreras->carrera . ' - ' . $inscripcion->tramos->tramos }}</x-date-student-public>
+                </div>
             @endforeach
             <div>
                 <x-name-title-student-public>Sección Actual</x-name-title-student-public>
@@ -230,13 +225,50 @@
             <x-authentication-card-logo />
         </section>
     </div>
+    @if (!is_null($usuario) || !is_null($fechaPeriodo))
+        </form>
+    @endif
+    @if ($fechaInscripcion !== null)
+        @if (!$fechaInscripcion->isPast())
+            <form method="POST" action="/matriculacion">
+                @csrf
+                <div class="hidden inscripcion-vista flex justify-center items-center">
+                    <section class="notas w-full lg:w-[50%] mx-6 sm:px-20">
+                        <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">
+                            {{ ucwords('cursar nuevo periodo académico') }}
+                        </h1>
+                        <p class="font-inter mb-7">
+                            {{ ucwords('Se abrió un nuevo periódo académico, si deseas cursarlo solo debes persionar el siguiente boton:') }}
+                        </p>
+                        <input type="hidden" name="cursar" value="{{ encrypt('true') }}">
+                        <input type="hidden" name="student" value="{{ encrypt($estudiante->cedula) }}">
+                        <input type="hidden" name="nucleo" value="{{ encrypt($estudianteNu->id) }}">
+                        <x-select-form class="mb-7" name="carrera">
+                            @foreach ($tramosActuales as $carreraId => $tramos)
+                                @php
+                                    $carrera = $notasAgrupadas[$carreraId]['carrera'] ?? null;
+                                @endphp
+                                @if ($carrera)
+                                    <option value="{{ encrypt($carrera->id) }}">{{ $carrera->carrera }}</option>
+                                @endif
+                            @endforeach
+                        </x-select-form>
+                        <x-button class="!block w-full text-center" type="submit" icon="fas fa-user-graduate">
+                            {{ ucwords('cursar nuevo trayecto') }}
+                        </x-button>
+                    </section>
+                    <section class="card-logo-public mr-6 max-[842px]:hidden">
+                        <x-authentication-card-logo />
+                    </section>
+                </div>
+            </form>
+        @endif
+    @endif
+    <!-- FOOTER -->
     <div class="m-7">
         <p class="text-center font-inter mb-4 text-black/50">Por temas de seguridad y privacidad del y de la estudiante
             no se muestran todos los datos personales requeridos en la inscripción</p>
     </div>
-    @if (!is_null($usuario) || !is_null($fechaPeriodo))
-        </form>
-    @endif
     @vite(['resources/js/section-calificaciones-general-public-student.js', 'resources/js/back-cedula-public-studens.js'])
     <x-footer-original />
 </body>
