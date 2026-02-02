@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyMail;
+use App\Models\Apertura;
 use App\Models\Backupday;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -383,6 +384,37 @@ class RegisteredAdminController extends Controller
         return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $codigo);
     }
 
+    public function abrirInscripciones(Request $request) {
+        $request->validate([
+            'estado'=>'required|string',
+        ],[
+            'estado.required'=>'Fantan datos para proceder con la apertura de inscripciones',
+            'estado.string'=>'Valores no válidos para la apertura de inscripciones',
+        ]);
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $estado = decrypt($request->estado);
+        if ($estado === 'abrir') {
+            Apertura::updateOrCreate([
+                'nucleo_id'=>$datos->nucleo_id,
+            ],[
+                'estado'=>true,
+                'nucleo_id'=>$datos->nucleo_id,
+            ]);
+        } elseif ($estado === 'cerrar') {
+            Apertura::updateOrCreate([
+                'nucleo_id'=>$datos->nucleo_id,
+            ],[
+                'estado'=>false,
+                'nucleo_id'=>$datos->nucleo_id,
+            ]);
+        } else {
+            abort('403', 'Datos manipulados');
+        }
+
+        return redirect('/estudiantes-panel-administrativo')->with('alert', 'Se aperturó correctamente');
+    }
+
     public function studentedit($estudiante)
     {
         $estudiantes = Students::findOrFail($estudiante);
@@ -616,9 +648,9 @@ class RegisteredAdminController extends Controller
 
     public function studentsadmin()
     {
-        // $usuario = Auth::user();
+        $usuario = Auth::user();
         // $user = User::with('cargos.tipos')->find($usuario->id);
-        // $nucleo = User::where('id', $usuario->id)->firstOrFail();
+        $nucleo = User::where('id', $usuario->id)->firstOrFail();
         // $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
         //     $q->where('tipo', 'superadmin');
         // })->exists();
@@ -630,7 +662,8 @@ class RegisteredAdminController extends Controller
         //     $carreras = Carreras::all();
         // }
         // return view('auth.students', compact('estudiantes', 'carreras'));
-        return view('auth.students');
+        $estado = Apertura::where('nucleo_id', $nucleo->nucleo_id)->first();
+        return view('auth.students', compact('estado'));
     }
 
     public function studentsadmincalification($id)
