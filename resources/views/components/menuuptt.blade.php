@@ -35,8 +35,8 @@
 
 
 <!-- menu oculto movil -->
-<div class="sidebar-overlay fixed inset-0 z-[4] bg-black opacity-0 transition-opacity duration-300 pointer-events-none md:hidden"></div>
-<div class="menusidebar sidebar-movil -translate-x-96 flex md:hidden flex-col w-64 fixed z-[5] h-screen transition-transform duration-300 ease-in-out">
+<div class="sidebar-overlay fixed inset-0 z-[4] bg-black opacity-0 transition-opacity duration-300 pointer-events-none  min-[977px]:hidden"></div>
+<div class="menusidebar sidebar-movil -translate-x-96 flex min-[977px]:hidden flex-col w-64 fixed z-[5] h-screen transition-transform duration-300 ease-in-out">
         <button type="button" class="close-sidebar-movil text-3xl max-w-fit mb-4 ml-[80%]">
             <i class="fal fa-times"></i>
         </button>
