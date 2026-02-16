@@ -91,7 +91,7 @@
         </div>
     </div>
     <h2 class="text-center md:my-24 my-12">Núcleos Territoriales</h2>
-    <div class="md:mx-64 md:max-w-[1280px] !mx-4 md:px-4 md:block mx-auto flex items-center flex-col">
+    <div class="mx-auto md:max-w-[1280px] md:px-4 md:block mx-auto flex items-center flex-col">
         <div class="md:my-24 md:flex justify-center items-center block">
             <div class="w-[40%] mr-32 md:block hidden">
                 <h3>Núcleo "Fabricio Ojeda" - Boconó</h3>
