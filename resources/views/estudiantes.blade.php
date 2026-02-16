@@ -52,11 +52,17 @@
                     Ver sus Datos Académicos
                 </x-button-login>
             </div>
+            </form>
+                <br>
+            @if ($inscripcion !== null)
+                <x-button-a link="inscribirse" class="mt-7 w-full font-inter !block text-center !text-white !text-sm">
+                    Inscribirse Por Primera Vez
+                </x-button-a>
+            @endif
             <div class="warni">
                 <span class="war1 font-inter">Tenga en cuenta que si intenta copiar o tomar alguna foto de las notas que quiere visualizar</span>
                 <span class="war2 font-inter">NO TIENEN NINGÚN VALOR ACADÉMICO LEGAL</span>
             </div>
-            </form>
         </x-authentication-card>
     </div>
     </div>

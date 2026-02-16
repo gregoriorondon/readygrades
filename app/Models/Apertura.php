@@ -8,4 +8,8 @@ class Apertura extends Model
 {
     protected $table = 'students_public_inscripcion';
     protected $fillable = ['nucleo_id', 'estado'];
+
+    public function nucleos() {
+        return $this->belongsTo(Nucleos::class, 'nucleo_id');
+    }
 }

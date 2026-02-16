@@ -12,6 +12,10 @@ Route::controller(UniversityController::class)->group( function (){
     Route::match(['get', 'post'], '/detalles-estudiante', 'studentspublicdetails');
     Route::post('/matriculacion', 'studentinscripcion');
     Route::match(['get', 'post'], '/generarpdf', 'generarprocess')->name('generarpdf');
+    Route::get('/inscribirse', 'studentPreInscripcion');
+    Route::post('/inscribirse', 'studentPreInscripcionStore');
+    Route::get('/download-planilla-pregrado/{cedula}', 'studentPlanillaPreInscripcion');
+    Route::get('/download-planilla-pregrado/{cedula}/download', 'studentPlanillaPreInscripcionDownload');
 });
 
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){

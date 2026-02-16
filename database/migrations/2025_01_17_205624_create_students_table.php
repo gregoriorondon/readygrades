@@ -17,6 +17,71 @@ return new class extends Migration
             $table->string('nucleo')->unique();
             $table->timestamps();
         });
+        Schema::create('students_public_inscripcion', function (Blueprint $table) {
+            $table->id()->unique();
+            $table->boolean('estado');
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->timestamps();
+        });
+        Schema::create('title_student_temporal', function (Blueprint $table) {
+            $table->id()->unique();
+            $table->string('titulo')->unique();
+            $table->timestamps();
+        });
+        DB::table('title_student_temporal')->insert([
+            'id'=>1,
+            'titulo'=>'Bachiller',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('title_student_temporal')->insert([
+            'id'=>2,
+            'titulo'=>'Técnico',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('title_student_temporal')->insert([
+            'id'=>3,
+            'titulo'=>'TSU',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('title_student_temporal')->insert([
+            'id'=>4,
+            'titulo'=>'Licenciado',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('title_student_temporal')->insert([
+            'id'=>5,
+            'titulo'=>'Ingeniero',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        Schema::create('students_socio_economico', function (Blueprint $table) {
+            $table->id()->unique();
+            $table->string('socioeconomico')->unique();
+            $table->timestamps();
+        });
+        DB::table('students_socio_economico')->insert([
+            'id'=>1,
+            'socioeconomico'=>'Alta',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('students_socio_economico')->insert([
+            'id'=>2,
+            'socioeconomico'=>'Media',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
+        DB::table('students_socio_economico')->insert([
+            'id'=>3,
+            'socioeconomico'=>'Baja',
+            'created_at'=> now(),
+            'updated_at'=> now(),
+        ]);
         Schema::create('periodos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
@@ -70,6 +135,14 @@ return new class extends Migration
             $table->string('carrera')->unique();
             $table->timestamps();
         });
+        Schema::create('nucleo_carrera', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('nucleo_id');
+            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
+            $table->unsignedBigInteger('carrera_id');
+            $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
+            $table->timestamps();
+        });
         Schema::create('trayectos', function (Blueprint $table) {
             $table->id();
             $table->string('trayectos');
@@ -109,18 +182,34 @@ return new class extends Migration
         ]);
         Schema::create('students_data', function (Blueprint $table) {
             $table->id()->unique();
-            $table->string('cedula')->unique();
             $table->string('primer_name');
             $table->string('segundo_name')->nullable();
             $table->string('primer_apellido');
             $table->string('segundo_apellido')->nullable();
-            $table->string('genero');
             $table->string('nacionalidad');
-            $table->string('telefono')->nullable();
+            $table->bigInteger('cedula')->unique();
+            $table->string('genero');
             $table->date('fecha_nacimiento');
-            $table->string('email')->nullable();
+            $table->string('nacimiento_city');
+            $table->string('civil');
+            $table->string('email');
+            $table->string('telefono');
+            $table->string('telefono2')->nullable();
             $table->string('direccion');
             $table->string('city');
+            $table->string('consejo');
+            $table->string('comuna');
+            $table->string('discapacidad');
+            $table->string('disciplina');
+            $table->unsignedBigInteger('title_student_temporal_id');
+            $table->foreign('title_student_temporal_id')->references('id')->on('title_student_temporal')->cascadeOnUpdate();
+            $table->string('mencion');
+            $table->string('institucion');
+            $table->string('cityinstitucion');
+            $table->date('fecha_grado');
+            $table->integer('promedio');
+            $table->unsignedBigInteger('students_socio_economico_id');
+            $table->foreign('students_socio_economico_id')->references('id')->on('students_socio_economico')->cascadeOnUpdate();
             $table->timestamps();
         });
         Schema::create('students_codigo_nucleo', function (Blueprint $table) {
@@ -228,39 +317,6 @@ return new class extends Migration
             $table->unique(['pensum_id', 'seccion_id', /*'periodo_id'*/], 'unique_sections');
             $table->timestamps();
         });
-        Schema::create('students_public_inscripcion', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->boolean('estado');
-            $table->unsignedBigInteger('nucleo_id');
-            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
-            $table->timestamps();
-        });
-        Schema::create('students_temporal_data', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->integer('cedula')->unique();
-            $table->string('primer_name');
-            $table->string('segundo_name')->nullable();
-            $table->string('primer_apellido');
-            $table->string('segundo_apellido')->nullable();
-            $table->string('genero');
-            $table->string('nacionalidad');
-            $table->string('telefono')->nullable();
-            $table->date('fecha_nacimiento');
-            $table->string('email')->nullable();
-            $table->string('direccion');
-            $table->string('city');
-            $table->unsignedBigInteger('nucleo_id');
-            $table->foreign('nucleo_id')->references('id')->on('nucleos')->cascadeOnUpdate();
-            $table->unsignedBigInteger('carrera_id');
-            $table->foreign('carrera_id')->references('id')->on('carreras')->cascadeOnUpdate();
-            $table->unsignedBigInteger('tramo_trayecto_id');
-            $table->foreign('tramo_trayecto_id')->references('id')->on('tramo_trayecto')->cascadeOnUpdate();
-            $table->unsignedbiginteger('seccion_id');
-            $table->foreign('seccion_id')->references('id')->on('secciones')->cascadeonupdate();
-            $table->unsignedbiginteger('periodo_id');
-            $table->foreign('periodo_id')->references('id')->on('periodos')->cascadeonupdate();
-            $table->timestamps();
-        });
     }
 
     /**
@@ -287,7 +343,5 @@ return new class extends Migration
         Schema::dropIfExists('profesores');
         Schema::dropIfExists('profesor_asignar');
         Schema::dropIfExists('periodos');
-        Schema::dropIfExists('students_public_inscripcion');
-        Schema::dropIfExists('students_temporal_data');
     }
 };

@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyMail;
 use App\Models\Apertura;
 use App\Models\Backupday;
+use App\Models\NucleoCarrera;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -943,15 +944,19 @@ class RegisteredAdminController extends Controller
     public function nucleoedit($id)
     {
         $nucleo = Nucleos::all()->findOrFail($id);
-        return view('auth.superadmin.nucleoedit', compact('nucleo'));
+        $carreras = Carreras::all();
+        return view('auth.superadmin.nucleoedit', compact('nucleo', 'carreras'));
     }
 
     public function editnucleosave(Request $request, $id)
     {
         $request->validate([
             'nucleo' => ['required', 'min:3', 'string', 'regex:/^[^\d]*$/'],
+            'carrera' => 'required|array',
+            'carrera.*' => 'exists:carreras,id',
         ], [
             'nucleo.required' => 'El núcleo no debe estar vacío',
+            'carrera.required' => 'Debe selecionar por lo meno una carrera',
             'nucleo.regex' => 'El núcleo no debe contener números',
             'nucleo.min' => 'El núcleo debe de tener 3 carácteres como mínimo',
         ]);
@@ -962,6 +967,19 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withErrors(['error' => 'El núcleo que está intentando guardar ya existe en la base de datos.']);
         }
         Nucleos::where('id', $id)->update(['nucleo' => $nucleonormalizada]);
+        $dataToInsert = [];
+        foreach ($request->carrera as $carreraId) {
+            $dataToInsert[] = [
+                'nucleo_id' => $id,
+                'carrera_id' => $carreraId,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+        if (!empty($dataToInsert)) {
+            NucleoCarrera::insert($dataToInsert);
+        }
+
         return redirect('/nucleos')->with('alert', 'Se guardó con exito los cambios');
     }
 
@@ -1590,7 +1608,7 @@ class RegisteredAdminController extends Controller
         $usuario = Auth::user();
         $datos = User::where('id', $usuario->id)->firstOrFail();
 
-        $activo = Periodos::where('activo', true)->first();
+        $activo = Periodos::where('activo', true)->where('nucleo_id', $datos->nucleos->id)->first();
         if ($activo) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Actualmente ya existe un periodo activo']);
         }
