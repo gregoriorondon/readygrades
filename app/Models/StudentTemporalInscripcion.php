@@ -36,6 +36,7 @@ class StudentTemporalInscripcion extends Model
         'fecha_grado',
         'promedio',
         'students_socio_economico_id',
+        'trabaja',
     ];
     public function titulos() {
         return $this->belongsTo(TitleStudentTemporal::class, 'title_student_temporal_id');
