@@ -46,6 +46,7 @@ return new class extends Migration
             $table->integer('promedio');
             $table->unsignedBigInteger('students_socio_economico_id');
             $table->foreign('students_socio_economico_id')->references('id')->on('students_socio_economico')->cascadeOnUpdate();
+            $table->string('trabaja')->nullable();
             $table->timestamps();
         });
     }

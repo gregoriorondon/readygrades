@@ -23,6 +23,7 @@ use App\Models\TituloAcademico;
 use App\Models\TramoTrayecto;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 use Illuminate\Container\Attributes\DB as AttributesDB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
@@ -592,9 +593,12 @@ class UniversityController extends Controller
                     'fecha_grado'=>$r->fecha_grado,
                     'promedio'=>$r->promedio,
                     'students_socio_economico_id'=>$r->nivel_social,
+                    'trabaja'=>$r->trabaja,
                 ]);
                 $nacimiento = Carbon::parse($r->fecha_nacimiento);
                 $fecha = Carbon::now();
+                $fechana = Carbon::createFromFormat('Y-m-d', $r->fecha_nacimiento)->format('d / m / Y');
+                $fechagra = Carbon::createFromFormat('Y-m-d', $r->fecha_grado)->format('d / m / Y');
                 $edad = $fecha->diff($nacimiento);
                 $dia = $fecha->day;
                 $mes = $fecha->isoFormat('MMMM');
@@ -605,6 +609,8 @@ class UniversityController extends Controller
                         'dia',
                         'mes',
                         'anio',
+                        'fechana',
+                        'fechagra',
                         'genero',
                         'nacionalidad',
                         'civil',
