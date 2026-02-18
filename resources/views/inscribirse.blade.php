@@ -334,7 +334,7 @@
                                 </div>
                                <div class="md:col-span-3">
                                     <div class="mt-2 flex items-center">
-                                        <x-input-check type="checkbox" name="trabaja" id="trabajaCheck" />
+                                        <x-input-check type="checkbox" name="trabajaCheck" id="trabajaCheck" />
                                         <x-label for="trabajaCheck" class="select-none">Trabaja</x-label>
                                     </div>
                                 </div>
