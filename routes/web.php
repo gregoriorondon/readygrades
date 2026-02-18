@@ -61,6 +61,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::get('/student-edit/{estudiante}', 'studentedit');
     Route::post('/guardar-edit-estudiante', 'savestudentedit');
     Route::get('/estudiantes-per', 'per');
+    Route::get('/aspirante', 'preInscripcion');
+    Route::get('/aspirante/search', 'preInscripcionSearch');
+    Route::post('/aspirante/registrar', 'preInscripcionRegister');
     //Dashboard and Chart
     Route::get('/administracion', 'admindashboard');
     Route::get ('/datos-estudiantes', 'datadetails');

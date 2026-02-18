@@ -40,6 +40,10 @@ use App\Mail\VerifyMail;
 use App\Models\Apertura;
 use App\Models\Backupday;
 use App\Models\NucleoCarrera;
+use App\Models\StudentSocioEconomico;
+use App\Models\StudentTemporalInscripcion;
+use App\Models\TitleStudentTemporal;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -2254,5 +2258,96 @@ class RegisteredAdminController extends Controller
             Backupday::where('id', $exist->id)->update(['day' => $request->day]);
         }
         return redirect()->back()->with('alert', 'Se guardó con exito');
+    }
+
+    public function preInscripcion() {
+        return view('auth.preinscripcion');
+    }
+
+    public function preInscripcionSearch(Request $cedula) {
+        $busqueda = StudentTemporalInscripcion::where('cedula', $cedula->cedula)->first();
+        if (!$busqueda) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'No Se Encontró Ningún Estudiante Con La Cédula Que Ingresaste']);
+        }
+        $titulo = TitleStudentTemporal::where('id', $busqueda->title_student_temporal_id)->first();
+        $nivel = StudentSocioEconomico::where('id', $busqueda->students_socio_economico_id)->first();
+        $carrera = Carreras::where('id', $busqueda->carrera_id)->first();
+        $fechana = Carbon::createFromFormat('Y-m-d', $busqueda->fecha_nacimiento)->format('d / m / Y');
+        $fechagra = Carbon::createFromFormat('Y-m-d', $busqueda->fecha_grado)->format('d / m / Y');
+        $seccion = Secciones::withCount(['inscripcion' => function ($a) use ($busqueda) {
+            $a->where('carrera_id', $busqueda->carrera_id)
+              ->whereHas('studentcodigonucleo', function ($b) use ($busqueda) {
+                  $b->where('nucleo_id', $busqueda->nucleo_id);
+              });
+        }])->get();
+        $seccionCount = $seccion->sum('conteo');
+        return view('auth.preInscripcionResults', compact('busqueda', 'titulo', 'nivel', 'carrera', 'fechana', 'fechagra', 'seccionCount', 'seccion'));
+    }
+
+    public function preInscripcionRegister(Request $r) {
+        $r->validate([
+            'informacion'=>'required|string',
+            'seccion'=>'required|exists:secciones,id',
+        ],[
+            'informacion.required'=>'Faltan datos para poder proceder con el registro del aspirante',
+            'informacion.string'=>'Los datos que se van a enviar para registrar los aspirantes se detecto que fueron manipulados',
+            'seccion.required'=>'Faltan las secciones en los datos para poder proceder con el registro del aspirante',
+            'seccion.exists'=>'No existe ninguna sección en el sistema que coincida con el que seleccionaste',
+        ]);
+        try {
+            $informacion = decrypt($r->informacion);
+            $confirmacion = StudentTemporalInscripcion::where('cedula', $informacion)->first();
+            if (!$confirmacion) {
+                return redirect()->back()->withErrors(['error'=>'No existe ningún registro del aspirante con esa información']);
+            }
+        } catch (DecryptException ) {
+            return redirect()->back()->withErrors(['error'=>'Falló la lectura de la información para poder proceder con el registro del aspirante']);
+        }
+        try {
+            DB::transaction(function () use ($confirmacion){
+                $estudiante = Students::create([
+                    'primer_name'=>ucwords($confirmacion->primer_name),
+                    'segundo_name'=>ucwords($confirmacion->segundo_name),
+                    'primer_apellido'=>ucwords($confirmacion->primer_apellido),
+                    'segundo_apellido'=>ucwords($confirmacion->segundo_apellido),
+                    'nacionalidad'=>$confirmacion->nacionalidad,
+                    'cedula'=>$confirmacion->cedula,
+                    'genero'=>$confirmacion->genero,
+                    'fecha_nacimiento'=>$confirmacion->fecha_nacimiento,
+                    'nacimiento_city'=>$confirmacion->nacimiento_city,
+                    'civil'=>$confirmacion->civil,
+                    'email'=>$confirmacion->email,
+                    'telefono'=>$confirmacion->telefono,
+                    'telefono2'=>$confirmacion->telefono2,
+                    'direccion'=>$confirmacion->direccion,
+                    'city'=>$confirmacion->city,
+                    'consejo'=>$confirmacion->consejo,
+                    'comuna'=>$confirmacion->comuna,
+                    'discapacidad'=>$confirmacion->discapacidad,
+                    'disciplina'=>$confirmacion->disciplina,
+                    'title_student_temporal_id'=>$confirmacion->title_student_temporal_id,
+                    'mencion'=>$confirmacion->mencion,
+                    'institucion'=>$confirmacion->institucion,
+                    'cityinstitucion'=>$confirmacion->cityinstitucion,
+                    'fecha_grado'=>$confirmacion->fecha_grado,
+                    'promedio'=>$confirmacion->promedio,
+                    'students_socio_economico_id'=>$confirmacion->students_socio_economico_id,
+                    'trabaja'=>$confirmacion->trabaja,
+                ]);
+
+                $codigoNu = StudentsCodigoNucleo::create([
+                    'students_data_id'=>$estudiante->id,
+                    'nucleo_id'=>$confirmacion->nucleo_id,
+                    'codigo'=>$codigo,
+                ]);
+
+                StudentsInscripciones::create([
+                    'students_codigo_nucleo_id'=>$codigoNu->id,
+                    'carrera_id'=>$confirmacion->carrera_id,
+                ]);
+            });
+        } catch (\Throwable $th) {
+        }
+        dd($confirmacion);
     }
 }
