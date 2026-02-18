@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class UniversityController extends Controller
@@ -603,6 +604,7 @@ class UniversityController extends Controller
                 $dia = $fecha->day;
                 $mes = $fecha->isoFormat('MMMM');
                 $anio = $fecha->year;
+                $qrCode = base64_encode(QrCode::format('png')->size(250)->generate($r->cedula));
                 $pdf = Pdf::loadView('pdf.inscripcionPublica',
                     compact([
                         'r',
@@ -618,6 +620,7 @@ class UniversityController extends Controller
                         'titulo',
                         'nivelsocial',
                         'carreras',
+                        'qrCode',
                     ]));
                 $filename = 'Planilla_de_inscripcion_' . $r['primer_name'] . '_' . $r['primer_apellido'] . '_' . $r['cedula'] . '.pdf';
                 Mail::to($r->email)->send(new PreInscripcion($pdf->output(), $filename, $r, $genero));
@@ -648,6 +651,7 @@ class UniversityController extends Controller
         $dia = $fecha->day;
         $mes = $fecha->isoFormat('MMMM');
         $anio = $fecha->year;
+        $qrCode = base64_encode(QrCode::format('png')->size(250)->generate($r->cedula));
         $pdf = Pdf::loadView('pdf.inscripcionPublica',
             compact([
                 'r',
@@ -663,9 +667,10 @@ class UniversityController extends Controller
                 'titulo',
                 'nivelsocial',
                 'carreras',
+                'qrCode',
             ]));
         $filename = 'Planilla_de_inscripcion_' . $r['primer_name'] . '_' . $r['primer_apellido'] . '_' . $r['cedula'] . '.pdf';
-        Mail::to($r->email)->send(new PreInscripcion($pdf->output(), $filename, $r, $genero));
+        // Mail::to($r->email)->send(new PreInscripcion($pdf->output(), $filename, $r, $genero));
         return view('downloadPlanilla', compact('cedula', 'r'));
     }
     public function studentPlanillaPreInscripcionDownload($cedula) {
@@ -684,6 +689,7 @@ class UniversityController extends Controller
         $dia = $fecha->day;
         $mes = $fecha->isoFormat('MMMM');
         $anio = $fecha->year;
+        $qrCode = base64_encode(QrCode::format('png')->size(250)->generate($r->cedula));
         $pdf = Pdf::loadView('pdf.inscripcionPublica',
             compact([
                 'r',
@@ -699,6 +705,7 @@ class UniversityController extends Controller
                 'titulo',
                 'nivelsocial',
                 'carreras',
+                'qrCode',
             ]));
         $filename = 'Planilla_de_inscripcion_' . $r['primer_name'] . '_' . $r['primer_apellido'] . '_' . $r['cedula'] . '.pdf';
         return $pdf->download($filename);

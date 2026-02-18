@@ -76,9 +76,19 @@
             max-width: 17cm;
             margin-bottom: 10px;
         }
+        #watermark {
+            position: fixed;
+            left: 10%;
+            bottom: 1%;
+            z-index: 1000;
+            opacity: 0.1;
+        }
     </style>
 </head>
 <body>
+    <div id="watermark">
+        <img src="./logouptt.png" height="100%" width="100%" />
+    </div>
     <div style="text-align: center">
         <img src="img/planilla-pregrado/cintillo.jpg" alt="cintillo" class="cintillo">
     </div>
@@ -86,18 +96,21 @@
         <h2 class="f-12">INSTRUCTIVO DE LLENADO - ARSCE 001</h2>
         <p class="f-9"><strong>IMPORTANTE:</strong> Use MAYÚSCULAS para nombres. Formato Fecha: DD/MM/AAAA. No deje espacios en la Cédula.</p>
     </div>
-
     <table class="header-table">
         <tr class="f-12">
-            <td colspan="3">UNIVERSIDAD POLITÉCNICA TERRITORIAL DEL ESTADO TRUJILLO "MARIO BRICEÑO IRAGORRY"</td>
+            <td colspan="3">
+                <p>UNIVERSIDAD POLITÉCNICA TERRITORIAL DEL ESTADO TRUJILLO "MARIO BRICEÑO IRAGORRY"</p>
+            </td>
+            <td colspan="1" rowspan="2" style="text-align: right;">
+                <img src="data:image/svg+xml;base64,{{ $qrCode }}" width="55">
+            </td>
         </tr>
         <tr class="f-9">
             <td width="30%">CÓDIGO: ARSCE-001</td>
-            <td width="40%" class="f-12" style="text-decoration: underline;">PLANILLA DE PRE-INSCRIPCIÓN</td>
+            <td width="35%" class="f-12" style="text-decoration: underline;">PLANILLA DE PRE-INSCRIPCIÓN</td>
             <td width="30%">FECHA: ____/____/_______</td>
         </tr>
     </table>
-
     <table>
         <tr class="section-personales">
             <td colspan="4">DATOS PERSONALES</td>
@@ -122,7 +135,7 @@
         </tr>
         <tr class="f-8">
             <td colspan="2"><strong>TELÉFONO MÓVIL: </strong>{{ $r->telefono }}</td>
-            <td colspan="2"><strong>TELÉFONO HABITACIÓN: </strong>{{ $r->telefonohabitacion }}</td>
+            <td colspan="2"><strong>TELÉFONO HABITACIÓN: </strong>{{ $r->telefono2 }}</td>
         </tr>
         <tr class="f-8">
             <td colspan="4" style="text-transform: uppercase"><strong>DIRECCIÓN DE HABITACIÓN EXACTA: </strong> {{ $r->direccion . ' - ' . $r->city }}</td>
