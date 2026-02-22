@@ -9,7 +9,7 @@
 </head>
 
 <body class="cuerpo">
-    <x-nav-student-public :fechaInscripcion="$fechaInscripcion" :fechaPeriodo="$fechaPeriodo">
+    <x-nav-student-public :fechaPeriodoEstudent="$fechaPeriodoEstudent" :fechaInscripcion="$fechaInscripcion" :fechaPeriodo="$fechaPeriodo">
         <x-slot:usuario>{{ implode(' ', [$estudiante['primer_name'], $estudiante['primer_apellido']]) }}</x-slot:usuario>
     </x-nav-student-public>
     @unless (is_null($usuario) || is_null($fechaPeriodo))
@@ -228,22 +228,23 @@
     @if (!is_null($usuario) || !is_null($fechaPeriodo))
         </form>
     @endif
-    @if ($fechaInscripcion !== null)
-        @if (!$fechaInscripcion->isPast())
-            <form method="POST" action="/matriculacion">
-                @csrf
-                <div class="hidden inscripcion-vista flex justify-center items-center">
-                    <section class="notas w-full lg:w-[50%] mx-6 sm:px-20">
-                        <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">
-                            {{ ucwords('cursar nuevo periodo académico') }}
-                        </h1>
-                        <p class="font-inter mb-7">
-                            {{ ucwords('Se abrió un nuevo periódo académico, si deseas cursarlo solo debes persionar el siguiente boton:') }}
-                        </p>
-                        <input type="hidden" name="cursar" value="{{ encrypt('true') }}">
-                        <input type="hidden" name="student" value="{{ encrypt($estudiante->cedula) }}">
-                        <input type="hidden" name="nucleo" value="{{ encrypt($estudianteNu->id) }}">
-                        <x-select-form class="mb-7" name="carrera">
+    @if ($fechaPeriodoEstudent === null)
+        @if ($fechaInscripcion !== null)
+            @if (!$fechaInscripcion->isPast())
+                <form method="POST" action="/matriculacion">
+                    @csrf
+                    <div class="hidden inscripcion-vista flex justify-center items-center">
+                        <section class="notas w-full lg:w-[50%] mx-6 sm:px-20">
+                            <h1 style="font-size: 40px; font-weight: 700; color: #4272D8;" class="font-staat">
+                                {{ ucwords('cursar nuevo periodo académico') }}
+                            </h1>
+                            <p class="font-inter mb-7">
+                                {{ ucwords('Se abrió un nuevo periódo académico, si deseas cursarlo solo debes persionar el siguiente boton:') }}
+                            </p>
+                            <input type="hidden" name="cursar" value="{{ encrypt('true') }}">
+                            <input type="hidden" name="student" value="{{ encrypt($estudiante->cedula) }}">
+                            <input type="hidden" name="nucleo" value="{{ encrypt($estudianteNu->id) }}">
+                            <x-select-form class="mb-7" name="carrera">
                             @foreach ($tramosActuales as $carreraId => $tramos)
                                 @php
                                     $carrera = $notasAgrupadas[$carreraId]['carrera'] ?? null;
@@ -252,16 +253,17 @@
                                     <option value="{{ encrypt($carrera->id) }}">{{ $carrera->carrera }}</option>
                                 @endif
                             @endforeach
-                        </x-select-form>
-                        <x-button class="!block w-full text-center" type="submit" icon="fas fa-user-graduate">
-                            {{ ucwords('cursar nuevo trayecto') }}
-                        </x-button>
-                    </section>
-                    <section class="card-logo-public mr-6 max-[842px]:hidden">
-                        <x-authentication-card-logo />
-                    </section>
-                </div>
-            </form>
+                            </x-select-form>
+                            <x-button class="!block w-full text-center" type="submit" icon="fas fa-user-graduate">
+                                {{ ucwords('cursar nuevo trayecto') }}
+                            </x-button>
+                        </section>
+                        <section class="card-logo-public mr-6 max-[842px]:hidden">
+                            <x-authentication-card-logo />
+                        </section>
+                    </div>
+                </form>
+            @endif
         @endif
     @endif
     <!-- FOOTER -->

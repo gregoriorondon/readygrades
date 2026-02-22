@@ -120,6 +120,7 @@ class UniversityController extends Controller
         $carrerasIds = $carreraParaLaConstancia->pluck('carrera_id')->unique()->toArray();
         $tramoTrayectoIds = $carreraParaLaConstancia->pluck('tramo_trayecto_id')->unique()->toArray();
         $fechaPeriodo = Periodos::where('activo', true)->where('nucleo_id', $request->nucleo_id)->first();
+        $fechaPeriodoEstudent = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->where('periodo_id', $fechaPeriodo->id)->first();
         $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->first();
         $inscripciones = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->latest()->get()->unique('carrera_id');
         $notas = Notas::with([
@@ -192,6 +193,7 @@ class UniversityController extends Controller
             'estudianteDataVa',
             'fechaPeriodo',
             'fechaInscripcion',
+            'fechaPeriodoEstudent',
         ));
     }
 
@@ -558,7 +560,6 @@ class UniversityController extends Controller
                 }
             }
         }
-        $tramo = TramoTrayecto::first();
         $cedulaExist = StudentTemporalInscripcion::where('cedula', $r->cedula)->first();
         if ($cedulaExist !== null) {
             return redirect('/download-planilla-pregrado/' . $cedulaExist->cedula );
@@ -670,7 +671,7 @@ class UniversityController extends Controller
                 'qrCode',
             ]));
         $filename = 'Planilla_de_inscripcion_' . $r['primer_name'] . '_' . $r['primer_apellido'] . '_' . $r['cedula'] . '.pdf';
-        // Mail::to($r->email)->send(new PreInscripcion($pdf->output(), $filename, $r, $genero));
+        Mail::to($r->email)->send(new PreInscripcion($pdf->output(), $filename, $r, $genero));
         return view('downloadPlanilla', compact('cedula', 'r'));
     }
     public function studentPlanillaPreInscripcionDownload($cedula) {

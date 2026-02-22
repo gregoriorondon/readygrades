@@ -8,9 +8,11 @@
             <button class="student-nav overview active-button"><i class="fas fa-user-graduate"></i>Descripción General</button>
             <button class="student-nav score"><i class="fas fa-award"></i>Calificaciones</button>
             <button class="student-nav constancia"><i class="fa-solid fa-download"></i>Constancia De Estudio</button>
-            @if ($fechaInscripcion !== null)
-                @if(!$fechaInscripcion->isPast())
-                    <button class="student-nav inscripcion"><i class="fas fa-bell-school"></i>Inscripción</button>
+            @if ($fechaPeriodoEstudent === null)
+                @if ($fechaInscripcion !== null)
+                    @if(!$fechaInscripcion->isPast())
+                        <button class="student-nav inscripcion"><i class="fas fa-bell-school"></i>Inscripción</button>
+                    @endif
                 @endif
             @endif
         </div>
@@ -32,9 +34,11 @@
             <button class="student-nav overview active-button">Descripción General</button>
             <button class="student-nav score hover:!border-b-0">Calificaciones</button>
             <button class="student-nav constancia hover:!border-b-0">Constancia De Estudio</button>
-            @if ($fechaInscripcion !== null)
-                @if(!$fechaInscripcion->isPast())
-                    <button class="student-nav inscripcion hover:!border-b-0">Inscripción</button>
+            @if ($fechaPeriodoEstudent === null)
+                @if ($fechaInscripcion !== null)
+                    @if(!$fechaInscripcion->isPast())
+                        <button class="student-nav inscripcion hover:!border-b-0">Inscripción</button>
+                    @endif
                 @endif
             @endif
         </div>
