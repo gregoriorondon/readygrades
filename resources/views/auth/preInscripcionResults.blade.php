@@ -3,6 +3,8 @@
     <div class="max-w-[700px] mx-auto space-y-[10px]">
         <x-title-section-admin class="mb-7">Datos Del Aspirante En Espera:</x-title-section-admin>
 
+        <x-validation-errors />
+
         <p><strong>Nombre:</strong> {{ ucwords($busqueda->primer_name . ' ' . $busqueda->segundo_name) }}</p>
         <p><strong>Apellido:</strong> {{ ucwords($busqueda->primer_apellido . ' ' . $busqueda->segundo_apellido) }}</p>
         @if ($busqueda->nacionalidad === 'VE')
@@ -81,7 +83,7 @@
                     <option hidden>Selecciona La Sección Para La Aspirante</option>
                 @endif
                 @foreach ($seccion as $secciones)
-                    <option value="{{ $secciones->id }}" required>{{ $secciones->seccion . ' Ha sido usado por: ' . $seccionCount . ' Veces' }}</option>
+                    <option value="{{ $secciones->id }}" required>{{ $secciones->seccion . ' Ha sido usado por: ' . $secciones->conteo . ' Veces' }}</option>
                 @endforeach
             </x-select-form>
             <div class="!mt-7 flex justify-between">

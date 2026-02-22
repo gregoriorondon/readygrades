@@ -20,6 +20,21 @@ class Students extends Model
         'email',
         'direccion',
         'city',
+        'nacimiento_city',
+        'civil',
+        'telefono2',
+        'consejo',
+        'comuna',
+        'discapacidad',
+        'disciplina',
+        'title_student_temporal_id',
+        'mencion',
+        'institucion',
+        'cityinstitucion',
+        'fecha_grado',
+        'promedio',
+        'students_socio_economico_id',
+        'trabaja',
     ];
     public function studentsDataInscripcion(){
         return $this->hasMany(StudentDatoInscripciones::class, 'students_data_id');

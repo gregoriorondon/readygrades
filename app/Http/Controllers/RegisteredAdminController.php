@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Console\Commands\DatabaseBackup;
 use App\Exports\StudentsList;
+use App\Mail\ConfirmInscripcion;
+use App\Mail\Inscripcion;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Asignar;
 use App\Models\Cargos;
@@ -133,56 +135,90 @@ class RegisteredAdminController extends Controller
         $nucleos = Nucleos::orderByRaw('nucleo ASC')->get();
         $secciones = Secciones::orderByRaw('seccion ASC')->get();
         $periodo = Periodos::where('activo', true)->first();
-        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo', 'user'));
+        $nivelsocial = StudentSocioEconomico::all();
+        $titulo = TitleStudentTemporal::all();
+        return view('auth.registro-estudiante', compact('courses', 'trayectos', 'nucleos', 'secciones', 'periodo', 'user', 'nivelsocial', 'titulo'));
     }
 
     public function studentstore(Request $request)
     {
-        // dd($request);
-        $datosEstudiante = $request->validate([
-            'cedula' => ['required', 'numeric', 'min_digits:7'],
-            'primer_name' => ['required', 'string'],
-            'segundo_name' => ['nullable', 'string'],
-            'primer_apellido' => ['required', 'string'],
-            'segundo_apellido' => ['nullable', 'string'],
-            'genero' => ['required', 'string'],
-            'nacionalidad' => ['required'],
-            'fecha_nacimiento' => ['required'],
-            'email' => ['email', 'nullable'],
-            'telefono' => ['numeric', 'nullable'],
-            'direccion' => ['required', 'string'],
-            'city' => ['required', 'string'],
-            'nucleo_id' => ['required', 'numeric'],
-            'carrera_id' => ['required', 'numeric', 'exists:carreras,id'],
-            'tramo_trayecto_id' => ['required', 'numeric', 'exists:tramo_trayecto,id'],
-            'seccion_id' => ['nullable', 'numeric', 'exists:secciones,id'],
-            'codigo' => 'nullable|integer',
-        ], [
-            'cedula.required' => 'Es necesario que coloque la cédula de identidad del estudiante.',
-            'cedula.numeric' => 'La cédula de identidad no debe contener carácteres no númericos.',
-            'cedula.min_digits' => 'La longitud de la cédula no coincide con el mínimo requerido.',
-            'primer_name.required' => 'Es obligatorio que el estudiante tenga su primer nombre.',
-            'primer_name.string' => 'Es obligatorio que el estudiante tenga carácteres y no números en su nombre.',
-            'primer_apellido.required' => 'Es obligatorio que el estudiante tenga su primer apellido.',
-            'genero.required' => 'Es obligatorio colocar el verdadero genero/sexo del estudiante.',
-            'telefono.numeric' => 'No se deben colocar carácteres especiales en el número de teléfono.',
-            'email.email' => 'Debe colocar un correo electrónico valido.',
-            'fecha_nacimiento.required' => 'Es obligatorio colocar la fecha de nacimiento del estudiante.',
-            'direccion.required' => 'Es obligatorio que coloque la dirección donde reside el estudiante',
-            'direccion.string' => 'Es obligatorio que no coloque caracteres especiales.',
-            'city.required' => 'Es obligatorio colocar la ciudad/pueblo donde reside el estudiante.',
-            'city.string' => 'Es obligatorio que no coloque caracteres especiales en la ciudad/pueblo.',
-            'nacionalidad.required' => 'Es obligatorio agregar el tipo de nacionalidad del estudiante.',
-            'nucleo_id.required' => 'Es obligatorio agregar el núcleo donde el estudiante va a estudiar.',
-            'nucleo_id.numeric' => 'Es obligatorio que el núcleo no tenga carácteres especiales.',
-            'carrera_id.required' => 'Es obligatorio seleccionar la carrera que el estudiante va a estudiar.',
-            'carrera_id.numeric' => 'Es obligatorio que la carrera no tenga carácteres especiales.',
-            'carrera_id.exists' => 'La carrera no es válida.',
-            'tramo_trayecto_id.required' => 'Es obligatorio seleccionar el tramo y trayecto que el estudiante estará asignado/asignada.',
-            'tramo_trayecto_id.numeric' => 'Es obligatorio que el tramo y trayecto que seleccionó no tenga carácteres especiales.',
-            'tramo_trayecto_id.exists' => 'El tramo y trayecto no es válido.',
-            'codigo.integer' => 'Es obligatorio que coloque un código al estudiante con valor numéricos',
-        ]);
+        $rules = [
+            'nucleo_id'          => 'required|numeric|exists:nucleos,id',
+            'carrera_id'         => 'required|numeric|exists:carreras,id',
+            'primer_name'        => 'required|string|min:2|max:80',
+            'segundo_name'       => 'nullable|string|max:80',
+            'primer_apellido'    => 'required|string|min:2|max:80',
+            'segundo_apellido'   => 'nullable|string|max:80',
+            'nacionalidad'       => 'required',
+            'cedula'             => 'required|numeric|min_digits:7',
+            'genero'             => 'required|string',
+            'fecha_nacimiento'   => 'required',
+            'nacimiento_city'    => 'nullable|string|max:43',
+            'civil'              => 'required|string',
+            'email'              => 'required|email|max:100',
+            'telefono'           => 'required|numeric|digits:11',
+            'telefonohabitacion' => 'nullable|numeric|digits_between:7,11',
+            'direccion'          => 'required|string|min:7|max:100',
+            'city'               => 'required|string|min:4|max:43',
+            'consejo'            => 'nullable|string|min:4|max:80',
+            'comuna'             => 'nullable|string|min:4|max:80',
+            'discapacidad'       => 'nullable|string|min:4|max:80',
+            'disciplina'         => 'nullable|string|min:4|max:80',
+            'titulo'             => 'nullable|numeric|exists:title_student_temporal,id',
+            'mencion'            => 'nullable|string|min:3|max:30',
+            'institucion'        => 'nullable|string|min:4|max:80',
+            'fecha_grado'        => 'nullable',
+            'promedio'           => 'nullable|numeric|max:3',
+            'nivel_social'       => 'nullable|numeric|exists:students_socio_economico,id',
+            'trabaja'            => 'nullable|string|min:4|max:43',
+            'cityinstitucion'    => 'nullable|string|min:4|max:43',
+        ];
+
+        $messages = [
+            'required'    => 'El campo :attribute es obligatorio.',
+            'numeric'     => 'El campo :attribute debe ser un número.',
+            'exists'      => 'El valor seleccionado para :attribute no es válido.',
+            'email'       => 'El formato del :attribute es inválido.',
+            'max'         => 'El campo :attribute no debe superar los :max caracteres.',
+            'min'         => 'El campo :attribute debe tener al menos :min caracteres.',
+            'min_digits'  => 'El campo :attribute debe tener al menos :min dígitos.',
+            'digits'      => 'El campo :attribute debe tener exactamente :digits dígitos.',
+            'string'      => 'El campo :attribute debe ser una cadena de texto.',
+        ];
+
+        $fieldNames = [
+            'nucleo_id'          => 'Núcleo',
+            'carrera_id'         => 'Carrera',
+            'primer_name'        => 'Primer Nombre',
+            'segundo_name'       => 'Segundo Nombre',
+            'primer_apellido'    => 'Primer Apellido',
+            'segundo_apellido'   => 'Segundo Apellido',
+            'nacionalidad'       => 'Nacionalidad',
+            'cedula'             => 'Cédula de Identidad',
+            'genero'             => 'Género',
+            'fecha_nacimiento'   => 'Fecha de Nacimiento',
+            'nacimiento_city'    => 'Ciudad de Nacimiento',
+            'civil'              => 'Estado Civil',
+            'email'              => 'Correo Electrónico',
+            'telefono'           => 'Teléfono Móvil',
+            'telefonohabitacion' => 'Teléfono de Habitación',
+            'direccion'          => 'Dirección',
+            'city'               => 'Ciudad',
+            'consejo'            => 'Consejo Comunal',
+            'comuna'             => 'Comuna',
+            'discapacidad'       => 'Discapacidad',
+            'disciplina'         => 'Disciplina',
+            'titulo'             => 'Título',
+            'mencion'            => 'Mención',
+            'institucion'        => 'Institución Educativa',
+            'fecha_grado'        => 'Fecha de Grado',
+            'promedio'           => 'Promedio',
+            'nivel_social'       => 'Nivel Social',
+            'trabaja'            => 'Lugar de Trabajo',
+            'cityinstitucion'    => 'Ciudad de la Institución',
+        ];
+
+        $request->validate($rules, $messages, $fieldNames);
 
         $usuario = Auth::user();
         $user = User::with('cargos.tipos')->find($usuario->id);
@@ -247,33 +283,49 @@ class RegisteredAdminController extends Controller
                 }
             }
         } else {
-            $codigoStudent = StudentsCodigoNucleo::where('students_data_id', $studentsExist->id)
-                ->where('nucleo_id', $nucleo_id)
-                ->first();
-            if (is_null($codigoStudent)) {
+            if (is_null($studentsExist)) {
                 if (empty($ultimoCodigo)) {
-                    return redirect()->back()->withInput()->withErrors([
-                        'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente del último estudiante inscripto en el trayecto inicial (el valor mas alto para seguir con la secuencia en tú núcleo)'
-                    ]);
+                    if (is_null($request->codigo)) {
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente del último estudiante inscripto en el trayecto inicial (el valor mas alto para seguir con la secuencia en tú núcleo)'
+                        ]);
+                    } else {
+                        $codigo = $request->codigo;
+                    }
+                } elseif (!is_null($request->codigo)) {
+                    $codigo = $request->codigo;
                 } else {
                     $codigo = (int) $ultimoCodigo + 1;
                 }
             } else {
-                $inscripcionExistente = StudentsInscripciones::where('students_codigo_nucleo_id', $codigoStudent->id)
-                    ->where('carrera_id', $request->carrera_id)
-                    ->where('periodo_id', $periodo->id)
+                $codigoStudent = StudentsCodigoNucleo::where('students_data_id', $studentsExist->id)
+                    ->where('nucleo_id', $nucleo_id)
                     ->first();
-                if ($inscripcionExistente) {
-                    return redirect()->back()->withInput()->withErrors([
-                        'error' => 'El estudiante ya está inscrito en esta carrera y periodo.'
-                    ]);
-                }
-                if (is_null($request->codigo)) {
-                    $codigo = $codigoStudent->codigo;
-                } elseif ($request->codigo !== $codigoStudent->codigo) {
-                    return redirect()->back()->withInput()->withErrors(['error' => 'El código que le estas asignado a este estudiante no corresponde con una inscripción anterior en este núcleo, si no recuerda su código dejalo en blanco para que el sistema lo haga automáticamente.']);
+                if (is_null($codigoStudent)) {
+                    if (empty($ultimoCodigo)) {
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => 'Está registrando al primer estudiante, por favor ingrese el código manualmente del último estudiante inscripto en el trayecto inicial (el valor mas alto para seguir con la secuencia en tú núcleo)'
+                        ]);
+                    } else {
+                        $codigo = (int) $ultimoCodigo + 1;
+                    }
                 } else {
-                    $codigo = $request->codigo;
+                    $inscripcionExistente = StudentsInscripciones::where('students_codigo_nucleo_id', $codigoStudent->id)
+                        ->where('carrera_id', $request->carrera_id)
+                        ->where('periodo_id', $periodo->id)
+                        ->first();
+                    if ($inscripcionExistente) {
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => 'El estudiante ya está inscrito en esta carrera y periodo.'
+                        ]);
+                    }
+                    if (is_null($request->codigo)) {
+                        $codigo = $codigoStudent->codigo;
+                    } elseif ($request->codigo !== $codigoStudent->codigo) {
+                        return redirect()->back()->withInput()->withErrors(['error' => 'El código que le estas asignado a este estudiante no corresponde con una inscripción anterior en este núcleo, si no recuerda su código dejalo en blanco para que el sistema lo haga automáticamente.']);
+                    } else {
+                        $codigo = $request->codigo;
+                    }
                 }
             }
         }
@@ -286,43 +338,100 @@ class RegisteredAdminController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'No se puede inscribir al estudiante, no existe un pensum definido para esta carrera y tramo.']);
         }
 
-        if (!$studentsExist) {
-            $datosStudent = [
-                'primer_name' => Str::title(ucwords($request->primer_name)),
-                'segundo_name' => $request->segundo_name ? Str::title(ucwords($request->segundo_name)) : null,
-                'primer_apellido' => Str::title(ucwords($request->primer_apellido)),
-                'segundo_apellido' => $request->segundo_apellido ? Str::title(ucwords($request->segundo_apellido)) : null,
-                'genero' => Str::lower($request->genero),
-                'nacionalidad' => Str::upper($request->nacionalidad),
-                'cedula' => $request->cedula,
-                'telefono' => $request->telefono,
-                'fecha_nacimiento' => $request->fecha_nacimiento,
-                'email' => $request->email ? Str::lower($request->email) : null,
-                'direccion' => Str::title(ucwords($request->direccion)),
-                'city' => Str::title(ucwords($request->city)),
-            ];
-            $student = Students::create($datosStudent);
+        try {
+            $genero = decrypt($request->genero);
+        } catch (DecryptException) {
+            abort(403, 'Género inválido o manipulado');
+        }
+        if ($genero !== 'masculino') {
+            if ($genero !== 'femenino') {
+                return abort(403, 'Genero Manipulado');
+            }
+        }
+        try {
+            $nacionalidad = decrypt($request->nacionalidad);
+        } catch (DecryptException) {
+            abort(403, 'Nacionalidad inválida o manipulada');
+        }
+        if ($nacionalidad !== 'VE') {
+            if ($nacionalidad !== 'EX') {
+                return abort(403, 'Nacionalidad Manipulado');
+            }
+        }
+        try {
+            $civil = decrypt($request->civil);
+        } catch (DecryptException) {
+            abort(403, 'Estado Civil inválido o manipulado');
+        }
+        if ($civil !== 's') {
+            if ($civil !== 'c') {
+                if ($civil !== 'd') {
+                    if ($civil !== 'v') {
+                        return abort(403, 'Estado Civil Manipulado');
+                    }
+                }
+            }
+        }
 
-            $studentCodigoNucleo = [
-                'students_data_id' => $student->id,
-                'nucleo_id' => $nucleo_id,
-                'codigo' => $codigo,
-            ];
-            $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
-            $inscrip = StudentsInscripciones::create([
-                'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
-                'carrera_id' => $request->carrera_id,
-                'tramo_trayecto_id' => $request->tramo_trayecto_id,
-                'seccion_id' => $request->seccion_id,
-                'periodo_id' => $periodo->id,
-            ]);
-            foreach ($materiasPensum as $materia) {
-                Notas::create([
-                    'pensum_id' => $materia->id,
-                    'students_inscripcion_id' => $inscrip->id,
+        if (!$studentsExist) {
+            try {
+            DB::transaction(function () use ($civil, $codigo, $genero, $nacionalidad, $nucleo_id, $request, $materiasPensum, $periodo,){
+                $datosStudent = [
+                    'primer_name' => Str::title(ucwords($request->primer_name)),
+                    'segundo_name' => $request->segundo_name ? Str::title(ucwords($request->segundo_name)) : null,
+                    'primer_apellido' => Str::title(ucwords($request->primer_apellido)),
+                    'segundo_apellido' => $request->segundo_apellido ? Str::title(ucwords($request->segundo_apellido)) : null,
+                    'genero' => Str::lower($genero),
+                    'nacionalidad' => Str::upper($nacionalidad),
+                    'cedula' => $request->cedula,
+                    'telefono' => $request->telefono,
+                    'fecha_nacimiento' => $request->fecha_nacimiento,
+                    'email' => $request->email ? Str::lower($request->email) : null,
+                    'direccion' => Str::title(ucwords($request->direccion)),
+                    'city' => Str::title(ucwords($request->city)),
+                    'nacimiento_city'=> Str::title(ucwords($request->nacimiento_city)),
+                    'civil'=>$civil,
+                    'telefono2'=>$request->telefono2,
+                    'consejo'=> Str::title(ucwords($request->consejo)),
+                    'comuna'=> Str::title(ucwords($request->comuna)),
+                    'discapacidad'=> Str::title(ucwords($request->discapacidad)),
+                    'disciplina'=> Str::title(ucwords($request->disciplina)),
+                    'title_student_temporal_id'=>$request->title_student_temporal_id,
+                    'mencion'=> Str::title(ucwords($request->mencion)),
+                    'institucion'=> Str::title(ucwords($request->institucion)),
+                    'cityinstitucion'=> Str::title(ucwords($request->cityinstitucion)),
+                    'fecha_grado'=>$request->fecha_grado,
+                    'promedio'=>$request->promedio,
+                    'students_socio_economico_id'=>$request->students_socio_economico_id,
+                    'trabaja'=> Str::title(ucwords($request->trabaja)),
+                ];
+                $student = Students::create($datosStudent);
+
+                $studentCodigoNucleo = [
+                    'students_data_id' => $student->id,
+                    'nucleo_id' => $nucleo_id,
+                    'codigo' => $codigo,
+                ];
+                $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
+                $inscrip = StudentsInscripciones::create([
+                    'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
+                    'carrera_id' => $request->carrera_id,
+                    'tramo_trayecto_id' => $request->tramo_trayecto_id,
+                    'seccion_id' => $request->seccion_id,
                     'periodo_id' => $periodo->id,
-                    'nota' => null
                 ]);
+                foreach ($materiasPensum as $materia) {
+                    Notas::create([
+                        'pensum_id' => $materia->id,
+                        'students_inscripcion_id' => $inscrip->id,
+                        'periodo_id' => $periodo->id,
+                        'nota' => null
+                    ]);
+                }
+                // Mail::to($student->email)->send(new Inscripcion($student, $inscrip));
+            });
+            } catch (\Exception $th) {
+                return redirect()->back()->withInput()->withErrors(['error'=>'Error al procesar los datos: ' . $th]);
             }
         } else {
             $idStudent = StudentsCodigoNucleo::where('students_data_id', $studentsExist->id)
@@ -340,51 +449,63 @@ class RegisteredAdminController extends Controller
                 } else {
                     $codigo = (int) $ultimoCodigo + 1;
                 }
-                $studentCodigoNucleo = [
-                    'students_data_id' => $studentsExist->id,
-                    'nucleo_id' => $nucleo_id,
-                    'codigo' => $codigo,
-                ];
-                $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
+                try{
+                DB::transaction(function () use ($codigo, $nucleo_id, $request, $materiasPensum, $periodo, $studentsExist,){
+                    $studentCodigoNucleo = [
+                        'students_data_id' => $studentsExist->id,
+                        'nucleo_id' => $nucleo_id,
+                        'codigo' => $codigo,
+                    ];
+                    $studentCodigoNucleoCreate = StudentsCodigoNucleo::create($studentCodigoNucleo);
 
-                $inscrip = StudentsInscripciones::create([
-                    'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
-                    'carrera_id' => $request->carrera_id,
-                    'tramo_trayecto_id' => $request->tramo_trayecto_id,
-                    'seccion_id' => $request->seccion_id,
-                    'periodo_id' => $periodo->id,
-                ]);
-                foreach ($materiasPensum as $materia) {
-                    Notas::create([
-                        'pensum_id' => $materia->id,
-                        'students_inscripcion_id' => $inscrip->id,
+                    $inscrip = StudentsInscripciones::create([
+                        'students_codigo_nucleo_id' => $studentCodigoNucleoCreate->id,
+                        'carrera_id' => $request->carrera_id,
+                        'tramo_trayecto_id' => $request->tramo_trayecto_id,
+                        'seccion_id' => $request->seccion_id,
                         'periodo_id' => $periodo->id,
-                        'nota' => null
                     ]);
+                    foreach ($materiasPensum as $materia) {
+                        Notas::create([
+                            'pensum_id' => $materia->id,
+                            'students_inscripcion_id' => $inscrip->id,
+                            'periodo_id' => $periodo->id,
+                            'nota' => null
+                        ]);
+                    }
+                });
+                } catch (\Exception $th) {
+                    return redirect()->back()->withInput()->withErrors(['error'=>'Error al procesar los datos: ' . $th]);
                 }
             } else {
-                $inscrip = StudentsInscripciones::create([
-                    'students_codigo_nucleo_id' => $idStudent->id,
-                    'carrera_id' => $request->carrera_id,
-                    'tramo_trayecto_id' => $request->tramo_trayecto_id,
-                    'seccion_id' => $request->seccion_id,
-                    'periodo_id' => $periodo->id,
-                ]);
-                foreach ($materiasPensum as $materia) {
-                    Notas::create([
-                        'pensum_id' => $materia->id,
-                        'students_inscripcion_id' => $inscrip->id,
+                try {
+                DB::transaction(function () use ($idStudent, $request, $materiasPensum, $periodo,){
+                    $inscrip = StudentsInscripciones::create([
+                        'students_codigo_nucleo_id' => $idStudent->id,
+                        'carrera_id' => $request->carrera_id,
+                        'tramo_trayecto_id' => $request->tramo_trayecto_id,
+                        'seccion_id' => $request->seccion_id,
                         'periodo_id' => $periodo->id,
-                        'nota' => null
                     ]);
+                    foreach ($materiasPensum as $materia) {
+                        Notas::create([
+                            'pensum_id' => $materia->id,
+                            'students_inscripcion_id' => $inscrip->id,
+                            'periodo_id' => $periodo->id,
+                            'nota' => null
+                        ]);
+                    }
+                });
+                } catch (\Exception $th) {
+                    return redirect()->back()->withInput()->withErrors(['error'=>'Error al procesar los datos: ' . $th]);
                 }
             }
             $student = $studentsExist;
-        }
-        if (is_null($student)) {
-            return redirect()->back()->withInput()->withErrors([
-                'error' => 'Error interno: No se pudo determinar el estudiante.'
-            ]);
+            if (is_null($student)) {
+                return redirect()->back()->withInput()->withErrors([
+                    'error' => 'Error interno: No se pudo determinar el estudiante.'
+                ]);
+            }
         }
         return redirect()->back()->with('alert', 'El estudiante fue registado correctamente. ' . $codigo);
     }
@@ -2265,7 +2386,10 @@ class RegisteredAdminController extends Controller
     }
 
     public function preInscripcionSearch(Request $cedula) {
-        $busqueda = StudentTemporalInscripcion::where('cedula', $cedula->cedula)->first();
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $nucleo_id = $datos->nucleo_id;
+        $busqueda = StudentTemporalInscripcion::where('cedula', $cedula->cedula)->where('nucleo_id', $nucleo_id)->first();
         if (!$busqueda) {
             return redirect()->back()->withInput()->withErrors(['error' => 'No Se Encontró Ningún Estudiante Con La Cédula Que Ingresaste']);
         }
@@ -2274,8 +2398,9 @@ class RegisteredAdminController extends Controller
         $carrera = Carreras::where('id', $busqueda->carrera_id)->first();
         $fechana = Carbon::createFromFormat('Y-m-d', $busqueda->fecha_nacimiento)->format('d / m / Y');
         $fechagra = Carbon::createFromFormat('Y-m-d', $busqueda->fecha_grado)->format('d / m / Y');
-        $seccion = Secciones::withCount(['inscripcion' => function ($a) use ($busqueda) {
-            $a->where('carrera_id', $busqueda->carrera_id)
+        $periodo = Periodos::where('nucleo_id', $busqueda->nucleo_id)->where('activo', true)->first();
+        $seccion = Secciones::withCount(['inscripcion as conteo' => function ($a) use ($busqueda, $periodo) {
+            $a->where('carrera_id', $busqueda->carrera_id)->where('periodo_id', $periodo->id)
               ->whereHas('studentcodigonucleo', function ($b) use ($busqueda) {
                   $b->where('nucleo_id', $busqueda->nucleo_id);
               });
@@ -2303,51 +2428,83 @@ class RegisteredAdminController extends Controller
         } catch (DecryptException ) {
             return redirect()->back()->withErrors(['error'=>'Falló la lectura de la información para poder proceder con el registro del aspirante']);
         }
+        $tramo = TramoTrayecto::min('id');
+        $usuario = Auth::user();
+        $datos = User::where('id', $usuario->id)->firstOrFail();
+        $periodo = Periodos::where('activo', true)->where('nucleo_id', $confirmacion->nucleo_id)->first();
+        $nucleo_id = $datos->nucleo_id;
+        $materiasPensum = Pensum::where('carrera_id', $confirmacion->carrera_id)
+            ->where('tramo_trayecto_id', $tramo)
+            ->get();
+        $codigoSea = StudentsCodigoNucleo::where('nucleo_id', $nucleo_id)->max('codigo');
+        if (empty($codigoSea)) {
+            return redirect()->back()->withErrors(['error'=>"Por favor registre el primer estudiante manualmente. Si ya existen estudiantes regulares registre primero el estudiante con el código más alto de su núcleo"]);
+        }
         try {
-            DB::transaction(function () use ($confirmacion){
-                $estudiante = Students::create([
-                    'primer_name'=>ucwords($confirmacion->primer_name),
-                    'segundo_name'=>ucwords($confirmacion->segundo_name),
-                    'primer_apellido'=>ucwords($confirmacion->primer_apellido),
-                    'segundo_apellido'=>ucwords($confirmacion->segundo_apellido),
+            DB::transaction(function () use ($codigoSea, $confirmacion, $materiasPensum, $periodo, $r, $tramo){
+                $codigo = (int) $codigoSea + 1;
+                $estudiante = [
+                    'primer_name'=> Str::title(ucwords($confirmacion->primer_name)),
+                    'segundo_name'=> Str::title(ucwords($confirmacion->segundo_name)),
+                    'primer_apellido'=> Str::title(ucwords($confirmacion->primer_apellido)),
+                    'segundo_apellido'=> Str::title(ucwords($confirmacion->segundo_apellido)),
                     'nacionalidad'=>$confirmacion->nacionalidad,
                     'cedula'=>$confirmacion->cedula,
                     'genero'=>$confirmacion->genero,
                     'fecha_nacimiento'=>$confirmacion->fecha_nacimiento,
-                    'nacimiento_city'=>$confirmacion->nacimiento_city,
+                    'nacimiento_city'=> Str::title(ucwords($confirmacion->nacimiento_city)),
                     'civil'=>$confirmacion->civil,
                     'email'=>$confirmacion->email,
                     'telefono'=>$confirmacion->telefono,
                     'telefono2'=>$confirmacion->telefono2,
-                    'direccion'=>$confirmacion->direccion,
-                    'city'=>$confirmacion->city,
-                    'consejo'=>$confirmacion->consejo,
-                    'comuna'=>$confirmacion->comuna,
-                    'discapacidad'=>$confirmacion->discapacidad,
-                    'disciplina'=>$confirmacion->disciplina,
+                    'direccion'=> Str::title(ucwords($confirmacion->direccion)),
+                    'city'=> Str::title(ucwords($confirmacion->city)),
+                    'consejo'=> Str::title(ucwords($confirmacion->consejo)),
+                    'comuna'=> Str::title(ucwords($confirmacion->comuna)),
+                    'discapacidad'=> Str::title(ucwords($confirmacion->discapacidad)),
+                    'disciplina'=> Str::title(ucwords($confirmacion->disciplina)),
                     'title_student_temporal_id'=>$confirmacion->title_student_temporal_id,
-                    'mencion'=>$confirmacion->mencion,
-                    'institucion'=>$confirmacion->institucion,
-                    'cityinstitucion'=>$confirmacion->cityinstitucion,
+                    'mencion'=> Str::title(ucwords($confirmacion->mencion)),
+                    'institucion'=> Str::title(ucwords($confirmacion->institucion)),
+                    'cityinstitucion'=> Str::title(ucwords($confirmacion->cityinstitucion)),
                     'fecha_grado'=>$confirmacion->fecha_grado,
                     'promedio'=>$confirmacion->promedio,
                     'students_socio_economico_id'=>$confirmacion->students_socio_economico_id,
-                    'trabaja'=>$confirmacion->trabaja,
-                ]);
+                    'trabaja'=> Str::title(ucwords($confirmacion->trabaja)),
+                ];
 
-                $codigoNu = StudentsCodigoNucleo::create([
-                    'students_data_id'=>$estudiante->id,
+                $studentId = Students::create($estudiante);
+
+                $codigoNu = [
+                    'students_data_id' => $studentId->id,
                     'nucleo_id'=>$confirmacion->nucleo_id,
                     'codigo'=>$codigo,
-                ]);
+                ];
 
-                StudentsInscripciones::create([
-                    'students_codigo_nucleo_id'=>$codigoNu->id,
+                $codigoNuId = StudentsCodigoNucleo::create($codigoNu);
+
+                $inscrip = StudentsInscripciones::create([
+                    'students_codigo_nucleo_id'=>$codigoNuId->id,
                     'carrera_id'=>$confirmacion->carrera_id,
+                    'seccion_id'=>$r->seccion,
+                    'tramo_trayecto_id'=>$tramo,
+                    'periodo_id'=>$periodo->id,
                 ]);
+                foreach ($materiasPensum as $materia) {
+                    Notas::create([
+                        'pensum_id' => $materia->id,
+                        'students_inscripcion_id' => $inscrip->id,
+                        'periodo_id' => $periodo->id,
+                        'nota' => null
+                    ]);
+                }
+
+                $confirmacion->delete();
+                Mail::to($studentId->email)->send(new ConfirmInscripcion($studentId));
             });
-        } catch (\Throwable $th) {
+            return redirect('/aspirante')->with('alert', 'Se registró correctamente al aspirante dentro de la institución');
+        } catch (\Exception $th) {
+            return redirect()->back()->withErrors(['error'=>'Error al procesar la solicitud' . $th]);
         }
-        dd($confirmacion);
     }
 }

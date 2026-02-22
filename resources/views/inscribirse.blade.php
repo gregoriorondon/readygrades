@@ -177,20 +177,20 @@
                                         <x-input-error name="telefonohabitacion" />
                                     </div>
                                 </div>
-                                <div class="md:col-span-2">
-                                    <div class="mt-2">
-                                        <x-label for="direccion" class="after:content-['*'] after:text-red-400">Dirección</x-label>
-                                        <x-input-form type="text" maxlength="80" name="direccion" id="direccion"
-                                            placeholder="Dirección Donde Vives" :value="old('direccion')" required autocomplete="off" />
-                                        <x-input-error name="direccion" />
-                                    </div>
-                                </div>
                                 <div class="md:col-span-1">
                                     <div class="mt-2">
                                         <x-label for="city" class="after:content-['*'] after:text-red-400">Ciudad</x-label>
                                         <x-input-form type="text" maxlength="43" name="city" id="city"
                                             placeholder="Ciudad/Pueblo Donde Vives" :value="old('city')" required
                                             autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <div class="mt-2">
+                                        <x-label for="direccion" class="after:content-['*'] after:text-red-400">Dirección</x-label>
+                                        <x-input-form type="text" maxlength="80" name="direccion" id="direccion"
+                                            placeholder="Dirección Donde Vives" :value="old('direccion')" required autocomplete="off" />
+                                        <x-input-error name="direccion" />
                                     </div>
                                 </div>
                                 <div class="md:col-span-1">

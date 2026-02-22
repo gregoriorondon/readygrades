@@ -4,7 +4,7 @@
     <x-title-section-admin>Registro de Nuevo Estudiante</x-title-section-admin>
     @if($periodo !== null)
         @if((bool)$periodo->activo !== false)
-            <x-form-student :courses="$courses" :trayectos="$trayectos" :nucleos="$nucleos" :secciones="$secciones" :user="$user" />
+            <x-form-student :courses="$courses" :trayectos="$trayectos" :nucleos="$nucleos" :secciones="$secciones" :user="$user" :nivelsocial="$nivelsocial" :titulo="$titulo" />
         @else
             <div class="flex justify-center items-center h-[77vh]  text-center">
                 <div class="max-w-[70%]">
