@@ -1,7 +1,7 @@
 @if (!$errors->all())
     @if (session()->has('alert'))
         <div {{ $attributes }}>
-            <p class="text-md text-green-500 bg-emerald-100 p-1 font-bold rounded-md font-inter">
+            <p class="text-md text-green-500 bg-[#009d4d33] p-1 font-bold rounded-md font-inter">
                 {{ session('alert') }}
             </p>
         </div>
