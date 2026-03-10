@@ -55,7 +55,7 @@
 
 
 <!-- navbar en modo movil -->
-<nav class="movilmenu block">
+<nav class="movilmenu block movileMenu">
      <div class="menus justify-between items-center">
          <div class="max-w-[150px]">
              <a href="/">

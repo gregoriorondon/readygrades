@@ -11,10 +11,24 @@ import.meta.glob([
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+let parentMenu = 'body';
 
+const menu = document.querySelector('.movilmenu');
+
+if (document.querySelector('#dash')) {
+    parentMenu = '#dash';
+} else if (menu) {
+    const estilo = window.getComputedStyle(menu);
+    if  (estilo.display === 'none') {
+        parentMenu = '.menu';
+    } else if (estilo.display === 'block') {
+        parentMenu = '.movileMenu';
+    }
+}
 NProgress.configure({
-    showSpinner: false, // quita el spinner
+    showSpinner: false,
     speed: 500, trickleSpeed: 200,
+    parent: parentMenu,
 });
 
 window.addEventListener('beforeunload', () => {
@@ -25,22 +39,8 @@ window.addEventListener('load', () => {
     NProgress.done();
 });
 
-// Seccion para ponerlo en la parte inferior del menu
-const nav = document.querySelector('nav.navbar');
-if (nav) {
-    const navHeight = nav.offsetHeight;
-    const style = document.createElement('style');
-    style.innerHTML = `
-        #nprogress .bar {
-            top: ${navHeight}px !important;
-            z-index: 1;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 NProgress.start();
-fetch('/127.0.0.1:8000/')
+fetch('/')
     .then(r => r.json())
     .finally(() => NProgress.done());
 

@@ -8,7 +8,7 @@
         <x-import/>
 
     </head>
-    <body class="font-inter antialiased">
+    <body id="dash" class="font-inter antialiased">
     <div id="menu">
         <div class="flex h-screen menu-admin-dashboard">
             <!-- sidebar -->
