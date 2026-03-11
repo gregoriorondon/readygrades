@@ -22,10 +22,20 @@
             @cannot('profesor')
                 @if (!$activo)
                     <div class="py-12 px-7 bg-footer text-white mb-4 rounded-lg font-inter">
-                        <p class="text-3xl mb-3">
-                            {{ ucwords('hemos visto que no hay un periodo activo en su núcleo académico') }}
-                        </p>
-                        <a href="/periodos" class="mr-1 hover:mr-2 underline">{{ ucwords('ir a crear un nuevo periódo') }}</a><i class="fal fa-arrow-right"></i>
+                        @can('root')
+                            <p class="text-3xl mb-3">
+                                {{ ucwords('hemos visto que no hay un periodo activo') }}
+                            </p>
+                            <a href="/periodos" class="mr-1 hover:mr-2 underline">{{ ucwords('ir a crear un nuevo periódo') }}</a><i class="fal fa-arrow-right"></i>
+                        @endcan
+                        @can('admins')
+                            <p class="text-3xl mb-3">
+                                {{ ucwords('hemos visto que no hay un periodo activo para trabajar correctamente') }}
+                            </p>
+                            <p class="mr-1 hover:mr-2 underline">
+                                {{ ucwords('por lo que no podrá registrar ningún estudiante') }}
+                            </p>
+                        @endcan
                     </div>
                 @endif
                 <div class="overflow-hidden border border-gray-400 rounded-lg">
