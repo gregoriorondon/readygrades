@@ -108,9 +108,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     // Seccion:
     Route::post('/seccionadd', 'seccionadd');
     // Periodos
-    Route::get('/periodos', 'periodos');
+    Route::get('/periodos', 'periodos')->can('root');
     Route::post('/add-periodo', 'addperiodo');
-    Route::post('/inactive-periodo', 'desasignarperiodo');
+    Route::post('/inactive-periodo', 'desasignarperiodo')->can('root');
     // Asignar
     Route::get('/asignar', 'preasignar')->name('asignar');
     Route::get('/asignar-form', 'asignar')->name('asignar.buscar');

@@ -27,7 +27,9 @@
     <x-sidebar-section link="estudiantes-per" icon="fad fa-sync-alt">PER</x-sidebar-section>
     <x-sidebar-section link="nomina-profesores" icon="fa-duotone fa-regular fa-chalkboard-user">Profesores</x-sidebar-section>
     <x-sidebar-section link="nomina-administradores" icon="fa-solid fa-user-tie">Administradores</x-sidebar-section>
-    <x-sidebar-section link="periodos" icon="fas fa-calendar-alt">Periodos Académicos</x-sidebar-section>
+    @can('root')
+        <x-sidebar-section link="periodos" icon="fas fa-calendar-alt">Periodos Académicos</x-sidebar-section>
+    @endcan
     <x-sidebar-section link="cargar-notas" icon="fas fa-file-edit">Cargar Notas</x-sidebar-section>
     <x-sidebar-section link="asignar" icon="fas fa-plus">Asignar Docente</x-sidebar-section>
     <x-sidebar-section link="generar-documentos" icon="fas fa-file-plus">Generar</x-sidebar-section>
