@@ -383,14 +383,14 @@
                 <div class="sm:max-w-[55%]">
                     <center>
                         <div class="hire-us-content">
-                            <h6><b>Estudiante Nuevo Ingreso <br>Ingresa, descarga, llena e imprime tu planilla de
+                            <h6><b>Estudiante Nuevo Ingreso <br>Ingresa, llena, descarga e imprime tu planilla de
                                     inscripción en el siguiente enlace...<b></h6>
                         </div>
                     </center>
                 </div>
                 <div class="ml-5 sm:mt-0 mt-3">
                     <center>
-                    <x-button-a class="text-xl" link="drsce/drsce.html" target="_blank" icon="fa fa-download fa-lg"
+                    <x-button-a class="text-xl" link="inscribirse" icon="fa fa-download fa-lg"
                         style="border: 2px solid #fff;">
                         ADMISION 2025-3
                     </x-button-a>
@@ -414,7 +414,9 @@
                 </div>
             </div>
 
-            <div id="insta-post-1" data-instagram-url='https://www.instagram.com/p/DOuda_XkbZx/'></div>
+            <div class="flex justify-center">
+                <x-instagram url="https://www.instagram.com/p/DOuda_XkbZx/" />
+            </div>
         </div>
 
         <div
@@ -443,8 +445,9 @@
                     </div>
                 </div>
             </div>
-
-            <div id="insta-post-2" data-instagram-url='https://www.instagram.com/p/DOlzfkckeGy/'></div>
+            <div class="flex justify-center">
+                <x-instagram class="m-x-auto" url="https://www.instagram.com/p/DOlzfkckeGy/" />
+            </div>
         </div>
     </div>
 
@@ -478,10 +481,6 @@
                             facilitan el aprendizaje, además de la oportunidad de intercambiar información con
                             compañeros de otras culturas que se encuentran en otro lado del planeta.</p>
                     </div>
-                    <!--div class="single-choose-item">
-                        <h6><a href="#"><i class="fas fa-home"></i> Desde Casa </a></h6>
-                        <p>Estudiar desde casa te da la posibilidad de elegir la cantidad de tiempo que deseas invertir en el estudio.  De igual forma, puedes aprender una lección o poner en práctica las tutorías al momento que realizas cualquier actividad en tu hogar.</p>
-                    </div-->
                     <div class="single-choose-item">
                         <h6><a href="#"><i class="fas fa-book"></i> Educación Multimodal</a></h6>
                         <p>La educación multimodal implica atender a diferentes estilos de aprendizaje. A través del
@@ -493,105 +492,6 @@
         </div>
     </div>
     <!-- End Why Choose Us Area -->
-
-
-    <!-- Start Working With Us Area -->
-    {{-- <div class="working-with-us-area gray-bg"> --}}
-    {{--     <div class="container"> --}}
-    {{--         <div class="row"> --}}
-    {{--             <div class="col-md-6 col-12 text-center d-flex align-items-center"> --}}
-    {{--                 <div class="hire-us-content"> --}}
-    {{--                     <div class="section-title"> --}}
-    {{--                         <h4>CENSO PNF EN INGENIERÍA INDUSTRIAL</h4> --}}
-    {{--                     </div> --}}
-    {{--                     <p>Bachiller Trujillano, accede al siguiente enlace llena el formulario y postulate a cursar estudios en el PNF en Ingeniería Industrial en el Núcleo San Luis y Núcleo El Dividive de nuestra Casa de Estudios Univertsitarios</p> --}}
-    {{--                     <a href="https://forms.gle/jYggQHag7criaskW6" target="_blank" class="btn hire-us-btn">LINK CENSO</a> --}}
-    {{--                 </div> --}}
-    {{--             </div> --}}
-    {{--             <div class="col-md-6 d-none d-md-block"> --}}
-    {{--                 <div class="hire-us-img"> --}}
-    {{--                     <img src="assets\img\gallery2/CensoPNFInd.jpg" height="100%" alt=""> --}}
-    {{--                 </div> --}}
-    {{--             </div> --}}
-    {{--         </div> --}}
-    {{--     </div> --}}
-    {{-- </div> --}}
-    <!-- End Working With Us Area -->
-
-    <!-- Start Oferta Académica Area -->
-    {{-- <div class="bemax-area gray-bg pt-65 pb-25"> --}}
-    {{--     <div class="container"> --}}
-    {{--         <div class="row"> --}}
-    {{--             <div class="col-lg-12 text-center mb-70"> --}}
-    {{--                 <div class="section-title"> --}}
-    {{--                     <h4>10 Aniversario UPTTMBI</h4> --}}
-    {{--                 </div> --}}
-    {{--             </div> --}}
-    {{--         </div> --}}
-    {{-- --}}
-    {{--         <div class="row no-gutters"> --}}
-    {{--             <div class="col-12"> --}}
-    {{--                 <div class="slider-carousel owl-carousel"> --}}
-    {{--                     <div><img src="imagen/CXBOC.jpg" width="50%" height="700px"></div> --}}
-    {{--                     <div><img src="imagen/XAniv.jpg" width="50%" height="700px"></div> --}}
-    {{--                     <div><img src="imagen/CXSANL.jpg" width="50%" height="700px"></div> --}}
-    {{--                 </div> --}}
-    {{--                 </div> --}}
-    {{--         </div> --}}
-    {{--     </div> --}}
-    {{-- </div> --}}
-    <!-- End Working With Us Area -->
-
-    <!-- Start Latest Project Area -->
-    {{--     <div class="latest-project-area black-bg pt-70 pb-70" id="portfolio"> --}}
-    {{--         <div class="container"> --}}
-    {{--    <div class="row"> --}}
-    {{--    <div class="col-lg-12 text-center mb-70"> --}}
-    {{--                     <div class="section-title"> --}}
-    {{--                         <h4>INSCRIPCIÓN ESTUDIANTES REGULARES <BR> PERIODO 2024-1</h4> --}}
-    {{--                     </div> --}}
-    {{--                 </div> --}}
-    {{--             </div> --}}
-    {{-- --}}
-    {{--   <div class="row"> --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/regboc.jpg" rel="shadowbox"><img src="imagen/24-1/regboc.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/regdiv.jpg" rel="shadowbox"><img src="imagen/24-1/regdiv.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/reglab.jpg" rel="shadowbox"><img src="imagen/24-1/reglab.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/regsanl.jpg" rel="shadowbox"><img src="imagen/24-1/regsanl.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/regdtruj.jpg" rel="shadowbox"><img src="imagen/24-1/regtruj.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{--    <div> --}}
-    {{--                 <center><b><h4 style="color: white">REGULARES 2024-1</h4></b></center> --}}
-    {{--                 <a href="imagen/24-1/regcar.jpg" rel="shadowbox"><img src="imagen/24-1/regcar.jpg" width="350px" height="450px"></a> --}}
-    {{--                 <p align='center' style="color: white"><b>DRSCE</b></p> --}}
-    {{--             </div>&nbsp;&nbsp;&nbsp; --}}
-    {{-- --}}
-    {{-- --}}
-    {{--   </div> --}}
-    {{--   </div> --}}
-    {{--     </div> --}}
-    {{-- <br><br> --}}
-    <!-- End Gallery Area -->
-
 
     <!-- Start Working With Us Area -->
     <div class="working-with-us-area gray-bg">
@@ -610,7 +510,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div id="insta-post-2" data-instagram-url='https://www.instagram.com/p/DEx2BE9RL8L/'></div>
+                    <x-instagram url="https://www.instagram.com/p/DEx2BE9RL8L/" />
                 </div>
             </div>
         </div>
@@ -619,5 +519,6 @@
 
     <!-- Start Footer Area -->
     <x-footer-original />
+    <script async src="//www.instagram.com/embed.js"></script>
 </body>
 </html>
