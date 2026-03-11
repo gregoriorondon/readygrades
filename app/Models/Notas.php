@@ -27,4 +27,7 @@ class Notas extends Model
     public function periodos() {
         return $this->belongsTo(Periodos::class, 'periodo_id');
     }
+    public function studentsInscripcion() {
+        return $this->belongsTo(StudentsInscripciones::class, 'students_inscripcion_id');
+    }
 }
