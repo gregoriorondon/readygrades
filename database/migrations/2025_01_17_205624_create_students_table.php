@@ -295,7 +295,7 @@ return new class extends Migration
             $table->integer('nota_tres')->nullable();
             $table->integer('nota_cuatro')->nullable();
             $table->integer('nota_extra')->nullable();
-            $table->integer('nota_recuperacion')->nullable();
+            $table->integer('nota_per')->nullable();
             $table->boolean('editado')->default(false);
             $table->string('nota_editar')->nullable();
             $table->integer('cedula_profesor')->nullable();
