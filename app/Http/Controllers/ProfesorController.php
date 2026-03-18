@@ -134,13 +134,15 @@ class ProfesorController extends Controller
             abort(403, 'Datos inválidos o manipulados');
         }
 
-        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $data['estudiante_id'])->first();
+        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $data['estudiante_id'])->where('periodo_id', $periodo->id)->first();
 
         $notas = Notas::where([
             'pensum_id' => $data['asignacion_pensum_id'],
             'students_inscripcion_id' => $inscripcion->id,
             'periodo_id' => $periodo->id,
         ])->first();
+
+        $user = Auth::user();
 
         if (
             ($request->nota_uno == $notas->nota_uno) &&
@@ -162,6 +164,7 @@ class ProfesorController extends Controller
             'nota_tres' => $request->nota_tres,
             'nota_cuatro' => $request->nota_cuatro,
             'nota_extra' => $request->nota_extra,
+            'cedula_profesor' => $user->cedula
         ]);
 
         return redirect()->back()->with('alert', 'Notas guardadas correctamente');
