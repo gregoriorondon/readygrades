@@ -120,9 +120,14 @@ class UniversityController extends Controller
         $carrerasIds = $carreraParaLaConstancia->pluck('carrera_id')->unique()->toArray();
         $tramoTrayectoIds = $carreraParaLaConstancia->pluck('tramo_trayecto_id')->unique()->toArray();
         $fechaPeriodo = Periodos::where('activo', true)->where('nucleo_id', $request->nucleo_id)->first();
-        $fechaPeriodoEstudent = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->where('periodo_id', $fechaPeriodo->id)->first();
-        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->first();
-        $inscripciones = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->latest()->get()->unique('carrera_id');
+        if ($fechaPeriodo === null) {
+            $fechaPeriodoEstudent = null;
+        } else {
+            $fechaPeriodoEstudent = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->where('periodo_id', $fechaPeriodo->id)->first();
+        }
+        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $estudianteDataVa->id)->latest()->get();
+        $inscripciones = $inscripcion->unique('carrera_id');
+        $inscripcionesPluck = $inscripcion->pluck('id')->toArray();
         $notas = Notas::with([
             'pensums.materias',
             'pensums.carreras',
@@ -130,7 +135,7 @@ class UniversityController extends Controller
             'pensums.tramoTrayecto.trayectos',
             'periodos'
         ])
-        ->where('students_inscripcion_id', $inscripcion->id)
+        ->whereIn('students_inscripcion_id', $inscripcionesPluck)
         ->whereHas('pensums', function($q) use ($carrerasIds, $tramoTrayectoIds) {
             $q->whereIn('carrera_id', $carrerasIds)
                   ->whereIn('tramo_trayecto_id', $tramoTrayectoIds);
@@ -424,10 +429,11 @@ class UniversityController extends Controller
 
     public function studentPreInscripcion() {
         $nucleos = Apertura::where('estado', 1)->get();
+        $nucleoEstado = Apertura::where('estado', 1)->first();
         $carreras = NucleoCarrera::all();
         $nivelsocial = StudentSocioEconomico::all();
         $titulo = TitleStudentTemporal::all();
-        return view('/inscribirse', compact('nucleos', 'carreras', 'nivelsocial', 'titulo'));
+        return view('/inscribirse', compact('nucleos', 'carreras', 'nivelsocial', 'titulo', 'nucleoEstado'));
     }
     public function studentPreInscripcionStore(Request $r) {
         $rules = [
