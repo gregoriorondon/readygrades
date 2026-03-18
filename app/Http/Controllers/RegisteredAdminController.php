@@ -22,7 +22,6 @@ use App\Models\Periodos;
 use App\Models\Profesores;
 use App\Models\Secciones;
 use App\Models\Sessions;
-use App\Models\StudentDatoInscripciones;
 use App\Models\Students;
 use App\Models\StudentsCodigoNucleo;
 use App\Models\StudentsInscripciones;
@@ -668,7 +667,7 @@ class RegisteredAdminController extends Controller
         //         $u->where('nucleo_id', $datos->nucleo_id);
         //     })
         //     ->count();
-        $activo = Periodos::where('activo', true)->where('nucleo_id', $datos->nucleo_id)->first();
+        $activo = Periodos::where('activo', true)->first();
         // $graficoGeneros = [
         //     'hombres' => $hombres,
         //     'mujeres' => $mujeres,
@@ -788,8 +787,9 @@ class RegisteredAdminController extends Controller
         //     $carreras = Carreras::all();
         // }
         // return view('auth.students', compact('estudiantes', 'carreras'));
+        $activo = Periodos::where('activo', true)->first();
         $estado = Apertura::where('nucleo_id', $nucleo->nucleo_id)->first();
-        return view('auth.students', compact('estado'));
+        return view('auth.students', compact('estado', 'activo'));
     }
 
     public function studentsadmincalification($id)
@@ -799,12 +799,27 @@ class RegisteredAdminController extends Controller
         return view('auth.students-calification', compact('estudiante', 'notas'));
     }
 
-    public function studentsadmindetails($id)
+    public function studentsadmindetails($cedula)
     {
-        $estudiantes = Students::with(['tramos.trayectos'])->findOrFail($id);
-        $nota = Notas::all();
+        $usuario = Auth::user();
+        $nucleo = User::where('id', $usuario->id)->firstOrFail();
+        $estudiantes = Students::where('cedula',$cedula)->firstOrFail();
+        $estudianteData = StudentsInscripciones::whereHas('studentcodigonucleo', function ($a) use ($estudiantes, $nucleo) {
+            $a->where('students_data_id', $estudiantes->id)->where('nucleo_id', $nucleo->nucleo_id);
+        })->get();
+        $titulo = TitleStudentTemporal::where('id', $estudiantes->title_student_temporal_id)->first();
+        $nivelSocial = StudentSocioEconomico::where('id', $estudiantes->students_socio_economico_id)->first();
+        $carrerasIds = $estudianteData->pluck('carrera_id')->unique()->toArray();
+        $tramoTrayectoIds = $estudianteData->pluck('tramo_trayecto_id')->unique()->toArray();
+        $notas = Notas::whereHas('pensums', function ($a) use ($carrerasIds, $tramoTrayectoIds) {
+                $a->whereIn('carrera_id', $carrerasIds)->whereIn('tramo_trayecto_id', $tramoTrayectoIds);
+            })->whereIn('students_inscripcion_id', $estudianteData->pluck('id'))->get();
+        $notasAgrupada = $notas->groupBy([
+            fn ($i) => $i->pensums->carreras->carrera,
+            fn ($i) => $i->pensums->tramoTrayecto->tramos->tramos
+        ]);
         $student = Trayectos::with('tramos')->get();
-        return view('auth.students-details', compact('estudiantes', 'student'));
+        return view('auth.students-details', compact('estudiantes', 'student', 'estudianteData', 'titulo', 'nivelSocial', 'notas', 'notasAgrupada'));
     }
 
     public function studentsadminsearch(Request $request)
@@ -1707,7 +1722,7 @@ class RegisteredAdminController extends Controller
     {
         $usuario = Auth::user();
         $datos = User::where('id', $usuario->id)->firstOrFail();
-        $periodo = Periodos::where('nucleo_id', $datos->nucleo_id)->orderBy('created_at', 'desc')->paginate(20);
+        $periodo = Periodos::orderBy('created_at', 'desc')->paginate(20);
         return view('auth.periodo-academico', compact('periodo'));
     }
 
@@ -2400,7 +2415,7 @@ class RegisteredAdminController extends Controller
         $fechagra = Carbon::createFromFormat('Y-m-d', $busqueda->fecha_grado)->format('d / m / Y');
         $periodo = Periodos::where('nucleo_id', $busqueda->nucleo_id)->where('activo', true)->first();
         $seccion = Secciones::withCount(['inscripcion as conteo' => function ($a) use ($busqueda, $periodo) {
-            $a->where('carrera_id', $busqueda->carrera_id)->where('periodo_id', $periodo->id)
+            $a->where('carrera_id', $busqueda->carrera_id)->where('periodo_id', $periodo->id)->where('tramo_trayecto_id', 1)
               ->whereHas('studentcodigonucleo', function ($b) use ($busqueda) {
                   $b->where('nucleo_id', $busqueda->nucleo_id);
               });
