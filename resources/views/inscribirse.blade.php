@@ -16,7 +16,7 @@
 <body class="cuerpo">
     <x-menuuptt />
         <div class="mt-7 mx-auto max-w-[90%] lg:max-w-[900px]">
-            @if (is_null($estado))
+            @if (is_null($nucleoEstado))
                 <h2 style="font-size: 30px; font-weight: 900; color: #4272D8;"
                     class="font-inter uppercase leading-none tracking-normal text-center">Lo sentimos, no encontramos ningún núcleo con inscripciones activas</h2>
                 <div class="flex justify-center mb-7">
