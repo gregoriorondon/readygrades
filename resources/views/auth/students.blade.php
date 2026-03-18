@@ -1,5 +1,6 @@
 <x-dashboard>
     <x-slot:titulo>Estidiantes</x-slot:titulo>
+    @if (!is_null($activo))
     <div class="flex justify-between">
         <x-button-a class="btn-new-student" link="registro-estudiante" icon="fa-solid fa-plus-large">
             Registrar Estudiante
@@ -20,7 +21,6 @@
             @endif
         @endif
     </div>
-
         @if($estado === null)
             <form action="/abrir-inscripciones-publicas" method="post" id="inscripcion">
                 @csrf
@@ -39,6 +39,28 @@
                 </form>
             @endif
         @endif
+    @else
+    <div class="flex justify-between">
+        <x-button class="btn-new-student" type="button" disabled icon="fa-solid fa-plus-large">
+            Registrar Estudiante
+        </x-button>
+        @if($estado === null)
+            <x-button class="btn-new-student" type="button" disabled icon="fas fa-lock-open" form="inscripcion">
+                Abrir Inscripciones
+            </x-button>
+        @else
+            @if ($estado->estado === 0)
+                <x-button class="btn-new-student" type="button" disabled icon="fas fa-lock-open" form="inscripcion">
+                    Abrir Inscripciones
+                </x-button>
+            @else
+                <x-button class="btn-new-student" type="button" disabled icon="fas fa-lock-open" form="inscripcion">
+                    Cerrar Inscripciones
+                </x-button>
+            @endif
+        @endif
+    </div>
+    @endif
 
 
     <livewire:loadingstudents lazy />
