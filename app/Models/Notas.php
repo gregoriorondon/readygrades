@@ -16,7 +16,8 @@ class Notas extends Model
         'editado',
         'pensum_id',
         'students_inscripcion_id',
-        'periodo_id'
+        'periodo_id',
+        'cedula_profesor'
     ];
     public function pensums() {
         return $this->belongsTo(Pensum::class, 'pensum_id');
