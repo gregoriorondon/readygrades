@@ -48,6 +48,9 @@
                                     <x-table-th-students class="text-center">
                                         Calificación
                                     </x-table-th-students>
+                                    <x-table-th-students class="text-center">
+                                        Registrar
+                                    </x-table-th-students>
                                 </tr>
                             </thead>
                             <tbody class="divide-y">
@@ -65,13 +68,13 @@
                                     @if (($materiaPer && $definitivaDivicion <= 12) || (!$materiaPer && $definitivaDivicion <= 16))
                                         <tr class="odd:bg-gray-100/20 event:bg-transparent">
                                             <x-table-td-students>
-                                                {{ $estudiante->studentcodigonucleo->student->cedula }}
+                                                {{ $estudiante->studentsInscripcion->studentcodigonucleo->student->cedula }}
                                             </x-table-td-students>
                                             <x-table-td-students>
-                                                {{ $estudiante->studentcodigonucleo->student['primer_name'] }}
+                                                {{ $estudiante->studentsInscripcion->studentcodigonucleo->student->primer_name }}
                                             </x-table-td-students>
                                             <x-table-td-students>
-                                                {{ $estudiante->studentcodigonucleo->student['primer_apellido'] }}
+                                                {{ $estudiante->studentsInscripcion->studentcodigonucleo->student->primer_apellido }}
                                             </x-table-td-students>
                                             <x-table-td-students>
                                                 {{ $estudiante->pensums->carreras->carrera . ' ' . ucwords($estudiante->pensums->materias->materia) }}
@@ -81,6 +84,13 @@
                                                     {{ $definitivaDivicion . ' pts' }}
                                                 @else
                                                     {{ ucwords('Sin Remedial') }}
+                                                @endif
+                                            </x-table-td-students>
+                                            <x-table-td-students class="text-center">
+                                                @if ($estudiante->pensums->materias->per ==! false)
+                                                    <x-button>Agregar PER</x-button>
+                                                @else
+                                                    <x-button disabled>Agregar PER</x-button>
                                                 @endif
                                             </x-table-td-students>
                                         </tr>

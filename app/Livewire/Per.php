@@ -52,29 +52,29 @@ class Per extends Component
         $busquedaModelo = Notas::query();
 
         if ($esRoot) {
-            $busquedaModelo->with(['studentcodigonucleo.student' => function ($subBusqueda) {
+            $busquedaModelo->with(['studentsInscripcion.studentcodigonucleo.student' => function ($subBusqueda) {
                 $subBusqueda->orderBy('created_at', 'desc');
-            }, 'studentcodigonucleo.nucleo', 'studentcodigonucleo.student', 'pensums.materias']);
+            }, 'studentsInscripcion.studentcodigonucleo.nucleo', 'studentsInscripcion.studentcodigonucleo.student', 'pensums.materias']);
         } else {
             $busquedaModelo->with([
-                'studentcodigonucleo.nucleo',
-                'studentcodigonucleo.student',
+                'studentsInscripcion.studentcodigonucleo.nucleo',
+                'studentsInscripcion.studentcodigonucleo.student',
                 'pensums.materias'
             ]);
         }
 
         $nucleo = $user->nucleo_id;
         if (!$esRoot) {
-            $busquedaModelo->whereHas('studentcodigonucleo.student', function ($q) use ($nucleo) {
+            $busquedaModelo->whereHas('studentsInscripcion.studentcodigonucleo.student', function ($q) use ($nucleo) {
                 $q->where('nucleo_id', $nucleo);
             });
         }
 
-        $busquedaModelo->whereHas('studentcodigonucleo.student');
+        $busquedaModelo->whereHas('studentsInscripcion.studentcodigonucleo.student');
         if (!empty($this->search)) {
             $busquedaModelo->where(function($q) use ($esRoot, $user) {
                 $searchTerm = "%{$this->search}%";
-                $q->whereHas('studentcodigonucleo.student', function($subQuery) use ($searchTerm, $esRoot, $user) {
+                $q->whereHas('studentsInscripcion.studentcodigonucleo.student', function($subQuery) use ($searchTerm, $esRoot, $user) {
                     $subQuery->where('cedula', 'LIKE', $searchTerm)
                       ->orWhere('primer_name', 'LIKE', $searchTerm)
                       ->orWhere('segundo_name', 'LIKE', $searchTerm)
