@@ -8,7 +8,7 @@
         <x-import/>
 
     </head>
-    <body id="dash" class="font-inter antialiased">
+    <body id="dash" class="font-inter antialiased" style="scrollbar-color: #374151 transparent;">
     <div id="menu">
         <div class="flex h-screen menu-admin-dashboard">
             <!-- sidebar -->
