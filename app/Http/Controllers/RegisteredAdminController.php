@@ -2337,7 +2337,7 @@ class RegisteredAdminController extends Controller
         return response()->streamDownload(function () use ($user, $pass, $db) {
             $command = "mysqldump -u$user -p$pass $db | gzip";
             passthru($command);
-        }, "respaldo-" . now()->format('d-m-Y') . ".gz");
+        }, "respaldo-" . now()->format('d-m-Y') . ".sql" . ".gz");
     }
 
     public function databaseBackup() {

@@ -53,7 +53,7 @@ class BackupMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => $this->compressedSql, "respaldo-UPTT-" . now()->format('d-m-Y') . ".gz")
+            Attachment::fromData(fn () => $this->compressedSql, "respaldo-UPTT-" . now()->format('d-m-Y') . ".sql" . ".gz")
                 ->withMime('application/x-gzip'),
         ];
     }
