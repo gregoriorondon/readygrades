@@ -1,10 +1,20 @@
-@props(['active'=>false, 'link'=>'', 'icon' => ''])
+@props(['active'=>false, 'link'=>'', 'route'=>'', 'icon' => ''])
 
-@php
-    $active = request()->is($link) || request()->routeIs($link);
-@endphp
-
-<a href="/{{ $link }}" class="{{ $active ? 'bg-gray-700 hover:bg-gray-500' : 'hover:bg-gray-700 hover:rounded-xl' }} transition-all flex items-center rounded-xl px-4 py-2 mt-2 font-inter"
-    aria-current="{{ $active ? 'page' : 'false' }}"{{ $attributes }}><i class="{{ $icon }}"></i>
-    {{ $slot }}
-</a>
+@if (empty($link))
+    @php
+        $url = route($route);
+        $active = request()->routeIs($route);
+    @endphp
+    <a href="{{ $url }}" class="{{ $active ? 'bg-gray-700 hover:bg-gray-500' : 'hover:bg-gray-700 hover:rounded-xl' }} transition-all flex items-center rounded-xl px-4 py-2 mt-2 font-inter"
+        aria-current="{{ $active ? 'page' : 'false' }}"{{ $attributes }}><i class="{{ $icon }}"></i>
+        {{ $slot }}
+    </a>
+@else
+    @php
+        $active = request()->is($link) || request()->routeIs($link);
+    @endphp
+    <a href="/{{ $link }}" class="{{ $active ? 'bg-gray-700 hover:bg-gray-500' : 'hover:bg-gray-700 hover:rounded-xl' }} transition-all flex items-center rounded-xl px-4 py-2 mt-2 font-inter"
+        aria-current="{{ $active ? 'page' : 'false' }}"{{ $attributes }}><i class="{{ $icon }}"></i>
+        {{ $slot }}
+    </a>
+@endif
