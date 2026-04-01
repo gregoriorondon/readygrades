@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Secciones extends Model
 {
     protected $table = 'secciones';
-    protected $fillable = ['seccion'];
+    protected $fillable = ['seccion', 'capacidad'];
 
     public function inscripcion() {
         return $this->hasMany(StudentsInscripciones::class, 'seccion_id');

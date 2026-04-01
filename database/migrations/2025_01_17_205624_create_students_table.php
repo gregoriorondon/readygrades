@@ -120,6 +120,7 @@ return new class extends Migration
         Schema::create('secciones', function (Blueprint $table) {
             $table->id();
             $table->string('seccion')->unique();
+            $table->integer('capacidad')->default(30);
             $table->timestamps();
         });
         Schema::create('materias', function (Blueprint $table) {
