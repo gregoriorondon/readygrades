@@ -38,6 +38,4 @@
 @can('profesor')
     <x-sidebar-section link="dashboard" icon="fa-solid fa-house">Dashboard</x-sidebar-section>
     <x-sidebar-section link="asignaciones" icon="fa fa-tasks">Asignaciones</x-sidebar-section>
-    <x-sidebar-section  icon="fas fa-history">Calificación Previa</x-sidebar-section>
-    <x-sidebar-section  icon="fa fa-sync-alt">PER Asignado</x-sidebar-section>
 @endcan
