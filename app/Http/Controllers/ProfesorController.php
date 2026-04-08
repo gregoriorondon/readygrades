@@ -104,7 +104,7 @@ class ProfesorController extends Controller
         if (!$notas) {
             return redirect()->back()->withErrors(['error' => 'El o la estudiante que fue asígnado a usted, su inscripción tuvo un error, porfavor informe este hecho para resolver el error']);
         }
-        return view('auth.docente.calificar', compact('asignacion', 'estudiante', 'notas'));
+        return view('auth.docente.calificar', compact('asignacion', 'estudiante', 'notas', 'studentCodigoNucleo'));
     }
 
     public function guardarcalificacion(Request $request)
@@ -134,9 +134,10 @@ class ProfesorController extends Controller
             abort(403, 'Datos inválidos o manipulados');
         }
 
-        $inscripcion = StudentsInscripciones::where('students_codigo_nucleo_id', $data['estudiante_id'])->where('periodo_id', $periodo->id)->first();
+        $inscripcion = StudentsInscripciones::where('id', $data['ins_encrypt'])->where('periodo_id', $periodo->id)->first();
 
         $notas = Notas::where([
+            'id'=>$data['no_encrypt'],
             'pensum_id' => $data['asignacion_pensum_id'],
             'students_inscripcion_id' => $inscripcion->id,
             'periodo_id' => $periodo->id,

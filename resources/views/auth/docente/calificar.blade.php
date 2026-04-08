@@ -27,7 +27,8 @@
                     @csrf
                     <input type="hidden" name="data" value="{{ encrypt([
                         'asignacion_id' => $asignacion->id,
-                        'estudiante_id' => $estudiante->id,
+                        'ins_encrypt' => $studentCodigoNucleo->id,
+                        'no_encrypt' => $notas->id,
                         'asignacion_pensum_id' => $asignacion->pensums->id,
                     ]) }}">
                     <input type="hidden" name="nota_definitiva" id="inputNotaDefinitiva">
