@@ -680,66 +680,6 @@ class RegisteredAdminController extends Controller
         return view('auth.students-details', compact('estudiantes', 'student', 'estudianteData', 'titulo', 'nivelSocial', 'notas', 'notasAgrupada'));
     }
 
-    public function studentsadminsearch(Request $request)
-    {
-        // dd($request['carreras']);
-        if ($request['carreras'] === '0') {
-            $validar = $request->validate([
-                'carreras' => ['required', 'numeric'],
-                'search' => ['required', 'string', 'min:4']
-            ], [
-                'carreras.required' => 'Introduzca Una Opción Para Buscar',
-                'carreras.numeric' => 'Introduzca Un Valor Númerico',
-                'search.required' => ucwords('Por favor, ingresa un término de búsqueda'),
-                'search.string' => 'Debes Colocar Carácteres De Texto',
-                'search.min' => 'Introduzca Minimo 4 Dígitos En La Busqueda',
-            ]);
-        } else {
-            $validar = $request->validate([
-                'carreras' => ['required', 'numeric', 'exists:carreras,id'],
-                'search' => ['required', 'string', 'min:4']
-            ], [
-                'carreras.required' => 'Introduzca Una Opción Para Buscar',
-                'carreras.numeric' => 'Introduzca Un Valor Númerico',
-                'carreras.exists' => 'Introduzca Una Carrera Registrada',
-                'search.required' => ucwords('Por favor, ingresa un término de búsqueda'),
-                'search.string' => 'Debes Colocar Carácteres De Texto',
-                'search.min' => 'Introduzca Minimo 4 Dígitos En La Busqueda',
-            ]);
-        }
-
-        $carrera = $validar['carreras'];
-        $search = $validar['search'];
-        $usuario = Auth::user();
-        $user = User::with('cargos.tipos')->find($usuario->id);
-        $nucleo = User::where('id', $usuario->id)->firstOrFail();
-        $esRoot = $user && $user->cargos()->whereHas('tipos', function ($q) {
-            $q->where('tipo', 'superadmin');
-        })->exists();
-        if (!$esRoot) {
-            // $estudiantes = Students::where('nucleo_id', $nucleo->nucleo_id)->orderByRaw('created_at DESC')->paginate(20);
-            $estudiantes = Students::where(function ($query) use ($search) {
-                $query
-                    ->where('cedula', 'LIKE', "%{$search}%")
-                    ->orWhere('codigo', 'LIKE', "%{$search}%")
-                    ->orWhere('primer_name', 'LIKE', "%{$search}%")
-                    ->orWhere('segundo_name', 'LIKE', "%{$search}%")
-                    ->orWhere('primer_apellido', 'LIKE', "%{$search}%")
-                    ->orWhere('segundo_apellido', 'LIKE', "%{$search}%")
-                    ->orWhere('telefono', 'LIKE', "%{$search}%")
-                    ->orWhere('direccion', 'LIKE', "%{$search}%")
-                    ->orWhere('city', 'LIKE', "%{$search}%");
-            })->when($carrera !== '0', function ($query) use ($carrera) {
-                $query->where('carrera_id', $carrera);
-            })->orderByRaw('created_at DESC')->paginate(20);
-            $carreras = Carreras::all();
-        } else {
-            $estudiantes = Students::orderByRaw('created_at DESC')->paginate(20);
-            $carreras = Carreras::all();
-        }
-        return view('auth.students', compact('estudiantes', 'carreras', 'carrera', 'search'));
-    }
-
     public function adminadd()
     {
         $estudio = Estudios::orderByRaw('estudio ASC')->get();
