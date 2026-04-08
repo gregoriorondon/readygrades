@@ -1,7 +1,19 @@
-@props(['link'=>'', 'icon'=>''])
+@props(['link'=>'', 'route'=>'', 'parametros'=>[], 'icon'=>''])
+@if (empty($link))
+    @php
+        $url = route($route, $parametros);
+    @endphp
+    <a href="{{ $url }}" {{ $attributes->merge(['class' => 'select-none inline-flex items-center px-4 py-2 bg-[#4272D8] rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#0F2167] focus:outline-none focus:ring-transparent focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150']) }}>
+        @if($icon !== '')
+            <i class="{{ $icon }}"></i>
+        @endif
+        {{ $slot }}
+    </a>
+@else
 <a href="/{{ $link }}" {{ $attributes->merge(['class' => 'select-none inline-flex items-center px-4 py-2 bg-[#4272D8] rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#0F2167] focus:outline-none focus:ring-transparent focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150']) }}>
     @if($icon !== '')
         <i class="{{ $icon }}"></i>
     @endif
     {{ $slot }}
 </a>
+@endif
