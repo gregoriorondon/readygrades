@@ -74,7 +74,7 @@
         @endif
         <p><strong>Programa Nacional  de Formación (PNF):</strong> {{ ucwords($carrera->carrera) }}</p>
 
-        <form action="/aspirante/registrar" method="post">
+        <form action="{{ route('students.registrar.aspirante') }}" method="post">
             @csrf
             <x-select-form name="seccion">
                 @if ($busqueda->genero === 'masculino')

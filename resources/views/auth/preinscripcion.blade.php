@@ -3,7 +3,7 @@
     <x-title-section-admin>Buscar Aspirantes Para Registrar</x-title-section-admin>
 
     <div class="max-w-[700px] mx-auto my-[15dvh] flex flex-col items-center">
-        <form action="/aspirante/search" method="get" class="w-full">
+        <form action="{{ route('students.aspirante.search') }}" method="get" class="w-full">
             <h2 class="text-center text-3xl text-ready font-inter font-bold mb-2">Ingresa La Cédula Para Buscar</h2>
             <div class="flex justify-center">
                 <x-input class="bg-transparent !m-0 rounded-r-none border-r-0" type="number" name="cedula" id="cedula" autofocus placeholder="Ingrese La Cédula" autocomplete="off" required :value="old('cedula')" />

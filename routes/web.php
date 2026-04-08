@@ -1,13 +1,20 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\RegisteredAdminController;
 use App\Http\Controllers\SesionController;
+use App\Http\Controllers\StudentAdminController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|----------------------------------------------
+| Rutas Publicas / Visitantes
+|----------------------------------------------
+*/
+
 Route::controller(UniversityController::class)->group( function (){
-    Route::get('/login-admin', 'admin');
     Route::get('/student', 'students');
     Route::match(['get', 'post'], '/detalles-estudiante', 'studentspublicdetails');
     Route::post('/matriculacion', 'studentinscripcion');
@@ -18,7 +25,43 @@ Route::controller(UniversityController::class)->group( function (){
     Route::get('/download-planilla-pregrado/{cedula}/download', 'studentPlanillaPreInscripcionDownload');
 });
 
+Route::get('/login', [SesionController::class, 'create'])->name('login');
+Route::post('/login', [SesionController::class, 'store']);
+Route::post('/logout', [SesionController::class, 'destroy']);
+
+/*
+|--------------------------------------------------------------------------
+| PANEL ADMINISTRATIVO (Admins & Root)
+|--------------------------------------------------------------------------
+*/
+
 Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,root', 'no-devolver', 'token'])->group( function(){
+
+    // Panel de Control
+    Route::get('/administracion', [DashboardController::class, 'admindashboard'])->name('dashboard.administracion');
+
+    Route::controller(StudentAdminController::class)->prefix('estudiantes')->name('students.')->group(function (){
+        // Estudiantes
+        Route::get('/', 'studentsadmin')->name('index');
+        Route::get('/registro', 'studentadd')->name('create');
+        Route::post('/registro', 'studentstore')->name('store');
+        Route::get('/informacion/{student}', 'studentsadmindetails')->name('show');
+        Route::get('/informacion/{student}/edicion', 'studentedit')->name('edit');
+        Route::post('/informacion/guardar', 'savestudentedit')->name('save');
+        //Preinscripciones
+        Route::post('/preinscripciones', 'abrirInscripciones')->name('preinscripciones');
+        Route::get('/aspirant', 'preInscripcion')->name('aspirante');
+        Route::get('/aspirante/search', 'preInscripcionSearch')->name('aspirante.search');
+        Route::post('/aspirante/registrar', 'preInscripcionRegister')->name('registrar.aspirante');
+
+        Route::post('/estudiantes-panel-administrativo', 'studentsadminsearch');
+        Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
+        Route::get('/correccion/{nota}/estudiante/{estudiante}/{periodo}/{pensums}', 'correccion');
+        Route::post('/save-correccion', 'savecorreccion');
+        Route::get('/estudiantes-per', 'per');
+    });
+
+
     Route::get('/backup', 'downloadBackup')->name('backup.download');
     Route::get('/database', 'databaseBackup')->can('root');
     Route::post('/backupadd', 'backupadd')->can('root');
@@ -48,24 +91,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/registro-profesor', 'teacherstore')->name('registro.profesor');
     Route::get('/docentes-panel-administrativo/{docentes}', 'teacherinfo');
     Route::get('/registro-administrador', 'adminadd');
-    // Estudiantes
-    Route::get('/estudiantes-panel-administrativo/{student}', 'studentsadmindetails');
-    Route::post('/estudiantes-panel-administrativo', 'studentsadminsearch');
-    Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
-    Route::get('/estudiantes-panel-administrativo', 'studentsadmin');
-    Route::get('/registro-estudiante', 'studentadd');
-    Route::post('/registro-estudiante', 'studentstore');
-    Route::post('/abrir-inscripciones-publicas', 'abrirInscripciones');
-    Route::get('/correccion/{nota}/estudiante/{estudiante}/{periodo}/{pensums}', 'correccion');
-    Route::post('/save-correccion', 'savecorreccion');
-    Route::get('/student-edit/{estudiante}', 'studentedit');
-    Route::post('/guardar-edit-estudiante', 'savestudentedit');
-    Route::get('/estudiantes-per', 'per');
-    Route::get('/aspirante', 'preInscripcion');
-    Route::get('/aspirante/search', 'preInscripcionSearch');
-    Route::post('/aspirante/registrar', 'preInscripcionRegister');
     //Dashboard and Chart
-    Route::get('/administracion', 'admindashboard');
     Route::get ('/datos-estudiantes', 'datadetails');
     //Descargar Excel
     Route::get('/download-student-list', 'exportStudentData');
@@ -106,7 +132,9 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/pensums', 'pensumstore')->can('root');
     Route::get('/autocomplete/pensum', 'searchpensum')->can('root');
     // Seccion:
-    Route::post('/seccionadd', 'seccionadd');
+    Route::post('/seccionadd', 'seccionadd')->can('root');
+    Route::get('/secciones', 'seccion')->can('root');
+    Route::get('/secciones-detalles/{seccion}', 'seccionDetails')->can('root');
     // Periodos
     Route::get('/periodos', 'periodos')->can('root');
     Route::post('/add-periodo', 'addperiodo');
@@ -127,11 +155,11 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
     Route::post('/save-edit-titulo-academic', 'saveeditartituloacademico')->can('root');
 });
 
-Route::get('/login', [SesionController::class, 'create'])->name('login');
-Route::post('/login', [SesionController::class, 'store']);
-Route::post('/logout', [SesionController::class, 'destroy']);
-Route::get('/login-profesor', [SesionController::class, 'createteacher'])->name('login-profesor');
-// Route::post('/login', [SesionController::class, 'store']);
+/*
+|--------------------------------------------------------------------------
+| PANEL DE PROFESORES
+|--------------------------------------------------------------------------
+*/
 
 Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->group( function(){
     Route::get('/dashboard', 'board');

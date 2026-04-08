@@ -1,7 +1,7 @@
 <x-dashboard>
     <x-slot:titulo>Detalles de {{ $estudiantes['primer_name'] }}</x-slot:titulo>
     <div class="flex justify-between mt-2">
-        <x-button-a link="estudiantes-panel-administrativo" icon="fas fa-arrow-left">Regresar</x-button-a>
+        <x-button-a route="students.index" icon="fas fa-arrow-left">Regresar</x-button-a>
             <div class="mx-auto">
                 @if ($estudiantes->genero !== 'masculino')
                     <x-title-section-admin>Información De La Estudiante
@@ -11,7 +11,7 @@
                         {{ implode(' ', [$estudiantes['primer_name'], $estudiantes['primer_apellido']]) }}</x-title-section-admin>
                 @endif
             </div>
-            <x-button-a link="student-edit/{{ $estudiantes->id }}" icon="fas fa-edit">Editar Datos</x-button-a>
+            <x-button-a route="students.edit" :parametros="$estudiantes->cedula" icon="fas fa-edit">Editar Datos</x-button-a>
     </div>
     <div class="">
         <div class="mt-7 border border-gray-300 rounded-md">

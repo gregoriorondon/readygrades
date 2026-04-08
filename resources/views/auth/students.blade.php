@@ -2,7 +2,7 @@
     <x-slot:titulo>Estidiantes</x-slot:titulo>
     @if (!is_null($activo))
     <div class="flex justify-between">
-        <x-button-a class="btn-new-student" link="registro-estudiante" icon="fa-solid fa-plus-large">
+        <x-button-a class="btn-new-student" route="students.create" icon="fa-solid fa-plus-large">
             Registrar Estudiante
         </x-button-a>
         @if($estado === null)
@@ -22,18 +22,18 @@
         @endif
     </div>
         @if($estado === null)
-            <form action="/abrir-inscripciones-publicas" method="post" id="inscripcion">
+            <form action="{{ route('students.preinscripciones') }}" method="post" id="inscripcion">
                 @csrf
                 <input type="hidden" name="estado" value="{{ encrypt('abrir') }}">
             </form>
         @else
             @if ($estado->estado === 0)
-                <form action="/abrir-inscripciones-publicas" method="post" id="inscripcion">
+                <form action="{{ route('students.preinscripciones') }}" method="post" id="inscripcion">
                     @csrf
                     <input type="hidden" name="estado" value="{{ encrypt('abrir') }}">
                 </form>
             @else
-                <form action="/abrir-inscripciones-publicas" method="post" id="inscripcion">
+                <form action="{{ route('students.preinscripciones') }}" method="post" id="inscripcion">
                     @csrf
                     <input type="hidden" name="estado" value="{{ encrypt('cerrar') }}">
                 </form>

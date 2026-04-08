@@ -69,7 +69,7 @@
                                         </x-table-td-students>
                                         <x-table-td-students class="text-xl text-center">
                                             <a
-                                                href="/estudiantes-panel-administrativo/{{ $estudiante->cedula }}"
+                                                href="{{ route('students.show', $estudiante->cedula) }}"
                                             ><i class="m-0 fa-duotone fa-regular fa-circle-info"></i></a>
                                         </x-table-td-students>
                                     </tr>
