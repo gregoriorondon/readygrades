@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\RegisteredAdminController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\StudentAdminController;
+use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,9 @@ Route::controller(UniversityController::class)->group( function (){
 Route::get('/login', [SesionController::class, 'create'])->name('login');
 Route::post('/login', [SesionController::class, 'store']);
 Route::post('/logout', [SesionController::class, 'destroy']);
+
+// Telegram Bot Webhook
+Route::post('/telegram/webhook', [TelegramBotController::class, 'handle']);
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +58,6 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
         Route::get('/aspirante/search', 'preInscripcionSearch')->name('aspirante.search');
         Route::post('/aspirante/registrar', 'preInscripcionRegister')->name('registrar.aspirante');
 
-        Route::post('/estudiantes-panel-administrativo', 'studentsadminsearch');
         Route::get('/estudiantes-calificacion/{student}', 'studentsadmincalification');
         Route::get('/correccion/{nota}/estudiante/{estudiante}/{periodo}/{pensums}', 'correccion');
         Route::post('/save-correccion', 'savecorreccion');
@@ -162,7 +165,7 @@ Route::controller(RegisteredAdminController::class)->middleware(['auth:admins,ro
 */
 
 Route::controller(ProfesorController::class)->middleware(['auth:teachers'])->group( function(){
-    Route::get('/dashboard', 'board');
+    Route::get('/dashboard', 'board')->name('dashboard');
     // Materias asignadas
     Route::get('/asignaciones', 'asignaciones');
     // Calificar estudiante

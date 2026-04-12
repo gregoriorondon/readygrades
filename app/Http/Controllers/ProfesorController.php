@@ -7,12 +7,14 @@ use App\Models\Carreras;
 use App\Models\Materias;
 use App\Models\Notas;
 use App\Models\Nucleos;
+use App\Models\Pensum;
 use App\Models\Periodos;
 use App\Models\Sessions;
 use App\Models\Students;
 use App\Models\StudentsCodigoNucleo;
 use App\Models\StudentsInscripciones;
 use App\Models\User;
+use App\Services\TelegramNotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -21,6 +23,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfesorController extends Controller
 {
+    protected TelegramNotificationService $telegramService;
+
+    public function __construct(TelegramNotificationService $telegramService)
+    {
+        $this->telegramService = $telegramService;
+    }
+
     //
     public function board()
     {
@@ -168,7 +177,54 @@ class ProfesorController extends Controller
             'cedula_profesor' => $user->cedula
         ]);
 
+        // Enviar notificación por Telegram si el estudiante está registrado
+        $this->sendTelegramNotification($inscripcion, $data['asignacion_pensum_id'], [
+            'nota_uno' => $request->nota_uno,
+            'nota_dos' => $request->nota_dos,
+            'nota_tres' => $request->nota_tres,
+            'nota_cuatro' => $request->nota_cuatro,
+            'nota_extra' => $request->nota_extra,
+        ]);
+
         return redirect()->back()->with('alert', 'Notas guardadas correctamente');
+    }
+
+    /**
+     * Enviar notificación por Telegram al estudiante
+     */
+    protected function sendTelegramNotification(StudentsInscripciones $inscripcion, int $pensumId, array $notas): void
+    {
+        try {
+            // Obtener la cédula del estudiante
+            $studentCodigoNucleo = $inscripcion->studentcodigonucleo;
+            if (!$studentCodigoNucleo) {
+                return;
+            }
+
+            $student = $studentCodigoNucleo->student;
+            if (!$student) {
+                return;
+            }
+
+            // Obtener el nombre de la materia
+            $pensum = Pensum::with('materias')->find($pensumId);
+
+            if (!$pensum || !$pensum->materias) {
+                return;
+            }
+
+            $materiaNombre = $pensum->materias->materia;
+
+            // Enviar notificación
+            $this->telegramService->notifyNewCalificacion(
+                $student->cedula,
+                $materiaNombre,
+                $notas
+            );
+        } catch (\Exception $e) {
+            // No mostrar error al usuario, solo registrarlo
+            \Log::error("Error enviando notificación Telegram: " . $e->getMessage());
+        }
     }
 
     // ==================================================================================
