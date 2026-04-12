@@ -12,6 +12,7 @@ class Notas extends Model
         'nota_dos',
         'nota_tres',
         'nota_cuatro',
+        'nota_extra',
         'nota_recuperacion',
         'editado',
         'pensum_id',
